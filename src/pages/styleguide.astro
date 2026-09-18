@@ -14,8 +14,8 @@ const palette = [
   { name: "ink-2", hex: "#4a4540", uso: "testo secondario", swatch: "bg-ink-2" },
   { name: "verde", hex: "#399f80", uso: "dominante: sezioni, sottolineature", swatch: "bg-verde" },
   { name: "verde-deep", hex: "#2a7a62", uso: "hover del verde, testo verde", swatch: "bg-verde-deep" },
-  { name: "arancio", hex: "#cf3e00", uso: "CTA primaria, hover, sottolineature", swatch: "bg-arancio" },
-  { name: "blu", hex: "#0279ce", uso: "solo percorso sviluppatore, codice, badge tech", swatch: "bg-blu" },
+  { name: "arancio", hex: "#c93c00", uso: "CTA primaria, hover, sottolineature", swatch: "bg-arancio" },
+  { name: "blu", hex: "#0270c0", uso: "solo percorso sviluppatore, codice, badge tech", swatch: "bg-blu" },
   { name: "giallo", hex: "#fedf3e", uso: "forme Bauhaus, evidenziazioni, max 5%", swatch: "bg-giallo" },
   { name: "rosso", hex: "#e4091e", uso: "solo grafiche dei concept, mai nella UI", swatch: "bg-rosso" },
 ];
@@ -43,11 +43,14 @@ const contrastOk = [
   ["cream", "ink", "15.9"],
   ["verde-deep", "cream", "4.7"],
   ["ink", "verde", "5.3"],
+  ["cream", "arancio", "4.7"],
+  ["cream", "blu", "4.7"],
+  ["arancio", "cream", "4.7"],
+  ["blu", "cream", "4.7"],
 ];
 const contrastLarge = [
-  ["cream", "arancio", "4.4"],
-  ["cream", "blu", "4.2"],
-  ["arancio", "cream", "4.4"],
+  ["ink", "arancio", "3.4"],
+  ["ink", "blu", "3.4"],
 ];
 const contrastNo = [
   ["cream", "verde", "3.0"],
@@ -181,7 +184,7 @@ const contrastNo = [
   <!-- Tag -->
   <section class="border-t-2 border-ink" aria-labelledby="tag">
     <div class="container-site py-12 md:py-20">
-      <SectionHeader id="tag" title="Tag" intro="Mono, uppercase, bordo sottile. Il blu resta bordo e marcatore: come testo a 13px non regge." />
+      <SectionHeader id="tag" title="Tag" intro="Mono, uppercase, bordo sottile. Il blu segna i badge tech con bordo e marcatore, il testo resta ink." />
       <ul class="mt-10 flex flex-wrap gap-3">
         <Tag as="li">Shopify</Tag>
         <Tag as="li" tone="blu">Liquid</Tag>

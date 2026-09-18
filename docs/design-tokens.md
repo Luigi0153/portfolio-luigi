@@ -12,8 +12,8 @@ Mood: retro-tech caldo come base, accenti pop Bauhaus. Mai bianco puro, mai grig
 | --color-ink-2 | #4a4540 | testo secondario |
 | --color-verde | #399f80 | colore dominante, sezioni, link |
 | --color-verde-deep | #2a7a62 | hover del verde |
-| --color-arancio | #cf3e00 | CTA primaria, hover, sottolineature |
-| --color-blu | #0279ce | solo percorso "sviluppatore", codice, badge tech |
+| --color-arancio | #c93c00 | CTA primaria, hover, sottolineature |
+| --color-blu | #0270c0 | solo percorso "sviluppatore", codice, badge tech |
 | --color-giallo | #fedf3e | forme Bauhaus, evidenziazioni, max 5% della pagina |
 | --color-rosso | #e4091e | solo nelle grafiche dei concept (mai nella UI) |
 
