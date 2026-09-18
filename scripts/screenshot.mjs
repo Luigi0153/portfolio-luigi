@@ -15,6 +15,7 @@ const slug =
 const targets = ["dev", "business"];
 const viewports = [
   { nome: "390", width: 390, height: 844 },
+  { nome: "768", width: 768, height: 1024 },
   { nome: "1280", width: 1280, height: 800 },
 ];
 

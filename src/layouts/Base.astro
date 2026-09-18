@@ -2,7 +2,6 @@
 import "../styles/global.css";
 import Nav from "../components/ui/Nav.astro";
 import frauncesUrl from "@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url";
-import hankenUrl from "@fontsource/hanken-grotesk/files/hanken-grotesk-latin-400-normal.woff2?url";
 
 interface Props {
   title: string;
@@ -70,8 +69,9 @@ const year = new Date().getFullYear();
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
 
-    <link rel="preload" href={frauncesUrl} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={hankenUrl} as="font" type="font/woff2" crossorigin />
+    {/* Preload solo del font dell'h1 (elemento LCP): il body font può arrivare
+        dopo senza costare punti, e libera banda al Fraunces su rete lenta */}
+    <link rel="preload" href={frauncesUrl} as="font" type="font/woff2" crossorigin fetchpriority="high" />
     <slot name="head" />
   </head>
   <body class="flex min-h-dvh flex-col">

@@ -7,6 +7,7 @@
  */
 import Button from "../ui/Button.astro";
 import TargetSwitch from "../ui/TargetSwitch";
+import DeskScene from "./DeskScene.astro";
 ---
 
 <section class="hero" aria-labelledby="hero-titolo">
@@ -22,7 +23,7 @@ import TargetSwitch from "../ui/TargetSwitch";
       <p class="eyebrow text-ink-2" data-hero-reveal>
         Shopify Web Developer · AI Web Designer
       </p>
-      <h1 id="hero-titolo" class="mt-4" data-hero-reveal>
+      <h1 id="hero-titolo" class="mt-4">
         <span class="block">Ciao, sono Luigi.</span>
         <span class="hero__riga hero__riga--dev block" data-only="dev"
           >Scrivo codice che si fa leggere.</span
@@ -32,7 +33,10 @@ import TargetSwitch from "../ui/TargetSwitch";
         >
       </h1>
       <div class="mt-8" data-hero-reveal>
-        <TargetSwitch client:load />
+        {/* client:idle: le visuali dello switch sono CSS-driven (html[data-target]),
+            l'idratazione serve solo ai click: togliere React dalla finestra FCP→LCP
+            vale ~5 punti Lighthouse mobile */}
+        <TargetSwitch client:idle />
       </div>
       <div class="mt-6" data-hero-reveal>
         <Button variant="primary" size="lg" href="#progetti">
@@ -42,10 +46,8 @@ import TargetSwitch from "../ui/TargetSwitch";
       </div>
     </div>
 
-    <div class="hero__media" data-hero-reveal>
-      <div class="hero__placeholder border-retro bg-cream-2">
-        <span class="eyebrow text-ink-2">Qui girerà un 3D. Promesso.</span>
-      </div>
+    <div class="hero__media">
+      <DeskScene />
     </div>
   </div>
 </section>
@@ -78,6 +80,11 @@ import TargetSwitch from "../ui/TargetSwitch";
     }
   }
 
+  /* text-wrap: balance (globale sugli h1) interferisce con SplitText */
+  #hero-titolo {
+    text-wrap: wrap;
+  }
+
   /* La riga che cambia col target: più piccola della prima, colore del percorso
      (blu = sviluppatore, verde = business, come da docs/design-tokens.md) */
   .hero__riga {
@@ -95,22 +102,14 @@ import TargetSwitch from "../ui/TargetSwitch";
   }
 
   .hero__media {
-    justify-self: center;
+    width: 100%;
   }
 
   @media (min-width: 1024px) {
     .hero__media {
+      width: clamp(24rem, 38vw, 33rem);
       justify-self: end;
     }
-  }
-
-  /* Segnaposto dell'oggetto 3D (arriva nella Fase 4) */
-  .hero__placeholder {
-    display: grid;
-    place-items: center;
-    width: 320px;
-    height: 320px;
-    border-radius: var(--radius-card);
   }
 
   /* --- Forme Bauhaus decorative: solo giallo/arancio/blu, opacità 1 --- */
@@ -265,8 +264,9 @@ import TargetSwitch from "../ui/TargetSwitch";
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { SplitText } from "gsap/SplitText";
 
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
 
   const hero = document.querySelector<HTMLElement>(".hero");
 
@@ -275,14 +275,42 @@ import TargetSwitch from "../ui/TargetSwitch";
 
     // Tutte le animazioni vivono qui: con prefers-reduced-motion resta tutto statico
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Entrata: fade + translateY 24px, stagger 80ms (docs/design-tokens.md)
-      gsap.from(hero.querySelectorAll("[data-hero-reveal]"), {
-        autoAlpha: 0,
-        y: 24,
-        duration: 0.6,
-        ease: "power3.out",
-        stagger: 0.08,
-        clearProps: "all",
+      // Entrata: h1 per parole (SplitText, stagger 60ms), poi eyebrow/switch/CTA
+      // e gli oggetti della scena (stagger 80ms). Budget totale < 1,2s.
+      // Si parte a font caricati, così SplitText misura il testo giusto.
+      let attiva = true;
+      let split: SplitText | undefined;
+
+      document.fonts.ready.then(() => {
+        if (!attiva) return;
+
+        const visibili = (sel: string) =>
+          gsap.utils
+            .toArray<HTMLElement>(hero.querySelectorAll(sel))
+            .filter((el) => getComputedStyle(el).display !== "none");
+
+        split = SplitText.create(visibili("#hero-titolo > span"), {
+          type: "words",
+          aria: "auto",
+        });
+
+        gsap
+          .timeline({ defaults: { ease: "power3.out", duration: 0.5 } })
+          .from(split.words, { autoAlpha: 0, y: 24, stagger: 0.06 }, 0)
+          .from(
+            visibili("[data-hero-reveal]"),
+            { autoAlpha: 0, y: 24, stagger: 0.08, clearProps: "all" },
+            0.12,
+          )
+          .from(
+            visibili(".hotspot__body, .tile"),
+            { autoAlpha: 0, y: 24, stagger: 0.08, clearProps: "all" },
+            0.3,
+          )
+          .call(() => {
+            split?.revert();
+            split = undefined;
+          });
       });
 
       gsap.utils.toArray<HTMLElement>(".forma").forEach((forma) => {
@@ -311,6 +339,12 @@ import TargetSwitch from "../ui/TargetSwitch";
           },
         });
       });
+
+      return () => {
+        attiva = false;
+        split?.revert();
+        split = undefined;
+      };
     });
   }
 </script>
