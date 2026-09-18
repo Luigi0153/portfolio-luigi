@@ -1,0 +1,59 @@
+---
+/**
+ * StatTile: numero grande in Fraunces + etichetta mono.
+ * tone colora solo il numero. verde-deep e non verde: su cream il verde chiaro non regge AA.
+ */
+interface Props {
+  value: string;
+  label: string;
+  note?: string;
+  tone?: "ink" | "verde-deep" | "arancio" | "blu";
+  class?: string;
+}
+
+const { value, label, note, tone = "ink", class: className } = Astro.props;
+---
+
+<div class:list={["stat", `stat--${tone}`, className]}>
+  <p class="stat__value">{value}</p>
+  <p class="eyebrow text-ink-2">{label}</p>
+  {note && <p class="stat__note">{note}</p>}
+</div>
+
+<style>
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-block: 0.5rem;
+    border-top: var(--border-retro);
+  }
+
+  .stat__value {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: clamp(2.75rem, 6vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ink);
+  }
+
+  .stat--verde-deep .stat__value {
+    color: var(--color-verde-deep);
+  }
+
+  .stat--arancio .stat__value {
+    color: var(--color-arancio);
+  }
+
+  .stat--blu .stat__value {
+    color: var(--color-blu);
+  }
+
+  .stat__note {
+    font-size: 0.9375rem;
+    color: var(--color-ink-2);
+  }
+</style>

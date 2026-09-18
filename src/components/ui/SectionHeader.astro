@@ -1,0 +1,58 @@
+---
+/**
+ * Testata di sezione: etichetta mono (opzionale) + titolo Fraunces + intro (opzionale).
+ * Usare l'etichetta con parsimonia: non serve in ogni sezione.
+ */
+interface Props {
+  title: string;
+  label?: string;
+  intro?: string;
+  level?: "h1" | "h2" | "h3";
+  align?: "left" | "center";
+  id?: string;
+  class?: string;
+}
+
+const {
+  title,
+  label,
+  intro,
+  level: Heading = "h2",
+  align = "left",
+  id,
+  class: className,
+} = Astro.props;
+---
+
+<header class:list={["section-header", `section-header--${align}`, className]}>
+  {label && <p class="eyebrow text-ink-2">{label}</p>}
+  <Heading id={id}>{title}</Heading>
+  {intro && <p class="section-header__intro">{intro}</p>}
+  <slot />
+</header>
+
+<style>
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 40rem;
+  }
+
+  .section-header--center {
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .section-header__intro {
+    color: var(--color-ink-2);
+    max-width: 60ch;
+  }
+
+  @media (min-width: 768px) {
+    .section-header {
+      gap: 1rem;
+    }
+  }
+</style>

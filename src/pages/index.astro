@@ -1,17 +1,20 @@
 ---
-
+import Base from "../layouts/Base.astro";
+import Button from "../components/ui/Button.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+  title="Luigi"
+  description="Luigi, Shopify Web Developer e AI Web Designer. Negozi che vendono, codice che regge."
+>
+  <section class="container-site section-pad">
+    <p class="eyebrow text-ink-2">Portfolio in costruzione</p>
+    <h1 class="mt-4 max-w-[12ch]">Ciao, sono Luigi.</h1>
+    <p class="mt-6 max-w-[40ch] text-ink-2">
+      Qui ci va l'hero. Nel frattempo si può guardare come è fatto il resto.
+    </p>
+    <div class="mt-8">
+      <Button variant="secondary" href="/styleguide">Vedi la styleguide</Button>
+    </div>
+  </section>
+</Base>

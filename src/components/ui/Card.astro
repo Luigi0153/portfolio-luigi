@@ -1,0 +1,102 @@
+---
+/**
+ * Card retro: sfondo cream-2, bordo 2px ink, raggio 20px.
+ * `interactive` aggiunge l'ombra dura all'hover; con `href` la card intera diventa un link.
+ */
+interface Props {
+  as?: "div" | "article" | "section" | "li";
+  href?: string;
+  interactive?: boolean;
+  surface?: "cream-2" | "cream";
+  padding?: "md" | "lg" | "none";
+  state?: "hover" | "focus" | "active";
+  class?: string;
+}
+
+const {
+  as = "div",
+  href,
+  interactive = false,
+  surface = "cream-2",
+  padding = "md",
+  state,
+  class: className,
+} = Astro.props;
+
+const Tag = href ? "a" : as;
+---
+
+<Tag
+  class:list={[
+    "card",
+    `card--${surface}`,
+    `card--pad-${padding}`,
+    { "card--interactive": interactive || Boolean(href) },
+    className,
+  ]}
+  href={href}
+  data-state={state}
+>
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    display: block;
+    border: var(--border-retro);
+    border-radius: var(--radius-card);
+    color: var(--color-ink);
+    text-decoration: none;
+    overflow: clip;
+  }
+
+  .card--cream-2 {
+    background-color: var(--color-cream-2);
+  }
+
+  .card--cream {
+    background-color: var(--color-cream);
+  }
+
+  .card--pad-md {
+    padding: 1.25rem;
+  }
+
+  .card--pad-lg {
+    padding: 1.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .card--pad-md {
+      padding: 1.75rem;
+    }
+
+    .card--pad-lg {
+      padding: 2.5rem;
+    }
+  }
+
+  .card--interactive {
+    transition:
+      transform 0.25s var(--ease-brand),
+      box-shadow 0.25s var(--ease-brand);
+  }
+
+  .card--interactive:hover,
+  .card--interactive[data-state="hover"] {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-hard);
+  }
+
+  .card--interactive:active,
+  .card--interactive[data-state="active"] {
+    transform: translate(0, 0);
+    box-shadow: var(--shadow-hard-sm);
+  }
+
+  .card--interactive:focus-visible,
+  .card--interactive[data-state="focus"] {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 4px;
+  }
+</style>

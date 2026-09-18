@@ -1,0 +1,116 @@
+---
+import "../styles/global.css";
+import frauncesUrl from "@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url";
+import hankenUrl from "@fontsource/hanken-grotesk/files/hanken-grotesk-latin-400-normal.woff2?url";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Percorso assoluto dell'immagine og (1200x630). Default: og.png in public. */
+  ogImage?: string;
+  /** Tipo Open Graph: "website" per le pagine, "article" per i case study. */
+  ogType?: "website" | "article";
+  noindex?: boolean;
+}
+
+const SITE_NAME = "Luigi";
+const {
+  title,
+  description,
+  ogImage = "/og.png",
+  ogType = "website",
+  noindex = false,
+} = Astro.props;
+
+const origin = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(Astro.url.pathname, origin);
+const ogImageUrl = new URL(ogImage, origin);
+const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#fdf4e4" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+
+    <link rel="preload" href={frauncesUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={hankenUrl} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a href="#contenuto" class="skip-link">Salta al contenuto</a>
+
+    <slot name="header" />
+
+    <main id="contenuto" tabindex="-1" class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t-2 border-ink">
+      <div class="container-site flex flex-col gap-6 py-10 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="font-display-axes text-2xl font-semibold leading-none">Luigi</p>
+          <p class="mt-2 text-ink-2">Shopify Web Developer e AI Web Designer.</p>
+        </div>
+        <nav aria-label="Footer">
+          <ul class="eyebrow flex flex-wrap gap-x-4">
+            <li><a class="inline-block py-3" href="/#progetti">Progetti</a></li>
+            <li><a class="inline-block py-3" href="/come-lavoro">Come lavoro</a></li>
+            <li><a class="inline-block py-3" href="/contatti">Contatti</a></li>
+          </ul>
+        </nav>
+        <p class="eyebrow text-ink-2">&copy; {year} Luigi. Fatto a mano, con qualche prompt.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: 0;
+    left: var(--gutter);
+    z-index: 100;
+    transform: translateY(-150%);
+    padding: 0.75rem 1.25rem;
+    background: var(--color-ink);
+    color: var(--color-cream);
+    border-radius: 0 0 var(--radius-img) var(--radius-img);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s var(--ease-brand);
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline-color: var(--color-arancio);
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>

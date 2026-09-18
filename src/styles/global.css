@@ -1,0 +1,149 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Font self-hosted. Fraunces "full" porta gli assi opsz e SOFT richiesti dai token. */
+@import "@fontsource-variable/fraunces/full.css";
+@import "@fontsource/hanken-grotesk/latin-400.css";
+@import "@fontsource/hanken-grotesk/latin-500.css";
+@import "@fontsource/hanken-grotesk/latin-600.css";
+@import "@fontsource/jetbrains-mono/latin-400.css";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: var(--text-body-lg);
+    }
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: 600;
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    font-weight: 500;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-verde);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+    transition: color 0.2s var(--ease-brand), text-decoration-color 0.2s var(--ease-brand);
+  }
+
+  a:hover {
+    color: var(--color-verde-deep);
+    text-decoration-color: var(--color-arancio);
+  }
+
+  ::selection {
+    background-color: var(--color-giallo);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  code,
+  kbd,
+  pre {
+    font-family: var(--font-mono);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Contenitore di pagina: max 1200px, gutter 20px mobile / 40px desktop */
+@utility container-site {
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Padding verticale delle sezioni: 80px mobile / 140px desktop */
+@utility section-pad {
+  padding-block: var(--section-y);
+}
+
+/* Etichetta mono: uppercase, tracking 0.08em, 13px */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* Titoli display fuori dagli heading (es. numeri delle StatTile) */
+@utility font-display-axes {
+  font-family: var(--font-display);
+  font-variation-settings: var(--display-axes);
+  letter-spacing: -0.02em;
+}
+
+@utility border-retro {
+  border: var(--border-retro);
+}
+
+@utility shadow-hard {
+  box-shadow: var(--shadow-hard);
+}
+
+@utility shadow-hard-sm {
+  box-shadow: var(--shadow-hard-sm);
+}

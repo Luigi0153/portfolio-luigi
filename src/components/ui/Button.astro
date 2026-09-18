@@ -1,0 +1,158 @@
+---
+/**
+ * Button: primary (arancio), secondary (outline ink), ghost (solo testo).
+ * Con `href` diventa un link. `state` forza uno stato visivo: serve solo alla styleguide.
+ */
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "md" | "lg";
+  href?: string;
+  disabled?: boolean;
+  state?: "hover" | "focus" | "active";
+  class?: string;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  href,
+  type = "button",
+  disabled = false,
+  state,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const isLink = Boolean(href) && !disabled;
+const Tag = isLink ? "a" : "button";
+---
+
+<Tag
+  class:list={["btn", `btn--${variant}`, `btn--${size}`, className]}
+  href={isLink ? href : undefined}
+  type={isLink ? undefined : type}
+  disabled={!isLink && disabled ? true : undefined}
+  aria-disabled={disabled ? "true" : undefined}
+  data-state={state}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.625rem 1.375rem;
+    border: 2px solid transparent;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      transform 0.2s var(--ease-brand),
+      box-shadow 0.2s var(--ease-brand),
+      background-color 0.2s var(--ease-brand),
+      color 0.2s var(--ease-brand),
+      border-color 0.2s var(--ease-brand);
+  }
+
+  .btn--lg {
+    min-height: 52px;
+    padding: 0.875rem 1.75rem;
+    font-size: 1.125rem;
+  }
+
+  /* Primary: arancio pieno, si stacca dal foglio con l'ombra dura */
+  .btn--primary {
+    background-color: var(--color-arancio);
+    border-color: var(--color-arancio);
+    color: var(--color-cream);
+  }
+
+  .btn--primary:hover,
+  .btn--primary[data-state="hover"] {
+    border-color: var(--color-ink);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-hard);
+  }
+
+  .btn--primary:active,
+  .btn--primary[data-state="active"] {
+    border-color: var(--color-ink);
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  /* Secondary: outline ink, si riempie all'hover */
+  .btn--secondary {
+    background-color: transparent;
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+
+  .btn--secondary:hover,
+  .btn--secondary[data-state="hover"] {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-hard);
+  }
+
+  .btn--secondary:active,
+  .btn--secondary[data-state="active"] {
+    background-color: var(--color-ink-2);
+    border-color: var(--color-ink-2);
+    color: var(--color-cream);
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  /* Ghost: solo testo, sottolineatura arancio all'hover */
+  .btn--ghost {
+    background-color: transparent;
+    color: var(--color-ink);
+    padding-inline: 0.75rem;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+  }
+
+  .btn--ghost:hover,
+  .btn--ghost[data-state="hover"] {
+    text-decoration-color: var(--color-arancio);
+  }
+
+  .btn--ghost:active,
+  .btn--ghost[data-state="active"] {
+    background-color: var(--color-cream-2);
+    text-decoration-color: var(--color-arancio);
+  }
+
+  /* Focus: anello ink, come nel resto del sito */
+  .btn:focus-visible,
+  .btn[data-state="focus"] {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+</style>

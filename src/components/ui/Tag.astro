@@ -1,0 +1,60 @@
+---
+/**
+ * Tag mono: etichette tech, stato ("in arrivo"), categorie.
+ * tone: ink (default), giallo (evidenza / in arrivo), blu (tech, solo percorso dev), verde (categoria).
+ */
+interface Props {
+  tone?: "ink" | "giallo" | "blu" | "verde";
+  as?: "span" | "li";
+  class?: string;
+}
+
+const { tone = "ink", as: Tag = "span", class: className } = Astro.props;
+---
+
+<Tag class:list={["tag", `tag--${tone}`, className]}>
+  <slot />
+</Tag>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    min-height: 28px;
+    padding: 0.25rem 0.7rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: var(--radius-pill);
+    background-color: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .tag--giallo {
+    background-color: var(--color-giallo);
+  }
+
+  /* Blu su cream non regge AA a 13px: testo ink, blu solo come bordo e marcatore */
+  .tag--blu {
+    border-color: var(--color-blu);
+  }
+
+  .tag--blu::before {
+    content: "";
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 2px;
+    background-color: var(--color-blu);
+  }
+
+  .tag--verde {
+    border-color: var(--color-verde-deep);
+    color: var(--color-verde-deep);
+  }
+</style>

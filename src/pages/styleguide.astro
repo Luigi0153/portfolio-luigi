@@ -1,0 +1,278 @@
+---
+import Base from "../layouts/Base.astro";
+import Button from "../components/ui/Button.astro";
+import Card from "../components/ui/Card.astro";
+import SectionHeader from "../components/ui/SectionHeader.astro";
+import StatTile from "../components/ui/StatTile.astro";
+import Tag from "../components/ui/Tag.astro";
+
+// Classi scritte per esteso: Tailwind le rileva solo se compaiono letteralmente nel sorgente.
+const palette = [
+  { name: "cream", hex: "#fdf4e4", uso: "sfondo pagina", swatch: "bg-cream" },
+  { name: "cream-2", hex: "#f6e9d2", uso: "card, superfici secondarie", swatch: "bg-cream-2" },
+  { name: "ink", hex: "#1a1a1a", uso: "testo principale, bordi forti", swatch: "bg-ink" },
+  { name: "ink-2", hex: "#4a4540", uso: "testo secondario", swatch: "bg-ink-2" },
+  { name: "verde", hex: "#399f80", uso: "dominante: sezioni, sottolineature", swatch: "bg-verde" },
+  { name: "verde-deep", hex: "#2a7a62", uso: "hover del verde, testo verde", swatch: "bg-verde-deep" },
+  { name: "arancio", hex: "#cf3e00", uso: "CTA primaria, hover, sottolineature", swatch: "bg-arancio" },
+  { name: "blu", hex: "#0279ce", uso: "solo percorso sviluppatore, codice, badge tech", swatch: "bg-blu" },
+  { name: "giallo", hex: "#fedf3e", uso: "forme Bauhaus, evidenziazioni, max 5%", swatch: "bg-giallo" },
+  { name: "rosso", hex: "#e4091e", uso: "solo grafiche dei concept, mai nella UI", swatch: "bg-rosso" },
+];
+
+const typeScale = [
+  { tag: "h1", meta: "Fraunces 700, opsz 72, SOFT 50. clamp(2.75rem, 8vw, 6.5rem)", sample: "Ciao, sono Luigi." },
+  { tag: "h2", meta: "Fraunces 600. clamp(2rem, 4.5vw, 3.5rem)", sample: "Negozi che vendono, codice che regge." },
+  { tag: "h3", meta: "Fraunces 500. clamp(1.375rem, 2.5vw, 1.75rem)", sample: "Ascolto, numeri, prototipo, codice." },
+];
+
+const buttonVariants = ["primary", "secondary", "ghost"] as const;
+const buttonStates = [
+  { label: "default", state: undefined, disabled: false },
+  { label: "hover", state: "hover", disabled: false },
+  { label: "focus", state: "focus", disabled: false },
+  { label: "active", state: "active", disabled: false },
+  { label: "disabled", state: undefined, disabled: true },
+] as const;
+
+const contrastOk = [
+  ["ink", "cream", "15.9"],
+  ["ink", "cream-2", "14.5"],
+  ["ink-2", "cream", "8.7"],
+  ["ink", "giallo", "13.1"],
+  ["cream", "ink", "15.9"],
+  ["verde-deep", "cream", "4.7"],
+  ["ink", "verde", "5.3"],
+];
+const contrastLarge = [
+  ["cream", "arancio", "4.4"],
+  ["cream", "blu", "4.2"],
+  ["arancio", "cream", "4.4"],
+];
+const contrastNo = [
+  ["cream", "verde", "3.0"],
+  ["verde", "cream", "3.0"],
+];
+---
+
+<Base
+  title="Styleguide"
+  description="Palette, tipografia e componenti del portfolio di Luigi. Pagina di lavoro, non indicizzata."
+  noindex
+>
+  <div class="container-site pt-14 pb-6 md:pt-24">
+    <SectionHeader
+      level="h1"
+      label="Design system"
+      title="Styleguide"
+      intro="Token, font e componenti nei loro stati. Niente contenuti reali: qui si controlla solo che tutto regga."
+    />
+  </div>
+
+  <!-- Palette -->
+  <section class="container-site py-12 md:py-20" aria-labelledby="palette">
+    <SectionHeader id="palette" title="Palette" intro="Mai bianco puro, mai grigio freddo. Il rosso resta fuori dalla UI." />
+    <ul class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      {
+        palette.map((c) => (
+          <li>
+            <div class:list={["aspect-4/3 rounded-img border-retro", c.swatch]} />
+            <p class="mt-3 font-mono text-sm font-medium">{c.name}</p>
+            <p class="eyebrow text-ink-2">{c.hex}</p>
+            <p class="mt-1 text-sm text-ink-2">{c.uso}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-12 grid gap-8 md:grid-cols-3">
+      <div>
+        <p class="eyebrow text-ink-2">Coppie AA (testo normale)</p>
+        <ul class="mt-3 space-y-1 font-mono text-sm">
+          {contrastOk.map(([t, b, r]) => <li>{t} su {b}: {r}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow text-ink-2">Solo testo grande (da 24px)</p>
+        <ul class="mt-3 space-y-1 font-mono text-sm">
+          {contrastLarge.map(([t, b, r]) => <li>{t} su {b}: {r}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow text-ink-2">Vietate</p>
+        <ul class="mt-3 space-y-1 font-mono text-sm">
+          {contrastNo.map(([t, b, r]) => <li>{t} su {b}: {r}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tipografia -->
+  <section class="border-t-2 border-ink" aria-labelledby="tipografia">
+    <div class="container-site py-12 md:py-20">
+      <SectionHeader id="tipografia" title="Tipografia" intro="Fraunces per i titoli, Hanken Grotesk per il testo, JetBrains Mono per le etichette." />
+      <div class="mt-10 space-y-10">
+        {
+          typeScale.map((t) => (
+            <div>
+              <p class="eyebrow text-ink-2">{t.tag}. {t.meta}</p>
+              {t.tag === "h1" && <p class="mt-2 text-h1 font-display-axes font-bold">{t.sample}</p>}
+              {t.tag === "h2" && <p class="mt-2 text-h2 font-display-axes font-semibold">{t.sample}</p>}
+              {t.tag === "h3" && <p class="mt-2 text-h3 font-display-axes font-medium">{t.sample}</p>}
+            </div>
+          ))
+        }
+        <div class="grid gap-8 md:grid-cols-2">
+          <div>
+            <p class="eyebrow text-ink-2">Body. Hanken Grotesk 400, 1rem mobile / 1.125rem desktop, interlinea 1.55</p>
+            <p class="mt-2 max-w-[60ch]">
+              Costruisco negozi Shopify che si caricano in fretta e si capiscono al primo colpo. Il resto del tempo lo
+              passo a togliere cose, che è la parte più difficile. Questo è un <a href="#tipografia">link nel testo</a>,
+              con sottolineatura verde e hover arancio.
+            </p>
+            <p class="mt-3 max-w-[60ch] text-ink-2">
+              Testo secondario in ink-2: per note, didascalie e tutto ciò che deve esserci senza farsi notare.
+            </p>
+          </div>
+          <div>
+            <p class="eyebrow text-ink-2">Label. JetBrains Mono 400, 13px, uppercase, tracking 0.08em</p>
+            <p class="eyebrow mt-2">Etichetta tecnica</p>
+            <p class="mt-4 font-mono text-sm">Mono inline: <code class="rounded-sm bg-cream-2 px-1.5 py-0.5">npm run build</code></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottoni -->
+  <section class="border-t-2 border-ink" aria-labelledby="bottoni">
+    <div class="container-site py-12 md:py-20">
+      <SectionHeader id="bottoni" title="Bottoni" intro="Pill 999px, altezza minima 44px. Il primario si stacca dal foglio con l'ombra dura." />
+      <div class="mt-10 space-y-10">
+        {
+          buttonVariants.map((variant) => (
+            <div>
+              <p class="eyebrow text-ink-2">{variant}</p>
+              <ul class="mt-4 flex flex-wrap gap-x-8 gap-y-6">
+                {buttonStates.map((s) => (
+                  <li class="flex flex-col items-start gap-2">
+                    <Button variant={variant} state={s.state} disabled={s.disabled}>
+                      Vedi i progetti
+                    </Button>
+                    <span class="font-mono text-xs text-ink-2">{s.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <div>
+          <p class="eyebrow text-ink-2">Taglia lg e come link</p>
+          <div class="mt-4 flex flex-wrap items-center gap-4">
+            <Button size="lg" href="#bottoni">Scrivimi</Button>
+            <Button size="lg" variant="secondary" href="#bottoni">Vedi il codice</Button>
+            <Button variant="ghost" href="#bottoni">Come lavoro</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tag -->
+  <section class="border-t-2 border-ink" aria-labelledby="tag">
+    <div class="container-site py-12 md:py-20">
+      <SectionHeader id="tag" title="Tag" intro="Mono, uppercase, bordo sottile. Il blu resta bordo e marcatore: come testo a 13px non regge." />
+      <ul class="mt-10 flex flex-wrap gap-3">
+        <Tag as="li">Shopify</Tag>
+        <Tag as="li" tone="blu">Liquid</Tag>
+        <Tag as="li" tone="blu">Astro</Tag>
+        <Tag as="li" tone="verde">Case study</Tag>
+        <Tag as="li" tone="giallo">In arrivo</Tag>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Card -->
+  <section class="border-t-2 border-ink" aria-labelledby="card">
+    <div class="container-site py-12 md:py-20">
+      <SectionHeader id="card" title="Card" intro="Bordo retro 2px, raggio 20px. Le interattive si sollevano e lasciano l'ombra." />
+      <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <p class="eyebrow text-ink-2">statica</p>
+          <h3 class="mt-2">Card di base</h3>
+          <p class="mt-2 text-ink-2">Sfondo cream-2, nessun hover. Per contenuti che non portano da nessuna parte.</p>
+        </Card>
+        <Card interactive>
+          <p class="eyebrow text-ink-2">interattiva</p>
+          <h3 class="mt-2">Passaci sopra</h3>
+          <p class="mt-2 text-ink-2">Si solleva di 3px e lascia l'ombra dura 4px 4px 0 ink.</p>
+        </Card>
+        <Card interactive state="hover">
+          <p class="eyebrow text-ink-2">interattiva, hover forzato</p>
+          <h3 class="mt-2">Così da sollevata</h3>
+          <p class="mt-2 text-ink-2">Stato hover fissato per la styleguide.</p>
+        </Card>
+        <Card href="#card" surface="cream">
+          <div class="flex items-start justify-between gap-3">
+            <p class="eyebrow text-ink-2">link, sfondo cream</p>
+            <Tag tone="giallo">In arrivo</Tag>
+          </div>
+          <h3 class="mt-2">Progetto in arrivo</h3>
+          <p class="mt-2 text-ink-2">Tutta la card è cliccabile. Tab per vedere il focus.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section header -->
+  <section class="border-t-2 border-ink" aria-labelledby="testate">
+    <div class="container-site py-12 md:py-20">
+      <SectionHeader id="testate" title="Testate di sezione" intro="Etichetta mono opzionale, h2 Fraunces, intro in ink-2. Allineate a sinistra o centrate." />
+      <div class="mt-10 grid gap-10 md:grid-cols-2">
+        <Card surface="cream" padding="lg">
+          <SectionHeader label="Con etichetta" title="Progetti scelti" intro="Pochi, ma con i numeri veri." />
+        </Card>
+        <Card surface="cream" padding="lg">
+          <SectionHeader align="center" title="Senza etichetta" intro="Quando il titolo basta da solo." />
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stat tile -->
+  <section class="border-t-2 border-ink" aria-labelledby="stat">
+    <div class="container-site py-12 md:py-20">
+      <SectionHeader id="stat" title="Stat tile" intro="Numero in Fraunces, etichetta mono. Valori di esempio, non dati reali." />
+      <div class="mt-10 grid gap-8 sm:grid-cols-3">
+        <StatTile value="+40%" label="esempio in ink" note="Numero neutro, per quando parla da solo." />
+        <StatTile value="3,5x" label="esempio in verde-deep" tone="verde-deep" />
+        <StatTile value="12" label="esempio in arancio" tone="arancio" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Forme Bauhaus -->
+  <section class="border-t-2 border-ink" aria-labelledby="forme">
+    <div class="container-site py-12 md:py-20">
+      <SectionHeader id="forme" title="Forme Bauhaus" intro="Cerchio, semicerchio, quarto, barra. Solo giallo, arancio e blu. Opacità 1, mai sfumature." />
+      <ul class="mt-10 flex flex-wrap items-end gap-8 md:gap-14">
+        <li class="flex flex-col items-center gap-3">
+          <div class="size-28 rounded-full bg-giallo md:size-36" aria-hidden="true"></div>
+          <span class="eyebrow text-ink-2">cerchio</span>
+        </li>
+        <li class="flex flex-col items-center gap-3">
+          <div class="h-14 w-28 rounded-t-full bg-arancio md:h-18 md:w-36" aria-hidden="true"></div>
+          <span class="eyebrow text-ink-2">semicerchio</span>
+        </li>
+        <li class="flex flex-col items-center gap-3">
+          <div class="size-28 rounded-tl-full bg-blu md:size-36" aria-hidden="true"></div>
+          <span class="eyebrow text-ink-2">quarto</span>
+        </li>
+        <li class="flex flex-col items-center gap-3">
+          <div class="h-7 w-40 bg-arancio md:w-56" aria-hidden="true"></div>
+          <span class="eyebrow text-ink-2">barra</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>
