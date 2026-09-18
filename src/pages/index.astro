@@ -1,20 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
-import Button from "../components/ui/Button.astro";
+import Hero from "../components/sections/Hero.astro";
 ---
 
 <Base
   title="Luigi"
   description="Luigi, Shopify Web Developer e AI Web Designer. Negozi che vendono, codice che regge."
 >
-  <section class="container-site section-pad">
-    <p class="eyebrow text-ink-2">Portfolio in costruzione</p>
-    <h1 class="mt-4 max-w-[12ch]">Ciao, sono Luigi.</h1>
-    <p class="mt-6 max-w-[40ch] text-ink-2">
-      Qui ci va l'hero. Nel frattempo si può guardare come è fatto il resto.
-    </p>
-    <div class="mt-8">
-      <Button variant="secondary" href="/styleguide">Vedi la styleguide</Button>
-    </div>
-  </section>
+  <Hero />
 </Base>

@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Nav from "../components/ui/Nav.astro";
 import frauncesUrl from "@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url";
 import hankenUrl from "@fontsource/hanken-grotesk/files/hanken-grotesk-latin-400-normal.woff2?url";
 
@@ -34,6 +35,18 @@ const year = new Date().getFullYear();
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Percorso scelto nell'hero (localStorage "target"), applicato su <html>
+      // prima del paint per evitare il flash del contenuto sbagliato.
+      (function () {
+        var t = "dev";
+        try {
+          var salvato = localStorage.getItem("target");
+          if (salvato === "dev" || salvato === "business") t = salvato;
+        } catch (e) {}
+        document.documentElement.dataset.target = t;
+      })();
+    </script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -64,7 +77,7 @@ const year = new Date().getFullYear();
   <body class="flex min-h-dvh flex-col">
     <a href="#contenuto" class="skip-link">Salta al contenuto</a>
 
-    <slot name="header" />
+    <slot name="header"><Nav /></slot>
 
     <main id="contenuto" tabindex="-1" class="flex-1">
       <slot />

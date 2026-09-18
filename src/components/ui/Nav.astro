@@ -1,0 +1,141 @@
+---
+/**
+ * Nav sticky: logo testuale in Fraunces, 3 voci, indicatore verde.
+ * L'indicatore usa verde-deep (il verde base non passa il contrasto 3:1
+ * non-text su cream). Pagina attiva calcolata server-side; sezione attiva
+ * sulla home via IntersectionObserver (aria-current="true").
+ */
+const voci = [
+  { href: "/#progetti", label: "Progetti", sezione: "progetti" },
+  { href: "/come-lavoro", label: "Come lavoro" },
+  { href: "/contatti", label: "Contatti" },
+];
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-nav">
+  <div class="container-site site-nav__row">
+    <a class="site-nav__logo font-display-axes" href="/">Luigi</a>
+    <nav aria-label="Principale">
+      <ul class="site-nav__list">
+        {
+          voci.map(({ href, label, sezione }) => {
+            const paginaAttiva =
+              !sezione && (pathname === href || pathname === `${href}/`);
+            return (
+              <li>
+                <a
+                  class="site-nav__link"
+                  href={href}
+                  data-sezione={sezione}
+                  aria-current={paginaAttiva ? "page" : undefined}
+                >
+                  {label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--color-cream);
+    border-bottom: 2px solid var(--color-ink);
+  }
+
+  .site-nav__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 60px;
+  }
+
+  .site-nav__logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .site-nav__list {
+    display: flex;
+  }
+
+  .site-nav__link {
+    position: relative;
+    display: inline-block;
+    padding: 1rem 0.625rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  @media (min-width: 768px) {
+    .site-nav__link {
+      padding-inline: 0.875rem;
+      font-size: 1rem;
+    }
+  }
+
+  /* Indicatore verde della voce attiva */
+  .site-nav__link::after {
+    content: "";
+    position: absolute;
+    right: 0.625rem;
+    bottom: 0.625rem;
+    left: 0.625rem;
+    height: 3px;
+    border-radius: var(--radius-pill);
+    background: var(--color-verde-deep);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease-brand);
+  }
+
+  .site-nav__link[aria-current]::after {
+    transform: scaleX(1);
+  }
+</style>
+
+<script>
+  // Scroll-spy: evidenzia la voce della sezione visibile (solo per le voci
+  // con data-sezione la cui sezione esiste nella pagina corrente).
+  const nav = document.querySelector<HTMLElement>(".site-nav");
+
+  if (nav) {
+    const coppie = [...nav.querySelectorAll<HTMLAnchorElement>("a[data-sezione]")]
+      .map((link) => {
+        const sezione = document.getElementById(link.dataset.sezione ?? "");
+        return sezione ? { link, sezione } : null;
+      })
+      .filter((coppia) => coppia !== null);
+
+    if (coppie.length > 0) {
+      const osservatore = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const coppia = coppie.find(({ sezione }) => sezione === entry.target);
+            if (!coppia) continue;
+            if (entry.isIntersecting) {
+              coppia.link.setAttribute("aria-current", "true");
+            } else {
+              coppia.link.removeAttribute("aria-current");
+            }
+          }
+        },
+        { rootMargin: "-30% 0px -60% 0px" },
+      );
+
+      coppie.forEach(({ sezione }) => osservatore.observe(sezione));
+    }
+  }
+</script>

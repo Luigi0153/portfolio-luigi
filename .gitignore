@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # output Playwright MCP
 .playwright-mcp/
+
+# screenshot di verifica (scripts/screenshot.mjs)
+screenshots/

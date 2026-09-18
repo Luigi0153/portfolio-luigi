@@ -1,0 +1,316 @@
+---
+/**
+ * Hero con switch del target. Le due varianti di copy convivono nel markup
+ * (data-only) e si alternano via CSS in base a html[data-target]: nessun
+ * re-render al cambio. Le forme Bauhaus sono decorative (aria-hidden) e
+ * animate da GSAP solo senza prefers-reduced-motion.
+ */
+import Button from "../ui/Button.astro";
+import TargetSwitch from "../ui/TargetSwitch";
+---
+
+<section class="hero" aria-labelledby="hero-titolo">
+  <div class="hero__forme" aria-hidden="true">
+    <span class="forma forma--cerchio" data-parallax="24"></span>
+    <span class="forma forma--semicerchio" data-spin data-parallax="40"></span>
+    <span class="forma forma--quarto" data-spin data-parallax="32"></span>
+    <span class="forma forma--barra" data-spin data-angle="-45" data-parallax="20"></span>
+  </div>
+
+  <div class="container-site hero__grid">
+    <div>
+      <p class="eyebrow text-ink-2" data-hero-reveal>
+        Shopify Web Developer · AI Web Designer
+      </p>
+      <h1 id="hero-titolo" class="mt-4" data-hero-reveal>
+        <span class="block">Ciao, sono Luigi.</span>
+        <span class="hero__riga hero__riga--dev block" data-only="dev"
+          >Scrivo codice che si fa leggere.</span
+        >
+        <span class="hero__riga hero__riga--business block" data-only="business"
+          >Faccio negozi che vendono davvero.</span
+        >
+      </h1>
+      <div class="mt-8" data-hero-reveal>
+        <TargetSwitch client:load />
+      </div>
+      <div class="mt-6" data-hero-reveal>
+        <Button variant="primary" size="lg" href="#progetti">
+          <span data-only="dev">Vedi il codice</span>
+          <span data-only="business">Vedi i risultati</span>
+        </Button>
+      </div>
+    </div>
+
+    <div class="hero__media" data-hero-reveal>
+      <div class="hero__placeholder border-retro bg-cream-2">
+        <span class="eyebrow text-ink-2">Qui girerà un 3D. Promesso.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: 3rem 5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      padding-block: 5rem 6.5rem;
+    }
+  }
+
+  .hero__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 3.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 4rem;
+    }
+  }
+
+  /* La riga che cambia col target: più piccola della prima, colore del percorso
+     (blu = sviluppatore, verde = business, come da docs/design-tokens.md) */
+  .hero__riga {
+    margin-top: 0.75rem;
+    font-size: clamp(1.625rem, 3.5vw, 2.75rem);
+    font-weight: 500;
+  }
+
+  .hero__riga--dev {
+    color: var(--color-blu);
+  }
+
+  .hero__riga--business {
+    color: var(--color-verde-deep);
+  }
+
+  .hero__media {
+    justify-self: center;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__media {
+      justify-self: end;
+    }
+  }
+
+  /* Segnaposto dell'oggetto 3D (arriva nella Fase 4) */
+  .hero__placeholder {
+    display: grid;
+    place-items: center;
+    width: 320px;
+    height: 320px;
+    border-radius: var(--radius-card);
+  }
+
+  /* --- Forme Bauhaus decorative: solo giallo/arancio/blu, opacità 1 --- */
+  .hero__forme {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .forma {
+    position: absolute;
+    will-change: transform;
+  }
+
+  .forma--cerchio {
+    top: -28px;
+    right: 6%;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: var(--color-giallo);
+  }
+
+  .forma--semicerchio {
+    bottom: 32px;
+    left: -46px;
+    width: 140px;
+    height: 70px;
+    border-radius: 140px 140px 0 0;
+    background: var(--color-arancio);
+  }
+
+  .forma--quarto {
+    right: 18%;
+    bottom: -44px;
+    width: 130px;
+    height: 130px;
+    border-radius: 100% 0 0 0;
+    background: var(--color-blu);
+  }
+
+  .forma--barra {
+    right: -64px;
+    bottom: 26%;
+    width: 180px;
+    height: 24px;
+    border-radius: var(--radius-pill);
+    background: var(--color-giallo);
+  }
+
+  @media (min-width: 1024px) {
+    .forma--cerchio {
+      top: -40px;
+      right: 34%;
+      width: 120px;
+      height: 120px;
+    }
+
+    .forma--semicerchio {
+      bottom: 60px;
+      left: -56px;
+      width: 170px;
+      height: 85px;
+    }
+
+    .forma--quarto {
+      right: 8%;
+      bottom: -56px;
+      width: 170px;
+      height: 170px;
+    }
+
+    .forma--barra {
+      right: -70px;
+      bottom: auto;
+      top: 16%;
+      width: 220px;
+      height: 28px;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Switch target: stili globali perché il DOM è renderizzato dall'isola React.
+     Lo stato attivo è guidato da html[data-target], non dallo stato React:
+     così è giusto anche prima dell'idratazione. */
+  .tswitch {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 26rem;
+    padding: 4px;
+    border: 2px solid var(--color-ink);
+    border-radius: var(--radius-pill);
+    background: var(--color-cream-2);
+  }
+
+  /* Il "thumb" che scorre da un'opzione all'altra */
+  .tswitch::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    height: calc(100% - 8px);
+    border-radius: var(--radius-pill);
+    background: var(--color-ink);
+    transition: transform 0.25s var(--ease-brand);
+  }
+
+  html[data-target="business"] .tswitch::before {
+    transform: translateX(100%);
+  }
+
+  .tswitch__opt {
+    min-height: 40px;
+    padding: 0.5rem 0.5rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.25s var(--ease-brand);
+  }
+
+  @media (min-width: 768px) {
+    .tswitch__opt {
+      font-size: 0.9375rem;
+      padding-inline: 1rem;
+    }
+  }
+
+  html:not([data-target="business"]) .tswitch__opt[data-value="dev"],
+  html[data-target="business"] .tswitch__opt[data-value="business"] {
+    color: var(--color-cream);
+  }
+
+  .tswitch__opt:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const hero = document.querySelector<HTMLElement>(".hero");
+
+  if (hero) {
+    const mm = gsap.matchMedia();
+
+    // Tutte le animazioni vivono qui: con prefers-reduced-motion resta tutto statico
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Entrata: fade + translateY 24px, stagger 80ms (docs/design-tokens.md)
+      gsap.from(hero.querySelectorAll("[data-hero-reveal]"), {
+        autoAlpha: 0,
+        y: 24,
+        duration: 0.6,
+        ease: "power3.out",
+        stagger: 0.08,
+        clearProps: "all",
+      });
+
+      gsap.utils.toArray<HTMLElement>(".forma").forEach((forma) => {
+        const angolo = Number(forma.dataset.angle ?? 0);
+        gsap.set(forma, { rotation: angolo });
+
+        // Rotazione lenta continua: 60s per giro
+        if (forma.dataset.spin !== undefined) {
+          gsap.to(forma, {
+            rotation: angolo + 360,
+            duration: 60,
+            ease: "none",
+            repeat: -1,
+          });
+        }
+
+        // Parallax leggero mentre l'hero scorre via (max 40px)
+        gsap.to(forma, {
+          y: () => -Number(forma.dataset.parallax ?? 24),
+          ease: "none",
+          scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      });
+    });
+  }
+</script>

@@ -148,3 +148,13 @@
 @utility shadow-hard-sm {
   box-shadow: var(--shadow-hard-sm);
 }
+
+/*
+  Switch del target (hero): html[data-target] guida quale variante marcata
+  con data-only="dev" | "business" è visibile. Senza attributo (JS spento)
+  vale il percorso "dev". Nessun re-render: solo CSS.
+*/
+html:not([data-target="business"]) [data-only="business"],
+html[data-target="business"] [data-only="dev"] {
+  display: none;
+}
