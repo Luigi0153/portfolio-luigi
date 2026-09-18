@@ -38,15 +38,21 @@ const Tag = isLink ? "a" : "button";
   data-state={state}
   {...rest}
 >
-  <slot />
+  <span class="btn__label"><slot /></span>
 </Tag>
 
 <style>
+  /*
+    Hover = riempimento che scorre da sinistra (::before, solo transform scaleX).
+    Niente ombra dura, niente traslazioni: forma, dimensioni e posizione non cambiano mai.
+  */
   .btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
     min-height: 44px;
     padding: 0.625rem 1.375rem;
     border: 2px solid transparent;
@@ -61,11 +67,25 @@ const Tag = isLink ? "a" : "button";
     cursor: pointer;
     user-select: none;
     transition:
-      transform 0.2s var(--ease-brand),
-      box-shadow 0.2s var(--ease-brand),
-      background-color 0.2s var(--ease-brand),
-      color 0.2s var(--ease-brand),
-      border-color 0.2s var(--ease-brand);
+      color 0.25s var(--ease-brand),
+      border-color 0.25s var(--ease-brand);
+  }
+
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease-brand);
+  }
+
+  .btn__label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .btn--lg {
@@ -74,77 +94,88 @@ const Tag = isLink ? "a" : "button";
     font-size: 1.125rem;
   }
 
-  /* Primary: arancio pieno, si stacca dal foglio con l'ombra dura */
+  /* Primary: base arancio, riempimento ink */
   .btn--primary {
     background-color: var(--color-arancio);
     border-color: var(--color-arancio);
     color: var(--color-cream);
   }
 
-  .btn--primary:hover,
-  .btn--primary[data-state="hover"] {
-    border-color: var(--color-ink);
-    transform: translate(-2px, -2px);
-    box-shadow: var(--shadow-hard);
+  .btn--primary::before {
+    background-color: var(--color-ink);
   }
 
-  .btn--primary:active,
-  .btn--primary[data-state="active"] {
-    border-color: var(--color-ink);
-    transform: translate(1px, 1px);
-    box-shadow: none;
-  }
-
-  /* Secondary: outline ink, si riempie all'hover */
+  /* Secondary: outline ink, riempimento ink */
   .btn--secondary {
     background-color: transparent;
     border-color: var(--color-ink);
     color: var(--color-ink);
   }
 
-  .btn--secondary:hover,
-  .btn--secondary[data-state="hover"] {
+  .btn--secondary::before {
     background-color: var(--color-ink);
-    color: var(--color-cream);
-    transform: translate(-2px, -2px);
-    box-shadow: var(--shadow-hard);
   }
 
-  .btn--secondary:active,
-  .btn--secondary[data-state="active"] {
-    background-color: var(--color-ink-2);
-    border-color: var(--color-ink-2);
-    color: var(--color-cream);
-    transform: translate(1px, 1px);
-    box-shadow: none;
-  }
-
-  /* Ghost: solo testo, sottolineatura arancio all'hover */
+  /* Ghost: solo testo, riempimento cream-2 (il testo resta ink) */
   .btn--ghost {
     background-color: transparent;
     color: var(--color-ink);
     padding-inline: 0.75rem;
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.25em;
   }
 
-  .btn--ghost:hover,
-  .btn--ghost[data-state="hover"] {
-    text-decoration-color: var(--color-arancio);
-  }
-
-  .btn--ghost:active,
-  .btn--ghost[data-state="active"] {
+  .btn--ghost::before {
     background-color: var(--color-cream-2);
-    text-decoration-color: var(--color-arancio);
   }
 
-  /* Focus: anello ink, come nel resto del sito */
+  /* Hover solo su dispositivi con hover reale: su touch il fill non resta attaccato dopo il tap */
+  @media (hover: hover) {
+    .btn:not(:disabled):hover::before {
+      transform: scaleX(1);
+    }
+
+    .btn--primary:not(:disabled):hover {
+      border-color: var(--color-ink);
+    }
+
+    .btn--secondary:not(:disabled):hover {
+      color: var(--color-cream);
+    }
+  }
+
+  /* Active: riempimento pieno immediato, nessun rimbalzo */
+  .btn:not(:disabled):active {
+    transition-duration: 0s;
+  }
+
+  .btn:not(:disabled):active::before,
+  .btn[data-state="hover"]::before,
+  .btn[data-state="active"]::before {
+    transform: scaleX(1);
+  }
+
+  .btn:not(:disabled):active::before {
+    /* translateZ(0) rende il valore diverso da quello dell'hover: cancella
+       la transizione in corso, così il riempimento scatta subito a scaleX(1) */
+    transform: scaleX(1) translateZ(0);
+    transition-duration: 0s;
+  }
+
+  .btn--primary:not(:disabled):active,
+  .btn--primary[data-state="hover"],
+  .btn--primary[data-state="active"] {
+    border-color: var(--color-ink);
+  }
+
+  .btn--secondary:not(:disabled):active,
+  .btn--secondary[data-state="hover"],
+  .btn--secondary[data-state="active"] {
+    color: var(--color-cream);
+  }
+
+  /* Focus: solo :focus-visible, outline simmetrico su tutto il perimetro */
   .btn:focus-visible,
   .btn[data-state="focus"] {
-    outline: 3px solid var(--color-ink);
+    outline: 2px solid var(--color-ink);
     outline-offset: 3px;
   }
 
@@ -152,7 +183,13 @@ const Tag = isLink ? "a" : "button";
   .btn[aria-disabled="true"] {
     opacity: 0.45;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+  }
+
+  /* Niente scorrimento con reduced motion: cambio colore istantaneo */
+  @media (prefers-reduced-motion: reduce) {
+    .btn,
+    .btn::before {
+      transition: none;
+    }
   }
 </style>

@@ -35,7 +35,7 @@ Scala (mobile → desktop, usa clamp):
 - Griglia: container max 1200px, gutter 20px mobile / 40px desktop.
 - Sezioni: padding-block 80px mobile / 140px desktop.
 - Raggio: card 20px, bottoni 999px (pill), immagini 12px.
-- Bordo "retro": 2px solid var(--color-ink) sulle card principali, ombra dura 4px 4px 0 var(--color-ink) sull'hover.
+- Bordo "retro": 2px solid var(--color-ink) sulle card principali, ombra dura 4px 4px 0 var(--color-ink) sull'hover. L'ombra dura è **solo delle Card**: mai sui bottoni.
 - Forme Bauhaus decorative: cerchio, semicerchio, quarto di cerchio, barra. Solo giallo/arancio/blu, opacità 1, mai sfumature.
 
 ## Motion (GSAP)
@@ -44,6 +44,17 @@ Scala (mobile → desktop, usa clamp):
 - Forme Bauhaus: rotazione lenta continua (60s) + parallax leggero su scroll (max 40px).
 - Hero 3D: rotazione idle 0.15 rad/s, segue il mouse con lerp 0.05; su touch solo idle. Con `prefers-reduced-motion`: immagine statica png al posto del canvas.
 - ScrollTrigger sui case study: pin della colonna sinistra (titolo + tags) mentre scorrono le immagini.
+
+## Bottoni — stati
+- Niente ombra dura e niente traslazioni: forma, dimensioni e posizione non cambiano mai in nessuno stato.
+- **Hover**: riempimento che scorre da sinistra a destra in 0.25s ease power-out (`var(--ease-brand)`). Realizzato con `::before` in `position: absolute; inset: 0`, da `scaleX(0)` con `transform-origin: left` a `scaleX(1)`. Il contenuto del bottone sta sopra con z-index. Si anima solo `transform`, mai `width`.
+  - primary: base arancio con testo cream → riempimento ink con testo cream.
+  - secondary (outline ink): base trasparente con testo ink → riempimento ink con testo cream.
+  - ghost: base trasparente con testo ink → riempimento cream-2 con testo ink.
+- **Active**: `scaleX(1)` immediato, nessun rimbalzo.
+- **Focus**: solo `:focus-visible` (mai `:focus`): outline 2px solid ink, outline-offset 3px, simmetrico su tutto il perimetro.
+- Gli stili hover vivono dentro `@media (hover: hover)`: su touch il riempimento non resta attaccato dopo il tap. Il body ha `-webkit-tap-highlight-color: transparent`.
+- Con `prefers-reduced-motion`: niente scorrimento, cambio colore istantaneo.
 
 ## Componenti da definire (con stati default / hover / focus / active / disabled)
 Button (primary arancio, secondary outline ink, ghost), Tag mono, Card progetto, Switch target (hero), Nav sticky con indicatore verde, Section header (label mono + h2 Fraunces), Before/After slider, Stat tile (numero Fraunces + label mono), Footer con "visitor book" (prima versione: solo link mailto e social).
