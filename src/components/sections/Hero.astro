@@ -107,7 +107,9 @@ import DeskScene from "./DeskScene.astro";
 
   @media (min-width: 1024px) {
     .hero__media {
-      width: clamp(24rem, 38vw, 33rem);
+      /* min 26rem: sotto, le etichette mono (px fissi) non stanno più
+         nei varchi percentuali della scena */
+      width: clamp(26rem, 38vw, 33rem);
       justify-self: end;
     }
   }

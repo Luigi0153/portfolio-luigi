@@ -183,8 +183,16 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
   .hotspot--computer { left: 7%; top: 1%; width: 46%; }
   .hotspot--telefono { left: 66%; top: 5%; width: 26%; }
   .hotspot--tabellino { left: 69%; top: 45%; width: 20%; }
-  .hotspot--taccuino { left: 4%; top: 65%; width: 28%; }
-  .hotspot--tazza { left: 44%; top: 66%; width: 21%; }
+  .hotspot--taccuino { left: 1%; top: 63%; width: 24%; }
+  .hotspot--tazza { left: 47%; top: 66%; width: 19%; }
+
+  /* L'hotspot attivo sale sopra tutto: le etichette vivono nello stacking
+     context del proprio hotspot (creato dal transform del parallax), quindi
+     è l'hotspot intero a dover vincere, non l'etichetta da sola */
+  .hotspot:hover,
+  .hotspot:focus-visible {
+    z-index: 10;
+  }
 
   .hotspot__body {
     position: relative;
@@ -200,27 +208,46 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
     height: auto;
   }
 
-  /* Etichetta mono 12px sotto l'oggetto */
+  /* Etichetta mono 12px in uno spazio vuoto vicino all'oggetto.
+     Nascosta anche con visibility: opacity da sola non basta se un media
+     query o un focus la riaccende dove non deve. */
   .hotspot__label {
     position: absolute;
     z-index: 2;
     top: 100%;
     left: 50%;
-    translate: -50% 0.25rem;
+    translate: -50% 0.375rem;
     font-family: var(--font-mono);
     font-size: 0.75rem;
+    line-height: 1.2; /* non ereditare 1.55: nei contenitori piccoli sborda */
     letter-spacing: 0.08em;
     text-transform: uppercase;
     white-space: nowrap;
     color: var(--color-ink);
     opacity: 0;
+    visibility: hidden;
     transition: opacity 0.2s var(--ease-brand);
   }
 
-  /* Su touch le etichette sono sempre visibili, o non si capisce che si clicca */
-  @media (hover: none) {
+  /* Il computer è largo e il suo centro cade sul taccuino: l'etichetta va
+     nel varco libero tra taccuino e tazza (centro al 63% della larghezza) */
+  .hotspot--computer .hotspot__label {
+    left: 63%;
+  }
+
+  /* Il taccuino tocca il bordo sinistro: etichetta spostata verso destra,
+     o il parallax la porta fuori dal contenitore */
+  .hotspot--taccuino .hotspot__label {
+    left: 62%;
+    translate: -50% 0.125rem;
+  }
+
+  /* Solo su veri touch (niente hover E puntatore grosso): sempre visibili,
+     o non si capisce che si clicca */
+  @media (hover: none) and (pointer: coarse) {
     .hotspot__label {
       opacity: 1;
+      visibility: visible;
     }
   }
 
@@ -295,7 +322,7 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
     .hotspot:hover .fx--scintille { opacity: 1; }
     .hotspot:hover .fx__rot,
     .hotspot:hover .stella { animation-play-state: running; }
-    .hotspot:hover .hotspot__label { opacity: 1; }
+    .hotspot:hover .hotspot__label { opacity: 1; visibility: visible; }
   }
 
   .hotspot:focus-visible .hotspot__body { transform: translateY(-6px); }
@@ -303,7 +330,7 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
   .hotspot:focus-visible .fx--scintille { opacity: 1; }
   .hotspot:focus-visible .fx__rot,
   .hotspot:focus-visible .stella { animation-play-state: running; }
-  .hotspot:focus-visible .hotspot__label { opacity: 1; }
+  .hotspot:focus-visible .hotspot__label { opacity: 1; visibility: visible; }
 
   /* ---------- Easter egg ---------- */
   .desk__egg {
