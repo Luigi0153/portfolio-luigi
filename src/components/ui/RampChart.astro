@@ -14,10 +14,10 @@ interface Props {
 const { class: className } = Astro.props;
 
 const mesi = [
-  { mese: "Apr", ordini: null, nota: "avvio" },
-  { mese: "Mag", ordini: null, nota: "avvio" },
-  { mese: "Giu", ordini: 19, nota: null },
-  { mese: "Lug", ordini: 31, nota: null },
+  { mese: "Aprile", ordini: null },
+  { mese: "Maggio", ordini: null },
+  { mese: "Giugno", ordini: 19 },
+  { mese: "Luglio", ordini: 31 },
 ];
 
 // Geometria: viewBox fisso, larghezza fluida. La scala parte da 0 e arriva a 36
@@ -66,14 +66,15 @@ const barre = mesi.map((m, i) => {
             fill={b.colore}
             style={`--altezza: ${b.altezza}px; --base: ${BASE}px`}
           />
-          {b.ordini !== null && (
+          {b.ordini !== null ? (
             <text class="ramp__valore" x={b.x + LARGHEZZA_BARRA / 2} y={b.y - 12}>
               {b.ordini}
             </text>
-          )}
-          {b.nota && (
-            <text class="ramp__nota" x={b.x + LARGHEZZA_BARRA / 2} y={b.y - 12}>
-              {b.nota}
+          ) : (
+            // un trattino, non "avvio": si legge come "qui il numero non c'è"
+            // invece di rubare il posto all'etichetta del mese
+            <text class="ramp__vuoto" x={b.x + LARGHEZZA_BARRA / 2} y={b.y - 12}>
+              –
             </text>
           )}
           <text class="ramp__mese" x={b.x + LARGHEZZA_BARRA / 2} y={BASE + 26}>
@@ -114,13 +115,14 @@ const barre = mesi.map((m, i) => {
   }
 
   .ramp__valore,
-  .ramp__nota,
+  .ramp__vuoto,
   .ramp__mese {
     text-anchor: middle;
     fill: var(--color-ink);
   }
 
-  .ramp__valore {
+  .ramp__valore,
+  .ramp__vuoto {
     font-family: var(--font-display);
     font-variation-settings: var(--display-axes);
     font-size: 30px;
@@ -128,16 +130,16 @@ const barre = mesi.map((m, i) => {
     font-variant-numeric: tabular-nums;
   }
 
-  .ramp__nota,
-  .ramp__mese {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .ramp__vuoto {
+    fill: var(--color-ink-2);
   }
 
-  .ramp__nota {
-    fill: var(--color-ink-2);
+  .ramp__mese {
+    font-family: var(--font-mono);
+    /* i nomi interi stanno in 92px di passo solo a questo corpo */
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .ramp__base {
