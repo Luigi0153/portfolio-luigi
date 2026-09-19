@@ -1,0 +1,582 @@
+---
+/**
+ * Come lavoro: il processo in 4 step, lo stack, e il progetto n°5 (questo sito).
+ *
+ * Le due varianti di copy convivono nel markup (data-only) e si alternano via
+ * CSS su html[data-target], come nell'hero: nessun re-render, nessun JS.
+ */
+import Base from "../layouts/Base.astro";
+import SectionHeader from "../components/ui/SectionHeader.astro";
+import Button from "../components/ui/Button.astro";
+import Tag from "../components/ui/Tag.astro";
+import Card from "../components/ui/Card.astro";
+
+const PASSI = [
+  {
+    nome: "Ascolto",
+    sintesi: "Prima di aprire l'editor, capisco cosa si rompe.",
+    righe: [
+      "Mezz'ora di domande scomode: chi compra, cosa abbandona, dove si perde.",
+      "Quasi sempre il problema non è quello che mi avevi detto al telefono.",
+    ],
+  },
+  {
+    nome: "Numeri",
+    sintesi: "Guardo i dati che hai già, prima di produrne di nuovi.",
+    righe: [
+      "Analytics, ordini, ricerche interne: tre grafici bastano a scegliere da dove partire.",
+      "Se non c'è niente da misurare, la prima cosa che installo è il metro.",
+    ],
+  },
+  {
+    nome: "Prototipo",
+    sintesi: "La cosa più economica da buttare via è un prototipo.",
+    righe: [
+      "Una schermata vera, cliccabile, sul telefono: si decide guardandola, non descrivendola.",
+      "Qui si cambia idea gratis. Dopo costa.",
+    ],
+  },
+  {
+    nome: "Codice",
+    sintesi: "Solo alla fine, e scritto per chi lo aprirà dopo di me.",
+    righe: [
+      "Componenti piccoli, nomi in chiaro, niente librerie per cose che fa il browser.",
+      "Ti lascio il sito e le istruzioni per cambiarlo senza chiamarmi.",
+    ],
+  },
+] as const;
+
+const STACK = [
+  {
+    gruppo: "E-commerce",
+    voci: ["Shopify", "Liquid", "Theme customization", "Catalogo"],
+  },
+  {
+    gruppo: "Front-end",
+    voci: ["Astro", "Tailwind CSS", "React", "TypeScript"],
+  },
+  {
+    gruppo: "Motion e 3D",
+    voci: ["GSAP", "ScrollTrigger", "View Transitions"],
+  },
+  {
+    gruppo: "Altro",
+    voci: ["WordPress", "Vercel", "Playwright", "Figma"],
+  },
+] as const;
+
+/*
+  DA COMPILARE — i 3 prompt reali usati per costruire questo sito.
+  Finché l'array è vuoto la sottosezione non viene renderizzata: meglio una
+  sezione in meno che tre prompt inventati. Formato di ogni voce:
+  { fase, testo, esito }.
+*/
+const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [];
+---
+
+<Base
+  title="Come lavoro"
+  description="Ascolto, numeri, prototipo, codice. Il processo con cui porto un negozio online da 'esiste' a 'vende', e lo stack che uso per farlo."
+  ogImage="/og/come-lavoro.png"
+>
+  <section class="intro">
+    <div class="intro__forme" aria-hidden="true">
+      <span class="forma forma--cerchio"></span>
+      <span class="forma forma--barra"></span>
+    </div>
+
+    <div class="container-site intro__contenuto">
+      <p class="eyebrow text-ink-2">Il metodo</p>
+      <h1 class="mt-4">Come lavoro</h1>
+      <p class="intro__riga" data-only="dev">
+        Quattro passi, sempre nello stesso ordine. Il codice è l'ultimo, ed è la
+        parte che discutiamo di meno.
+      </p>
+      <p class="intro__riga" data-only="business">
+        Quattro passi, sempre nello stesso ordine. Nessuno dei quattro si chiama
+        "ti mando un preventivo e sparisco".
+      </p>
+    </div>
+  </section>
+
+  <section class="section-pad processo" aria-labelledby="processo-titolo">
+    <div class="container-site">
+      <SectionHeader
+        id="processo-titolo"
+        label="Il processo"
+        title="Ascolto, numeri, prototipo, codice"
+        intro="In quest'ordine. Saltare il primo è il modo più veloce per rifare il quarto."
+      />
+
+      <ol class="processo__lista" role="list">
+        {
+          PASSI.map(({ nome, sintesi, righe }, i) => (
+            <li class="processo__passo" data-reveal>
+              <Card class="processo__card" padding="lg">
+                <p class="eyebrow processo__numero">
+                  <span aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                  <span class="processo__nome">{nome}</span>
+                </p>
+                <h3 class="processo__sintesi">{sintesi}</h3>
+                {righe.map((riga) => (
+                  <p class="processo__riga">{riga}</p>
+                ))}
+              </Card>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section-pad stack" aria-labelledby="stack-titolo">
+    <div class="container-site">
+      <SectionHeader id="stack-titolo" label="Gli attrezzi" title="Lo stack">
+        <p class="stack__intro" data-only="dev">
+          Poche cose, conosciute bene. Ogni dipendenza in più è un problema che
+          erediterà qualcun altro.
+        </p>
+        <p class="stack__intro" data-only="business">
+          Roba standard e diffusa: se un giorno non ci sono io, chiunque sa
+          metterci le mani.
+        </p>
+      </SectionHeader>
+
+      <div class="stack__griglia">
+        {
+          STACK.map(({ gruppo, voci }) => (
+            <div class="stack__gruppo" data-reveal>
+              <h3 class="stack__gruppo-titolo">{gruppo}</h3>
+              <ul class="stack__voci" role="list">
+                {voci.map((voce) => (
+                  <Tag as="li" tone="blu">
+                    {voce}
+                  </Tag>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad quinto" aria-labelledby="quinto-titolo">
+    <div class="container-site">
+      <SectionHeader
+        id="quinto-titolo"
+        label="Progetto n°5"
+        title="Come ho costruito questo sito"
+        intro="Questo portfolio è l'ultimo dei miei case study: la pagina che stai leggendo è anche la dimostrazione."
+      />
+
+      <div class="quinto__blocchi">
+        <article class="quinto__blocco" data-reveal aria-labelledby="quinto-switch">
+          <p class="eyebrow text-ink-2">La decisione</p>
+          <h3 id="quinto-switch">Uno switch invece di due siti</h3>
+          <p>
+            Chi assume e chi vende cercano due cose diverse nelle stesse pagine:
+            il primo vuole vedere come è fatto, il secondo se funziona. Due siti
+            separati erano il doppio del lavoro e metà della manutenzione.
+          </p>
+          <p>
+            Così lo switch nell'hero non filtra i contenuti: li riordina e ne
+            cambia l'accento. Stesse sezioni, stesso HTML, priorità diverse. La
+            scelta resta in <code>localStorage</code> e vale su tutto il sito.
+          </p>
+          <p data-only="dev">
+            Tecnicamente è un attributo su <code>&lt;html&gt;</code> e un pugno
+            di regole CSS: zero re-render, zero JavaScript al cambio, e funziona
+            anche prima che React si idrati.
+          </p>
+          <p data-only="business">
+            Tradotto: cambia in un istante, non ricarica niente, e chi arriva da
+            Google vede subito la versione giusta per sé.
+          </p>
+        </article>
+
+        <article class="quinto__blocco" data-reveal aria-labelledby="quinto-stack">
+          <p class="eyebrow text-ink-2">Il come</p>
+          <h3 id="quinto-stack">Statico, e leggero per scelta</h3>
+          <p>
+            Astro genera pagine statiche: React entra solo dove serve davvero
+            toccare qualcosa, cioè lo switch e lo slider prima/dopo. Tutto il
+            resto è HTML e CSS.
+          </p>
+          <p>
+            Le animazioni sono GSAP con ScrollTrigger, e si spengono da sole con
+            <code>prefers-reduced-motion</code>. I font sono self-hosted, le
+            immagini le converte Astro in webp.
+          </p>
+          <p>
+            L'oggetto 3D nell'hero era previsto: l'ho tolto. Costava più
+            chilobyte di quanto aggiungesse, e la scena della scrivania
+            raccontava già la stessa cosa.
+          </p>
+        </article>
+      </div>
+
+      {
+        PROMPT_REALI.length > 0 && (
+          <div class="prompt">
+            <h3 class="prompt__titolo">Tre prompt veri</h3>
+            <p class="prompt__intro">
+              Non "fammi un portfolio". Questi sono tre dei prompt che hanno
+              deciso qualcosa, copiati com'erano.
+            </p>
+
+            <ol class="prompt__lista" role="list">
+              {PROMPT_REALI.map(({ fase, testo, esito }, i) => (
+                <li class="prompt__voce" data-reveal>
+                  <Card class="prompt__card" surface="cream" padding="lg">
+                    <p class="eyebrow prompt__meta">
+                      <span aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                      <span class="prompt__fase">{fase}</span>
+                    </p>
+                    <blockquote class="prompt__testo">
+                      <p>{testo}</p>
+                    </blockquote>
+                    <p class="prompt__esito">
+                      <span class="eyebrow text-ink-2">Cosa ne è uscito</span>
+                      {esito}
+                    </p>
+                  </Card>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )
+      }
+
+      <div class="quinto__cta" data-reveal>
+        <Button variant="primary" size="lg" href="/contatti">
+          <span data-only="dev">Parliamo di codice</span>
+          <span data-only="business">Parliamo del tuo negozio</span>
+        </Button>
+        <Button variant="secondary" size="lg" href="/#progetti">Vedi i progetti</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* --- Intro --- */
+  .intro {
+    position: relative;
+    overflow: hidden;
+    padding-block: 3rem 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .intro {
+      padding-block: 4.5rem 2rem;
+    }
+  }
+
+  .intro__contenuto {
+    position: relative;
+    z-index: 1;
+  }
+
+  .intro__riga {
+    max-width: 34ch;
+    margin-top: 1.25rem;
+    color: var(--color-ink-2);
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+  }
+
+  .intro__forme {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .forma {
+    position: absolute;
+  }
+
+  .forma--cerchio {
+    top: -40px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--color-giallo);
+  }
+
+  /* A 390 l'intro occupa tutta la larghezza: la barra finirebbe dietro al
+     testo. Sotto i 768 resta solo il cerchio, che sta fuori dalla colonna. */
+  .forma--barra {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .forma--cerchio {
+      top: -50px;
+      right: 8%;
+      width: 180px;
+      height: 180px;
+    }
+
+    .forma--barra {
+      display: block;
+      right: 4%;
+      bottom: 10%;
+      width: 240px;
+      height: 26px;
+      border-radius: var(--radius-pill);
+      background: var(--color-blu);
+    }
+  }
+
+  /* --- Processo --- */
+  .processo__lista {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+    counter-reset: passo;
+  }
+
+  @media (min-width: 768px) {
+    .processo__lista {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+  }
+
+  .processo__card {
+    height: 100%;
+  }
+
+  /* Il numero in ink-2, non in arancio: a 13px su cream-2 l'arancio si ferma a
+     4,24:1, sotto il 4,5 di AA. L'accento resta nel quadratino, che è
+     decorativo e deve solo passare il 3:1 dei non-testo (come fa Tag blu). */
+  .processo__numero {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-ink-2);
+  }
+
+  .processo__numero::before {
+    content: "";
+    flex: none;
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 2px;
+    background: var(--color-arancio);
+  }
+
+  .processo__nome {
+    color: var(--color-ink);
+  }
+
+  .processo__sintesi {
+    margin-top: 0.75rem;
+  }
+
+  .processo__riga {
+    margin-top: 0.75rem;
+    color: var(--color-ink-2);
+  }
+
+  /* --- Stack --- */
+  .stack {
+    background: var(--color-cream-2);
+    border-block: var(--border-retro);
+  }
+
+  .stack__intro {
+    color: var(--color-ink-2);
+    max-width: 60ch;
+  }
+
+  .stack__griglia {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .stack__griglia {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .stack__griglia {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .stack__gruppo-titolo {
+    padding-bottom: 0.75rem;
+    border-bottom: var(--border-retro);
+  }
+
+  .stack__voci {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  /* --- Progetto n°5 --- */
+  .quinto__blocchi {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .quinto__blocchi {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3rem;
+      margin-top: 3.5rem;
+    }
+  }
+
+  .quinto__blocco h3 {
+    margin-top: 0.5rem;
+  }
+
+  .quinto__blocco p + p,
+  .quinto__blocco h3 + p {
+    margin-top: 1rem;
+  }
+
+  .quinto__blocco p:not([class]) {
+    color: var(--color-ink-2);
+  }
+
+  .quinto__blocco code {
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    background: var(--color-cream-2);
+    color: var(--color-blu);
+    font-size: 0.9em;
+  }
+
+  /* --- I tre prompt --- */
+  .prompt {
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: var(--border-retro);
+  }
+
+  .prompt__intro {
+    margin-top: 0.75rem;
+    max-width: 60ch;
+    color: var(--color-ink-2);
+  }
+
+  .prompt__lista {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .prompt__lista {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  .prompt__card {
+    height: 100%;
+  }
+
+  .prompt__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-blu);
+  }
+
+  .prompt__fase {
+    color: var(--color-ink);
+  }
+
+  .prompt__testo {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--color-giallo);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .prompt__esito {
+    margin-top: 1.25rem;
+    color: var(--color-ink-2);
+  }
+
+  .prompt__esito .eyebrow {
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  /* --- CTA --- */
+  .quinto__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 3.5rem;
+  }
+</style>
+
+<script>
+  // Entrate allo scroll: fade + y 24, stagger 80ms, come il resto del sito.
+  // Con prefers-reduced-motion matchMedia non entra e resta tutto fermo e visibile.
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  let mm: gsap.MatchMedia | undefined;
+
+  function spegni() {
+    mm?.revert();
+    mm = undefined;
+  }
+
+  function avvia() {
+    spegni();
+    if (!document.querySelector("[data-reveal]")) return;
+
+    mm = gsap.matchMedia();
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const gruppi = new Map<Element, HTMLElement[]>();
+
+      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
+        const sezione = el.closest("section") ?? document.body;
+        const lista = gruppi.get(sezione) ?? [];
+        lista.push(el);
+        gruppi.set(sezione, lista);
+      });
+
+      // Uno ScrollTrigger per sezione: gli elementi della stessa sezione
+      // entrano in sequenza, non uno per uno appena sfiorano il bordo.
+      for (const [sezione, elementi] of gruppi) {
+        gsap.from(elementi, {
+          autoAlpha: 0,
+          y: 24,
+          duration: 0.6,
+          ease: "power3.out",
+          stagger: 0.08,
+          clearProps: "all",
+          scrollTrigger: { trigger: sezione, start: "top 80%" },
+        });
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+  document.addEventListener("astro:before-swap", spegni);
+</script>

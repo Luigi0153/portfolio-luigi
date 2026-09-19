@@ -3,7 +3,11 @@
  * Card retro: sfondo cream-2, bordo 2px ink, raggio 20px.
  * `interactive` aggiunge l'ombra dura all'hover; con `href` la card intera diventa un link.
  */
-interface Props {
+import type { HTMLAttributes } from "astro/types";
+
+/* Estende gli attributi HTML e li rigira al tag: senza `...rest` un
+   aria-labelledby passato dal chiamante verrebbe silenziosamente buttato. */
+interface Props extends HTMLAttributes<"div"> {
   as?: "div" | "article" | "section" | "li";
   href?: string;
   interactive?: boolean;
@@ -21,6 +25,7 @@ const {
   padding = "md",
   state,
   class: className,
+  ...rest
 } = Astro.props;
 
 const Tag = href ? "a" : as;
@@ -36,6 +41,7 @@ const Tag = href ? "a" : as;
   ]}
   href={href}
   data-state={state}
+  {...rest}
 >
   <slot />
 </Tag>

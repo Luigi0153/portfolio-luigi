@@ -1,0 +1,95 @@
+---
+/**
+ * 404 in stile Bauhaus: lo zero del numero è un cerchio vero, non un glifo.
+ * Pagina statica: Astro la compila in 404.html e Vercel la serve da sola.
+ */
+import Base from "../layouts/Base.astro";
+import Button from "../components/ui/Button.astro";
+---
+
+<Base
+  title="Pagina non trovata"
+  description="Questa pagina non esiste. Le altre sì."
+  noindex
+>
+  <section class="quattrocentoquattro">
+    <div class="container-site nf__griglia">
+      <div class="nf__numero" aria-hidden="true">
+        <span class="nf__cifra">4</span>
+        <span class="nf__zero"></span>
+        <span class="nf__cifra">4</span>
+      </div>
+
+      <div class="nf__testo">
+        <p class="eyebrow text-ink-2">Errore 404</p>
+        <h1 class="mt-4">Questa pagina non l'ho mai scritta.</h1>
+        <p class="nf__riga">
+          O l'ho tolta, come l'oggetto 3D che doveva stare nell'hero: pesava più
+          di quanto valesse. Comunque, da qui non si passa.
+        </p>
+
+        <div class="nf__cta">
+          <Button variant="primary" size="lg" href="/">Torna alla home</Button>
+          <Button variant="secondary" size="lg" href="/#progetti">Vedi i progetti</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .quattrocentoquattro {
+    display: flex;
+    align-items: center;
+    min-height: min(70vh, 640px);
+    padding-block: 3.5rem;
+  }
+
+  .nf__griglia {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .nf__griglia {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 4.5rem;
+    }
+  }
+
+  /* Il numero: le due cifre in Fraunces, lo zero è una forma Bauhaus */
+  .nf__numero {
+    display: flex;
+    align-items: center;
+    gap: 0.1em;
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: clamp(5rem, 22vw, 11rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .nf__zero {
+    width: 0.62em;
+    height: 0.62em;
+    border: 0.16em solid var(--color-arancio);
+    border-radius: 50%;
+    background: var(--color-giallo);
+  }
+
+  .nf__riga {
+    max-width: 46ch;
+    margin-top: 1.25rem;
+    color: var(--color-ink-2);
+    font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  }
+
+  .nf__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+</style>

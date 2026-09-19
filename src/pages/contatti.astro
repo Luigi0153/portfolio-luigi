@@ -1,0 +1,593 @@
+---
+/**
+ * Contatti: canali diretti + form Formspree.
+ *
+ * Il form funziona anche senza JavaScript (POST nativo verso Formspree, che
+ * mostra la sua pagina di conferma). Con JS attivo lo intercettiamo e mandiamo
+ * in fetch, per restare sulla pagina e dare l'esito in un aria-live.
+ * Finché FORMSPREE_ID è il segnaposto, il form non finge: lo dice.
+ */
+import Base from "../layouts/Base.astro";
+import SectionHeader from "../components/ui/SectionHeader.astro";
+import Button from "../components/ui/Button.astro";
+import Card from "../components/ui/Card.astro";
+import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
+---
+
+<Base
+  title="Contatti"
+  description="Scrivimi: email, LinkedIn, GitHub o il form qui sotto. Rispondo entro un giorno lavorativo, anche solo per dirti che non sono la persona giusta."
+  ogImage="/og/contatti.png"
+>
+  <section class="intro">
+    <div class="intro__forme" aria-hidden="true">
+      <span class="forma forma--quarto"></span>
+      <span class="forma forma--cerchio"></span>
+    </div>
+
+    <div class="container-site intro__contenuto">
+      <p class="eyebrow text-ink-2">Contatti</p>
+      {/* Un h1 solo, con le due varianti dentro: due h1 alternati via CSS
+          resterebbero comunque due nell'HTML. Stesso schema dell'hero. */}
+      <h1 class="mt-4">
+        <span data-only="dev">Mandami il problema, non il brief.</span>
+        <span data-only="business">Raccontami il negozio.</span>
+      </h1>
+      <p class="intro__riga" data-only="dev">
+        Repo, staging, un bug che non torna: scrivi pure in mezzo al discorso.
+        Rispondo entro un giorno lavorativo.
+      </p>
+      <p class="intro__riga" data-only="business">
+        Anche se non sai da dove si comincia. Rispondo entro un giorno
+        lavorativo, e se non sono la persona giusta te lo dico subito.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-pad" aria-labelledby="canali-titolo">
+    <div class="container-site contatti__griglia">
+      <div class="canali">
+        <SectionHeader id="canali-titolo" level="h2" title="I modi diretti" />
+
+        <a class="canale canale--mail" href={`mailto:${EMAIL}`}>
+          <span class="eyebrow canale__etichetta">Email</span>
+          <span class="canale__valore">{EMAIL}</span>
+        </a>
+
+        <ul class="canali__social" role="list">
+          {
+            SOCIAL.map(({ nome, href, handle }) => (
+              <li>
+                <a
+                  class="canale"
+                  href={href}
+                  rel="me noopener noreferrer"
+                  target="_blank"
+                >
+                  <span class="eyebrow canale__etichetta">{nome}</span>
+                  <span class="canale__valore canale__valore--piccolo">
+                    {handle}
+                    <span class="canale__esterno" aria-hidden="true">↗</span>
+                  </span>
+                  <span class="sr-only">(si apre in una nuova scheda)</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="canali__nota">
+          Preferisci il telefono? Scrivimi prima due righe: ti mando io il
+          numero e un orario.
+        </p>
+      </div>
+
+      <Card class="modulo" as="section" padding="lg" aria-labelledby="modulo-titolo">
+        <h2 id="modulo-titolo" class="modulo__titolo">Oppure scrivi qui</h2>
+        <p class="modulo__intro" data-only="dev">
+          Tre campi. Nessun "reparto di competenza".
+        </p>
+        <p class="modulo__intro" data-only="business">
+          Tre campi, ci metti un minuto. Niente call obbligatoria.
+        </p>
+
+        {
+          !FORM_ATTIVO && (
+            <p class="modulo__avviso" role="note">
+              <strong>Form non ancora collegato.</strong> Manca l'id Formspree in{" "}
+              <code>src/dati-sito.ts</code>: fino ad allora usa l'email qui accanto.
+            </p>
+          )
+        }
+
+        <form
+          class="modulo__form"
+          action={FORMSPREE_ENDPOINT}
+          method="POST"
+          data-attivo={FORM_ATTIVO ? "si" : "no"}
+        >
+          <div class="campo">
+            <label class="campo__label" for="nome">Come ti chiami</label>
+            <input
+              class="campo__input"
+              id="nome"
+              name="nome"
+              type="text"
+              autocomplete="name"
+              required
+              aria-describedby="nome-errore"
+            />
+            <p class="campo__errore" id="nome-errore" data-errore-per="nome"></p>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="email">La tua email</label>
+            <input
+              class="campo__input"
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              aria-describedby="email-errore"
+            />
+            <p class="campo__errore" id="email-errore" data-errore-per="email"></p>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="messaggio">Cosa ti serve</label>
+            <textarea
+              class="campo__input campo__input--area"
+              id="messaggio"
+              name="messaggio"
+              rows="5"
+              required
+              aria-describedby="messaggio-aiuto messaggio-errore"></textarea>
+            <p class="campo__aiuto" id="messaggio-aiuto">
+              Due righe bastano. Link e dettagli tecnici benvenuti.
+            </p>
+            <p class="campo__errore" id="messaggio-errore" data-errore-per="messaggio"></p>
+          </div>
+
+          {/* Trappola anti-spam di Formspree: invisibile e fuori dal tab order */}
+          <div class="modulo__gotcha" aria-hidden="true">
+            <label for="_gotcha">Lascia vuoto questo campo</label>
+            <input id="_gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <input type="hidden" name="_subject" value="Nuovo messaggio dal portfolio" />
+
+          <Button variant="primary" size="lg" type="submit" class="modulo__invia">
+            <span data-only="dev">Mandamelo</span>
+            <span data-only="business">Invia il messaggio</span>
+          </Button>
+
+          {/* L'esito dell'invio: annunciato dagli screen reader, non un alert */}
+          <p class="modulo__esito" data-esito role="status" aria-live="polite"></p>
+        </form>
+      </Card>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* --- Intro --- */
+  .intro {
+    position: relative;
+    overflow: hidden;
+    padding-block: 3rem 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .intro {
+      padding-block: 4.5rem 2rem;
+    }
+  }
+
+  .intro__contenuto {
+    position: relative;
+    z-index: 1;
+  }
+
+  .intro__riga {
+    max-width: 38ch;
+    margin-top: 1.25rem;
+    color: var(--color-ink-2);
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+  }
+
+  .intro__forme {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .forma {
+    position: absolute;
+  }
+
+  .forma--quarto {
+    top: -20px;
+    right: -40px;
+    width: 130px;
+    height: 130px;
+    border-radius: 0 0 0 100%;
+    background: var(--color-arancio);
+  }
+
+  /* A 390 l'intro occupa tutta la larghezza: il cerchio finirebbe dietro al
+     testo. Sotto i 768 resta solo il quarto di cerchio, che sta nell'angolo. */
+  .forma--cerchio {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .forma--quarto {
+      right: 6%;
+      width: 190px;
+      height: 190px;
+    }
+
+    .forma--cerchio {
+      display: block;
+      right: 26%;
+      bottom: 18%;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--color-giallo);
+    }
+  }
+
+  /* --- Griglia --- */
+  .contatti__griglia {
+    display: grid;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .contatti__griglia {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  /* --- Canali diretti --- */
+  .canale {
+    display: block;
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border: var(--border-retro);
+    border-radius: var(--radius-card);
+    background: var(--color-cream-2);
+    text-decoration: none;
+    transition:
+      box-shadow 0.2s var(--ease-brand),
+      background-color 0.2s var(--ease-brand);
+  }
+
+  @media (hover: hover) {
+    .canale:hover {
+      background: var(--color-cream);
+      box-shadow: var(--shadow-hard);
+    }
+  }
+
+  .canale__etichetta {
+    display: block;
+    color: var(--color-ink-2);
+  }
+
+  .canale__valore {
+    display: block;
+    margin-top: 0.35rem;
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: clamp(1.125rem, 3.2vw, 1.5rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    /* l'indirizzo lungo non deve sfondare la card a 390px */
+    overflow-wrap: anywhere;
+  }
+
+  .canale__valore--piccolo {
+    font-size: 1.125rem;
+  }
+
+  .canale__esterno {
+    display: inline-block;
+    margin-left: 0.35em;
+    color: var(--color-arancio);
+  }
+
+  .canali__social {
+    display: grid;
+    gap: 0;
+  }
+
+  @media (min-width: 480px) {
+    .canali__social {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .canali__social .canale {
+      height: 100%;
+    }
+  }
+
+  .canali__nota {
+    margin-top: 1.5rem;
+    color: var(--color-ink-2);
+    font-size: var(--text-body);
+  }
+
+  /* --- Form --- */
+  .modulo__intro {
+    margin-top: 0.5rem;
+    color: var(--color-ink-2);
+  }
+
+  .modulo__avviso {
+    margin-top: 1.25rem;
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--color-ink);
+    border-radius: var(--radius-img);
+    background: var(--color-giallo);
+    font-size: var(--text-body);
+  }
+
+  .modulo__avviso code {
+    font-size: 0.9em;
+  }
+
+  .modulo__form {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .campo {
+    display: grid;
+  }
+
+  .campo__label {
+    font-weight: 600;
+  }
+
+  .campo__input {
+    margin-top: 0.5rem;
+    padding: 0.75rem 1rem;
+    min-height: 48px;
+    border: var(--border-retro);
+    border-radius: var(--radius-img);
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    transition: box-shadow 0.2s var(--ease-brand);
+  }
+
+  .campo__input--area {
+    resize: vertical;
+    min-height: 8rem;
+    line-height: 1.55;
+  }
+
+  .campo__input:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-hard-sm);
+  }
+
+  .campo__input[aria-invalid="true"] {
+    border-color: var(--color-arancio);
+  }
+
+  .campo__aiuto {
+    margin-top: 0.5rem;
+    color: var(--color-ink-2);
+    font-size: var(--text-label);
+  }
+
+  .campo__errore:empty {
+    display: none;
+  }
+
+  /* Testo in ink, non arancio: l'arancio a 13px su cream-2 si ferma a 4,24:1,
+     sotto il 4,5 di AA. Il colore resta nel marcatore e nel bordo del campo,
+     così l'errore non è segnalato dal solo colore. */
+  .campo__errore {
+    display: flex;
+    gap: 0.4em;
+    margin-top: 0.5rem;
+    color: var(--color-ink);
+    font-size: var(--text-label);
+    font-weight: 600;
+  }
+
+  .campo__errore::before {
+    content: "!";
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.15em;
+    height: 1.15em;
+    border-radius: 50%;
+    background: var(--color-arancio);
+    color: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    line-height: 1;
+  }
+
+  .modulo__invia {
+    justify-self: start;
+  }
+
+  /* Niente display:none quando è vuoto: è una live region, e diversi screen
+     reader non annunciano il testo che arriva in un nodo appena ri-mostrato.
+     Da vuoto sparisce dalla vista azzerando box e bordo, ma resta nel flusso. */
+  .modulo__esito:empty {
+    padding: 0;
+    border: 0;
+  }
+
+  .modulo__esito {
+    padding: 0.875rem 1rem;
+    border: var(--border-retro);
+    border-radius: var(--radius-img);
+    font-weight: 500;
+  }
+
+  /* verde-deep e non verde: cream su verde si ferma a 2,99:1, sotto AA */
+  .modulo__esito[data-tipo="ok"] {
+    background: var(--color-verde-deep);
+    color: var(--color-cream);
+  }
+
+  .modulo__esito[data-tipo="ko"] {
+    background: var(--color-cream-2);
+    border-color: var(--color-arancio);
+  }
+
+  /* Honeypot: nascosto agli umani, non a display:none (i bot lo saltano) */
+  .modulo__gotcha {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+  /*
+    Validazione e invio in fetch. Senza JS il form fa il POST nativo e Formspree
+    mostra la sua pagina: questo script serve solo a migliorare l'esperienza,
+    mai a renderla possibile.
+  */
+  const MESSAGGI: Record<string, string> = {
+    nome: "Scrivi come ti chiami.",
+    email: "Serve un'email valida, altrimenti non posso risponderti.",
+    messaggio: "Due righe su cosa ti serve.",
+  };
+
+  function avvia() {
+    const form = document.querySelector<HTMLFormElement>(".modulo__form");
+    if (!form || form.dataset.montato === "si") return;
+    form.dataset.montato = "si";
+
+    /* novalidate lo mettiamo da qui e non nell'HTML: senza JS restano attivi i
+       controlli nativi di required e type="email", che altrimenti perderemmo
+       in cambio di niente. Con JS li sostituiamo con messaggi nostri. */
+    form.noValidate = true;
+
+    const esito = form.querySelector<HTMLElement>("[data-esito]");
+    const attivo = form.dataset.attivo === "si";
+
+    const campo = (nome: string) =>
+      form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${nome}"]`);
+    const errore = (nome: string) =>
+      form.querySelector<HTMLElement>(`[data-errore-per="${nome}"]`);
+
+    function mostraErrore(nome: string, testo: string) {
+      const el = campo(nome);
+      const box = errore(nome);
+      if (!el || !box) return;
+      box.textContent = testo;
+      el.setAttribute("aria-invalid", "true");
+    }
+
+    function pulisciErrore(nome: string) {
+      const el = campo(nome);
+      const box = errore(nome);
+      if (!el || !box) return;
+      box.textContent = "";
+      el.removeAttribute("aria-invalid");
+    }
+
+    function valida(): string[] {
+      const rotti: string[] = [];
+      for (const nome of ["nome", "email", "messaggio"]) {
+        const el = campo(nome);
+        if (!el) continue;
+        // checkValidity usa required e type="email": niente regex fatte in casa
+        if (el.value.trim() === "" || !el.checkValidity()) {
+          mostraErrore(nome, MESSAGGI[nome]);
+          rotti.push(nome);
+        } else {
+          pulisciErrore(nome);
+        }
+      }
+      return rotti;
+    }
+
+    // L'errore sparisce mentre correggi, non al prossimo invio
+    for (const nome of ["nome", "email", "messaggio"]) {
+      campo(nome)?.addEventListener("input", () => pulisciErrore(nome));
+    }
+
+    function scrivi(tipo: "ok" | "ko" | "", testo: string) {
+      if (!esito) return;
+      esito.textContent = testo;
+      if (tipo) esito.dataset.tipo = tipo;
+      else delete esito.dataset.tipo;
+    }
+
+    form.addEventListener("submit", async (ev) => {
+      const rotti = valida();
+      if (rotti.length > 0) {
+        ev.preventDefault();
+        scrivi("ko", "Controlla i campi segnati qui sopra.");
+        campo(rotti[0])?.focus();
+        return;
+      }
+
+      // Form non collegato: meglio dirlo che simulare un invio riuscito
+      if (!attivo) {
+        ev.preventDefault();
+        scrivi("ko", "Il form non è ancora collegato: scrivimi via email, ci metti lo stesso tempo.");
+        return;
+      }
+
+      ev.preventDefault();
+      const invia = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (invia) invia.disabled = true;
+      scrivi("", "Invio in corso...");
+
+      try {
+        const risposta = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        if (risposta.ok) {
+          form.reset();
+          scrivi("ok", "Ricevuto. Ti rispondo entro un giorno lavorativo.");
+        } else {
+          scrivi("ko", "Non è partito. Riprova, o scrivimi direttamente via email.");
+        }
+      } catch {
+        scrivi("ko", "Connessione assente. Riprova tra poco, o scrivimi via email.");
+      } finally {
+        if (invia) invia.disabled = false;
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+</script>
