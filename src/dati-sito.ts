@@ -11,19 +11,17 @@
 
 export const EMAIL = "luigi4375@gmail.com";
 
-/** DA COMPILARE — profilo LinkedIn pubblico. */
-export const LINKEDIN = "https://www.linkedin.com/in/luigi";
+export const LINKEDIN = "https://www.linkedin.com/in/luigi-romano-951806377";
 
-/** DA COMPILARE — profilo GitHub pubblico. */
-export const GITHUB = "https://github.com/luigi";
+export const GITHUB = "https://github.com/luigi0153";
 
 /**
- * DA COMPILARE — id del form Formspree (formspree.io → New Form → l'id
- * nell'endpoint `https://formspree.io/f/xxxxxxxx`).
- * Finché resta il segnaposto il form si comporta come in una demo: valida,
- * mostra il messaggio di esito, ma avvisa che l'invio non è configurato.
+ * Id del form Formspree: l'ultima parte dell'endpoint
+ * `https://formspree.io/f/<id>`.
+ * Se torna al segnaposto (solo "x"), il form non finge un invio riuscito:
+ * lo dichiara e rimanda all'email. Vedi FORM_ATTIVO.
  */
-export const FORMSPREE_ID = "xxxxxxxx";
+export const FORMSPREE_ID = "xkjgoowv";
 
 export const FORMSPREE_ENDPOINT = `https://formspree.io/f/${FORMSPREE_ID}`;
 

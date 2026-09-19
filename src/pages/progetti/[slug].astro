@@ -158,8 +158,13 @@ const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
     padding-block: 2.5rem 5rem;
   }
 
+  /* padding verticale per arrivare a 24px di altezza: a 13px il solo testo
+     faceva un bersaglio da 18px, sotto il minimo di WCAG 2.2. Il margine
+     negativo tiene l'allineamento ottico di prima. */
   .caso__indietro {
     display: inline-block;
+    margin-block: -0.4rem;
+    padding-block: 0.4rem;
     color: var(--color-ink-2);
     text-decoration: none;
   }

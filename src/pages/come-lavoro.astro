@@ -66,12 +66,27 @@ const STACK = [
 ] as const;
 
 /*
-  DA COMPILARE — i 3 prompt reali usati per costruire questo sito.
-  Finché l'array è vuoto la sottosezione non viene renderizzata: meglio una
-  sezione in meno che tre prompt inventati. Formato di ogni voce:
-  { fase, testo, esito }.
+  I prompt reali usati per costruire questo sito. Sono estratti, non il testo
+  integrale: la pagina deve restare leggibile.
+
+  Va qui SOLO testo verificabile alla fonte. Il primo è copiato da
+  MASTER_PROMPT.md. Mancano ancora quello della scena scrivania (Fase 2.5) e
+  quello di debug del burst: nessuno dei due è nel repo — il blocco "FASE 2.5"
+  non è mai stato scritto in MASTER_PROMPT.md e il commit a1784f8 registra la
+  diagnosi, non la domanda che l'ha prodotta. Finché non arrivano i testi veri
+  restano fuori: inventarli sarebbe il contrario di quello che dice la sezione.
+
+  Il titolo non conta i prompt apposta, così regge a due come a tre.
 */
-const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [];
+const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
+  {
+    fase: "Fase 0 — l'avvio",
+    testo:
+      "Sei il mio Senior Frontend Engineer e UX/UI Designer. Prima di fare qualsiasi cosa: leggi CLAUDE.md, docs/design-tokens.md e docs/content/caso-reale.md. Elenca in 5 righe cosa hai capito (target, stack, mood, regole) e le skill che userai. […] Non scrivere ancora codice del sito. Fermati e aspetta che ti dica «FASE 1».",
+    esito:
+      "Un riassunto di verifica invece di una cartella piena di file da buttare. Il lavoro è partito dal punto giusto perché non è partito subito.",
+  },
+];
 ---
 
 <Base
@@ -204,7 +219,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [];
             resto è HTML e CSS.
           </p>
           <p>
-            Le animazioni sono GSAP con ScrollTrigger, e si spengono da sole con
+            Le animazioni sono GSAP con ScrollTrigger, e si spengono da sole con{" "}
             <code>prefers-reduced-motion</code>. I font sono self-hosted, le
             immagini le converte Astro in webp.
           </p>
@@ -219,16 +234,16 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [];
       {
         PROMPT_REALI.length > 0 && (
           <div class="prompt">
-            <h3 class="prompt__titolo">Tre prompt veri</h3>
+            <h3 class="prompt__titolo">I prompt che hanno deciso qualcosa</h3>
             <p class="prompt__intro">
-              Non "fammi un portfolio". Questi sono tre dei prompt che hanno
-              deciso qualcosa, copiati com'erano.
+              Non "fammi un portfolio". Estratti veri, presi dai file del
+              progetto: quello che ha cambiato la direzione del lavoro.
             </p>
 
             <ol class="prompt__lista" role="list">
               {PROMPT_REALI.map(({ fase, testo, esito }, i) => (
                 <li class="prompt__voce" data-reveal>
-                  <Card class="prompt__card" surface="cream" padding="lg">
+                  <Card class="prompt__card" surface="cream" padding="md">
                     <p class="eyebrow prompt__meta">
                       <span aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                       <span class="prompt__fase">{fase}</span>
@@ -453,12 +468,13 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [];
     color: var(--color-ink-2);
   }
 
+  /* Niente pastiglia cream-2 sotto: il blu su cream-2 si ferma a 4,29:1,
+     sotto AA. Sul cream della pagina lo stesso blu fa 4,71:1, e a distinguere
+     il codice bastano il mono e il colore (i token danno il blu al codice). */
   .quinto__blocco code {
-    padding: 0.1em 0.4em;
-    border-radius: 4px;
-    background: var(--color-cream-2);
     color: var(--color-blu);
     font-size: 0.9em;
+    overflow-wrap: anywhere;
   }
 
   /* --- I tre prompt --- */
@@ -480,9 +496,12 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [];
     margin-top: 2rem;
   }
 
+  /* auto-fit e non un numero fisso di colonne: la sezione deve reggere
+     due prompt come tre, senza una card stirata a tutta larghezza. */
   @media (min-width: 1024px) {
     .prompt__lista {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(0, 22rem));
+      justify-content: start;
       gap: 1.5rem;
     }
   }
