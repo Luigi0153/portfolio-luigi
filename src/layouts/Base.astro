@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import Nav from "../components/ui/Nav.astro";
 import frauncesUrl from "@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url";
 
@@ -38,12 +39,23 @@ const year = new Date().getFullYear();
       // Percorso scelto nell'hero (localStorage "target"), applicato su <html>
       // prima del paint per evitare il flash del contenuto sbagliato.
       (function () {
-        var t = "dev";
-        try {
-          var salvato = localStorage.getItem("target");
-          if (salvato === "dev" || salvato === "business") t = salvato;
-        } catch (e) {}
-        document.documentElement.dataset.target = t;
+        function applica() {
+          var t = "dev";
+          try {
+            var salvato = localStorage.getItem("target");
+            if (salvato === "dev" || salvato === "business") t = salvato;
+          } catch (e) {}
+          document.documentElement.dataset.target = t;
+        }
+        applica();
+        // Lo swap delle View Transitions azzera gli attributi di <html> e li
+        // riprende dal documento nuovo, dove data-target non c'è perché lo
+        // scrive il client: senza questo, ogni navigazione interna
+        // riporterebbe tutto il sito al percorso "dev".
+        if (!window.__targetPersistente) {
+          window.__targetPersistente = true;
+          document.addEventListener("astro:after-swap", applica);
+        }
       })();
     </script>
     <title>{fullTitle}</title>
@@ -72,6 +84,7 @@ const year = new Date().getFullYear();
     {/* Preload solo del font dell'h1 (elemento LCP): il body font può arrivare
         dopo senza costare punti, e libera banda al Fraunces su rete lenta */}
     <link rel="preload" href={frauncesUrl} as="font" type="font/woff2" crossorigin fetchpriority="high" />
+    <ClientRouter />
     <slot name="head" />
   </head>
   <body class="flex min-h-dvh flex-col">

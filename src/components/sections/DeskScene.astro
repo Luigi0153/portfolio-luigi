@@ -491,12 +491,25 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
 <script>
   import { gsap } from "gsap";
 
-  const scena = document.querySelector<HTMLElement>(".desk__scena");
+  // Vedi Hero.astro: con le View Transitions il modulo gira una volta sola e
+  // la scena può essere montata più volte, quindi l'avvio sta in una funzione
+  // agganciata a astro:page-load e il parallax si smonta prima dello swap.
+  let mm: gsap.MatchMedia | undefined;
 
-  if (scena) {
+  function spegni() {
+    mm?.revert();
+    mm = undefined;
+  }
+
+  function avvia() {
+    spegni();
+
+    const scena = document.querySelector<HTMLElement>(".desk__scena");
+    if (!scena) return;
+
     // Parallax leggero al mouse: max 12px, lerp 0.06, velocità per profondità.
     // Solo con puntatore fine + hover e senza prefers-reduced-motion.
-    const mm = gsap.matchMedia();
+    mm = gsap.matchMedia();
     mm.add(
       "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
       () => {
@@ -574,4 +587,7 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
       }
     });
   }
+
+  document.addEventListener("astro:page-load", avvia);
+  document.addEventListener("astro:before-swap", spegni);
 </script>

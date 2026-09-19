@@ -270,10 +270,24 @@ import DeskScene from "./DeskScene.astro";
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  const hero = document.querySelector<HTMLElement>(".hero");
+  // Con le View Transitions il modulo gira una volta sola, mentre la pagina si
+  // monta e si smonta più volte: senza agganciarsi a astro:page-load, tornando
+  // in home l'hero resterebbe senza animazioni, e i ScrollTrigger della visita
+  // precedente resterebbero appesi a nodi che non esistono più.
+  let mm: gsap.MatchMedia | undefined;
 
-  if (hero) {
-    const mm = gsap.matchMedia();
+  function spegni() {
+    mm?.revert();
+    mm = undefined;
+  }
+
+  function avvia() {
+    spegni();
+
+    const hero = document.querySelector<HTMLElement>(".hero");
+    if (!hero) return;
+
+    mm = gsap.matchMedia();
 
     // Tutte le animazioni vivono qui: con prefers-reduced-motion resta tutto statico
     mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -349,4 +363,7 @@ import DeskScene from "./DeskScene.astro";
       };
     });
   }
+
+  document.addEventListener("astro:page-load", avvia);
+  document.addEventListener("astro:before-swap", spegni);
 </script>

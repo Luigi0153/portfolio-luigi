@@ -1,0 +1,154 @@
+---
+/**
+ * Funnel a 4 step del caso reale (luglio, solo sito).
+ *
+ * Le barre misurano il tasso DEL SINGOLO PASSO, non il volume assoluto: un
+ * funnel in scala reale renderebbe invisibili gli ultimi due step (4.233
+ * sessioni contro una manciata di ordini) e sarebbe illeggibile. Ogni riga
+ * dichiara il proprio denominatore, così la percentuale non si può fraintendere.
+ * I valori assoluti dei passi intermedi non sono nella fonte e non vengono
+ * ricavati per moltiplicazione: sarebbero numeri inventati (regola 8).
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const passi = [
+  {
+    nome: "Sessioni",
+    valore: "4.233",
+    quota: 100,
+    denominatore: "luglio, solo traffico del sito",
+    tono: "ink",
+  },
+  {
+    nome: "Aggiunge al carrello",
+    valore: "4,04%",
+    quota: 4.04,
+    denominatore: "delle sessioni",
+    tono: "arancio",
+  },
+  {
+    nome: "Arriva al checkout",
+    valore: "82,5%",
+    quota: 82.5,
+    denominatore: "di chi ha aggiunto al carrello",
+    tono: "verde",
+  },
+  {
+    nome: "Completa l'ordine",
+    valore: "10,6%",
+    quota: 10.6,
+    denominatore: "di chi è arrivato al checkout",
+    tono: "arancio",
+  },
+];
+---
+
+<figure class:list={["funnel", className]}>
+  <ol class="funnel__lista" role="list">
+    {
+      passi.map((p) => (
+        <li class="funnel__passo">
+          <div class="funnel__testa">
+            <span class="funnel__nome">{p.nome}</span>
+            <span class="funnel__valore">{p.valore}</span>
+          </div>
+          <div class="funnel__pista">
+            <span
+              class:list={["funnel__barra", `funnel__barra--${p.tono}`]}
+              style={`--quota: ${p.quota}%`}
+              data-funnel-barra
+            />
+          </div>
+          <p class="funnel__denominatore">{p.denominatore}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <figcaption class="funnel__caption">
+    Il 30% degli ordini arriva da TikTok Shop e qui dentro non si vede: questi
+    tassi sono un pavimento, non una misura.
+  </figcaption>
+</figure>
+
+<style>
+  .funnel {
+    margin: 0;
+    /* barre più larghe di così diventano righe lunghissime alte 22px */
+    max-width: 560px;
+  }
+
+  .funnel__lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .funnel__testa {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .funnel__nome {
+    font-weight: 600;
+  }
+
+  .funnel__valore {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .funnel__pista {
+    margin-top: 0.5rem;
+    height: 22px;
+    border: var(--border-retro);
+    border-radius: var(--radius-pill);
+    background: var(--color-cream);
+    overflow: clip;
+  }
+
+  .funnel__barra {
+    display: block;
+    width: var(--quota);
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background: var(--color-ink);
+    transform-origin: left center;
+  }
+
+  .funnel__barra--arancio {
+    background: var(--color-arancio);
+  }
+
+  .funnel__barra--verde {
+    background: var(--color-verde);
+  }
+
+  .funnel__denominatore {
+    margin-top: 0.375rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--color-ink-2);
+  }
+
+  .funnel__caption {
+    margin-top: 1.25rem;
+    max-width: 52ch;
+    font-size: 0.9375rem;
+    color: var(--color-ink-2);
+  }
+</style>

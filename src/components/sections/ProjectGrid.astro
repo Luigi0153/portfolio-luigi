@@ -1,0 +1,294 @@
+---
+/**
+ * Griglia dei progetti.
+ *
+ * L'ordine cambia col percorso scelto nell'hero senza re-render e senza
+ * ricaricare: ogni cella porta i due indici in custom property e il CSS sceglie
+ * quale usare in base a html[data-target], come il resto dello switch.
+ * Niente tre card uguali in fila: il progetto vero prende la cella grande,
+ * quelli in arrivo restano piccoli.
+ */
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Card from "../ui/Card.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
+import Tag from "../ui/Tag.astro";
+
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id = "progetti", class: className } = Astro.props;
+
+const progetti = await getCollection("progetti");
+
+// La cella grande va al primo progetto pubblicato: gli altri sono promesse.
+const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
+---
+
+<section id={id} class:list={["section-pad", className]} aria-labelledby={`${id}-titolo`}>
+  <div class="container-site">
+    <SectionHeader id={`${id}-titolo`} title="Progetti">
+      <p class="progetti__intro" data-only="dev">
+        Tre progetti, una sola regola: prima capire il vincolo, poi scrivere il codice.
+      </p>
+      <p class="progetti__intro" data-only="business">
+        Tre progetti, una sola domanda: questa scelta fa vendere di più?
+      </p>
+    </SectionHeader>
+
+    <ul class="progetti__griglia" role="list">
+      {
+        progetti.map(({ id: entryId, data }) => (
+          <li
+            class:list={[
+              "progetti__cella",
+              { "progetti__cella--grande": entryId === featured },
+            ]}
+            style={`--ord-dev: ${data.ordine_dev}; --ord-biz: ${data.ordine_business}`}
+          >
+            <div class="progetti__tilt" data-tilt>
+              <Card href={`/progetti/${data.slug}`} padding="none" class="progetti__card">
+                <Image
+                  class="progetti__cover"
+                  src={data.cover}
+                  alt={data.coverAlt}
+                  widths={[400, 700, 1000]}
+                  sizes="(min-width: 1024px) 560px, (min-width: 768px) 45vw, 90vw"
+                  format="webp"
+                  quality={80}
+                  loading="lazy"
+                  transition:name={`cover-${data.slug}`}
+                />
+
+                <div class="progetti__corpo">
+                  <p class="eyebrow text-ink-2 progetti__lente">Lente: {data.lente}</p>
+                  <h3 class="progetti__titolo" transition:name={`titolo-${data.slug}`}>
+                    {data.titolo}
+                  </h3>
+                  <p class="progetti__sommario">{data.sommario}</p>
+
+                  <ul class="progetti__tags" role="list">
+                    {data.in_arrivo && (
+                      <Tag as="li" tone="giallo">
+                        In arrivo
+                      </Tag>
+                    )}
+                    {data.tags.map((t) => (
+                      <Tag as="li">{t}</Tag>
+                    ))}
+                  </ul>
+                </div>
+              </Card>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .progetti__intro {
+    color: var(--color-ink-2);
+    max-width: 60ch;
+  }
+
+  .progetti__griglia {
+    display: grid;
+    gap: 1.25rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 768px) {
+    .progetti__griglia {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem;
+      margin-top: 3.5rem;
+    }
+
+    .progetti__cella--grande {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* L'ordine segue il percorso scelto: stessi progetti, priorità diversa.
+     Senza data-target (JS spento) vale l'ordine "dev". */
+  :global(html:not([data-target="business"])) .progetti__cella {
+    order: var(--ord-dev);
+  }
+
+  :global(html[data-target="business"]) .progetti__cella {
+    order: var(--ord-biz);
+  }
+
+  /* La prospettiva sta sulla cella e non sulla griglia: un solo punto di fuga
+     per tutta la griglia storcerebbe le card ai bordi. */
+  .progetti__cella {
+    perspective: 900px;
+  }
+
+  .progetti__tilt {
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  /* :global perché Card.astro non propaga i rest props e il suo elemento root
+     non porta lo scope di questo componente: un selettore scopato non lo
+     raggiungerebbe. L'antenato .progetti__cella tiene comunque la regola
+     confinata a questa griglia. */
+  .progetti__cella :global(.progetti__card) {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+  }
+
+  .progetti__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-bottom: var(--border-retro);
+  }
+
+  .progetti__corpo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.25rem;
+  }
+
+  .progetti__lente {
+    /* la lente è un'etichetta di servizio, non un titolo */
+    text-transform: uppercase;
+  }
+
+  .progetti__titolo {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .progetti__sommario {
+    color: var(--color-ink-2);
+    max-width: 52ch;
+  }
+
+  .progetti__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: auto 0 0;
+    padding: 0.75rem 0 0;
+    list-style: none;
+  }
+
+  @media (min-width: 768px) {
+    .progetti__corpo {
+      padding: 1.75rem;
+    }
+
+    /* Nella cella grande cover e testo stanno affiancati */
+    .progetti__cella--grande :global(.progetti__card) {
+      flex-direction: row;
+      align-items: stretch;
+      min-height: 340px;
+    }
+
+    /* flex-basis e non width: in riga un flex item con width in percentuale
+       resta comunque dimensionato da flex-basis auto */
+    .progetti__cella--grande .progetti__cover {
+      flex: 0 0 46%;
+      width: 46%;
+      height: auto;
+      align-self: stretch;
+      aspect-ratio: auto;
+      border-bottom: 0;
+      border-right: var(--border-retro);
+    }
+
+    .progetti__cella--grande .progetti__corpo {
+      justify-content: center;
+      padding: 2.5rem;
+    }
+
+    .progetti__cella--grande .progetti__titolo {
+      font-size: var(--text-h2);
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  /**
+   * Tilt delle card: la card si inclina verso il puntatore, massimo 6 gradi.
+   * Solo con puntatore fine e senza prefers-reduced-motion. L'inclinazione sta
+   * su un wrapper e non sulla card, che ha già il suo translate all'hover:
+   * due transform sullo stesso elemento si sovrascriverebbero.
+   */
+  const GRADI = 6;
+
+  let mm: gsap.MatchMedia | undefined;
+
+  function spegni() {
+    mm?.revert();
+    mm = undefined;
+  }
+
+  function avvia() {
+    spegni();
+
+    const carte = document.querySelectorAll<HTMLElement>("[data-tilt]");
+    if (carte.length === 0) return;
+
+    mm = gsap.matchMedia();
+
+    mm.add("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
+      const puliscono: (() => void)[] = [];
+
+      for (const carta of carte) {
+        const set = {
+          rx: gsap.quickTo(carta, "rotationX", { duration: 0.4, ease: "power3.out" }),
+          ry: gsap.quickTo(carta, "rotationY", { duration: 0.4, ease: "power3.out" }),
+        };
+
+        const muovi = (e: PointerEvent) => {
+          const r = carta.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width) * 2 - 1;
+          const y = ((e.clientY - r.top) / r.height) * 2 - 1;
+          set.ry(x * GRADI);
+          set.rx(-y * GRADI);
+        };
+
+        const esci = () => {
+          set.rx(0);
+          set.ry(0);
+        };
+
+        carta.addEventListener("pointermove", muovi);
+        carta.addEventListener("pointerleave", esci);
+        puliscono.push(() => {
+          carta.removeEventListener("pointermove", muovi);
+          carta.removeEventListener("pointerleave", esci);
+        });
+      }
+
+      return () => {
+        for (const p of puliscono) p();
+        gsap.set(carte, { clearProps: "transform" });
+      };
+    });
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+  document.addEventListener("astro:before-swap", spegni);
+</script>

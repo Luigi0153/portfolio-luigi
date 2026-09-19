@@ -109,9 +109,21 @@ const pathname = Astro.url.pathname;
 <script>
   // Scroll-spy: evidenzia la voce della sezione visibile (solo per le voci
   // con data-sezione la cui sezione esiste nella pagina corrente).
-  const nav = document.querySelector<HTMLElement>(".site-nav");
+  // Le sezioni cambiano da pagina a pagina, quindi con le View Transitions
+  // l'osservatore va rifatto a ogni navigazione, non solo al primo caricamento.
+  let osservatore: IntersectionObserver | undefined;
 
-  if (nav) {
+  function spegni() {
+    osservatore?.disconnect();
+    osservatore = undefined;
+  }
+
+  function avvia() {
+    spegni();
+
+    const nav = document.querySelector<HTMLElement>(".site-nav");
+    if (!nav) return;
+
     const coppie = [...nav.querySelectorAll<HTMLAnchorElement>("a[data-sezione]")]
       .map((link) => {
         const sezione = document.getElementById(link.dataset.sezione ?? "");
@@ -120,7 +132,7 @@ const pathname = Astro.url.pathname;
       .filter((coppia) => coppia !== null);
 
     if (coppie.length > 0) {
-      const osservatore = new IntersectionObserver(
+      osservatore = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
             const coppia = coppie.find(({ sezione }) => sezione === entry.target);
@@ -135,7 +147,10 @@ const pathname = Astro.url.pathname;
         { rootMargin: "-30% 0px -60% 0px" },
       );
 
-      coppie.forEach(({ sezione }) => osservatore.observe(sezione));
+      coppie.forEach(({ sezione }) => osservatore?.observe(sezione));
     }
   }
+
+  document.addEventListener("astro:page-load", avvia);
+  document.addEventListener("astro:before-swap", spegni);
 </script>

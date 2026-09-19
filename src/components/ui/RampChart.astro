@@ -1,0 +1,154 @@
+---
+/**
+ * Ramp degli ordini, SVG inline (nessuna libreria di grafici).
+ * Aprile e maggio restano barre vuote senza numero: docs/content/caso-reale.md
+ * dice solo che gli ordini diventano significativi a giugno, e i valori di quei
+ * due mesi non esistono. Meglio una barra dichiarata vuota che un dato inventato.
+ * I numeri sono anche testo leggibile, non solo forme: lo screen reader legge
+ * la tabella nel figcaption, non l'SVG (aria-hidden).
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const mesi = [
+  { mese: "Apr", ordini: null, nota: "avvio" },
+  { mese: "Mag", ordini: null, nota: "avvio" },
+  { mese: "Giu", ordini: 19, nota: null },
+  { mese: "Lug", ordini: 31, nota: null },
+];
+
+// Geometria: viewBox fisso, larghezza fluida. La scala parte da 0 e arriva a 36
+// (il massimo reale è 31) per lasciare aria ai numeri sopra le barre.
+const MAX = 36;
+const BASE = 232; // y della linea di base
+const ALTEZZA_UTILE = 168;
+const LARGHEZZA_BARRA = 62;
+const PASSO = 92;
+const X0 = 34;
+
+const barre = mesi.map((m, i) => {
+  const altezza = m.ordini === null ? 26 : (m.ordini / MAX) * ALTEZZA_UTILE;
+  return {
+    ...m,
+    x: X0 + i * PASSO,
+    y: BASE - altezza,
+    altezza,
+    // l'ultimo mese è quello che porta la decisione: unico arancio
+    colore:
+      m.ordini === null
+        ? "var(--color-cream)"
+        : i === mesi.length - 1
+          ? "var(--color-arancio)"
+          : "var(--color-verde)",
+  };
+});
+---
+
+<figure class:list={["ramp", className]}>
+  <svg
+    class="ramp__svg"
+    viewBox="0 0 400 268"
+    aria-hidden="true"
+    data-ramp
+  >
+    {
+      barre.map((b) => (
+        <g>
+          <rect
+            class="ramp__barra"
+            x={b.x}
+            y={b.y}
+            width={LARGHEZZA_BARRA}
+            height={b.altezza}
+            fill={b.colore}
+            style={`--altezza: ${b.altezza}px; --base: ${BASE}px`}
+          />
+          {b.ordini !== null && (
+            <text class="ramp__valore" x={b.x + LARGHEZZA_BARRA / 2} y={b.y - 12}>
+              {b.ordini}
+            </text>
+          )}
+          {b.nota && (
+            <text class="ramp__nota" x={b.x + LARGHEZZA_BARRA / 2} y={b.y - 12}>
+              {b.nota}
+            </text>
+          )}
+          <text class="ramp__mese" x={b.x + LARGHEZZA_BARRA / 2} y={BASE + 26}>
+            {b.mese}
+          </text>
+        </g>
+      ))
+    }
+    <line class="ramp__base" x1="20" y1={BASE} x2="380" y2={BASE} />
+  </svg>
+
+  <figcaption class="ramp__caption">
+    Ordini per mese: giugno 19, luglio 31. Ad aprile e maggio lo store era appena
+    aperto e i volumi non sono significativi, quindi restano senza numero.
+  </figcaption>
+</figure>
+
+<style>
+  .ramp {
+    margin: 0;
+  }
+
+  /* Il viewBox è 400 di larghezza: lasciando crescere l'SVG oltre questo, i
+     numeri e le barre si ingigantiscono insieme al contenitore. */
+  .ramp__svg {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+  }
+
+  .ramp__barra {
+    stroke: var(--color-ink);
+    stroke-width: 2.5;
+    /* il grow parte dalla base, non dal centro */
+    transform-box: fill-box;
+    transform-origin: center bottom;
+  }
+
+  .ramp__valore,
+  .ramp__nota,
+  .ramp__mese {
+    text-anchor: middle;
+    fill: var(--color-ink);
+  }
+
+  .ramp__valore {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: 30px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ramp__nota,
+  .ramp__mese {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ramp__nota {
+    fill: var(--color-ink-2);
+  }
+
+  .ramp__base {
+    stroke: var(--color-ink);
+    stroke-width: 2.5;
+  }
+
+  .ramp__caption {
+    margin-top: 0.75rem;
+    max-width: 52ch;
+    font-size: 0.9375rem;
+    color: var(--color-ink-2);
+  }
+</style>

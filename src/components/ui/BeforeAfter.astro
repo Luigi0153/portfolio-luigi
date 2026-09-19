@@ -1,0 +1,162 @@
+---
+/**
+ * Wrapper dello slider prima/dopo: ottimizza le due immagini con getImage()
+ * (dentro React non si può usare <Image>) e porta gli stili dell'isola.
+ * Gli stili sono is:global perché lo scope di Astro non raggiunge il DOM
+ * renderizzato da React, come già per .tswitch nell'hero.
+ */
+import { getImage } from "astro:assets";
+import BeforeAfter from "./BeforeAfter";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  prima: ImageMetadata;
+  primaAlt: string;
+  dopo: ImageMetadata;
+  dopoAlt: string;
+  etichetta: string;
+  class?: string;
+}
+
+const { prima, primaAlt, dopo, dopoAlt, etichetta, class: className } = Astro.props;
+
+const primaOtt = await getImage({ src: prima, format: "webp", quality: 80 });
+const dopoOtt = await getImage({ src: dopo, format: "webp", quality: 80 });
+---
+
+<div class:list={["ba__host", className]}>
+  <BeforeAfter
+    client:visible
+    primaSrc={primaOtt.src}
+    primaAlt={primaAlt}
+    dopoSrc={dopoOtt.src}
+    dopoAlt={dopoAlt}
+    larghezza={prima.width}
+    altezza={prima.height}
+    etichetta={etichetta}
+  />
+</div>
+
+<style is:global>
+  .ba {
+    margin: 0;
+  }
+
+  .ba__quadro {
+    position: relative;
+    /* le due schermate sono alte e strette: a tutta larghezza sarebbero enormi */
+    width: min(100%, 320px);
+    margin-inline: auto;
+    border: var(--border-retro);
+    border-radius: var(--radius-img);
+    overflow: clip;
+    background: var(--color-cream);
+  }
+
+  .ba__img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* La versione nuova sta sopra e viene tagliata alla posizione del cursore */
+  .ba__img--dopo {
+    clip-path: inset(0 0 0 var(--pos));
+  }
+
+  .ba__linea {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 2px;
+    background: var(--color-ink);
+    translate: -1px 0;
+  }
+
+  .ba__tag {
+    position: absolute;
+    top: 0.625rem;
+    padding: 0.2rem 0.55rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: var(--radius-pill);
+    background: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .ba__tag--prima {
+    left: 0.625rem;
+  }
+
+  .ba__tag--dopo {
+    right: 0.625rem;
+    background: var(--color-giallo);
+  }
+
+  /* L'etichetta serve allo screen reader, non allo sguardo */
+  .ba__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Il range copre tutto il quadro: la traccia è invisibile, si vede il pollice */
+  .ba__range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: ew-resize;
+  }
+
+  .ba__range::-webkit-slider-runnable-track {
+    height: 100%;
+    background: transparent;
+  }
+
+  .ba__range::-moz-range-track {
+    height: 100%;
+    background: transparent;
+  }
+
+  .ba__range::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 34px;
+    height: 34px;
+    border: var(--border-retro);
+    border-radius: var(--radius-pill);
+    background: var(--color-cream);
+    box-shadow: var(--shadow-hard-sm);
+  }
+
+  .ba__range::-moz-range-thumb {
+    width: 34px;
+    height: 34px;
+    border: var(--border-retro);
+    border-radius: var(--radius-pill);
+    background: var(--color-cream);
+    box-shadow: var(--shadow-hard-sm);
+  }
+
+  .ba__range:focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+</style>

@@ -1,0 +1,305 @@
+---
+/**
+ * Dettaglio di un progetto.
+ * Desktop: due colonne, la sinistra (titolo, lente, tags, cover) resta pinnata
+ * da ScrollTrigger mentre scorrono le sezioni. Mobile: tutto in colonna, niente
+ * pin. I blocchi dati arrivano dal frontmatter e vengono montati sotto la
+ * sezione che li nomina, nell'ordine dichiarato.
+ */
+import { Image } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Tag from "../../components/ui/Tag.astro";
+import StatTile from "../../components/ui/StatTile.astro";
+import RampChart from "../../components/ui/RampChart.astro";
+import Funnel from "../../components/ui/Funnel.astro";
+import BeforeAfter from "../../components/ui/BeforeAfter.astro";
+import schedaPrima from "../../assets/progetti/scheda-prima.png";
+import schedaDopo from "../../assets/progetti/scheda-dopo.png";
+
+export async function getStaticPaths() {
+  const progetti = await getCollection("progetti");
+  return progetti.map((progetto) => ({
+    params: { slug: progetto.data.slug },
+    props: { progetto },
+  }));
+}
+
+const { progetto } = Astro.props;
+const { data } = progetto;
+const { Content } = await render(progetto);
+
+const SEZIONI = [
+  { chiave: "contesto", titolo: "Contesto" },
+  { chiave: "decisione", titolo: "Decisione" },
+  { chiave: "risultato", titolo: "Risultato" },
+  { chiave: "imparato", titolo: "Cosa ho imparato" },
+] as const;
+
+const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
+---
+
+<Base title={data.titolo} description={data.sommario} ogType="article">
+  <article class="caso">
+    <div class="container-site caso__griglia">
+      <header class="caso__colonna">
+        <div class="caso__intestazione" data-pin>
+          <a class="caso__indietro eyebrow" href="/#progetti">Torna ai progetti</a>
+
+          <p class="eyebrow text-ink-2 caso__lente">Lente: {data.lente}</p>
+
+          <h1 class="caso__titolo" transition:name={`titolo-${data.slug}`}>
+            {data.titolo}
+          </h1>
+
+          <ul class="caso__tags" role="list">
+            {
+              data.in_arrivo && (
+                <Tag as="li" tone="giallo">
+                  In arrivo
+                </Tag>
+              )
+            }
+            {data.tags.map((t) => <Tag as="li">{t}</Tag>)}
+          </ul>
+
+          <Image
+            class="caso__cover"
+            src={data.cover}
+            alt={data.coverAlt}
+            widths={[400, 700]}
+            sizes="(min-width: 1024px) 420px, 90vw"
+            format="webp"
+            quality={80}
+            loading="eager"
+            transition:name={`cover-${data.slug}`}
+          />
+        </div>
+      </header>
+
+      <div class="caso__corpo">
+        {
+          haSezioni ? (
+            SEZIONI.map(({ chiave, titolo }) => {
+              const righe = data.sezioni[chiave];
+              const blocchi = data.dati[chiave];
+              if (righe.length === 0 && blocchi.length === 0) return null;
+
+              return (
+                <section class="caso__sezione" aria-labelledby={`sez-${chiave}`}>
+                  <h2 class="caso__sezione-titolo" id={`sez-${chiave}`}>
+                    {titolo}
+                  </h2>
+
+                  {righe.map((riga) => (
+                    <p class="caso__riga">{riga}</p>
+                  ))}
+
+                  {blocchi.map((blocco) => (
+                    <div class="caso__dato">
+                      {blocco === "statistiche" && (
+                        <div class="caso__stat">
+                          <StatTile
+                            value="+63%"
+                            label="Ordini"
+                            note="Da 19 a 31, giugno contro luglio."
+                            tone="arancio"
+                            conta
+                          />
+                          <StatTile
+                            value="+86%"
+                            label="Fatturato"
+                            note="Stesso periodo, stesso store."
+                            tone="verde-deep"
+                            conta
+                          />
+                          <StatTile
+                            value="94%"
+                            label="Traffico da mobile"
+                            note="Il desktop qui non esiste."
+                            conta
+                          />
+                        </div>
+                      )}
+                      {blocco === "ramp" && <RampChart />}
+                      {blocco === "funnel" && <Funnel />}
+                      {blocco === "before-after" && (
+                        <BeforeAfter
+                          prima={schedaPrima}
+                          primaAlt="Scheda prodotto mobile prima: testo fitto, gerarchia piatta, pulsante di acquisto in fondo alla pagina."
+                          dopo={schedaDopo}
+                          dopoAlt="Scheda prodotto mobile dopo: immagine grande, prezzo in evidenza, pulsante di acquisto sempre visibile in fondo allo schermo."
+                          etichetta="Trascina per confrontare la scheda prodotto prima e dopo"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </section>
+              );
+            })
+          ) : (
+            <div class="caso__prosa">
+              <Content />
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .caso {
+    padding-block: 2.5rem 5rem;
+  }
+
+  .caso__indietro {
+    display: inline-block;
+    color: var(--color-ink-2);
+    text-decoration: none;
+  }
+
+  .caso__indietro::before {
+    content: "< ";
+  }
+
+  .caso__indietro:hover {
+    color: var(--color-arancio);
+  }
+
+  .caso__lente {
+    margin-top: 1.5rem;
+  }
+
+  .caso__titolo {
+    margin-top: 0.5rem;
+    font-size: var(--text-h2);
+    text-wrap: balance;
+  }
+
+  .caso__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .caso__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 1.75rem;
+    border: var(--border-retro);
+    border-radius: var(--radius-img);
+  }
+
+  .caso__corpo {
+    margin-top: 3rem;
+  }
+
+  .caso__sezione + .caso__sezione {
+    margin-top: 3.5rem;
+  }
+
+  .caso__sezione-titolo {
+    font-size: var(--text-h3);
+    padding-bottom: 0.625rem;
+    border-bottom: var(--border-retro);
+  }
+
+  .caso__riga {
+    margin-top: 1rem;
+    max-width: 62ch;
+    font-size: var(--text-body-lg);
+  }
+
+  .caso__dato {
+    margin-top: 2rem;
+  }
+
+  .caso__stat {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .caso__prosa {
+    max-width: 62ch;
+    font-size: var(--text-body-lg);
+  }
+
+  @media (min-width: 640px) {
+    .caso__stat {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .caso {
+      padding-block: 3.5rem 7rem;
+    }
+
+    .caso__griglia {
+      display: grid;
+      grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .caso__corpo {
+      margin-top: 0;
+      padding-top: 3.25rem; /* allinea la prima sezione al titolo */
+    }
+
+    .caso__sezione + .caso__sezione {
+      margin-top: 5rem;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /**
+   * Pin della colonna sinistra mentre scorrono le sezioni. Solo da 1024px in su
+   * (sotto, le due colonne sono una sola e non c'è niente da fissare) e mai con
+   * prefers-reduced-motion. pinSpacing: false perché la colonna è più corta del
+   * corpo: con lo spacing attivo resterebbe un buco alla fine.
+   */
+  let mm: gsap.MatchMedia | undefined;
+
+  function spegni() {
+    mm?.revert();
+    mm = undefined;
+  }
+
+  function avvia() {
+    spegni();
+
+    const griglia = document.querySelector<HTMLElement>(".caso__griglia");
+    const colonna = document.querySelector<HTMLElement>("[data-pin]");
+    if (!griglia || !colonna) return;
+
+    mm = gsap.matchMedia();
+
+    mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+      const trigger = ScrollTrigger.create({
+        trigger: griglia,
+        // la nav sticky è alta 60px: il pin si ferma sotto, non sotto di lei
+        start: "top 84px",
+        end: "bottom bottom",
+        pin: colonna,
+        pinSpacing: false,
+      });
+
+      return () => trigger.kill();
+    });
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+  document.addEventListener("astro:before-swap", spegni);
+</script>

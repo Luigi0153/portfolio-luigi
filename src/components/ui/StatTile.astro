@@ -2,20 +2,57 @@
 /**
  * StatTile: numero grande in Fraunces + etichetta mono.
  * tone colora solo il numero. verde-deep e non verde: su cream il verde chiaro non regge AA.
+ *
+ * Con `conta`, il numero sale da zero quando entra nello schermo. Il valore
+ * finale è comunque nell'HTML: senza JS, o con prefers-reduced-motion, resta
+ * scritto quello giusto e non si anima niente.
  */
 interface Props {
   value: string;
   label: string;
   note?: string;
   tone?: "ink" | "verde-deep" | "arancio" | "blu";
+  /** Anima il numero da zero al valore, una volta sola, allo scroll. */
+  conta?: boolean;
   class?: string;
 }
 
-const { value, label, note, tone = "ink", class: className } = Astro.props;
+const {
+  value,
+  label,
+  note,
+  tone = "ink",
+  conta = false,
+  class: className,
+} = Astro.props;
+
+/* Separa "+63%" in "+", "63", "%": si anima solo la parte numerica, il segno e
+   l'unità restano testo fermo. Formato italiano: la virgola è il decimale. */
+const pezzi = value.match(/^(\D*?)([\d.,]+)(.*)$/);
+const animabile = conta && pezzi !== null;
+const prefisso = pezzi?.[1] ?? "";
+const numero = pezzi?.[2] ?? "";
+const suffisso = pezzi?.[3] ?? "";
+const decimali = numero.includes(",") ? numero.split(",")[1].length : 0;
+const finale = Number(numero.replace(/\./g, "").replace(",", "."));
 ---
 
 <div class:list={["stat", `stat--${tone}`, className]}>
-  <p class="stat__value">{value}</p>
+  <p class="stat__value">
+    {
+      animabile ? (
+        <>
+          {prefisso}
+          <span data-conta data-conta-fine={finale} data-conta-decimali={decimali}>
+            {numero}
+          </span>
+          {suffisso}
+        </>
+      ) : (
+        value
+      )
+    }
+  </p>
   <p class="eyebrow text-ink-2">{label}</p>
   {note && <p class="stat__note">{note}</p>}
 </div>
@@ -57,3 +94,59 @@ const { value, label, note, tone = "ink", class: className } = Astro.props;
     color: var(--color-ink-2);
   }
 </style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Lo script di un componente Astro viene incluso una volta sola anche se il
+  // componente compare più volte: qui si raccolgono tutte le tile della pagina.
+  let mm: gsap.MatchMedia | undefined;
+
+  function spegni() {
+    mm?.revert();
+    mm = undefined;
+  }
+
+  function avvia() {
+    spegni();
+
+    const numeri = document.querySelectorAll<HTMLElement>("[data-conta]");
+    if (numeri.length === 0) return;
+
+    mm = gsap.matchMedia();
+
+    // Senza questa media query il numero resta quello renderizzato dal server:
+    // il conteggio è decorativo, il dato no.
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      for (const el of numeri) {
+        const fine = Number(el.dataset.contaFine ?? 0);
+        const decimali = Number(el.dataset.contaDecimali ?? 0);
+        const stato = { valore: 0 };
+
+        const scrivi = () =>
+          (el.textContent = stato.valore.toLocaleString("it-IT", {
+            minimumFractionDigits: decimali,
+            maximumFractionDigits: decimali,
+          }));
+
+        // L'HTML contiene già il valore finale: senza azzerarlo qui si
+        // vedrebbe il numero giusto saltare a zero quando parte il conteggio.
+        scrivi();
+
+        gsap.to(stato, {
+          valore: fine,
+          duration: 1.1,
+          ease: "power3.out",
+          onUpdate: scrivi,
+          scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        });
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+  document.addEventListener("astro:before-swap", spegni);
+</script>
