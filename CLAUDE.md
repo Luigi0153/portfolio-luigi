@@ -27,6 +27,7 @@ Deploy Vercel. Nessuna altra libreria UI/animazione senza il mio ok esplicito.
 9. Se un'istruzione è ambigua, fai una domanda sola e proponi la tua opzione preferita.
 10. Prima di aggiungere un pacchetto npm, spiega in una riga perché e aspetta il mio ok.
 11. Astro 7: `astro dev` e `astro preview` girano come demoni (il comando esce subito; porta e pid nell'output, stop con `npx astro dev stop` / `npx astro preview stop`). Dopo ogni `npm install` o nuova isola React riavvia il demone dev. Se un'isola non si idrata ma la build è pulita (es. `_jsxDEV is not a function`): ferma il demone, cancella `node_modules/.vite`, riavvia — non toccare la config JSX.
+12. A fine di ogni fase aggiorna `docs/STATO.md`. All'inizio di ogni sessione leggi `CLAUDE.md`, `docs/STATO.md` e `docs/design-tokens.md`, e nient'altro.
 
 ## Skill disponibili in .claude/skills
 Mie: design-taste-frontend, ui-ux-pro-max, web-design-guidelines, cro, shopify-expert, sisters-store-brand.
