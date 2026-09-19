@@ -3,7 +3,8 @@
   - a riposo: tutte nascoste (contesto hover-capable);
   - su hover di ciascun oggetto: etichetta visibile, dentro il contenitore,
     mai sovrapposta alle ALTRE illustrazioni (tolleranza 2px, parallax incluso);
-  - screenshot dell'hero con hover attivo su ogni oggetto (solo a 1280).
+  - il burst visibile non tocca le altre illustrazioni;
+  - screenshot della scena con hover attivo su ogni oggetto, a ogni viewport.
   Uso: node scripts/test-etichette.mjs   (server su BASE_URL o :4321)
 */
 import { chromium } from "playwright";
@@ -81,6 +82,64 @@ for (const vp of [768, 1024, 1280]) {
         problemi.push(`sovrapposta all'illustrazione ${i}`);
     }
 
+    // Burst acceso e visibile davvero: sta dietro la propria illustrazione,
+    // quindi se il quadrato non supera la sagoma i raggi restano sepolti.
+    const burst = page.locator(`.burst--${chiave}`);
+    const burstAcceso = await burst
+      .locator(".fx--burst")
+      .evaluate((b) => getComputedStyle(b).opacity === "1");
+    if (!burstAcceso) problemi.push("burst spento su hover");
+
+    const boxBurst = await burst.locator(".fx--burst").boundingBox();
+    const boxImg = await hotspot.locator(".hotspot__img").boundingBox();
+    if (boxBurst && boxImg) {
+      // i raggi arrivano al 92% del semilato, la maschera è ancora piena al 68%
+      const semi = boxBurst.width / 2;
+      const latoMaggiore = Math.max(boxImg.width, boxImg.height) / 2;
+      if (semi * 0.92 < latoMaggiore + 6)
+        problemi.push(
+          `burst sepolto sotto l'illustrazione (punte a ${Math.round(semi * 0.92)}px, sagoma ${Math.round(latoMaggiore)}px)`,
+        );
+    }
+
+    // Occlusione: in nessun punto di un'altra illustrazione il burst deve
+    // risultare l'elemento in cima. Campiona una griglia sul box di ogni
+    // vicino; i pointer-events servono solo alla misura, non al sito.
+    const sopraVicini = await page.evaluate((c) => {
+      const layer = document.querySelector(".desk__fx");
+      const prima = layer.style.pointerEvents;
+      layer.style.pointerEvents = "auto";
+      for (const b of document.querySelectorAll(".burst, .fx--burst"))
+        b.style.pointerEvents = "auto";
+
+      const colpe = [];
+      const vicini = [...document.querySelectorAll(".desk__scena .hotspot")].filter(
+        (h) => !h.classList.contains(`hotspot--${c}`),
+      );
+      for (const v of vicini) {
+        const r = v.querySelector(".hotspot__img").getBoundingClientRect();
+        for (let i = 1; i <= 6; i++) {
+          for (let j = 1; j <= 6; j++) {
+            const el = document.elementFromPoint(
+              r.x + (r.width * i) / 7,
+              r.y + (r.height * j) / 7,
+            );
+            if (el?.closest(".burst")) {
+              colpe.push(v.getAttribute("aria-label"));
+              i = j = 99;
+            }
+          }
+        }
+      }
+
+      layer.style.pointerEvents = prima;
+      for (const b of document.querySelectorAll(".burst, .fx--burst"))
+        b.style.removeProperty("pointer-events");
+      return colpe;
+    }, chiave);
+
+    for (const vicino of sopraVicini) problemi.push(`burst sopra "${vicino}"`);
+
     if (problemi.length > 0) {
       fallimenti++;
       console.error(`✗ ${vp}px ${chiave}: ${problemi.join("; ")}`);
@@ -91,10 +150,17 @@ for (const vp of [768, 1024, 1280]) {
       console.log(`✓ ${vp}px ${chiave}: hover ok`);
     }
 
-    if (vp === 1280) {
-      const hero = await page.locator(".hero").boundingBox();
-      await page.screenshot({ path: `screenshots/hover-${chiave}-1280.png`, clip: hero });
-    }
+    const scena = await page.locator(".desk__scena").boundingBox();
+    const margine = 80; // il burst sporge oltre la scena (misurato: max ~68px)
+    await page.screenshot({
+      path: `screenshots/hover-${chiave}-${vp}.png`,
+      clip: {
+        x: Math.max(0, scena.x - margine),
+        y: Math.max(0, scena.y - margine),
+        width: Math.min(vp, scena.width + margine * 2),
+        height: scena.height + margine * 2,
+      },
+    });
   }
 
   await page.close();

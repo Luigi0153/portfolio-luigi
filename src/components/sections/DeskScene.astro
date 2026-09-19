@@ -56,6 +56,30 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
 <div class="desk">
   <!-- Scena (tablet e desktop) -->
   <div class="desk__scena">
+    {/* I burst vivono in un layer sotto TUTTE le illustrazioni: un raggio che
+        finisce su un oggetto vicino gli passa dietro invece che sopra, e la
+        scena può restare fitta senza che l'effetto la sporchi. Non possono
+        stare dentro l'hotspot: il transform del parallax lo rende uno
+        stacking context e l'hotspot attivo deve salire sopra gli altri per
+        l'etichetta, portandosi dietro il burst. Le posizioni sono ancorate al
+        CENTRO dell'illustrazione: se le immagini cambiano vanno rimisurate
+        insieme a quelle di .hotspot--*. */}
+    <div class="desk__fx" aria-hidden="true">
+      {
+        oggetti.map(({ chiave, profondita }) => (
+          <span class:list={["burst", `burst--${chiave}`]} data-depth={profondita}>
+            <svg class="fx fx--burst" viewBox="-100 -100 200 200">
+              <g class="fx__rot">
+                {Array.from({ length: 10 }, (_, i) => (
+                  <polygon points="-5,-34 5,-34 0,-92" transform={`rotate(${i * 36})`} />
+                ))}
+              </g>
+            </svg>
+          </span>
+        ))
+      }
+    </div>
+
     {
       oggetti.map(({ chiave, img, href, etichetta, aria, profondita }) => (
         <a
@@ -65,13 +89,6 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
           data-depth={profondita}
         >
           <span class="hotspot__body">
-            <svg class="fx fx--burst" viewBox="-100 -100 200 200" aria-hidden="true">
-              <g class="fx__rot">
-                {Array.from({ length: 10 }, (_, i) => (
-                  <polygon points="-5,-34 5,-34 0,-92" transform={`rotate(${i * 36})`} />
-                ))}
-              </g>
-            </svg>
             <svg class="fx fx--scintille" viewBox="0 0 100 100" aria-hidden="true">
               <path class="stella" d="M0 -11 L2.6 -2.6 L11 0 L2.6 2.6 L0 11 L-2.6 2.6 L-11 0 L-2.6 -2.6 Z" transform="translate(14 18) scale(1)" />
               <path class="stella" d="M0 -11 L2.6 -2.6 L11 0 L2.6 2.6 L0 11 L-2.6 2.6 L-11 0 L-2.6 -2.6 Z" transform="translate(88 26) scale(0.7)" />
@@ -169,6 +186,7 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
 
   .hotspot {
     position: absolute;
+    z-index: 1; /* sopra .desk__fx: le illustrazioni occludono i burst */
     display: block;
     border: 0;
     padding: 0;
@@ -257,19 +275,61 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
     z-index: 0;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s var(--ease-brand);
+    transition:
+      opacity 0.25s var(--ease-brand),
+      transform 0.25s var(--ease-brand);
   }
 
+  /* Layer dei burst: sotto ogni hotspot (che parte da z-index 1), così le
+     illustrazioni occludono i raggi. */
+  .desk__fx {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Ogni .burst ha altezza 0 e il suo top è il CENTRO dell'illustrazione:
+     left/width sono quelli dell'hotspot, top è misurato. --burst = lato del
+     quadrato in larghezze dell'illustrazione. Il burst sta dietro l'oggetto,
+     quindi il quadrato deve superarne il lato maggiore o i raggi restano
+     sepolti: gli oggetti piccoli ne chiedono di più, il computer è già grande
+     di suo. Il minimo lo controlla test-etichette.mjs; il massimo non ha più
+     vincoli di vicinato, perché il layer passa dietro le altre illustrazioni. */
+  .burst {
+    position: absolute;
+    display: block;
+  }
+
+  .burst--computer { left: 7%; top: 34.9%; width: 46%; --burst: 1.6; }
+  .burst--telefono { left: 66%; top: 21.3%; width: 26%; --burst: 1.7; }
+  .burst--tabellino { left: 69%; top: 58.5%; width: 20%; --burst: 1.8; }
+  .burst--taccuino { left: 1%; top: 76%; width: 24%; --burst: 1.9; }
+
+  /* Quadrato centrato sul centro dell'illustrazione: uscita simmetrica su
+     tutti i lati. overflow visible perché a tagliare di netto era la scatola
+     non quadrata dell'SVG, non la maschera. */
   .fx--burst {
-    inset: -12%;
-    width: 124%;
-    height: 124%;
+    top: 0;
+    left: 50%;
+    width: calc(var(--burst) * 100%);
+    aspect-ratio: 1;
+    height: auto;
+    translate: -50% -50%;
+    overflow: visible;
+    opacity: var(--acceso);
+    transform: translateY(var(--alza));
+    /* I raggi vanno dal 34% al 92% del semilato: la maschera resta piena fin
+       oltre il bordo dell'illustrazione e sfuma solo sull'ultimo quarto, così
+       la punta si spegne invece di finire di netto. */
+    -webkit-mask-image: radial-gradient(circle closest-side, #000 68%, rgba(0, 0, 0, 0.85) 82%, transparent 100%);
+    mask-image: radial-gradient(circle closest-side, #000 68%, rgba(0, 0, 0, 0.85) 82%, transparent 100%);
   }
 
   .fx__rot {
     transform-origin: center;
     animation: fx-rotazione 9s linear infinite;
-    animation-play-state: paused;
+    animation-play-state: var(--rotazione, paused);
   }
 
   .fx--burst polygon:nth-child(odd) { fill: var(--burst-1); }
@@ -318,7 +378,6 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
   /* ---------- Stati hover / focus ---------- */
   @media (hover: hover) {
     .hotspot:hover .hotspot__body { transform: translateY(-6px); }
-    .hotspot:hover .fx--burst,
     .hotspot:hover .fx--scintille { opacity: 1; }
     .hotspot:hover .fx__rot,
     .hotspot:hover .stella { animation-play-state: running; }
@@ -326,11 +385,41 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
   }
 
   .hotspot:focus-visible .hotspot__body { transform: translateY(-6px); }
-  .hotspot:focus-visible .fx--burst,
   .hotspot:focus-visible .fx--scintille { opacity: 1; }
   .hotspot:focus-visible .fx__rot,
   .hotspot:focus-visible .stella { animation-play-state: running; }
   .hotspot:focus-visible .hotspot__label { opacity: 1; visibility: visible; }
+
+  /* Il burst ora è fuori dall'hotspot: lo accende la scena con :has(). Passa
+     da tre custom properties ereditate, così ogni stato è UNA regola sola e
+     aggiungere un oggetto significa aggiungere un selettore, non tre.
+     Il translateY sta sull'SVG e non sul .burst, che riceve il transform del
+     parallax — come per .hotspot__body. */
+  .burst {
+    --acceso: 0;
+    --alza: 0;
+    --rotazione: paused;
+  }
+
+  .desk__scena:has(.hotspot--computer:focus-visible) .burst--computer,
+  .desk__scena:has(.hotspot--telefono:focus-visible) .burst--telefono,
+  .desk__scena:has(.hotspot--tabellino:focus-visible) .burst--tabellino,
+  .desk__scena:has(.hotspot--taccuino:focus-visible) .burst--taccuino {
+    --acceso: 1;
+    --alza: -6px;
+    --rotazione: running;
+  }
+
+  @media (hover: hover) {
+    .desk__scena:has(.hotspot--computer:hover) .burst--computer,
+    .desk__scena:has(.hotspot--telefono:hover) .burst--telefono,
+    .desk__scena:has(.hotspot--tabellino:hover) .burst--tabellino,
+    .desk__scena:has(.hotspot--taccuino:hover) .burst--taccuino {
+      --acceso: 1;
+      --alza: -6px;
+      --rotazione: running;
+    }
+  }
 
   /* ---------- Easter egg ---------- */
   .desk__egg {
@@ -411,8 +500,10 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
     mm.add(
       "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
       () => {
+        // anche i .burst: vivono in un layer a parte ma devono seguire la
+        // propria illustrazione, con la stessa profondità
         const setters = gsap.utils
-          .toArray<HTMLElement>(".desk__scena .hotspot")
+          .toArray<HTMLElement>(".desk__scena .hotspot, .desk__scena .burst")
           .map((el) => ({
             sx: gsap.quickSetter(el, "x", "px"),
             sy: gsap.quickSetter(el, "y", "px"),
