@@ -37,6 +37,25 @@ for (const target of targets) {
     await page.goto(BASE + percorso, { waitUntil: "networkidle" });
     await page.waitForTimeout(1800); // lascia finire le animazioni d'entrata
 
+    /*
+      Le entrate allo scroll partono da autoAlpha: 0 e le fa scattare
+      ScrollTrigger. Uno screenshot fullPage non scrolla, quindi senza questo
+      giro tutto ciò che sta sotto la piega verrebbe fotografato invisibile.
+      Scendiamo a passi di mezzo viewport, poi torniamo su: gli ScrollTrigger
+      hanno toggleActions "play none none none", quindi restano accesi.
+    */
+    await page.evaluate(async () => {
+      const passo = window.innerHeight / 2;
+      const attesa = () => new Promise((r) => setTimeout(r, 120));
+      for (let y = 0; y < document.body.scrollHeight; y += passo) {
+        window.scrollTo(0, y);
+        await attesa();
+      }
+      window.scrollTo(0, 0);
+      await attesa();
+    });
+    await page.waitForTimeout(900);
+
     const overflow = await page.evaluate(
       () =>
         document.documentElement.scrollWidth >
