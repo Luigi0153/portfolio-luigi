@@ -22,7 +22,7 @@ Deploy Vercel. Nessuna altra libreria UI/animazione senza il mio ok esplicito.
 4. Commit piccoli con messaggi in italiano: `feat(hero): switch target`, `fix(mobile): overflow card`.
 5. Testi: microcopy ironico e breve (max 1 riga per bottone/etichetta). Case study: max 3 righe di testo per sezione, il resto sono immagini.
 6. Accessibilità: contrasto AA sui token, focus visibile, `prefers-reduced-motion` disattiva GSAP e il 3D.
-7. Performance: immagini in `<Image>` di Astro (webp/avif), font self-hosted con `font-display: swap`, .glb < 1 MB, Lighthouse mobile ≥ 90.
+7. Performance: immagini in `<Image>` di Astro (webp/avif), font self-hosted con `font-display: swap`, .glb < 1 MB, Lighthouse mobile ≥ 90. Lighthouse si misura sulla build di preview, mai sul dev server, come mediana di 3 run. La verifica di performance è una fase dedicata a fine progetto, non un controllo a ogni fase.
 8. Non inventare dati per il caso reale: usa solo quelli in `docs/content/caso-reale.md`. Nome dello store e logo sempre anonimizzati.
 9. Se un'istruzione è ambigua, fai una domanda sola e proponi la tua opzione preferita.
 10. Prima di aggiungere un pacchetto npm, spiega in una riga perché e aspetta il mio ok.
