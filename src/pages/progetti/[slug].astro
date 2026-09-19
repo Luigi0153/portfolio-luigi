@@ -39,7 +39,12 @@ const SEZIONI = [
 const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
 ---
 
-<Base title={data.titolo} description={data.sommario} ogType="article">
+<Base
+  title={data.titolo}
+  description={data.sommario}
+  ogType="article"
+  ogImage={`/og/${data.slug}.png`}
+>
   <article class="caso">
     <div class="container-site caso__griglia">
       <header class="caso__colonna">
