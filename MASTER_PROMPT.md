@@ -42,7 +42,57 @@ Obiettivo: la prima schermata, senza ancora il 3D (placeholder).
 6. Playwright: screenshot 390/1280 per entrambi i target. Build, commit `feat(hero): switch target e forme animate`.
 FERMATI e aspetta "FASE 3".
 
+# FASE 2.5 — Hero-scrivania interattiva (2D illustrata + micro-interazioni)
+
+> Incolla questo blocco in Claude Code DOPO aver messo i 5 PNG in `public/scene/`.
+
 ---
+
+## FASE 2.5
+
+Obiettivo: trasformare l'hero in una scena esplorabile senza perdere velocità, accessibilità né il percorso rapido per i recruiter.
+
+In `public/scene/` trovi cinque illustrazioni già pronte, stile vettoriale piatto retro anni '70-'80, tutte su fondo pieno `#fdf4e4` e nella palette dei token: `computer.png`, `taccuino.png`, `telefono.png`, `tabellino.png`, `tazza.png`.
+
+### A. Struttura della scena
+1. Sostituisci il placeholder 320×320 nell'hero con `src/components/sections/DeskScene.astro`: le illustrazioni posizionate in modo assoluto dentro un contenitore con `aspect-ratio` fisso e unità relative (%), così scala senza rompersi. Convertile in webp con `<Image>` di Astro.
+2. Oggetti cliccabili (hotspot), ognuno un `<a>` reale con `aria-label` esplicito:
+   - computer CRT → `/#progetti` (è l'oggetto principale, il più grande)
+   - taccuino → `/come-lavoro`
+   - telefono → `/contatti`
+   - tabellino → `/progetti/caso-reale`
+   - tazza → nessun link: easter egg, vedi punto D
+3. Poiché le illustrazioni hanno fondo crema pieno uguale a quello della pagina, si fondono da sole: non servono ritagli né trasparenze. Se sui bordi compare una linea di stacco, applica un leggero `mix-blend-mode: multiply` o rifila l'immagine.
+4. Ogni hotspot ha uno stato hover: sollevamento 6px, comparsa del burst radiale dietro l'oggetto e delle scintille (vedi punto C6), etichetta accanto all'oggetto (mono, uppercase, 12px). Anima solo `transform` e `opacity`.
+5. `@media (hover: hover)` per gli hover. Su touch gli oggetti hanno l'etichetta sempre visibile sotto, altrimenti non si capisce che sono cliccabili.
+6. Navigazione da tastiera: ordine di tab computer → taccuino → telefono → tabellino, focus visibile con l'anello ink dei token.
+
+### B. Layout responsive
+- Desktop (≥1024px): scena a destra, h1 + switch + CTA a sinistra, come ora.
+- Tablet: scena sotto il testo, larghezza piena, altezza contenuta.
+- Mobile (390px): NON riprodurre la scena in miniatura. Mostra gli stessi 4 oggetti come griglia 2×2 di tessere quadrate, ciascuna con illustrazione ed etichetta. Requisito, non ripiego.
+
+### C. Micro-interazioni
+1. Ingresso dell'hero: h1 che si compone per parole con SplitText (GSAP, plugin gratuito), stagger 60ms, poi entrano gli oggetti con stagger 80ms. Durata totale sotto 1,2s.
+2. Parallax leggero degli oggetti al movimento del mouse (max 12px, lerp 0.06, velocità diverse per oggetto per dare profondità). Su touch: nessuno.
+3. Card progetto (quando esisteranno): sollevamento + rotazione max 2° seguendo il puntatore.
+4. Transizione di apertura: View Transitions native di Astro tra home e pagina progetto, con la card che si espande. Fallback: navigazione normale.
+5. I numeri del caso reale si animano al conteggio quando entrano in viewport (ScrollTrigger, una volta sola).
+6. Burst e scintille dell'hover: generali come SVG inline nel componente, NON come immagini. Burst = raggi che partono dal centro, due toni di magenta (#f01a7a, #ff4da6), che ruotano lentamente su hover. Scintille = quattro stelle a quattro punte bianche di dimensioni diverse, che pulsano con stagger. Entrambi dietro l'oggetto, opacity 0 di default.
+
+### D. Easter egg (uno solo)
+Click sulla tazza: il vapore si anima e compare per 2s un messaggio mono nell'angolo. Proponimi 3 testi, scelgo io. Nessun suono, nessun blocco della pagina.
+
+### E. Vincoli non negoziabili
+- La nav sticky resta sempre visibile: la scena è un di più, mai l'unico modo di navigare.
+- `prefers-reduced-motion`: scena statica, nessun parallax, nessun SplitText, link comunque funzionanti.
+- Peso totale delle illustrazioni sotto 400 KB dopo conversione webp. `loading="eager"` solo above the fold.
+- Nessuna nuova libreria oltre a GSAP già presente.
+- Lighthouse mobile ≥ 90 dopo questa fase: misuralo e riportamelo.
+
+### F. Verifiche
+Playwright a 390/768/1280 per entrambi i target, screenshot, test tastiera, test con reduced-motion attivo, `npm run build` pulita, commit `feat(hero): scena scrivania interattiva`.
+Poi FERMATI.
 
 ## FASE 3 — Sezione progetti e case study reale
 
