@@ -278,6 +278,16 @@ insieme alla griglia progetti (vedi tabella sotto).
 | `Parliamone` | InvitoContatto, titolo | → `Raccontami il progetto` |
 | `Due righe bastano. Rispondo entro un giorno lavorativo.` | InvitoContatto, riga | → `Scrivimi quello che hai adesso. Rispondo entro un giorno lavorativo.` (non è più una copia letterale della riga del form in §9) |
 
+Il sottotitolo dell'hero (§2) era già stato cambiato una volta, fuori da questo inventario: il
+commit `2236e9b` del 21/9 aveva sostituito `Scrivo codice che si fa leggere.` / `Faccio negozi
+che vendono davvero.` con una prima riscrittura. Il 21/9, in un secondo passaggio, è cambiato
+di nuovo:
+
+| Voce | Dov'era | Cosa è successo |
+|---|---|---|
+| `Scrivo il codice dei negozi che uso ogni giorno.` | §2, `Hero.astro`, riga dev | → `Lavoro su Shopify ogni giorno, su un negozio vero con ordini veri.` |
+| `Un negozio online deve vendere, prima ancora di essere bello.` | §2, `Hero.astro`, riga business | → `Prima guardo i numeri del tuo negozio, poi decido cosa cambiare.` |
+
 ## Cosa non ho potuto giudicare
 
 Il campione ha un solo genere: risposta lunga e parlata. Di microcopy, titoli e sommari — cioè
