@@ -30,8 +30,24 @@ e 1280 con i cinque test permanenti verdi e la build pulita.
   verso `/contatti`. **Il testo è provvisorio**: va riscritto nel passaggio sui copy.
 
 Il resto della lista di `docs/AUDIT.md` (titolo della home, prova sopra la piega, cosa fai per
-il percorso business, consenso e informativa del form, font e immagini, switch senza React,
-etichette della scena visibili a riposo) non è stato toccato.
+il percorso business, consenso e informativa del form, switch senza React, etichette della scena
+visibili a riposo) non è stato toccato.
+
+- **Font e tazza (2026-09-21)** — due dei tre "pedaggi" di prestazioni della passata 5 sono
+  chiusi. `global.css` non importa più `@fontsource-variable/fraunces/full.css` (tutti gli assi,
+  100-900): al suo posto un `@font-face` locale su `src/assets/fonts/fraunces-latin-72-50.woff2`,
+  un'istanza con opsz e SOFT fissati a 72/50 (gli unici valori usati da `--display-axes`) e wght
+  variabile solo 500-700 (gli unici pesi usati). File generato con l'API statica di Google Fonts
+  (stesso font open source di `@fontsource`, licenza OFL) e self-hosted da qui, come vuole la
+  regola dello stack. **-81,5 KB per pagina.** La dipendenza `@fontsource-variable/fraunces` resta
+  in `package.json` inutilizzata, come `three`/`@types/three`: da togliere insieme quando si tocca
+  il file. In `DeskScene.astro` la tazza passa da `loading="eager"` a `loading="lazy"`: dentro
+  `.desk__scena`, che è `display:none` sotto 768px, un'immagine lazy non si scarica finché
+  quel display non cambia. **-54 KB sulla home mobile.** Misurato con Playwright + CDP
+  (`encodedDataLength`, mediana di 3 run, build di preview, 390px): home 507,4→368,7 KB,
+  come-lavoro 252,4→168,9 KB, contatti 205,3→121,9 KB, caso-reale 267,3→183,8 KB. Verificato con
+  i cinque test permanenti e screenshot a 390/1280, tutto verde. Resta il terzo pedaggio (React
+  per lo switch, -66 KB) e la fase di Lighthouse dedicata.
 
 ## Annullato
 - **Fase 4 — oggetto 3D nell'hero.** Annullata il 2026-09-19. Due motivi: lo spazio dell'hero è già occupato dalla scena scrivania della Fase 2.5, e Three.js aggiungerebbe peso JS proprio dove il Lighthouse mobile è già sotto soglia (85 contro il ≥ 90 della regola 7). Restano quindi non necessari `HeroObject.tsx`, `public/models/hero.glb` e `hero-fallback.png`. Le dipendenze `three` e `@types/three` sono in `package.json` ma non importate da nessun file: da rimuovere quando si tocca il `package.json`.

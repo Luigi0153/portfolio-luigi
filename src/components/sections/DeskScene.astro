@@ -118,6 +118,9 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
           <path d="M52 58 q-9 -14 0 -26 q9 -12 0 -24" />
           <path d="M72 55 q-7 -11 0 -20 q7 -9 0 -18" />
         </svg>
+        {/* loading="lazy", non "eager" come le altre: .desk__scena è display:none
+            sotto 768px, e un'immagine lazy dentro un antenato display:none non
+            viene scaricata finché quel display non cambia. */}
         <Image
           class="hotspot__img"
           src={tazza}
@@ -125,7 +128,7 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
           width={larghezzaImg(tazza)}
           format="webp"
           quality={80}
-          loading="eager"
+          loading="lazy"
           fetchpriority="low"
         />
       </span>
