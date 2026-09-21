@@ -60,10 +60,9 @@ visibili a riposo) non è stato toccato.
   progetti, l'invito al contatto, il sottotitolo dell'hero (2026-09-21, quest'ultimo fuori
   dall'inventario perché il titolo/sottotitolo di `Hero.astro` era già stato riscritto una volta
   nel commit `2236e9b`, prima e indipendentemente da questo passaggio) e il caso reale (2026-09-21,
-  9 voci riscritte su proposta di tre varianti, vedi "Cosa è cambiato" in `docs/inventario-testi.md`);
-  restano le altre sezioni marcate "da AI" o "generica" (footer, scena, `/come-lavoro`, `/contatti`,
-  404). Resta anche una piccola incoerenza: `Funnel.astro:72-75` ripete ancora la vecchia
-  formulazione "pavimento, non una misura" del caso reale, non toccata in questo passaggio.
+  9 voci riscritte su proposta di tre varianti, vedi "Cosa è cambiato" in `docs/inventario-testi.md`;
+  il 2026-09-22 allineata anche la riga gemella in `Funnel.astro:72-75`); restano le altre sezioni
+  marcate "da AI" o "generica" (footer, scena, `/come-lavoro`, `/contatti`, 404).
 - **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
 - Fase di performance dedicata a fine progetto (regola 7).
 

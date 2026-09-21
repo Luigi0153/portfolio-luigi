@@ -304,10 +304,9 @@ non sono state toccate.
 | `Il traffico social in-app non viene tracciato bene: quei tassi sono un pavimento, non una misura.` | 40 | → `Il traffico social in-app sfugge in parte al tracciamento: i numeri qui sono minimi, non definitivi.` |
 | `Nome dello store e logo restano anonimi: i numeri sono quelli veri, il cliente no.` | 43 | → `Store e logo anonimi per accordo col cliente, i numeri restano quelli veri.` |
 
-Nota: `Funnel.astro:72-75` ripete ancora alla lettera la vecchia riga `pavimento, non una misura`
-(la stessa segnalata al §7). Non toccata in questo passaggio, che riguardava solo il caso reale:
-resta lì una piccola incoerenza tra le due formulazioni, da chiudere quando si passa alla
-pagina di dettaglio progetto.
+`Funnel.astro:72-75` (segnalata al §7 con la stessa vecchia riga `pavimento, non una misura`) è
+stata allineata il 2026-09-22: `questi tassi sono un pavimento, non una misura` → `questi tassi
+sono minimi, non definitivi`.
 
 ## Cosa non ho potuto giudicare
 
