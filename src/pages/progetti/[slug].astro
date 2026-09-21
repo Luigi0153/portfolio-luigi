@@ -9,6 +9,7 @@
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import InvitoContatto from "../../components/sections/InvitoContatto.astro";
 import Tag from "../../components/ui/Tag.astro";
 import StatTile from "../../components/ui/StatTile.astro";
 import RampChart from "../../components/ui/RampChart.astro";
@@ -151,6 +152,10 @@ const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
       </div>
     </div>
   </article>
+
+  {/* Dopo "Cosa ho imparato" la pagina finiva nel footer: chi ha letto fin qui
+      è il lettore più convinto che passa dal sito. */}
+  <InvitoContatto />
 </Base>
 
 <style>

@@ -1,0 +1,87 @@
+---
+/**
+ * Invito al contatto: chiude la home e le pagine di progetto.
+ *
+ * Senza, le due pagine che convincono di più finiscono nel footer senza
+ * chiedere niente: nel corpo della home c'è un solo link a /contatti, e sul
+ * caso reale nessuno.
+ *
+ * TESTO PROVVISORIO: va riscritto nel passaggio sui copy.
+ */
+import Button from "../ui/Button.astro";
+
+interface Props {
+  /** Lega il titolo alla section: serve se un giorno ce ne fosse più d'uno. */
+  id?: string;
+  class?: string;
+}
+
+const { id = "invito", class: className } = Astro.props;
+---
+
+<section class:list={["invito", className]} aria-labelledby={`${id}-titolo`}>
+  <div class="container-site">
+    <div class="invito__box">
+      <div class="invito__testo">
+        <p class="eyebrow text-ink-2">Contatti</p>
+        <h2 class="invito__titolo" id={`${id}-titolo`}>Parliamone</h2>
+        <p class="invito__riga">
+          Due righe bastano. Rispondo entro un giorno lavorativo.
+        </p>
+      </div>
+
+      <Button variant="primary" size="lg" href="/contatti" class="invito__cta">
+        Scrivimi
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Lo spazio sopra lo mette la sezione precedente, che chiude col suo padding:
+     qui serve solo lo stacco dal footer. */
+  .invito {
+    padding-block: 0 var(--section-y);
+  }
+
+  .invito__box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding: 1.75rem;
+    border: var(--border-retro);
+    border-radius: var(--radius-card);
+    background: var(--color-cream-2);
+  }
+
+  .invito__titolo {
+    margin-top: 0.5rem;
+    font-size: var(--text-h3);
+  }
+
+  .invito__riga {
+    margin-top: 0.5rem;
+    max-width: 44ch;
+    color: var(--color-ink-2);
+  }
+
+  /* Il bottone non si stira sulla larghezza della card */
+  .invito__cta {
+    align-self: start;
+  }
+
+  @media (min-width: 768px) {
+    .invito__box {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+      padding: 2.5rem;
+    }
+
+    .invito__cta {
+      align-self: auto;
+      flex: none;
+    }
+  }
+</style>
