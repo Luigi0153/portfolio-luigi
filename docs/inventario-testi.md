@@ -265,11 +265,18 @@ tabelle sopra sono quelli di prima delle correzioni.
 | `Il form non è ancora collegato: scrivimi via email, ci metti lo stesso tempo.` | §9 | Tolta con il ramo di codice che la mostrava. Era un peccato: era una riga "sua". |
 | meta di `/contatti` | §9 | Invariata quando il form c'è. Con il form spento perde `o il form qui sotto`. |
 
-Quattro voci nuove, non ancora giudicate, tutte in `src/components/sections/InvitoContatto.astro`
-(in fondo alla home e a ogni pagina progetto): `Contatti` (eyebrow), `Parliamone`, `Due righe
-bastano. Rispondo entro un giorno lavorativo.`, bottone `Scrivimi`. Sono **testo provvisorio
-scritto per tenere il posto**, non una proposta di copy: la seconda riga è presa di peso
-dall'aiuto del form (§9, `Due righe bastano.`), quindi oggi il sito la dice due volte.
+Quattro voci nuove in `src/components/sections/InvitoContatto.astro` (in fondo alla home e a ogni
+pagina progetto): `Contatti` (eyebrow, neutra), `Parliamone`, `Due righe bastano. Rispondo entro
+un giorno lavorativo.`, bottone `Scrivimi`. Erano testo provvisorio; riscritte il 2026-09-21
+insieme alla griglia progetti (vedi tabella sotto).
+
+| Voce | Dov'era | Cosa è successo |
+|---|---|---|
+| `Prima capire il vincolo, poi scrivere il codice.` | §4, intro dev | → `Il codice arriva per ultimo. Prima viene il problema vero.` |
+| `Una sola domanda: questa scelta fa vendere di più?` | §4, intro business | → `Ogni scelta qui sotto punta a vendere di più.` |
+| `Lente: decisione` / `sistema` / `flusso` | §4, `ProjectGrid.astro:69` e `[slug].astro:55` | Via l'etichetta "Lente:" e i due punti: resta solo il valore come tag maiuscolo (`DECISIONE` / `SISTEMA` / `FLUSSO`), stesso pattern in entrambi i file. |
+| `Parliamone` | InvitoContatto, titolo | → `Raccontami il progetto` |
+| `Due righe bastano. Rispondo entro un giorno lavorativo.` | InvitoContatto, riga | → `Scrivimi quello che hai adesso. Rispondo entro un giorno lavorativo.` (non è più una copia letterale della riga del form in §9) |
 
 ## Cosa non ho potuto giudicare
 

@@ -27,7 +27,7 @@ e 1280 con i cinque test permanenti verdi e la build pulita.
   markup, che è quello dev. Chiusa l'unica violazione WCAG misurata (2.4.3 e 1.3.2, livello A).
 - **Invito al contatto** — nuovo `src/components/sections/InvitoContatto.astro`, in fondo alla
   home dopo la griglia e in fondo a ogni pagina progetto dopo "Cosa ho imparato". Bottone primary
-  verso `/contatti`. **Il testo è provvisorio**: va riscritto nel passaggio sui copy.
+  verso `/contatti`.
 
 Il resto della lista di `docs/AUDIT.md` (titolo della home, prova sopra la piega, cosa fai per
 il percorso business, consenso e informativa del form, switch senza React, etichette della scena
@@ -56,8 +56,9 @@ visibili a riposo) non è stato toccato.
 - **Prompt 2 e 3 del progetto n°5.** L'array `PROMPT_REALI` in `src/pages/come-lavoro.astro` ne ha uno solo, l'unico con una fonte nel repo (PROMPT DI AVVIO, da `MASTER_PROMPT.md`). Gli altri due non sono recuperabili da qui: il blocco "FASE 2.5" non è mai stato scritto in `MASTER_PROMPT.md` (il file ha un solo commit, e contiene le fasi 1-5), e il commit `a1784f8` registra la diagnosi del burst, non il prompt che l'ha prodotta. Servono i testi veri da Luigi: la sezione è già pronta, basta aggiungere le voci.
 - **Dominio da confermare.** `site` in `astro.config.mjs` è `https://luigi-portfolio.vercel.app`: se Vercel assegna un nome diverso al primo import va corretto lì e ricostruito (canonical, og:url, sitemap e robots leggono da lì).
 - **Passaggio sui copy.** L'inventario voce per voce è in `docs/inventario-testi.md` (135 voci,
-  con giudizio e posizione nel codice): è la lista di lavoro per la riscrittura. Da lì passa
-  anche il testo provvisorio dell'invito al contatto ("Parliamone" / "Due righe bastano.").
+  con giudizio e posizione nel codice): è la lista di lavoro per la riscrittura. Fatta la griglia
+  progetti e l'invito al contatto (2026-09-21); restano le altre sezioni marcate "da AI" o
+  "generica" (hero, footer, scena, caso reale, `/come-lavoro`, `/contatti`, 404).
 - **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
 - Fase di performance dedicata a fine progetto (regola 7).
 

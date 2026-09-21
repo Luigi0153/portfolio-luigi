@@ -5,8 +5,6 @@
  * Senza, le due pagine che convincono di più finiscono nel footer senza
  * chiedere niente: nel corpo della home c'è un solo link a /contatti, e sul
  * caso reale nessuno.
- *
- * TESTO PROVVISORIO: va riscritto nel passaggio sui copy.
  */
 import Button from "../ui/Button.astro";
 
@@ -24,9 +22,9 @@ const { id = "invito", class: className } = Astro.props;
     <div class="invito__box">
       <div class="invito__testo">
         <p class="eyebrow text-ink-2">Contatti</p>
-        <h2 class="invito__titolo" id={`${id}-titolo`}>Parliamone</h2>
+        <h2 class="invito__titolo" id={`${id}-titolo`}>Raccontami il progetto</h2>
         <p class="invito__riga">
-          Due righe bastano. Rispondo entro un giorno lavorativo.
+          Scrivimi quello che hai adesso. Rispondo entro un giorno lavorativo.
         </p>
       </div>
 

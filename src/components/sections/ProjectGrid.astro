@@ -33,10 +33,10 @@ const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
   <div class="container-site">
     <SectionHeader id={`${id}-titolo`} title="Progetti">
       <p class="progetti__intro" data-only="dev">
-        Prima capire il vincolo, poi scrivere il codice.
+        Il codice arriva per ultimo. Prima viene il problema vero.
       </p>
       <p class="progetti__intro" data-only="business">
-        Una sola domanda: questa scelta fa vendere di più?
+        Ogni scelta qui sotto punta a vendere di più.
       </p>
     </SectionHeader>
 
@@ -66,7 +66,7 @@ const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
                 />
 
                 <div class="progetti__corpo">
-                  <p class="eyebrow text-ink-2 progetti__lente">Lente: {data.lente}</p>
+                  <p class="eyebrow text-ink-2 progetti__lente">{data.lente}</p>
                   <h3 class="progetti__titolo" transition:name={`titolo-${data.slug}`}>
                     {data.titolo}
                   </h3>
