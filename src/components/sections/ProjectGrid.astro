@@ -2,9 +2,11 @@
 /**
  * Griglia dei progetti.
  *
- * L'ordine cambia col percorso scelto nell'hero senza re-render e senza
- * ricaricare: ogni cella porta i due indici in custom property e il CSS sceglie
- * quale usare in base a html[data-target], come il resto dello switch.
+ * L'ordine cambia col percorso scelto nell'hero. Qui, a differenza del resto
+ * dello switch, non basta il CSS: `order` sposta quello che si vede e non
+ * quello che c'è, e le card sono link. Tabulazione e screen reader seguirebbero
+ * l'ordine sorgente (WCAG 2.4.3 e 1.3.2), quindi le celle vengono riordinate
+ * nel DOM da uno script inline, prima del paint.
  * Niente tre card uguali in fila: il progetto vero prende la cella grande,
  * quelli in arrivo restano piccoli.
  */
@@ -38,7 +40,7 @@ const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
       </p>
     </SectionHeader>
 
-    <ul class="progetti__griglia" role="list">
+    <ul class="progetti__griglia" role="list" data-griglia-progetti>
       {
         progetti.map(({ id: entryId, data }) => (
           <li
@@ -46,7 +48,8 @@ const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
               "progetti__cella",
               { "progetti__cella--grande": entryId === featured },
             ]}
-            style={`--ord-dev: ${data.ordine_dev}; --ord-biz: ${data.ordine_business}`}
+            data-ord-dev={data.ordine_dev}
+            data-ord-biz={data.ordine_business}
           >
             <div class="progetti__tilt" data-tilt>
               <Card href={`/progetti/${data.slug}`} padding="none" class="progetti__card">
@@ -86,6 +89,51 @@ const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
         ))
       }
     </ul>
+
+    <script is:inline>
+      // Riordino delle celle nel DOM, non con `order` CSS: così l'ordine di
+      // tabulazione e quello degli screen reader coincidono con quello a
+      // schermo in tutti e due i percorsi. Lo script è inline e sta subito
+      // dopo la lista: gira mentre la pagina viene analizzata, prima del
+      // paint, quindi non si vede nessun salto. Senza JavaScript resta
+      // l'ordine del markup, che è quello del percorso "dev".
+      (function () {
+        function riordina() {
+          var lista = document.querySelector("[data-griglia-progetti]");
+          if (!lista) return;
+          var chiave =
+            document.documentElement.dataset.target === "business" ? "ordBiz" : "ordDev";
+          var celle = Array.prototype.slice.call(lista.children);
+          var volute = celle.slice().sort(function (a, b) {
+            return Number(a.dataset[chiave]) - Number(b.dataset[chiave]);
+          });
+          // Se l'ordine è già quello giusto non si tocca niente: spostare un
+          // nodo che contiene il focus lo farebbe perdere.
+          var uguale = volute.every(function (cella, i) {
+            return celle[i] === cella;
+          });
+          if (uguale) return;
+          volute.forEach(function (cella) {
+            lista.appendChild(cella);
+          });
+        }
+
+        riordina();
+
+        if (!window.__ordineProgetti) {
+          window.__ordineProgetti = true;
+          // Lo switch scrive data-target su <html> e non emette eventi:
+          // l'osservatore è il modo di accorgersene senza toccare React.
+          new MutationObserver(riordina).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["data-target"],
+          });
+          // Dopo lo swap delle View Transitions la lista è nuova e il target
+          // viene riapplicato da Base.astro: si riordina lì, prima del paint.
+          document.addEventListener("astro:after-swap", riordina);
+        }
+      })();
+    </script>
   </div>
 </section>
 
@@ -115,15 +163,8 @@ const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
     }
   }
 
-  /* L'ordine segue il percorso scelto: stessi progetti, priorità diversa.
-     Senza data-target (JS spento) vale l'ordine "dev". */
-  :global(html:not([data-target="business"])) .progetti__cella {
-    order: var(--ord-dev);
-  }
-
-  :global(html[data-target="business"]) .progetti__cella {
-    order: var(--ord-biz);
-  }
+  /* Niente `order` qui: l'ordine delle celle è quello del DOM, riordinato
+     dallo script inline sopra. Vedi il commento in testa al componente. */
 
   /* La prospettiva sta sulla cella e non sulla griglia: un solo punto di fuga
      per tutta la griglia storcerebbe le card ai bordi. */
