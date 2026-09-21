@@ -72,11 +72,14 @@ visibili a riposo) non è stato toccato.
   diretto"). Verificata con i cinque test permanenti (un fallimento sulla CTA business al primo
   giro, flake legato al riavvio del server preview: 3/3 verde ai run successivi) e screenshot a
   390/1280 per entrambi i target. Il 2026-09-22 riscritte anche le 3 voci "da AI" di footer
-  (`Base.astro:112`) e 404 (`404.astro:12` e :28-29), proposte 3 varianti ciascuna: la riga del
-  footer è una battuta buttata lì, senza nominare sé o gli strumenti; la meta description del 404
-  è ora neutra; la chiusa del 404 non cita più Gandalf. Verificata con i cinque test permanenti
-  (tutti verdi al primo giro) e screenshot di home e 404 a 390/1280. Restano le altre sezioni
-  marcate "da AI" o "generica": `/contatti`.
+  (`Base.astro:112`) e 404 (`404.astro:12` e :28-29), proposte 3 varianti ciascuna: la meta
+  description del 404 è ora neutra (scelta C). Il footer e la chiusa del 404 sono poi stati
+  corretti a mano da Luigi, fuori dalle varianti proposte: footer → `© {year} Luigi Romano.`
+  (via il nome buttato lì, niente più battuta); chiusa del 404 → `Pagina non trovata. Succede
+  anche ai corrieri migliori.`, la frase 15 già pronta in `docs/voce.md`, al posto della frase
+  sull'oggetto 3D e della battuta su Gandalf. Verificata con i cinque test permanenti (tutti
+  verdi) e screenshot di home e 404 a 390/1280. Restano le altre sezioni marcate "da AI" o
+  "generica": `/contatti`.
 - **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
 - Fase di performance dedicata a fine progetto (regola 7).
 
