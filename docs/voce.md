@@ -40,3 +40,35 @@ Il sito bello non esiste ma si costruisce insieme al cliente, si cercano sempre 
 - "Il sito bello non esiste: si costruisce insieme al cliente."
 - "Shopify taglia proprio lì." (sul tempo risparmiato su etichette, evasione, analytics)
 - "Prima gli ordini da evadere, poi i messaggi, poi i numeri." (come descrizione della giornata / del metodo)
+
+## Testi brevi reali
+## Direzione di tono (bozze scritte con Claude, da approvare e correggere)
+
+Tono: frasi decise, comprensibili a un negoziante e a un'azienda, professionali
+senza termini tecnici inutili. Ironia lieve solo nei punti marginali
+(tazza, 404, footer, conferme). Mai ironia in hero, progetti e inviti al contatto.
+
+### Chi sono
+1. Costruisco e gestisco negozi Shopify, dal primo prodotto caricato all'ultimo ordine evaso.
+2. Lavoro su Shopify ogni giorno, su un negozio vero con ordini veri.
+3. Scrivo codice pulito, che anche un altro sviluppatore riesce a leggere e modificare.
+
+### Come lavoro
+4. Prima guardo i numeri del negozio, poi decido cosa cambiare.
+5. Il sito bello non esiste, si costruisce insieme al cliente.
+6. Ti dico subito cosa si può fare e cosa no, anche lato tecnico.
+7. Shopify ti fa risparmiare ore su spedizioni ed etichette. Io ti faccio vedere come.
+8. Un negozio online deve vendere, prima ancora di essere bello.
+9. Ti lascio il sito e le istruzioni per gestirlo da solo.
+
+### Risultati
+10. In due mesi gli ordini sono passati da 19 a 31, senza toccare la grafica.
+
+### Contatto
+11. Raccontami il tuo negozio e dimmi cosa non funziona.
+12. Scrivimi due righe, ti rispondo io personalmente.
+13. Cerco un team che lavora su Shopify tutti i giorni.
+
+### Ironia lieve (solo punti marginali)
+14. Messaggio arrivato. Adesso tocca a me.  → conferma invio form
+15. Pagina non trovata. Succede anche ai corrieri migliori.  → 404
