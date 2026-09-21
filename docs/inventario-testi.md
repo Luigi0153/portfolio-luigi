@@ -288,6 +288,27 @@ di nuovo:
 | `Scrivo il codice dei negozi che uso ogni giorno.` | §2, `Hero.astro`, riga dev | → `Lavoro su Shopify ogni giorno, su un negozio vero con ordini veri.` |
 | `Un negozio online deve vendere, prima ancora di essere bello.` | §2, `Hero.astro`, riga business | → `Prima guardo i numeri del tuo negozio, poi decido cosa cambiare.` |
 
+Il 21/9, riscritte anche le 9 voci "da AI"/"misto" di §5 (`src/content/progetti/caso-reale.md`),
+scelta la variante "via di mezzo, più bottega" tra tre proposte. Le 7 voci "sua" della sezione
+non sono state toccate.
+
+| Voce | Riga (prima) | Cosa è successo |
+|---|---|---|
+| `Non ho rifatto il sito. Ho letto i numeri.` (titolo) | 2 | → `I numeri prima, il sito dopo.` |
+| `...una decisione contro-intuitiva.` (sommario) | 13 | → `...redesign estetico congelato.` |
+| `Store aperto...: due mesi di dati, non due anni.` | 26 | → `Store aperto...: in tutto due mesi di dati.` |
+| `Le borse fanno il 68%...non di borse più abbigliamento più accessori.` | 28 | → `Il 68% del fatturato viene dalle borse: un negozio di borse, con abbigliamento e accessori intorno.` |
+| `Redesign congelato. In ordine: ...igiene del catalogo.` | 32 | → `Redesign in pausa, e ho lavorato in ordine su tre cose: ...catalogo pulito.` |
+| `La palette è ancora quella di prima.` | 36 | → `La palette resta quella di sempre.` |
+| `Uno store di due mesi non si confronta con la media Shopify, si confronta con il suo mese precedente.` | 38 | → `Per uno store di due mesi il termine di paragone è il mese precedente, non la media Shopify.` |
+| `Il traffico social in-app non viene tracciato bene: quei tassi sono un pavimento, non una misura.` | 40 | → `Il traffico social in-app sfugge in parte al tracciamento: i numeri qui sono minimi, non definitivi.` |
+| `Nome dello store e logo restano anonimi: i numeri sono quelli veri, il cliente no.` | 43 | → `Store e logo anonimi per accordo col cliente, i numeri restano quelli veri.` |
+
+Nota: `Funnel.astro:72-75` ripete ancora alla lettera la vecchia riga `pavimento, non una misura`
+(la stessa segnalata al §7). Non toccata in questo passaggio, che riguardava solo il caso reale:
+resta lì una piccola incoerenza tra le due formulazioni, da chiudere quando si passa alla
+pagina di dettaglio progetto.
+
 ## Cosa non ho potuto giudicare
 
 Il campione ha un solo genere: risposta lunga e parlata. Di microcopy, titoli e sommari — cioè

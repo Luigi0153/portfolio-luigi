@@ -57,10 +57,13 @@ visibili a riposo) non è stato toccato.
 - **Dominio da confermare.** `site` in `astro.config.mjs` è `https://luigi-portfolio.vercel.app`: se Vercel assegna un nome diverso al primo import va corretto lì e ricostruito (canonical, og:url, sitemap e robots leggono da lì).
 - **Passaggio sui copy.** L'inventario voce per voce è in `docs/inventario-testi.md` (135 voci,
   con giudizio e posizione nel codice): è la lista di lavoro per la riscrittura. Fatti la griglia
-  progetti, l'invito al contatto e il sottotitolo dell'hero (2026-09-21, quest'ultimo fuori
+  progetti, l'invito al contatto, il sottotitolo dell'hero (2026-09-21, quest'ultimo fuori
   dall'inventario perché il titolo/sottotitolo di `Hero.astro` era già stato riscritto una volta
-  nel commit `2236e9b`, prima e indipendentemente da questo passaggio); restano le altre sezioni
-  marcate "da AI" o "generica" (footer, scena, caso reale, `/come-lavoro`, `/contatti`, 404).
+  nel commit `2236e9b`, prima e indipendentemente da questo passaggio) e il caso reale (2026-09-21,
+  9 voci riscritte su proposta di tre varianti, vedi "Cosa è cambiato" in `docs/inventario-testi.md`);
+  restano le altre sezioni marcate "da AI" o "generica" (footer, scena, `/come-lavoro`, `/contatti`,
+  404). Resta anche una piccola incoerenza: `Funnel.astro:72-75` ripete ancora la vecchia
+  formulazione "pavimento, non una misura" del caso reale, non toccata in questo passaggio.
 - **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
 - Fase di performance dedicata a fine progetto (regola 7).
 
