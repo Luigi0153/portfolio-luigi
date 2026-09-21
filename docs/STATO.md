@@ -61,8 +61,10 @@ visibili a riposo) non è stato toccato.
   dall'inventario perché il titolo/sottotitolo di `Hero.astro` era già stato riscritto una volta
   nel commit `2236e9b`, prima e indipendentemente da questo passaggio) e il caso reale (2026-09-21,
   9 voci riscritte su proposta di tre varianti, vedi "Cosa è cambiato" in `docs/inventario-testi.md`;
-  il 2026-09-22 allineata anche la riga gemella in `Funnel.astro:72-75`); restano le altre sezioni
-  marcate "da AI" o "generica" (footer, scena, `/come-lavoro`, `/contatti`, 404).
+  il 2026-09-22 allineata anche la riga gemella in `Funnel.astro:72-75`). La scena scrivania
+  (2026-09-22) è stata rivista: unica voce "da AI", l'easter egg della tazza — proposte 3
+  varianti, Luigi ha scelto di tenere il testo attuale. Restano le altre sezioni marcate "da AI"
+  o "generica" (footer, `/come-lavoro`, `/contatti`, 404).
 - **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
 - Fase di performance dedicata a fine progetto (regola 7).
 
