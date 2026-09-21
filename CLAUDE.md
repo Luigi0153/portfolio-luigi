@@ -20,7 +20,7 @@ Deploy Vercel. Nessuna altra libreria UI/animazione senza il mio ok esplicito.
 2. Mobile-first: progetta a 390px, poi 768, poi 1280. Verifica ogni pagina con Playwright a 390 e 1280 prima di dire "fatto".
 3. Una fase alla volta (vedi MASTER_PROMPT.md). Alla fine di ogni fase: `npm run build` senza errori, screenshot, commit, poi FERMATI e chiedi conferma.
 4. Commit piccoli con messaggi in italiano: `feat(hero): switch target`, `fix(mobile): overflow card`.
-5. Testi: microcopy ironico e breve (max 1 riga per bottone/etichetta). Case study: max 3 righe di testo per sezione, il resto sono immagini.
+5. Testi: frasi brevi e decise, comprensibili sia a un negoziante sia a un'azienda, professionali senza termini tecnici inutili. Lessico da docs/voce.md. Niente due punti a effetto, niente superlativi. Ironia lieve ammessa solo in punti marginali: easter egg della tazza, 404, footer, messaggi di conferma. Mai in hero, progetti e inviti al contatto.
 6. Accessibilità: contrasto AA sui token, focus visibile, `prefers-reduced-motion` disattiva GSAP e il 3D.
 7. Performance: immagini in `<Image>` di Astro (webp/avif), font self-hosted con `font-display: swap`, .glb < 1 MB, Lighthouse mobile ≥ 90. Lighthouse si misura sulla build di preview, mai sul dev server, come mediana di 3 run. La verifica di performance è una fase dedicata a fine progetto, non un controllo a ogni fase.
 8. Non inventare dati per il caso reale: usa solo quelli in `docs/content/caso-reale.md`. Nome dello store e logo sempre anonimizzati.
