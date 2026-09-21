@@ -16,7 +16,7 @@ const PASSI = [
     nome: "Ascolto",
     sintesi: "Prima di aprire l'editor, capisco cosa si rompe.",
     righe: [
-      "Mezz'ora di domande scomode: chi compra, cosa abbandona, dove si perde.",
+      "Mezz'ora di domande dirette su chi compra, cosa abbandona e dove si perde.",
       "Quasi sempre il problema non è quello che mi avevi detto al telefono.",
     ],
   },
@@ -24,16 +24,16 @@ const PASSI = [
     nome: "Numeri",
     sintesi: "Guardo i dati che hai già, prima di produrne di nuovi.",
     righe: [
-      "Analytics, ordini, ricerche interne: tre grafici bastano a scegliere da dove partire.",
-      "Se non c'è niente da misurare, la prima cosa che installo è il metro.",
+      "Analytics, ordini, ricerche interne, messi insieme dicono quasi sempre da dove partire.",
+      "Se non c'è niente da misurare, si parte da lì, prima i numeri e poi il resto.",
     ],
   },
   {
     nome: "Prototipo",
-    sintesi: "La cosa più economica da buttare via è un prototipo.",
+    sintesi: "Meglio buttare via un prototipo che un mese di sviluppo.",
     righe: [
-      "Una schermata vera, cliccabile, sul telefono: si decide guardandola, non descrivendola.",
-      "Qui si cambia idea gratis. Dopo costa.",
+      "Faccio una schermata vera, cliccabile, sul telefono. La guardi e decidi.",
+      "Qui si può ancora cambiare idea senza spendere niente in più.",
     ],
   },
   {
@@ -80,18 +80,18 @@ const STACK = [
 */
 const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
   {
-    fase: "Fase 0 — l'avvio",
+    fase: "Fase 0, l'avvio",
     testo:
       "Sei il mio Senior Frontend Engineer e UX/UI Designer. Prima di fare qualsiasi cosa: leggi CLAUDE.md, docs/design-tokens.md e docs/content/caso-reale.md. Elenca in 5 righe cosa hai capito (target, stack, mood, regole) e le skill che userai. […] Non scrivere ancora codice del sito. Fermati e aspetta che ti dica «FASE 1».",
     esito:
-      "Un riassunto di verifica invece di una cartella piena di file da buttare. Il lavoro è partito dal punto giusto perché non è partito subito.",
+      "Un riassunto di verifica invece di una cartella piena di file da buttare. Prima di scrivere codice, ho passato del tempo a capire cosa stavo per costruire.",
   },
 ];
 ---
 
 <Base
   title="Come lavoro"
-  description="Ascolto, numeri, prototipo, codice. Il processo con cui porto un negozio online da 'esiste' a 'vende', e lo stack che uso per farlo."
+  description="Ascolto, numeri, prototipo, codice. Il processo che uso per far vendere di più un negozio online, e lo stack che c'è dietro."
   ogImage="/og/come-lavoro.png"
 >
   <section class="intro">
@@ -108,8 +108,8 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
         parte che discutiamo di meno.
       </p>
       <p class="intro__riga" data-only="business">
-        Quattro passi, sempre nello stesso ordine. Nessuno dei quattro si chiama
-        "ti mando un preventivo e sparisco".
+        Quattro passi, sempre nello stesso ordine. Restiamo in contatto in
+        ognuno dei quattro, non solo all'inizio e alla consegna.
       </p>
     </div>
   </section>
@@ -120,7 +120,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
         id="processo-titolo"
         label="Il processo"
         title="Ascolto, numeri, prototipo, codice"
-        intro="In quest'ordine. Saltare il primo è il modo più veloce per rifare il quarto."
+        intro="In quest'ordine, sempre, senza saltare nessuno dei quattro."
       />
 
       <ol class="processo__lista" role="list">
@@ -148,8 +148,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
     <div class="container-site">
       <SectionHeader id="stack-titolo" label="Gli attrezzi" title="Lo stack">
         <p class="stack__intro" data-only="dev">
-          Poche cose, conosciute bene. Ogni dipendenza in più è un problema che
-          erediterà qualcun altro.
+          Non uso tanti strumenti. Quelli che uso, li conosco bene.
         </p>
         <p class="stack__intro" data-only="business">
           Roba standard e diffusa: se un giorno non ci sono io, chiunque sa
@@ -182,7 +181,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
         id="quinto-titolo"
         label="Progetto n°5"
         title="Come ho costruito questo sito"
-        intro="Questo portfolio è l'ultimo dei miei case study: la pagina che stai leggendo è anche la dimostrazione."
+        intro="Anche questo portfolio è un progetto come gli altri quattro, fatto con lo stesso processo che ho appena descritto."
       />
 
       <div class="quinto__blocchi">
@@ -190,14 +189,16 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
           <p class="eyebrow text-ink-2">La decisione</p>
           <h3 id="quinto-switch">Uno switch invece di due siti</h3>
           <p>
-            Chi assume e chi vende cercano due cose diverse nelle stesse pagine:
-            il primo vuole vedere come è fatto, il secondo se funziona. Due siti
-            separati erano il doppio del lavoro e metà della manutenzione.
+            Chi assume e chi vende cercano due cose diverse nelle stesse
+            pagine. Il primo vuole vedere come è fatto, il secondo se
+            funziona. Con due siti separati avrei dovuto scrivere e mantenere
+            tutto due volte.
           </p>
           <p>
-            Così lo switch nell'hero non filtra i contenuti: li riordina e ne
-            cambia l'accento. Stesse sezioni, stesso HTML, priorità diverse. La
-            scelta resta in <code>localStorage</code> e vale su tutto il sito.
+            Lo switch nell'hero non nasconde niente, riordina i contenuti e
+            cambia cosa viene prima. Stesse sezioni, stesso HTML, priorità
+            diverse. La scelta resta in <code>localStorage</code> e vale su
+            tutto il sito.
           </p>
           <p data-only="dev">
             Tecnicamente è un attributo su <code>&lt;html&gt;</code> e un pugno
@@ -205,8 +206,9 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
             anche prima che React si idrati.
           </p>
           <p data-only="business">
-            Tradotto: cambia in un istante, non ricarica niente, e chi arriva da
-            Google vede subito la versione giusta per sé.
+            Per chi visita il sito cambia in un istante, senza ricaricare
+            niente, e chi arriva da Google vede subito la versione giusta per
+            sé.
           </p>
         </article>
 
@@ -236,8 +238,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
           <div class="prompt">
             <h3 class="prompt__titolo">I prompt che hanno deciso qualcosa</h3>
             <p class="prompt__intro">
-              Non "fammi un portfolio". Estratti veri, presi dai file del
-              progetto: quello che ha cambiato la direzione del lavoro.
+              Estratti veri, presi dai file del progetto.
             </p>
 
             <ol class="prompt__lista" role="list">

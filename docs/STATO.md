@@ -63,8 +63,16 @@ visibili a riposo) non è stato toccato.
   9 voci riscritte su proposta di tre varianti, vedi "Cosa è cambiato" in `docs/inventario-testi.md`;
   il 2026-09-22 allineata anche la riga gemella in `Funnel.astro:72-75`). La scena scrivania
   (2026-09-22) è stata rivista: unica voce "da AI", l'easter egg della tazza — proposte 3
-  varianti, Luigi ha scelto di tenere il testo attuale. Restano le altre sezioni marcate "da AI"
-  o "generica" (footer, `/come-lavoro`, `/contatti`, 404).
+  varianti, Luigi ha scelto di tenere il testo attuale. Il 2026-09-22 riscritta anche
+  `/come-lavoro`: le 17 voci "da AI"/"misto" dell'inventario (di 18 — "Il processo" era
+  "generica" e resta fuori), proposte 3 varianti ciascuna, Luigi ha scelto lettera per lettera
+  con alcune correzioni a mano (niente "invece di immaginartela" alla voce 8, "Poche cose,
+  conosciute bene" riscritto invece che ripetuto identico alla voce 10, solo la prima frase
+  alla voce 15, due voci — 3 e 12 — riscritte da capo su sua richiesta di "più semplice e
+  diretto"). Verificata con i cinque test permanenti (un fallimento sulla CTA business al primo
+  giro, flake legato al riavvio del server preview: 3/3 verde ai run successivi) e screenshot a
+  390/1280 per entrambi i target. Restano le altre sezioni marcate "da AI" o "generica" (footer,
+  `/contatti`, 404).
 - **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
 - Fase di performance dedicata a fine progetto (regola 7).
 
