@@ -5,20 +5,21 @@
  * Il form funziona anche senza JavaScript (POST nativo verso Formspree, che
  * mostra la sua pagina di conferma). Con JS attivo lo intercettiamo e mandiamo
  * in fetch, per restare sulla pagina e dare l'esito in un aria-live.
- * Finché FORMSPREE_ID è il segnaposto, il form non finge: lo dice.
+ * Finché FORMSPREE_ID è il segnaposto (FORM_ATTIVO falso) il form non viene
+ * proprio renderizzato: restano i canali diretti, che funzionano sempre.
  */
 import Base from "../layouts/Base.astro";
 import SectionHeader from "../components/ui/SectionHeader.astro";
 import Button from "../components/ui/Button.astro";
 import Card from "../components/ui/Card.astro";
 import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
+
+const descrizione = FORM_ATTIVO
+  ? "Scrivimi: email, LinkedIn, GitHub o il form qui sotto. Rispondo entro un giorno lavorativo, anche solo per dirti che non sono la persona giusta."
+  : "Scrivimi: email, LinkedIn o GitHub. Rispondo entro un giorno lavorativo, anche solo per dirti che non sono la persona giusta.";
 ---
 
-<Base
-  title="Contatti"
-  description="Scrivimi: email, LinkedIn, GitHub o il form qui sotto. Rispondo entro un giorno lavorativo, anche solo per dirti che non sono la persona giusta."
-  ogImage="/og/contatti.png"
->
+<Base title="Contatti" description={descrizione} ogImage="/og/contatti.png">
   <section class="intro">
     <div class="intro__forme" aria-hidden="true">
       <span class="forma forma--quarto"></span>
@@ -45,7 +46,13 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
   </section>
 
   <section class="section-pad" aria-labelledby="canali-titolo">
-    <div class="container-site contatti__griglia">
+    <div
+      class:list={[
+        "container-site",
+        "contatti__griglia",
+        { "contatti__griglia--sola": !FORM_ATTIVO },
+      ]}
+    >
       <div class="canali">
         <SectionHeader id="canali-titolo" level="h2" title="I modi diretti" />
 
@@ -82,6 +89,9 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
         </p>
       </div>
 
+      {/* Senza un id Formspree vero il form non viene renderizzato: un modulo
+          che non spedisce vale meno di un indirizzo email che funziona. */}
+      {FORM_ATTIVO && (
       <Card class="modulo" as="section" padding="lg" aria-labelledby="modulo-titolo">
         <h2 id="modulo-titolo" class="modulo__titolo">Oppure scrivi qui</h2>
         <p class="modulo__intro" data-only="dev">
@@ -91,21 +101,7 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
           Tre campi, ci metti un minuto. Niente call obbligatoria.
         </p>
 
-        {
-          !FORM_ATTIVO && (
-            <p class="modulo__avviso" role="note">
-              <strong>Form non ancora collegato.</strong> Manca l'id Formspree in{" "}
-              <code>src/dati-sito.ts</code>: fino ad allora usa l'email qui accanto.
-            </p>
-          )
-        }
-
-        <form
-          class="modulo__form"
-          action={FORMSPREE_ENDPOINT}
-          method="POST"
-          data-attivo={FORM_ATTIVO ? "si" : "no"}
-        >
+        <form class="modulo__form" action={FORMSPREE_ENDPOINT} method="POST">
           <div class="campo">
             <label class="campo__label" for="nome">Come ti chiami</label>
             <input
@@ -166,6 +162,7 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
           <p class="modulo__esito" data-esito role="status" aria-live="polite"></p>
         </form>
       </Card>
+      )}
     </div>
   </section>
 </Base>
@@ -252,6 +249,12 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
       grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
       gap: 4rem;
     }
+
+    /* Senza form la seconda colonna non esiste: i canali restano in una
+       colonna sola, larga quanto il testo regge. */
+    .contatti__griglia--sola {
+      grid-template-columns: minmax(0, 62ch);
+    }
   }
 
   /* --- Canali diretti --- */
@@ -328,19 +331,6 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
   .modulo__intro {
     margin-top: 0.5rem;
     color: var(--color-ink-2);
-  }
-
-  .modulo__avviso {
-    margin-top: 1.25rem;
-    padding: 0.875rem 1rem;
-    border: 2px solid var(--color-ink);
-    border-radius: var(--radius-img);
-    background: var(--color-giallo);
-    font-size: var(--text-body);
-  }
-
-  .modulo__avviso code {
-    font-size: 0.9em;
   }
 
   .modulo__form {
@@ -496,7 +486,6 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
     form.noValidate = true;
 
     const esito = form.querySelector<HTMLElement>("[data-esito]");
-    const attivo = form.dataset.attivo === "si";
 
     const campo = (nome: string) =>
       form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${nome}"]`);
@@ -553,13 +542,6 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
         ev.preventDefault();
         scrivi("ko", "Controlla i campi segnati qui sopra.");
         campo(rotti[0])?.focus();
-        return;
-      }
-
-      // Form non collegato: meglio dirlo che simulare un invio riuscito
-      if (!attivo) {
-        ev.preventDefault();
-        scrivi("ko", "Il form non è ancora collegato: scrivimi via email, ci metti lo stesso tempo.");
         return;
       }
 
