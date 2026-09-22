@@ -1,10 +1,10 @@
 ---
 /**
  * Tag mono: etichette tech, stato ("in arrivo"), categorie.
- * tone: ink (default), giallo (evidenza / in arrivo), blu (tech, solo percorso dev), verde (categoria).
+ * tone: ink (default, solo bordo), cream (fondo cream-2: chip di codice, "in arrivo").
  */
 interface Props {
-  tone?: "ink" | "giallo" | "blu" | "verde";
+  tone?: "ink" | "cream";
   as?: "span" | "li";
   class?: string;
 }
@@ -36,25 +36,8 @@ const { tone = "ink", as: Tag = "span", class: className } = Astro.props;
     white-space: nowrap;
   }
 
-  .tag--giallo {
-    background-color: var(--color-giallo);
-  }
-
-  /* Badge tech: testo ink per leggibilità, il blu segna bordo e marcatore (blu su cream passa AA: 4.7) */
-  .tag--blu {
-    border-color: var(--color-blu);
-  }
-
-  .tag--blu::before {
-    content: "";
-    width: 0.5em;
-    height: 0.5em;
-    border-radius: 2px;
-    background-color: var(--color-blu);
-  }
-
-  .tag--verde {
-    border-color: var(--color-verde-deep);
-    color: var(--color-verde-deep);
+  /* Chip di codice e "in arrivo": stesso fondo pieno, testo e bordo restano ink */
+  .tag--cream {
+    background-color: var(--color-cream-2);
   }
 </style>

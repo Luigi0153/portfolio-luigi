@@ -32,7 +32,7 @@ const progetti = defineCollection({
       /** Posizione nella griglia per ciascun percorso (1 = primo). */
       ordine_dev: z.number().int().positive(),
       ordine_business: z.number().int().positive(),
-      /** Card con tag giallo e nessun link al dettaglio. */
+      /** Card con tag "in arrivo" e nessun link al dettaglio. */
       in_arrivo: z.boolean().default(false),
       /* I default sono scritti per esteso: zod non ripassa il valore di
          .default() dentro lo schema, quindi un `.default({})` lascerebbe

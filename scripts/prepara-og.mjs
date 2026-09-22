@@ -24,11 +24,7 @@ const T = {
   cream2: "#f6e9d2",
   ink: "#1a1a1a",
   ink2: "#4a4540",
-  verde: "#399f80",
-  verdeDeep: "#2a7a62",
   arancio: "#c93c00",
-  blu: "#0270c0",
-  giallo: "#fedf3e",
 };
 
 /* --- Font incorporati: gli stessi file che il sito serve in produzione --- */
@@ -47,9 +43,9 @@ const fonts = {
 };
 
 /**
- * Le pagine da generare.
- * `file` è il percorso sotto public/. `accento` colora la barra e la forma:
- * blu per il percorso sviluppatore, verde per i progetti, arancio per i contatti.
+ * Le pagine da generare. `file` è il percorso sotto public/.
+ * Le forme non distinguono più il percorso per colore (un solo accento,
+ * la regola 60/30/10 non lascia spazio a un secondo codice colore).
  */
 const PAGINE = [
   {
@@ -57,42 +53,36 @@ const PAGINE = [
     etichetta: "Web Developer e AI Web Designer",
     titolo: "Ciao, sono Luigi.",
     sottotitolo: "Negozi che vendono, codice che regge.",
-    accento: T.arancio,
   },
   {
     file: "og/come-lavoro.png",
     etichetta: "Il metodo",
     titolo: "Come lavoro",
     sottotitolo: "Ascolto, numeri, prototipo, codice. In quest'ordine.",
-    accento: T.blu,
   },
   {
     file: "og/contatti.png",
     etichetta: "Contatti",
     titolo: "Parliamone.",
     sottotitolo: "Rispondo entro un giorno lavorativo.",
-    accento: T.verdeDeep,
   },
   {
     file: "og/caso-reale.png",
     etichetta: "Progetto · Lente: rimozione",
     titolo: "Non ho rifatto il sito. Ho tolto cose.",
     sottotitolo: "+63% ordini, +86% fatturato, stesso store.",
-    accento: T.verdeDeep,
   },
   {
     file: "og/fornace-vietri.png",
     etichetta: "Progetto · In arrivo",
     titolo: "Fornace Vietri",
     sottotitolo: "Concept Shopify per una ceramica artigiana.",
-    accento: T.blu,
   },
   {
     file: "og/pizzeria.png",
     etichetta: "Progetto · In arrivo",
     titolo: "Landing per una pizzeria",
     sottotitolo: "Una pagina sola, un obiettivo solo.",
-    accento: T.arancio,
   },
 ];
 
@@ -100,7 +90,7 @@ const PAGINE = [
  * Template SVG. Il testo sta in foreignObject: l'SVG puro non manda a capo,
  * e i titoli lunghi devono poterlo fare. Le forme restano SVG vero.
  */
-const template = ({ etichetta, titolo, sottotitolo, accento }) => `
+const template = ({ etichetta, titolo, sottotitolo }) => `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <defs>
     <style>
@@ -158,10 +148,10 @@ const template = ({ etichetta, titolo, sottotitolo, accento }) => `
 
   <rect width="${W}" height="${H}" fill="${T.cream}"/>
 
-  <!-- Forme Bauhaus: cerchio giallo, quarto di cerchio d'accento, barra -->
-  <circle cx="1118" cy="96" r="104" fill="${T.giallo}"/>
-  <path d="M1200 630 L1200 430 A200 200 0 0 0 1000 630 Z" fill="${accento}"/>
-  <rect x="0" y="0" width="${W}" height="14" fill="${accento}"/>
+  <!-- Forme Bauhaus: solo ink, più la barra in cima in arancio -->
+  <circle cx="1118" cy="96" r="104" fill="${T.ink}"/>
+  <path d="M1200 630 L1200 430 A200 200 0 0 0 1000 630 Z" fill="${T.ink}"/>
+  <rect x="0" y="0" width="${W}" height="14" fill="${T.arancio}"/>
   <rect x="78" y="520" width="150" height="10" rx="5" fill="${T.ink}"/>
 
   <foreignObject x="78" y="96" width="900" height="380">

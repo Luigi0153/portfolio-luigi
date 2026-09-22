@@ -98,24 +98,17 @@ import DeskScene from "./DeskScene.astro";
     text-wrap: wrap;
   }
 
-  /* La riga che cambia col target: più piccola della prima, colore del percorso
-     (blu = sviluppatore, verde = business, come da docs/design-tokens.md) */
+  /* La riga che cambia col target: più piccola della prima, ink-2 in
+     entrambi i percorsi (docs/design-tokens.md, palette a tre colori). */
   .hero__riga {
     margin-top: 0.75rem;
+    color: var(--color-ink-2);
     font-size: clamp(1.625rem, 3.5vw, 2.75rem);
     font-weight: 500;
   }
 
-  .hero__riga--dev {
-    color: var(--color-blu);
-  }
-
-  .hero__riga--business {
-    color: var(--color-verde-deep);
-  }
-
   /* La riga aggiuntiva del percorso business, sopra quella colorata: stessa
-     misura, ma in ink-2 così non compete con il verde della riga sotto. */
+     misura e stesso colore, il testo non compete con la riga sotto. */
   .hero__riga--intro {
     color: var(--color-ink-2);
   }
@@ -166,7 +159,7 @@ import DeskScene from "./DeskScene.astro";
     }
   }
 
-  /* --- Forme Bauhaus decorative: solo giallo/arancio/blu, opacità 1 --- */
+  /* --- Forme Bauhaus decorative: solo ink, più una sola in arancio --- */
   .hero__forme {
     position: absolute;
     inset: 0;
@@ -185,7 +178,7 @@ import DeskScene from "./DeskScene.astro";
     width: 84px;
     height: 84px;
     border-radius: 50%;
-    background: var(--color-giallo);
+    background: var(--color-ink);
   }
 
   .forma--semicerchio {
@@ -203,7 +196,7 @@ import DeskScene from "./DeskScene.astro";
     width: 130px;
     height: 130px;
     border-radius: 100% 0 0 0;
-    background: var(--color-blu);
+    background: var(--color-ink);
   }
 
   .forma--barra {
@@ -212,7 +205,7 @@ import DeskScene from "./DeskScene.astro";
     width: 180px;
     height: 24px;
     border-radius: var(--radius-pill);
-    background: var(--color-giallo);
+    background: var(--color-ink);
   }
 
   @media (min-width: 1024px) {

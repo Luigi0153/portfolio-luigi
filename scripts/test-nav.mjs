@@ -6,7 +6,7 @@
   2. gli spazi tra le voci crescono con la larghezza ma non si sparpagliano;
   3. il contenuto sta dentro la pillola, il testo non scende sotto i 13px e
      nessuna voce va a capo;
-  4. il riempimento verde è esattamente sulla voce attiva;
+  4. il riempimento ink è esattamente sulla voce attiva;
   5. il marchio è un bersaglio 44x44 con l'SVG da 36 al centro, ha il nome
      nell'aria-label e l'anello ink al focus; il separatore c'è solo da 768;
   6. "Luigi Romano" resta nel titolo, nei meta e nel footer di ogni pagina.

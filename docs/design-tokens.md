@@ -1,21 +1,19 @@
 # Design Tokens — "Retro-Bauhaus"
 
-Mood: retro-tech caldo come base, accenti pop Bauhaus. Mai bianco puro, mai grigio freddo.
+Mood: retro-tech caldo. Mai bianco puro, mai grigio freddo.
 
 ## Colori (definiscili in `src/styles/tokens.css` con @theme di Tailwind v4)
 
+Palette a tre colori, regola 60/30/10: cream (con cream-2) 60%, ink (con ink-2) 30%, arancio 10%.
+Un solo accento: niente verde, blu, giallo o rosso nell'interfaccia.
+
 | Token | Hex | Uso |
 |---|---|---|
-| --color-cream | #fdf4e4 | sfondo pagina |
-| --color-cream-2 | #f6e9d2 | card, superfici secondarie |
-| --color-ink | #1a1a1a | testo principale, bordi forti |
-| --color-ink-2 | #4a4540 | testo secondario |
-| --color-verde | #399f80 | colore dominante, sezioni, link |
-| --color-verde-deep | #2a7a62 | hover del verde |
-| --color-arancio | #c93c00 | CTA primaria, hover, sottolineature |
-| --color-blu | #0270c0 | solo percorso "sviluppatore", codice, badge tech |
-| --color-giallo | #fedf3e | forme Bauhaus, evidenziazioni, max 5% della pagina |
-| --color-rosso | #e4091e | solo nelle grafiche dei concept (mai nella UI) |
+| --color-cream | #fdf4e4 | sfondo pagina (60%) |
+| --color-cream-2 | #f6e9d2 | card, superfici secondarie (60%) |
+| --color-ink | #1a1a1a | testo principale, bordi forti, forme Bauhaus, nav attiva (30%) |
+| --color-ink-2 | #4a4540 | testo secondario (30%) |
+| --color-arancio | #c93c00 | accento 10%: CTA primaria, link, hover, sottolineature, una sola forma Bauhaus |
 
 Dark mode: NON prevista al lancio.
 
@@ -36,7 +34,7 @@ Scala (mobile → desktop, usa clamp):
 - Sezioni: padding-block 80px mobile / 140px desktop.
 - Raggio: card 20px, bottoni 999px (pill), immagini 12px.
 - Bordo "retro": 2px solid var(--color-ink) sulle card principali, ombra dura 4px 4px 0 var(--color-ink) sull'hover. L'ombra dura è **solo delle Card**: mai sui bottoni.
-- Forme Bauhaus decorative: cerchio, semicerchio, quarto di cerchio, barra. Solo giallo/arancio/blu, opacità 1, mai sfumature.
+- Forme Bauhaus decorative: cerchio, semicerchio, quarto di cerchio, barra. Solo ink (piene o contorno 3px), più una sola forma in arancio per composizione. Opacità 1, mai sfumature.
 
 ## Motion (GSAP)
 - Durata base 0.6s, ease "power3.out". Stagger 0.08s.
@@ -57,4 +55,4 @@ Scala (mobile → desktop, usa clamp):
 - Con `prefers-reduced-motion`: niente scorrimento, cambio colore istantaneo.
 
 ## Componenti da definire (con stati default / hover / focus / active / disabled)
-Button (primary arancio, secondary outline ink, ghost), Tag mono, Card progetto, Switch target (hero), Nav sticky con indicatore verde, Section header (label mono + h2 Fraunces), Before/After slider, Stat tile (numero Fraunces + label mono), Footer con "visitor book" (prima versione: solo link mailto e social).
+Button (primary arancio, secondary outline ink, ghost), Tag mono, Card progetto, Switch target (hero), Nav sticky con indicatore ink, Section header (label mono + h2 Fraunces), Before/After slider, Stat tile (numero Fraunces + label mono), Footer con "visitor book" (prima versione: solo link mailto e social).

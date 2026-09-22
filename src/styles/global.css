@@ -80,20 +80,19 @@
   a {
     color: inherit;
     text-decoration-line: underline;
-    text-decoration-color: var(--color-verde);
+    text-decoration-color: var(--color-arancio);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.18em;
-    transition: color 0.2s var(--ease-brand), text-decoration-color 0.2s var(--ease-brand);
+    transition: color 0.2s var(--ease-brand);
   }
 
   a:hover {
-    color: var(--color-verde-deep);
-    text-decoration-color: var(--color-arancio);
+    color: var(--color-arancio);
   }
 
   ::selection {
-    background-color: var(--color-giallo);
-    color: var(--color-ink);
+    background-color: var(--color-arancio);
+    color: var(--color-cream);
   }
 
   :focus-visible {

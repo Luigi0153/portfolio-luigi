@@ -1,7 +1,7 @@
 ---
 /**
  * StatTile: numero grande in Fraunces + etichetta mono.
- * tone colora solo il numero. verde-deep e non verde: su cream il verde chiaro non regge AA.
+ * tone colora solo il numero: ink di default, arancio per il risultato principale.
  *
  * Con `conta`, il numero sale da zero quando entra nello schermo. Il valore
  * finale è comunque nell'HTML: senza JS, o con prefers-reduced-motion, resta
@@ -11,7 +11,7 @@ interface Props {
   value: string;
   label: string;
   note?: string;
-  tone?: "ink" | "verde-deep" | "arancio" | "blu";
+  tone?: "ink" | "arancio";
   /** Anima il numero da zero al valore, una volta sola, allo scroll. */
   conta?: boolean;
   class?: string;
@@ -77,16 +77,8 @@ const finale = Number(numero.replace(/\./g, "").replace(",", "."));
     color: var(--color-ink);
   }
 
-  .stat--verde-deep .stat__value {
-    color: var(--color-verde-deep);
-  }
-
   .stat--arancio .stat__value {
     color: var(--color-arancio);
-  }
-
-  .stat--blu .stat__value {
-    color: var(--color-blu);
   }
 
   .stat__note {

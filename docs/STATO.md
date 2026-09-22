@@ -145,6 +145,47 @@ visibili a riposo) non è stato toccato.
   c'è più. Rigenerata solo `og.png`; le altre og, rifatte con il nuovo file, differivano solo
   nell'antialiasing e sono state lasciate com'erano.
 
+- **Palette a tre colori (2026-09-23).** `verde`, `verde-deep`, `blu`, `giallo` e `rosso` escono
+  da `src/styles/tokens.css` e da `docs/design-tokens.md`: restano `cream`/`cream-2` (60%),
+  `ink`/`ink-2` (30%), `arancio` (10%, unico accento). Tolti a mano da ogni file che li usava,
+  build e classi Tailwind non generate non lo segnalano da sole. Le regole, componente per
+  componente:
+  - **Nav** (`Nav.astro`): voce attiva ink con testo cream (contrasto 15,9:1); `Scrivimi` outline
+    ink su fondo trasparente, riempimento ink al passaggio del mouse.
+  - **Hero**: riga sotto il nome ink-2 in entrambi i percorsi (prima blu/verde-deep).
+  - **Link** (`global.css`): sottolineatura arancio sempre, testo arancio al passaggio del mouse
+    (prima verde/verde-deep); selezione del testo fondo arancio, testo cream.
+  - **Forme Bauhaus**: ogni composizione (hero, `/come-lavoro`, `/contatti`, 404, cover dei
+    progetti, og-image) resta a una forma arancio e le altre ink, mai più di una insieme.
+  - **Grafici**: `RampChart` (barre mensili) e `Funnel` (imbuto del caso reale) hanno barre
+    cream/ink, solo l'ultima (il mese o il passo finale) in arancio, bordo ink sempre presente
+    sulla pista. `StatTile`: tone ridotto a `ink` (default) e `arancio`; nel caso reale solo
+    +86% di fatturato è arancio, +63% ordini e 94% traffico restano ink.
+  - **Tag**: tone ridotto a `ink` (solo bordo) e `cream` (fondo cream-2, bordo e testo restano
+    ink) — usato per "in arrivo" e per i chip tecnici (`Liquid`, `Astro`, ecc., prima `blu`).
+  - **Chip di codice** (`<code>` in "Come ho costruito questo sito"): ora un vero chip, fondo
+    cream-2 e testo ink (14,5:1) al posto del testo blu senza fondo.
+  - **Esito del form** (`/contatti`): messaggio positivo fondo ink/testo cream (prima
+    verde-deep); quello negativo era già cream-2 con bordo arancio, invariato.
+  - **Burst dell'hover sulla scena** (`DeskScene.astro`): due toni di arancio (`--color-arancio`
+    e `#dc8059`, quest'ultimo fuori token per lo stesso motivo per cui lo era il magenta) al
+    posto dei due magenta.
+  - **Before/After**: tag "Dopo" cream-2 con bordo ink (prima giallo).
+  - **Cover dei progetti e og-image**: `prepara-cover.mjs` e `prepara-og.mjs` avevano la
+    palette completa hardcoded e un sistema di "accento per percorso" (blu/verde/arancio) che
+    non ha più senso con un solo accento; tolto, ogni composizione ora usa un solo arancio.
+    Rigenerate tutte le cover (`src/assets/progetti/*.png`) e tutte le og-image.
+  - **Styleguide**: palette, tabella contrasti e stati dei componenti aggiornati alla nuova
+    lista; tolte le voci non più valide (`tone="verde"`, `tone="blu"`, `tone="giallo"`).
+
+  Contrasti AA ricontrollati (formula WCAG, non stimati): tutte le coppie di testo realmente
+  usate restano sopra 4,5:1 — ink/cream 15,94, ink/cream-2 14,51, ink-2/cream 8,68,
+  ink-2/cream-2 7,90, cream/ink 15,94, arancio/cream 4,66 (testo normale, compresi i bottoni
+  primary e i link in hover). Nessuna coppia di testo usata resta sotto soglia: l'unico caso a
+  4,24:1 (arancio su cream-2) è l'icona decorativa `↗` dei link esterni, `aria-hidden` e quindi
+  non testo. Verificato con i sei test permanenti sulla build di preview (tutti verdi) e
+  screenshot a 390/1280, entrambi i percorsi, su tutte le pagine incluso lo styleguide.
+
 - **Prova sopra la piega nell'hero (2026-09-22).** Risponde a due punti della passata 2 di
   `docs/AUDIT.md`: il 3 (i numeri veri stavano a due click dalla home) e il 5 (lo switch cambiava
   troppo poco). Sotto la CTA dell'hero c'è ora una riga che cambia col percorso e linka a

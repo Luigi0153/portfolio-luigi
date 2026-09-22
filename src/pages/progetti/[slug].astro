@@ -61,7 +61,7 @@ const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
           <ul class="caso__tags" role="list">
             {
               data.in_arrivo && (
-                <Tag as="li" tone="giallo">
+                <Tag as="li" tone="cream">
                   In arrivo
                 </Tag>
               )
@@ -109,14 +109,13 @@ const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
                             value="+63%"
                             label="Ordini"
                             note="Da 19 a 31, giugno contro luglio."
-                            tone="arancio"
                             conta
                           />
                           <StatTile
                             value="+86%"
                             label="Fatturato"
                             note="Stesso periodo, stesso store."
-                            tone="verde-deep"
+                            tone="arancio"
                             conta
                           />
                           <StatTile

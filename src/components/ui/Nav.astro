@@ -2,7 +2,7 @@
 /**
  * Nav: pillola flottante sticky, marchio SVG + 3 voci + CTA (da 768px).
  *
- * La voce attiva è una pillola verde-deep che scorre da una voce all'altra:
+ * La voce attiva è una pillola ink che scorre da una voce all'altra:
  * un solo elemento (.site-nav__thumb) mosso da JS, perché tra elementi
  * diversi il CSS da solo non può interpolare. Il testo attivo passa a cream
  * con un ritardo pari alla corsa del thumb, così non resta cream su cream-2
@@ -172,7 +172,7 @@ const pathname = Astro.url.pathname;
     z-index: 0;
     width: 0;
     border-radius: var(--radius-pill);
-    background: var(--color-verde-deep);
+    background: var(--color-ink);
     opacity: 0;
   }
 
@@ -202,14 +202,14 @@ const pathname = Astro.url.pathname;
     transition: color 0.15s var(--ease-brand);
   }
 
-  /* cream su verde-deep = 4,75:1, sopra AA. Il ritardo tiene il testo scuro
+  /* cream su ink = 17,9:1, ben sopra AA. Il ritardo tiene il testo scuro
      finché il thumb non è arrivato: senza, sarebbe cream su cream-2. */
   .site-nav__link[aria-current] {
     color: var(--color-cream);
     transition-delay: 0.18s;
   }
 
-  /* Solo da 768: sotto, la riga serve tutta alle tre voci. Fondo ink e non
+  /* Solo da 768: sotto, la riga serve tutta alle tre voci. Bordo ink e non
      arancio — l'arancio è della CTA primaria, una sola per schermata. */
   .site-nav__cta {
     display: none;
@@ -222,20 +222,24 @@ const pathname = Astro.url.pathname;
       min-height: 44px;
       margin-left: 0.25rem;
       padding-inline: 1.125rem;
+      border: 2px solid var(--color-ink);
       border-radius: var(--radius-pill);
-      background: var(--color-ink);
-      color: var(--color-cream);
+      background: transparent;
+      color: var(--color-ink);
       font-size: 0.9375rem;
       font-weight: 600;
       white-space: nowrap;
       text-decoration: none;
-      transition: background-color 0.25s var(--ease-brand);
+      transition:
+        background-color 0.25s var(--ease-brand),
+        color 0.25s var(--ease-brand);
     }
   }
 
   @media (min-width: 768px) and (hover: hover) {
     .site-nav__cta:hover {
-      background: var(--color-verde-deep);
+      background: var(--color-ink);
+      color: var(--color-cream);
     }
   }
 

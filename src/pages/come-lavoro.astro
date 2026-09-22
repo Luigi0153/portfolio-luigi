@@ -149,7 +149,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
               <h3 class="stack__gruppo-titolo">{gruppo}</h3>
               <ul class="stack__voci" role="list">
                 {voci.map((voce) => (
-                  <Tag as="li" tone="blu">
+                  <Tag as="li" tone="cream">
                     {voce}
                   </Tag>
                 ))}
@@ -306,7 +306,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: var(--color-giallo);
+    background: var(--color-ink);
   }
 
   /* A 390 l'intro occupa tutta la larghezza: la barra finirebbe dietro al
@@ -330,7 +330,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
       width: 240px;
       height: 26px;
       border-radius: var(--radius-pill);
-      background: var(--color-blu);
+      background: var(--color-arancio);
     }
   }
 
@@ -356,7 +356,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
 
   /* Il numero in ink-2, non in arancio: a 13px su cream-2 l'arancio si ferma a
      4,24:1, sotto il 4,5 di AA. L'accento resta nel quadratino, che è
-     decorativo e deve solo passare il 3:1 dei non-testo (come fa Tag blu). */
+     decorativo e deve solo passare il 3:1 dei non-testo. */
   .processo__numero {
     display: flex;
     align-items: center;
@@ -457,11 +457,12 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
     color: var(--color-ink-2);
   }
 
-  /* Niente pastiglia cream-2 sotto: il blu su cream-2 si ferma a 4,29:1,
-     sotto AA. Sul cream della pagina lo stesso blu fa 4,71:1, e a distinguere
-     il codice bastano il mono e il colore (i token danno il blu al codice). */
+  /* Chip di codice: testo ink su cream-2, contrasto 14,5:1. */
   .quinto__blocco code {
-    color: var(--color-blu);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    background: var(--color-cream-2);
+    color: var(--color-ink);
     font-size: 0.9em;
     overflow-wrap: anywhere;
   }
@@ -503,7 +504,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: var(--color-blu);
+    color: var(--color-ink-2);
   }
 
   .prompt__fase {
@@ -513,7 +514,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
   .prompt__testo {
     margin-top: 1rem;
     padding-left: 1rem;
-    border-left: 3px solid var(--color-giallo);
+    border-left: 3px solid var(--color-ink);
     font-family: var(--font-mono);
     font-size: 0.875rem;
     line-height: 1.6;

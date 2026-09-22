@@ -58,7 +58,7 @@ for (const vp of [390, 1280]) {
     const secondo = target === "dev" ? "Fornace Vietri" : "Landing per una pizzeria";
     atteso(ordine[1] === secondo, `${vp}px ${target}: al secondo posto "${secondo}"`);
 
-    const inArrivo = page.locator(".progetti__cella .tag--giallo");
+    const inArrivo = page.locator(".progetti__cella .tag--cream");
     atteso((await inArrivo.count()) === 2, `${vp}px ${target}: due tag "in arrivo" gialli`);
 
     atteso(errori.length === 0, `${vp}px ${target}: nessun errore in console`);

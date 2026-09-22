@@ -7,17 +7,13 @@ import StatTile from "../components/ui/StatTile.astro";
 import Tag from "../components/ui/Tag.astro";
 
 // Classi scritte per esteso: Tailwind le rileva solo se compaiono letteralmente nel sorgente.
+// Palette a tre colori, regola 60/30/10: cream (con cream-2) 60%, ink (con ink-2) 30%, arancio 10%.
 const palette = [
-  { name: "cream", hex: "#fdf4e4", uso: "sfondo pagina", swatch: "bg-cream" },
-  { name: "cream-2", hex: "#f6e9d2", uso: "card, superfici secondarie", swatch: "bg-cream-2" },
-  { name: "ink", hex: "#1a1a1a", uso: "testo principale, bordi forti", swatch: "bg-ink" },
-  { name: "ink-2", hex: "#4a4540", uso: "testo secondario", swatch: "bg-ink-2" },
-  { name: "verde", hex: "#399f80", uso: "dominante: sezioni, sottolineature", swatch: "bg-verde" },
-  { name: "verde-deep", hex: "#2a7a62", uso: "hover del verde, testo verde", swatch: "bg-verde-deep" },
-  { name: "arancio", hex: "#c93c00", uso: "CTA primaria, hover, sottolineature", swatch: "bg-arancio" },
-  { name: "blu", hex: "#0270c0", uso: "solo percorso sviluppatore, codice, badge tech", swatch: "bg-blu" },
-  { name: "giallo", hex: "#fedf3e", uso: "forme Bauhaus, evidenziazioni, max 5%", swatch: "bg-giallo" },
-  { name: "rosso", hex: "#e4091e", uso: "solo grafiche dei concept, mai nella UI", swatch: "bg-rosso" },
+  { name: "cream", hex: "#fdf4e4", uso: "sfondo pagina (60%)", swatch: "bg-cream" },
+  { name: "cream-2", hex: "#f6e9d2", uso: "card, superfici secondarie (60%)", swatch: "bg-cream-2" },
+  { name: "ink", hex: "#1a1a1a", uso: "testo principale, bordi forti, forme (30%)", swatch: "bg-ink" },
+  { name: "ink-2", hex: "#4a4540", uso: "testo secondario (30%)", swatch: "bg-ink-2" },
+  { name: "arancio", hex: "#c93c00", uso: "accento 10%: CTA, link, hover", swatch: "bg-arancio" },
 ];
 
 const typeScale = [
@@ -39,23 +35,12 @@ const contrastOk = [
   ["ink", "cream", "15.9"],
   ["ink", "cream-2", "14.5"],
   ["ink-2", "cream", "8.7"],
-  ["ink", "giallo", "13.1"],
+  ["ink-2", "cream-2", "7.9"],
   ["cream", "ink", "15.9"],
-  ["verde-deep", "cream", "4.7"],
-  ["ink", "verde", "5.3"],
-  ["cream", "arancio", "4.7"],
-  ["cream", "blu", "4.7"],
   ["arancio", "cream", "4.7"],
-  ["blu", "cream", "4.7"],
 ];
-const contrastLarge = [
-  ["ink", "arancio", "3.4"],
-  ["ink", "blu", "3.4"],
-];
-const contrastNo = [
-  ["cream", "verde", "3.0"],
-  ["verde", "cream", "3.0"],
-];
+// Nessun'altra coppia è usata come testo su sfondo: con tre soli colori
+// l'accento arancio compare come testo solo su cream (link, numeri, hover).
 ---
 
 <Base
@@ -74,7 +59,7 @@ const contrastNo = [
 
   <!-- Palette -->
   <section class="container-site py-12 md:py-20" aria-labelledby="palette">
-    <SectionHeader id="palette" title="Palette" intro="Mai bianco puro, mai grigio freddo. Il rosso resta fuori dalla UI." />
+    <SectionHeader id="palette" title="Palette" intro="Tre colori, regola 60/30/10. Mai bianco puro, mai grigio freddo." />
     <ul class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
       {
         palette.map((c) => (
@@ -88,25 +73,11 @@ const contrastNo = [
       }
     </ul>
 
-    <div class="mt-12 grid gap-8 md:grid-cols-3">
-      <div>
-        <p class="eyebrow text-ink-2">Coppie AA (testo normale)</p>
-        <ul class="mt-3 space-y-1 font-mono text-sm">
-          {contrastOk.map(([t, b, r]) => <li>{t} su {b}: {r}</li>)}
-        </ul>
-      </div>
-      <div>
-        <p class="eyebrow text-ink-2">Solo testo grande (da 24px)</p>
-        <ul class="mt-3 space-y-1 font-mono text-sm">
-          {contrastLarge.map(([t, b, r]) => <li>{t} su {b}: {r}</li>)}
-        </ul>
-      </div>
-      <div>
-        <p class="eyebrow text-ink-2">Vietate</p>
-        <ul class="mt-3 space-y-1 font-mono text-sm">
-          {contrastNo.map(([t, b, r]) => <li>{t} su {b}: {r}</li>)}
-        </ul>
-      </div>
+    <div class="mt-12">
+      <p class="eyebrow text-ink-2">Coppie usate, tutte sopra AA (testo normale)</p>
+      <ul class="mt-3 space-y-1 font-mono text-sm">
+        {contrastOk.map(([t, b, r]) => <li>{t} su {b}: {r}</li>)}
+      </ul>
     </div>
   </section>
 
@@ -131,7 +102,7 @@ const contrastNo = [
             <p class="mt-2 max-w-[60ch]">
               Costruisco negozi Shopify che si caricano in fretta e si capiscono al primo colpo. Il resto del tempo lo
               passo a togliere cose, che è la parte più difficile. Questo è un <a href="#tipografia">link nel testo</a>,
-              con sottolineatura verde e hover arancio.
+              con sottolineatura arancio, e il testo passa ad arancio al passaggio del mouse.
             </p>
             <p class="mt-3 max-w-[60ch] text-ink-2">
               Testo secondario in ink-2: per note, didascalie e tutto ciò che deve esserci senza farsi notare.
@@ -184,13 +155,13 @@ const contrastNo = [
   <!-- Tag -->
   <section class="border-t-2 border-ink" aria-labelledby="tag">
     <div class="container-site py-12 md:py-20">
-      <SectionHeader id="tag" title="Tag" intro="Mono, uppercase, bordo sottile. Il blu segna i badge tech con bordo e marcatore, il testo resta ink." />
+      <SectionHeader id="tag" title="Tag" intro="Mono, uppercase, bordo ink. La variante cream ha lo stesso bordo e testo, ma il fondo è pieno." />
       <ul class="mt-10 flex flex-wrap gap-3">
         <Tag as="li">Shopify</Tag>
-        <Tag as="li" tone="blu">Liquid</Tag>
-        <Tag as="li" tone="blu">Astro</Tag>
-        <Tag as="li" tone="verde">Case study</Tag>
-        <Tag as="li" tone="giallo">In arrivo</Tag>
+        <Tag as="li" tone="cream">Liquid</Tag>
+        <Tag as="li" tone="cream">Astro</Tag>
+        <Tag as="li">Case study</Tag>
+        <Tag as="li" tone="cream">In arrivo</Tag>
       </ul>
     </div>
   </section>
@@ -218,7 +189,7 @@ const contrastNo = [
         <Card href="#card" surface="cream">
           <div class="flex items-start justify-between gap-3">
             <p class="eyebrow text-ink-2">link, sfondo cream</p>
-            <Tag tone="giallo">In arrivo</Tag>
+            <Tag tone="cream">In arrivo</Tag>
           </div>
           <h3 class="mt-2">Progetto in arrivo</h3>
           <p class="mt-2 text-ink-2">Tutta la card è cliccabile. Tab per vedere il focus.</p>
@@ -248,7 +219,6 @@ const contrastNo = [
       <SectionHeader id="stat" title="Stat tile" intro="Numero in Fraunces, etichetta mono. Valori di esempio, non dati reali." />
       <div class="mt-10 grid gap-8 sm:grid-cols-3">
         <StatTile value="+40%" label="esempio in ink" note="Numero neutro, per quando parla da solo." />
-        <StatTile value="3,5x" label="esempio in verde-deep" tone="verde-deep" />
         <StatTile value="12" label="esempio in arancio" tone="arancio" />
       </div>
     </div>
@@ -257,10 +227,10 @@ const contrastNo = [
   <!-- Forme Bauhaus -->
   <section class="border-t-2 border-ink" aria-labelledby="forme">
     <div class="container-site py-12 md:py-20">
-      <SectionHeader id="forme" title="Forme Bauhaus" intro="Cerchio, semicerchio, quarto, barra. Solo giallo, arancio e blu. Opacità 1, mai sfumature." />
+      <SectionHeader id="forme" title="Forme Bauhaus" intro="Cerchio, semicerchio, quarto, barra. Solo ink, più una sola in arancio. Opacità 1, mai sfumature." />
       <ul class="mt-10 flex flex-wrap items-end gap-8 md:gap-14">
         <li class="flex flex-col items-center gap-3">
-          <div class="size-28 rounded-full bg-giallo md:size-36" aria-hidden="true"></div>
+          <div class="size-28 rounded-full bg-ink md:size-36" aria-hidden="true"></div>
           <span class="eyebrow text-ink-2">cerchio</span>
         </li>
         <li class="flex flex-col items-center gap-3">
@@ -268,11 +238,11 @@ const contrastNo = [
           <span class="eyebrow text-ink-2">semicerchio</span>
         </li>
         <li class="flex flex-col items-center gap-3">
-          <div class="size-28 rounded-tl-full bg-blu md:size-36" aria-hidden="true"></div>
+          <div class="size-28 rounded-tl-full bg-ink md:size-36" aria-hidden="true"></div>
           <span class="eyebrow text-ink-2">quarto</span>
         </li>
         <li class="flex flex-col items-center gap-3">
-          <div class="h-7 w-40 bg-arancio md:w-56" aria-hidden="true"></div>
+          <div class="h-7 w-40 bg-ink md:w-56" aria-hidden="true"></div>
           <span class="eyebrow text-ink-2">barra</span>
         </li>
       </ul>

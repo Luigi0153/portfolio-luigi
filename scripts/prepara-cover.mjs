@@ -18,26 +18,22 @@ const T = {
   cream2: "#f6e9d2",
   ink: "#1a1a1a",
   ink2: "#4a4540",
-  verde: "#399f80",
-  verdeDeep: "#2a7a62",
   arancio: "#c93c00",
-  blu: "#0270c0",
-  giallo: "#fedf3e",
 };
 
 const W = 1200;
 const H = 900;
 
 /* Cover 1 - caso reale: la rampa degli ordini. Quattro barre che salgono,
-   l'ultima in arancio (il mese della decisione), un cerchio giallo dietro. */
+   l'ultima in arancio (il mese della decisione), un cerchio ink dietro. */
 const casoReale = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="${T.cream2}"/>
-  <circle cx="905" cy="250" r="165" fill="${T.giallo}"/>
+  <circle cx="905" cy="250" r="165" fill="${T.ink}"/>
   <g stroke="${T.ink}" stroke-width="7">
     <rect x="160" y="560" width="150" height="200" fill="${T.cream}"/>
-    <rect x="345" y="470" width="150" height="290" fill="${T.verde}"/>
-    <rect x="530" y="380" width="150" height="380" fill="${T.verde}"/>
+    <rect x="345" y="470" width="150" height="290" fill="${T.ink}"/>
+    <rect x="530" y="380" width="150" height="380" fill="${T.ink}"/>
     <rect x="715" y="215" width="150" height="545" fill="${T.arancio}"/>
   </g>
   <rect x="120" y="760" width="790" height="7" fill="${T.ink}"/>
@@ -48,9 +44,9 @@ const fornace = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="${T.cream2}"/>
   <g stroke="${T.ink}" stroke-width="7">
-    <path d="M250 740 L250 430 A200 200 0 0 1 650 430 L650 740 Z" fill="${T.blu}"/>
+    <path d="M250 740 L250 430 A200 200 0 0 1 650 430 L650 740 Z" fill="${T.ink}"/>
     <path d="M360 740 L360 470 A90 90 0 0 1 540 470 L540 740 Z" fill="${T.cream}"/>
-    <path d="M700 740 L700 545 A125 125 0 0 1 950 545 L950 740 Z" fill="${T.giallo}"/>
+    <path d="M700 740 L700 545 A125 125 0 0 1 950 545 L950 740 Z" fill="${T.ink}"/>
   </g>
   <rect x="150" y="740" width="880" height="7" fill="${T.ink}"/>
   <circle cx="450" cy="255" r="52" fill="${T.arancio}" stroke="${T.ink}" stroke-width="7"/>
@@ -61,8 +57,8 @@ const pizzeria = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="${T.cream2}"/>
   <path d="M520 450 L520 190 A260 260 0 1 0 780 450 Z" fill="${T.arancio}" stroke="${T.ink}" stroke-width="7"/>
-  <path d="M556 414 L556 226 A188 188 0 0 1 744 414 Z" fill="${T.giallo}" stroke="${T.ink}" stroke-width="7"/>
-  <rect x="840" y="250" width="150" height="400" rx="75" fill="${T.verde}" stroke="${T.ink}" stroke-width="7"/>
+  <path d="M556 414 L556 226 A188 188 0 0 1 744 414 Z" fill="${T.ink}" stroke="${T.ink}" stroke-width="7"/>
+  <rect x="840" y="250" width="150" height="400" rx="75" fill="${T.ink}" stroke="${T.ink}" stroke-width="7"/>
   <rect x="180" y="700" width="450" height="46" rx="23" fill="${T.ink}"/>
 </svg>`;
 
@@ -112,7 +108,7 @@ const dopo = `
   <rect x="0" y="0" width="${BW}" height="54" fill="${T.cream2}"/>
   <rect x="16" y="19" width="70" height="16" rx="8" fill="${T.ink}"/>
   <rect x="16" y="70" width="358" height="330" rx="12" fill="${T.cream2}" stroke="${T.ink}" stroke-width="3"/>
-  <circle cx="195" cy="222" r="86" fill="${T.giallo}" stroke="${T.ink}" stroke-width="3"/>
+  <circle cx="195" cy="222" r="86" fill="${T.cream}" stroke="${T.ink}" stroke-width="3"/>
   <g fill="${T.ink}" opacity="0.18">
     <circle cx="150" cy="378" r="6"/><circle cx="174" cy="378" r="6"/>
     <circle cx="198" cy="378" r="6"/><circle cx="222" cy="378" r="6"/>
