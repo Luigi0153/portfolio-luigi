@@ -41,27 +41,21 @@ import DeskScene from "./DeskScene.astro";
             vale ~5 punti Lighthouse mobile */}
         <TargetSwitch client:idle />
       </div>
-      <div class="mt-6" data-hero-reveal>
+      <div class="hero__cta" data-hero-reveal>
         <Button variant="primary" size="lg" href="#progetti">
           <span data-only="dev">Vedi il codice</span>
           <span data-only="business">Vedi i risultati</span>
         </Button>
+        <Button variant="secondary" size="lg" href="/contatti">Contattami</Button>
       </div>
 
-      {/* Un numero vero sopra la piega: i tre dati del caso reale stavano a due
-          click da qui. Testo statico, non StatTile: niente conteggio da far
-          ripartire quando lo switch scopre l'altra variante. */}
-      <p class="hero__prova" data-hero-reveal>
-        <span data-only="dev">
-          Il <strong>94%</strong> delle visite del <a href="/progetti/caso-reale"
-            >caso reale</a
-          > arriva da telefono. Per questo parto sempre dal mobile.
-        </span>
-        <span data-only="business">
-          <strong>+86% di fatturato</strong> da giugno a luglio, nel <a
-            href="/progetti/caso-reale">caso reale</a
-          >.
-        </span>
+      {/* Un numero vero sopra la piega: i dati del caso reale stavano a due
+          click da qui. Testo statico e non StatTile: senza conteggio non c'è
+          animazione da far ripartire quando lo switch scopre questa riga. */}
+      <p class="hero__prova" data-only="business" data-hero-reveal>
+        <strong>+86% di fatturato</strong> da giugno a luglio, nel <a
+          href="/progetti/caso-reale">caso reale</a
+        >.
       </p>
     </div>
 
@@ -124,6 +118,16 @@ import DeskScene from "./DeskScene.astro";
      misura, ma in ink-2 così non compete con il verde della riga sotto. */
   .hero__riga--intro {
     color: var(--color-ink-2);
+  }
+
+  /* Le due CTA restano affiancate anche a 390: misurate, 168 + 150 + 16 di gap
+     = 334px contro i 350px utili. flex-wrap è la rete di sicurezza — se un
+     giorno un'etichetta si allunga vanno a capo invece di sfondare la pagina. */
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
   }
 
   /* La prova sotto la CTA: secondaria rispetto al titolo, ma il numero in ink
