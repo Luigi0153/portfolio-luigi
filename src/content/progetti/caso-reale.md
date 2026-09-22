@@ -27,7 +27,7 @@ sezioni:
     - "Il 94% del traffico arriva da mobile, e il 30% degli ordini da TikTok Shop, che nel funnel del sito non si vede."
     - "Il 68% del fatturato viene dalle borse: un negozio di borse, con abbigliamento e accessori intorno."
   decisione:
-    - "La tentazione era rifare palette, font e homepage, perché il sito è brutto."
+    - "La tentazione era rifare palette, font e homepage, perché il sito non convinceva a livello estetico."
     - "I dati dicevano altro: solo 4 persone su 100 aggiungono al carrello, e chi arriva al checkout lo abbandona 9 volte su 10."
     - "Redesign in pausa, e ho lavorato in ordine su tre cose: scheda prodotto mobile, checkout provato con ordini veri dal telefono, catalogo pulito."
   risultato:
