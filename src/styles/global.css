@@ -24,6 +24,11 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* La nav flotta sopra il contenuto: senza questo un'ancora come
+       #progetti finirebbe sotto la pillola. */
+    scroll-padding-top: calc(
+      var(--nav-top) + env(safe-area-inset-top, 0px) + var(--nav-h) + 1rem
+    );
   }
 
   body {

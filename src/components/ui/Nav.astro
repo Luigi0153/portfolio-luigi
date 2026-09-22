@@ -1,9 +1,16 @@
 ---
 /**
- * Nav sticky: logo testuale in Fraunces, 3 voci, indicatore verde.
- * L'indicatore usa verde-deep (il verde base non passa il contrasto 3:1
- * non-text su cream). Pagina attiva calcolata server-side; sezione attiva
- * sulla home via IntersectionObserver (aria-current="true").
+ * Nav: pillola flottante sticky, logo in Fraunces + 3 voci + CTA (da 768px).
+ *
+ * La voce attiva è una pillola verde-deep che scorre da una voce all'altra:
+ * un solo elemento (.site-nav__thumb) mosso da JS, perché tra elementi
+ * diversi il CSS da solo non può interpolare. Il testo attivo passa a cream
+ * con un ritardo pari alla corsa del thumb, così non resta cream su cream-2
+ * mentre il riempimento è ancora per strada.
+ *
+ * L'header ha transition:persist per non sfarfallare tra una pagina e
+ * l'altra: il DOM sopravvive allo swap, quindi aria-current NON si aggiorna
+ * da solo e va ricalcolato dal client a ogni astro:page-load.
  */
 const voci = [
   { href: "/#progetti", label: "Progetti", sezione: "progetti" },
@@ -14,10 +21,13 @@ const voci = [
 const pathname = Astro.url.pathname;
 ---
 
-<header class="site-nav">
-  <div class="container-site site-nav__row">
+<header class="site-nav" transition:persist>
+  <div class="site-nav__pill">
     <a class="site-nav__logo font-display-axes" href="/">Luigi</a>
-    <nav aria-label="Principale">
+    <span class="site-nav__sep" aria-hidden="true"></span>
+
+    <nav class="site-nav__nav" aria-label="Principale">
+      <span class="site-nav__thumb" aria-hidden="true"></span>
       <ul class="site-nav__list">
         {
           voci.map(({ href, label, sezione }) => {
@@ -39,83 +49,207 @@ const pathname = Astro.url.pathname;
         }
       </ul>
     </nav>
+
+    <a class="site-nav__cta" href="/contatti">Scrivimi</a>
   </div>
 </header>
 
 <style>
+  /*
+    Il distacco dall'alto è padding dell'header, non top della pillola: così
+    lo stesso valore vale da fermi e da sticky, e la pillola non salta al
+    primo scroll. L'header trasparente copre tutta la riga, quindi non deve
+    intercettare i click fuori dalla pillola.
+  */
   .site-nav {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: var(--color-cream);
-    border-bottom: 2px solid var(--color-ink);
+    padding-top: calc(var(--nav-top) + env(safe-area-inset-top, 0px));
+    padding-inline: var(--nav-top);
+    pointer-events: none;
   }
 
-  .site-nav__row {
+  .site-nav__pill {
+    pointer-events: auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    min-height: 60px;
+    gap: 0.25rem;
+    width: 100%;
+    max-width: var(--container-site);
+    margin-inline: auto;
+    padding: 5px;
+    border: var(--border-retro);
+    border-radius: var(--radius-pill);
+    background: var(--color-cream-2);
+  }
+
+  @media (min-width: 768px) {
+    .site-nav__pill {
+      /* su desktop la pillola è larga quanto il suo contenuto */
+      width: fit-content;
+      gap: 0.5rem;
+      padding: 6px;
+      padding-left: 0.5rem;
+    }
   }
 
   .site-nav__logo {
-    font-size: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
     line-height: 1;
     text-decoration: none;
+  }
+
+  @media (min-width: 768px) {
+    .site-nav__logo {
+      font-size: 1.375rem;
+      padding-inline: 0.625rem;
+    }
+  }
+
+  .site-nav__sep {
+    flex: none;
+    width: 2px;
+    height: 1.25rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-ink);
+    opacity: 0.16;
+  }
+
+  .site-nav__nav {
+    position: relative;
+    min-width: 0;
   }
 
   .site-nav__list {
     display: flex;
   }
 
+  /* La pillola che scorre: sta sotto al testo, larghezza e posizione le
+     scrive lo script. Senza --pronto non ha transizione, così al primo
+     paint compare già al posto giusto invece di arrivarci scorrendo. */
+  .site-nav__thumb {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    z-index: 0;
+    width: 0;
+    border-radius: var(--radius-pill);
+    background: var(--color-verde-deep);
+    opacity: 0;
+  }
+
+  .site-nav__thumb--pronto {
+    transition:
+      transform 0.3s var(--ease-brand),
+      width 0.3s var(--ease-brand),
+      opacity 0.2s var(--ease-brand);
+  }
+
+  .site-nav__thumb--attivo {
+    opacity: 1;
+  }
+
   .site-nav__link {
     position: relative;
-    display: inline-block;
-    padding: 1rem 0.625rem;
-    font-size: 0.9375rem;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.5rem;
+    font-size: 0.875rem;
     font-weight: 500;
+    white-space: nowrap;
     text-decoration: none;
+    transition: color 0.15s var(--ease-brand);
   }
 
   @media (min-width: 768px) {
     .site-nav__link {
       padding-inline: 0.875rem;
-      font-size: 1rem;
+      font-size: 0.9375rem;
     }
   }
 
-  /* Indicatore verde della voce attiva */
-  .site-nav__link::after {
-    content: "";
-    position: absolute;
-    right: 0.625rem;
-    bottom: 0.625rem;
-    left: 0.625rem;
-    height: 3px;
-    border-radius: var(--radius-pill);
-    background: var(--color-verde-deep);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.25s var(--ease-brand);
+  /* cream su verde-deep = 4,75:1, sopra AA. Il ritardo tiene il testo scuro
+     finché il thumb non è arrivato: senza, sarebbe cream su cream-2. */
+  .site-nav__link[aria-current] {
+    color: var(--color-cream);
+    transition-delay: 0.18s;
   }
 
-  .site-nav__link[aria-current]::after {
-    transform: scaleX(1);
+  /* Solo da 768: sotto, la riga serve tutta alle tre voci. Fondo ink e non
+     arancio — l'arancio è della CTA primaria, una sola per schermata. */
+  .site-nav__cta {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .site-nav__cta {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      margin-left: 0.25rem;
+      padding-inline: 1.125rem;
+      border-radius: var(--radius-pill);
+      background: var(--color-ink);
+      color: var(--color-cream);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: background-color 0.25s var(--ease-brand);
+    }
+  }
+
+  @media (min-width: 768px) and (hover: hover) {
+    .site-nav__cta:hover {
+      background: var(--color-verde-deep);
+    }
+  }
+
+  .site-nav__logo:focus-visible,
+  .site-nav__link:focus-visible,
+  .site-nav__cta:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    border-radius: var(--radius-pill);
+  }
+
+  /* Il global azzera le durate ma non i ritardi: qui il ritardo del colore
+     esiste solo per accompagnare il thumb, che con reduce non si muove. */
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav__thumb,
+    .site-nav__link,
+    .site-nav__link[aria-current] {
+      transition: none;
+      transition-delay: 0s;
+    }
   }
 </style>
 
 <script>
-  // Scroll-spy: evidenzia la voce della sezione visibile (solo per le voci
-  // con data-sezione la cui sezione esiste nella pagina corrente).
-  // Le sezioni cambiano da pagina a pagina, quindi con le View Transitions
-  // l'osservatore va rifatto a ogni navigazione, non solo al primo caricamento.
+  /*
+    Tre cose, tutte rifatte a ogni navigazione perché l'header è persistito e
+    il suo markup non viene rimpiazzato dallo swap:
+    1. aria-current="page" della pagina corrente (server-side non basta più);
+    2. scroll-spy delle sezioni presenti nella pagina (aria-current="true");
+    3. posizione della pillola che evidenzia la voce attiva.
+  */
   let osservatore: IntersectionObserver | undefined;
+  let staccaResize: (() => void) | undefined;
+  let primoGiro = true;
 
   function spegni() {
     osservatore?.disconnect();
     osservatore = undefined;
+    staccaResize?.();
+    staccaResize = undefined;
   }
 
   function avvia() {
@@ -124,9 +258,55 @@ const pathname = Astro.url.pathname;
     const nav = document.querySelector<HTMLElement>(".site-nav");
     if (!nav) return;
 
-    const coppie = [...nav.querySelectorAll<HTMLAnchorElement>("a[data-sezione]")]
+    const thumb = nav.querySelector<HTMLElement>(".site-nav__thumb");
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>(".site-nav__link")];
+
+    // 1. Pagina attiva: con transition:persist resta quella di partenza
+    const qui = location.pathname.replace(/\/$/, "") || "/";
+    for (const link of links) {
+      if (link.dataset.sezione) continue;
+      const suo = new URL(link.href).pathname.replace(/\/$/, "") || "/";
+      if (suo === qui) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    }
+
+    function posiziona() {
+      if (!thumb) return;
+      const attivo = links.find((link) => link.hasAttribute("aria-current"));
+      if (!attivo) {
+        thumb.classList.remove("site-nav__thumb--attivo");
+        return;
+      }
+      thumb.style.width = `${attivo.offsetWidth}px`;
+      thumb.style.transform = `translateX(${attivo.offsetLeft}px)`;
+      thumb.classList.add("site-nav__thumb--attivo");
+    }
+
+    posiziona();
+
+    // La transizione si accende dopo il primo posizionamento della sessione:
+    // al caricamento la pillola deve essere già al posto giusto, non arrivarci.
+    if (primoGiro) {
+      primoGiro = false;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => thumb?.classList.add("site-nav__thumb--pronto"));
+      });
+    }
+
+    // Le larghezze cambiano quando arrivano i font: senza questo la pillola
+    // resta della misura calcolata col fallback di sistema.
+    document.fonts?.ready.then(posiziona);
+
+    const suResize = () => posiziona();
+    window.addEventListener("resize", suResize);
+    staccaResize = () => window.removeEventListener("resize", suResize);
+
+    // 2 + 3. Scroll-spy delle sezioni di questa pagina
+    const coppie = links
       .map((link) => {
-        const sezione = document.getElementById(link.dataset.sezione ?? "");
+        const sezione = link.dataset.sezione
+          ? document.getElementById(link.dataset.sezione)
+          : null;
         return sezione ? { link, sezione } : null;
       })
       .filter((coppia) => coppia !== null);
@@ -143,6 +323,7 @@ const pathname = Astro.url.pathname;
               coppia.link.removeAttribute("aria-current");
             }
           }
+          posiziona();
         },
         { rootMargin: "-30% 0px -60% 0px" },
       );

@@ -62,6 +62,11 @@
   --duration-base: 600ms;
   --stagger: 80ms;
   --display-axes: "opsz" 72, "SOFT" 50;
+
+  /* Nav a pillola: distacco dal bordo e ingombro totale. Servono anche fuori
+     dal componente, per lo scroll-padding delle ancore (#progetti). */
+  --nav-top: 12px;
+  --nav-h: 58px;
 }
 
 @media (min-width: 768px) {
