@@ -52,7 +52,7 @@ for (const vp of [390, 1280]) {
     );
 
     atteso(
-      ordine[0].startsWith("Non ho rifatto"),
+      ordine[0].startsWith("I numeri prima"),
       `${vp}px ${target}: il progetto reale è il primo`,
     );
     const secondo = target === "dev" ? "Fornace Vietri" : "Landing per una pizzeria";

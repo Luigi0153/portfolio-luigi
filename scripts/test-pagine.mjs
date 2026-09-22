@@ -63,7 +63,7 @@ for (const vp of [390, 1280]) {
 
   const passi = await page.locator(".processo__nome").allTextContents();
   atteso(
-    passi.join(" → ") === "Ascolto → Numeri → Prototipo → Codice",
+    passi.join(" → ") === "Ci conosciamo → Guardo i numeri → Prototipo → Online",
     `${vp}px come-lavoro: i 4 passi nell'ordine giusto (${passi.join(", ")})`,
   );
 
