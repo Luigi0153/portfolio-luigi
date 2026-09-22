@@ -22,7 +22,7 @@ Deploy Vercel. Nessuna altra libreria UI/animazione senza il mio ok esplicito.
 4. Commit piccoli con messaggi in italiano: `feat(hero): switch target`, `fix(mobile): overflow card`.
 5. Testi: frasi brevi e decise, comprensibili sia a un negoziante sia a un'azienda, professionali senza termini tecnici inutili. Lessico da docs/voce.md. Niente due punti a effetto, niente superlativi. Ironia lieve ammessa solo in punti marginali: easter egg della tazza, 404, footer, messaggi di conferma. Mai in hero, progetti e inviti al contatto.
 6. Accessibilità: contrasto AA sui token, focus visibile, `prefers-reduced-motion` disattiva GSAP e il 3D.
-7. Performance: immagini in `<Image>` di Astro (webp/avif), font self-hosted con `font-display: swap`, .glb < 1 MB, Lighthouse mobile ≥ 90. Lighthouse si misura sulla build di preview, mai sul dev server, come mediana di 3 run. La verifica di performance è una fase dedicata a fine progetto, non un controllo a ogni fase.
+7. Performance: immagini in `<Image>` di Astro (webp/avif), font self-hosted con `font-display: swap`, .glb < 1 MB, Lighthouse mobile ≥ 90. Lighthouse si misura sulla build di preview, mai sul dev server, come mediana di 3 run. La verifica di performance è una fase dedicata a fine progetto, non un controllo a ogni fase. I test Playwright si eseguono sulla build di preview, mai sul dev server: sul dev server 404 e sitemap danno falsi negativi.
 8. Non inventare dati per il caso reale: usa solo quelli in `docs/content/caso-reale.md`. Nome dello store e logo sempre anonimizzati.
 9. Se un'istruzione è ambigua, fai una domanda sola e proponi la tua opzione preferita.
 10. Prima di aggiungere un pacchetto npm, spiega in una riga perché e aspetta il mio ok.
