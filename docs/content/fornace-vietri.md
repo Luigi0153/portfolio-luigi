@@ -20,7 +20,7 @@ Ogni pezzo esiste in una sola copia. Due piatti "uguali" hanno decorazioni diver
 
 Shopify è pensato per prodotti in serie: un prodotto, tante taglie o colori, una giacenza. Qui funziona al contrario, ogni pezzo è un prodotto a sé con giacenza 1, e quando lo vendi sparisce.
 
-In più il laboratorio aggiorna il negozio da solo, dal telefono, tra un'infornata e l'altra. Tutto quello che costruisco deve restare semplice da gestire per chi non è tecnico.
+In più il laboratorio carica i pezzi dal telefono, tra un'infornata e l'altra. Quello che costruisco deve essere semplice da usare ogni giorno, e per il resto ci sono io.
 
 ## I vincoli
 
@@ -74,7 +74,7 @@ Più un quadro con le tre card affiancate nei tre stati: è l'immagine che spieg
 ## Cosa ho imparato
 
 - Shopify si può piegare anche a chi non vende in serie, ma va deciso all'inizio, non aggiustato dopo.
-- Per chi gestisce da solo, ogni campo in più nella scheda prodotto è un campo che prima o poi resta vuoto.
+- Per chi carica i prodotti dal telefono, ogni campo in più nella scheda è un campo che prima o poi resta vuoto.
 - Un "esaurito" è una porta chiusa. Un "Venduto, richiedine uno simile" è una conversazione che inizia.
 
 ## Nel negozio vero farei

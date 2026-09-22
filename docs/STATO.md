@@ -135,8 +135,15 @@ visibili a riposo) non è stato toccato.
   prototipo e passo online riscritti ("resto al tuo fianco" al posto di "ti lascio le
   istruzioni per gestirlo da solo"), stack business `Uso strumenti standard e diffusi. Il sito
   resta tuo, e io resto a disposizione.` al posto di "se un giorno non ci sono io". Shopify
-  resta nello stack, nel caso reale e nei contatti dev; restano da decidere footer, meta della
-  home e og-image, che dicono ancora `Shopify Web Developer`.
+  resta nello stack e nel caso reale. Stesso giorno: footer e og-image della home `Web Developer
+  e AI Web Designer`, meta della home `Luigi Romano, web developer e AI web designer. Creo e
+  seguo siti e negozi online, anche su Shopify.`; `/contatti` con un titolo e una riga soli per
+  i due percorsi (`Discutiamone insieme.` + `Cerchi uno sviluppatore per il tuo team o per
+  creare e gestire il tuo sito? Contattami.`). Regola 5 di `CLAUDE.md` riscritta da Luigi:
+  niente ironia salvo la tazza, il cliente non resta mai solo. `prepara-og.mjs` ora legge il
+  Fraunces self-hosted (`src/assets/fonts/`): il pacchetto `@fontsource-variable/fraunces` non
+  c'è più. Rigenerata solo `og.png`; le altre og, rifatte con il nuovo file, differivano solo
+  nell'antialiasing e sono state lasciate com'erano.
 
 - **Prova sopra la piega nell'hero (2026-09-22).** Risponde a due punti della passata 2 di
   `docs/AUDIT.md`: il 3 (i numeri veri stavano a due click dalla home) e il 5 (lo switch cambiava

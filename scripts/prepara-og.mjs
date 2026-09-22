@@ -33,7 +33,7 @@ const T = {
 
 /* --- Font incorporati: gli stessi file che il sito serve in produzione --- */
 const FONT = {
-  display: "node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2",
+  display: "src/assets/fonts/fraunces-latin-72-50.woff2",
   sans: "node_modules/@fontsource/hanken-grotesk/files/hanken-grotesk-latin-600-normal.woff2",
   mono: "node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2",
 };
@@ -54,7 +54,7 @@ const fonts = {
 const PAGINE = [
   {
     file: "og.png",
-    etichetta: "Shopify Web Developer · AI Web Designer",
+    etichetta: "Web Developer e AI Web Designer",
     titolo: "Ciao, sono Luigi.",
     sottotitolo: "Negozi che vendono, codice che regge.",
     accento: T.arancio,
@@ -107,7 +107,7 @@ const template = ({ etichetta, titolo, sottotitolo, accento }) => `
       @font-face {
         font-family: "Fraunces OG";
         src: url(data:font/woff2;base64,${fonts.display}) format("woff2");
-        font-weight: 100 900;
+        font-weight: 500 700;
       }
       @font-face {
         font-family: "Hanken OG";
