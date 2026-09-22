@@ -78,8 +78,27 @@ visibili a riposo) non è stato toccato.
   (via il nome buttato lì, niente più battuta); chiusa del 404 → `Pagina non trovata. Succede
   anche ai corrieri migliori.`, la frase 15 già pronta in `docs/voce.md`, al posto della frase
   sull'oggetto 3D e della battuta su Gandalf. Verificata con i cinque test permanenti (tutti
-  verdi) e screenshot di home e 404 a 390/1280. Restano le altre sezioni marcate "da AI" o
-  "generica": `/contatti`.
+  verdi) e screenshot di home e 404 a 390/1280.
+
+  Il 2026-09-22 (secondo giro) toccati hero, contatti, caso reale e il resto di `/come-lavoro`
+  su richiesta diretta di Luigi (non dall'inventario, testi già decisi da lui). Hero: aggiunta
+  una riga sola per il percorso business, sopra quella colorata (`Aiuto le aziende a vendere
+  online con Shopify.` + `Partiamo dai numeri del tuo negozio e decidiamo insieme cosa
+  cambiare.`), riga dev accorciata (`Lavoro su Shopify ogni giorno, su negozi veri.`). Contatti:
+  le due righe sotto il titolo ora sono un invito diretto per percorso (`Cerchi uno sviluppatore
+  Shopify...` / `Hai un progetto per la tua azienda...`), e la promessa di tempo di risposta
+  ("Rispondo entro un giorno lavorativo") è sparita ovunque nel sito (meta, intro, esito form,
+  `InvitoContatto.astro`) — restano le altre voci "da AI" della pagina, non toccate (`Tre campi.
+  Nessun "reparto di competenza".`, ecc.). Caso reale: il sommario non nomina più "in Campania".
+  `/come-lavoro`: i quattro passi rinominati (Ci conosciamo, Guardo i numeri, Prototipo, Online)
+  e riscritti sui testi di Luigi; poi, su sue correzioni a una prima proposta, riscritti anche
+  titolo della sezione processo (via l'intro che ripeteva quella di pagina), intro dev, e tutto
+  il blocco progetto n°5 (via il nome tecnico `localStorage` non spiegato al lettore business e
+  la frase su Google non verificata, riscritto senza i due punti a effetto il paragrafo "Il
+  come"). `test-progetti.mjs` e `test-pagine.mjs` avevano asserzioni sui testi vecchi (vecchio
+  titolo del caso reale, vecchi nomi dei passi): aggiornate. Verificata con i cinque test
+  permanenti (tutti verdi) e screenshot a 390/768/1280, entrambi i percorsi, su home, contatti,
+  come-lavoro, caso-reale.
 - **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
 - Fase di performance dedicata a fine progetto (regola 7).
 
