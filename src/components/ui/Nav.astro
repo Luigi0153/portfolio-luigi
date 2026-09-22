@@ -1,6 +1,6 @@
 ---
 /**
- * Nav: pillola flottante sticky, logo in Fraunces + 3 voci + CTA (da 768px).
+ * Nav: pillola flottante sticky, marchio SVG + 3 voci + CTA (da 768px).
  *
  * La voce attiva è una pillola verde-deep che scorre da una voce all'altra:
  * un solo elemento (.site-nav__thumb) mosso da JS, perché tra elementi
@@ -23,7 +23,12 @@ const pathname = Astro.url.pathname;
 
 <header class="site-nav" transition:persist>
   <div class="site-nav__pill">
-    <a class="site-nav__logo font-display-axes" href="/">Luigi</a>
+    <a class="site-nav__logo" href="/" aria-label="Luigi Romano, torna alla home">
+      <svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true" focusable="false">
+        <rect x="17" y="10" width="26" height="80" fill="var(--color-ink)" />
+        <path d="M43 90V50A40 40 0 0 1 83 90Z" fill="var(--color-arancio)" />
+      </svg>
+    </a>
     <span class="site-nav__sep" aria-hidden="true"></span>
 
     <nav class="site-nav__nav" aria-label="Principale">
@@ -61,8 +66,8 @@ const pathname = Astro.url.pathname;
     salta al primo scroll. L'header trasparente copre tutta la riga, quindi non
     deve intercettare i click fuori dalla pillola.
 
-    Qui stanno anche le misure che cambiano con la larghezza, così pillola,
-    logo e voci leggono tutte gli stessi valori. Gli spazi sono in clamp():
+    Qui stanno anche le misure che cambiano con la larghezza, così pillola
+    e voci leggono tutte gli stessi valori. Gli spazi sono in clamp():
     stretti sui telefoni piccoli, appena più larghi su quelli grandi, mai
     sparpagliati. Il testo invece scende solo dove gli spazi hanno già toccato
     il minimo, cioè sotto i 360px, e si ferma a 13px: 0.3125rem + 2.5vw fa
@@ -71,7 +76,6 @@ const pathname = Astro.url.pathname;
   .site-nav {
     --nav-gap: clamp(0.1875rem, 0.9vw, 0.25rem);
     --nav-pad-voce: clamp(0.375rem, 1.9vw, 0.625rem);
-    --nav-pad-logo: clamp(0.375rem, 1.6vw, 0.5rem);
     --nav-testo-voce: clamp(0.8125rem, 0.3125rem + 2.5vw, 0.875rem);
 
     position: sticky;
@@ -86,7 +90,6 @@ const pathname = Astro.url.pathname;
     .site-nav {
       --nav-gap: 0.5rem;
       --nav-pad-voce: 0.875rem;
-      --nav-pad-logo: 0.625rem;
       --nav-testo-voce: 0.9375rem;
     }
   }
@@ -114,34 +117,40 @@ const pathname = Astro.url.pathname;
   @media (min-width: 768px) {
     .site-nav__pill {
       padding: 6px;
-      padding-left: 0.5rem;
     }
   }
 
+  /* Bersaglio da 44x44 con il marchio da 36 al centro. Il nome, per chi usa
+     uno screen reader, sta nell'aria-label: l'SVG è solo decorazione. */
   .site-nav__logo {
     display: inline-flex;
+    flex: none;
     align-items: center;
-    min-height: 44px;
-    padding-inline: var(--nav-pad-logo);
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1;
-    text-decoration: none;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+  }
+
+  .site-nav__logo svg {
+    display: block;
+  }
+
+  /* Solo da 768: sotto, il marchio si stacca da solo dalle voci e la riga
+     serve tutta a loro. */
+  .site-nav__sep {
+    display: none;
   }
 
   @media (min-width: 768px) {
-    .site-nav__logo {
-      font-size: 1.375rem;
+    .site-nav__sep {
+      display: block;
+      flex: none;
+      width: 2px;
+      height: 1.25rem;
+      border-radius: var(--radius-pill);
+      background: var(--color-ink);
+      opacity: 0.16;
     }
-  }
-
-  .site-nav__sep {
-    flex: none;
-    width: 2px;
-    height: 1.25rem;
-    border-radius: var(--radius-pill);
-    background: var(--color-ink);
-    opacity: 0.16;
   }
 
   .site-nav__nav {

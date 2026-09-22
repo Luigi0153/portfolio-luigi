@@ -63,6 +63,19 @@ visibili a riposo) non è stato toccato.
   A 320 la pillola misura 282 di 296 disponibili: è la larghezza più stretta che regge, sotto
   quella il contenuto uscirebbe dal bordo.
 
+- **Marchio nella nav e favicon (2026-09-23).** Nella pillola il testo "Luigi" è diventato il
+  marchio "L" come SVG inline (barra ink + quarto di cerchio arancio, colori dai token), dentro
+  un link 44x44 con `aria-label="Luigi Romano, torna alla home"`. Via `--nav-pad-logo` e il
+  `padding-left` in più della pillola da desktop. Il separatore torna **solo da 768**. Il nome
+  per intero non è più nella nav, quindi `SITE_NAME` in `Base.astro` passa da "Luigi" a
+  "Luigi Romano" (titolo, og:site_name, og/twitter title), in più c'è `<meta name="author">`;
+  la home ha titolo "Luigi Romano". Il footer lo aveva già. Favicon: `public/favicon.svg`
+  (fornito da Luigi, barra cream nella scheda scura) + `favicon.ico` 32 e
+  `apple-touch-icon.png` 180 su fondo cream, generati da `scripts/prepara-favicon.mjs` con
+  sharp. L'archivio del marchio è in `docs/brand/` e non va usato nel sito. `test-nav` ora
+  verifica anche marchio (misure, centratura, aria-label, focus ink), separatore e presenza del
+  nome in titolo, meta e footer su 5 pagine.
+
 ## Annullato
 - **Fase 4 — oggetto 3D nell'hero.** Annullata il 2026-09-19. Due motivi: lo spazio dell'hero è già occupato dalla scena scrivania della Fase 2.5, e Three.js aggiungerebbe peso JS proprio dove il Lighthouse mobile è già sotto soglia (85 contro il ≥ 90 della regola 7). Restano quindi non necessari `HeroObject.tsx`, `public/models/hero.glb` e `hero-fallback.png`. Le dipendenze `three` e `@types/three` sono in `package.json` ma non importate da nessun file: da rimuovere quando si tocca il `package.json`.
 

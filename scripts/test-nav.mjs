@@ -6,7 +6,10 @@
   2. gli spazi tra le voci crescono con la larghezza ma non si sparpagliano;
   3. il contenuto sta dentro la pillola, il testo non scende sotto i 13px e
      nessuna voce va a capo;
-  4. il riempimento verde è esattamente sulla voce attiva.
+  4. il riempimento verde è esattamente sulla voce attiva;
+  5. il marchio è un bersaglio 44x44 con l'SVG da 36 al centro, ha il nome
+     nell'aria-label e l'anello ink al focus; il separatore c'è solo da 768;
+  6. "Luigi Romano" resta nel titolo, nei meta e nel footer di ogni pagina.
   Uso: node scripts/test-nav.mjs   (server attivo su BASE_URL o :4321)
 */
 import { chromium } from "playwright";
@@ -67,7 +70,23 @@ const misura = (page) =>
     });
 
     const centro = (b) => b.left + b.width / 2;
+    const centroY = (b) => b.top + b.height / 2;
+    const logo = pill.querySelector(".site-nav__logo");
+    const rl = r(logo);
+    const rs = r(logo.querySelector("svg"));
     return {
+      logo: {
+        w: +rl.width.toFixed(2),
+        h: +rl.height.toFixed(2),
+        svg: +rs.width.toFixed(2),
+        scarto: +Math.max(
+          Math.abs(centro(rs) - centro(rl)),
+          Math.abs(centroY(rs) - centroY(rl)),
+        ).toFixed(2),
+        label: logo.getAttribute("aria-label"),
+        testo: logo.textContent.trim(),
+      },
+      sep: getComputedStyle(pill.querySelector(".site-nav__sep")).display !== "none",
       vw,
       sinistra: +rp.left.toFixed(2),
       destra: +(vw - rp.right).toFixed(2),
@@ -114,6 +133,16 @@ const verifica = (m, etichetta, voce) => {
     `${etichetta}: riempimento centrato sulla voce (centro ${m.scartoCentro}px, larghezza ${m.scartoLarghezza}px)`,
   );
   atteso(m.overflow <= 0, `${etichetta}: nessun overflow orizzontale`);
+  const { logo } = m;
+  atteso(
+    logo.w === 44 && logo.h === 44 && logo.svg === 36 && logo.scarto <= 0.5,
+    `${etichetta}: marchio 44x44 con SVG da 36 al centro (${logo.w}x${logo.h}, svg ${logo.svg}, scarto ${logo.scarto}px)`,
+  );
+  atteso(
+    logo.label === "Luigi Romano, torna alla home" && logo.testo === "",
+    `${etichetta}: il marchio ha il nome nell'aria-label e nessun testo visibile`,
+  );
+  atteso(m.sep === !mobile, `${etichetta}: separatore ${mobile ? "assente" : "presente"} (${m.sep})`);
   return m.pad;
 };
 
@@ -151,6 +180,53 @@ for (const vp of viewport) {
 
     await page.close();
   }
+}
+
+/* Focus da tastiera: primo Tab sul link "salta", secondo sul marchio */
+for (const w of [320, 1280]) {
+  const page = await browser.newPage({ viewport: { width: w, height: 800 } });
+  await page.goto(BASE + "/come-lavoro", { waitUntil: "networkidle" });
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  const f = await page.evaluate(() => {
+    const el = document.activeElement;
+    const cs = getComputedStyle(el);
+    return {
+      logo: el.classList.contains("site-nav__logo"),
+      outline: `${cs.outlineWidth} ${cs.outlineStyle} ${cs.outlineColor}`,
+    };
+  });
+  atteso(
+    f.logo && f.outline === "2px solid rgb(26, 26, 26)",
+    `${w}px: il marchio prende il focus con l'anello ink (${f.outline})`,
+  );
+  await page.close();
+}
+
+/* Il nome per intero non è più nella nav: deve restare nel resto della pagina */
+const conNome = ["/", "/come-lavoro", "/contatti", "/progetti/caso-reale", "/404"];
+for (const url of conNome) {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.goto(BASE + url, { waitUntil: "domcontentloaded" });
+  const n = await page.evaluate(() => {
+    const meta = (sel) => document.querySelector(sel)?.getAttribute("content") ?? "";
+    return {
+      titolo: document.title,
+      site: meta('meta[property="og:site_name"]'),
+      og: meta('meta[property="og:title"]'),
+      tw: meta('meta[name="twitter:title"]'),
+      autore: meta('meta[name="author"]'),
+      footer: document.querySelector("body > footer")?.textContent ?? "",
+    };
+  });
+  const nome = "Luigi Romano";
+  atteso(n.titolo.includes(nome), `${url}: titolo "${n.titolo}"`);
+  atteso(
+    [n.site, n.og, n.tw, n.autore].every((v) => v.includes(nome)),
+    `${url}: og:site_name, og:title, twitter:title e author contengono il nome`,
+  );
+  atteso(n.footer.includes(nome), `${url}: il nome è nel footer`);
+  await page.close();
 }
 
 const cresce = spazi.every((s, i) => i === 0 || s.pad >= spazi[i - 1].pad);
