@@ -25,11 +25,14 @@ import DeskScene from "./DeskScene.astro";
       </p>
       <h1 id="hero-titolo" class="mt-4">
         <span class="block">Ciao, sono Luigi.</span>
+        <span class="hero__riga hero__riga--intro block" data-only="business"
+          >Aiuto le aziende a vendere online con Shopify.</span
+        >
         <span class="hero__riga hero__riga--dev block" data-only="dev"
-          >Lavoro su Shopify ogni giorno, su un negozio vero con ordini veri.</span
+          >Lavoro su Shopify ogni giorno, su negozi veri.</span
         >
         <span class="hero__riga hero__riga--business block" data-only="business"
-          >Prima guardo i numeri del tuo negozio, poi decido cosa cambiare.</span
+          >Partiamo dai numeri del tuo negozio e decidiamo insieme cosa cambiare.</span
         >
       </h1>
       <div class="mt-8" data-hero-reveal>
@@ -99,6 +102,12 @@ import DeskScene from "./DeskScene.astro";
 
   .hero__riga--business {
     color: var(--color-verde-deep);
+  }
+
+  /* La riga aggiuntiva del percorso business, sopra quella colorata: stessa
+     misura, ma in ink-2 così non compete con il verde della riga sotto. */
+  .hero__riga--intro {
+    color: var(--color-ink-2);
   }
 
   .hero__media {
