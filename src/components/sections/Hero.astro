@@ -120,14 +120,23 @@ import DeskScene from "./DeskScene.astro";
     color: var(--color-ink-2);
   }
 
-  /* Le due CTA restano affiancate anche a 390: misurate, 168 + 150 + 16 di gap
-     = 334px contro i 350px utili. flex-wrap è la rete di sicurezza — se un
-     giorno un'etichetta si allunga vanno a capo invece di sfondare la pagina. */
+  /* Le due CTA restano affiancate da 390 in su: misurate, 168 + 150 + 16 di
+     gap = 334px, che stanno nei 350px utili a 390 ma non nei 320 di uno
+     schermo da 360. Sotto quella soglia vanno in colonna, a larghezza piena
+     e col primary sopra. flex-wrap resta la rete di sicurezza se un giorno
+     un'etichetta si allunga. */
   .hero__cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    display: grid;
+    gap: 0.75rem;
     margin-top: 1.5rem;
+  }
+
+  @media (min-width: 380px) {
+    .hero__cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
   }
 
   /* La prova sotto la CTA: secondaria rispetto al titolo, ma il numero in ink
