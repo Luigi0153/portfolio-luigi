@@ -26,14 +26,15 @@ const PASSI = [
   },
   {
     nome: "Prototipo",
-    sintesi: "Creo un prototipo, tu lo guardi dal telefono e decidi.",
-    righe: ["Qui si può ancora cambiare idea senza spendere di più."],
+    sintesi: "Creo un prototipo e lo guardiamo insieme dal telefono.",
+    righe: [
+      "È il momento in cui confrontiamo le idee su qualcosa di concreto, per arrivare al sito giusto.",
+    ],
   },
   {
     nome: "Online",
-    sintesi:
-      "Costruisco il sito su Shopify, lo metto online e ti lascio le istruzioni per gestirlo da solo.",
-    righe: ["Se serve, resto a disposizione."],
+    sintesi: "Costruisco il sito e lo metto online.",
+    righe: ["Poi resto al tuo fianco per curarlo, aggiornarlo e farlo crescere."],
   },
 ] as const;
 
@@ -94,13 +95,8 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
     <div class="container-site intro__contenuto">
       <p class="eyebrow text-ink-2">Il metodo</p>
       <h1 class="mt-4">Come lavoro</h1>
-      <p class="intro__riga" data-only="dev">
-        Quattro passi, sempre nello stesso ordine. Il codice arriva per
-        ultimo, quando sappiamo già cosa costruire.
-      </p>
-      <p class="intro__riga" data-only="business">
-        Quattro passi, sempre nello stesso ordine. Restiamo in contatto in
-        ognuno dei quattro, non solo all'inizio e alla consegna.
+      <p class="intro__riga">
+        Questi sono i passi che seguo, dall'idea al sito online.
       </p>
     </div>
   </section>
@@ -141,8 +137,8 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
           Non uso tanti strumenti. Quelli che uso, li conosco bene.
         </p>
         <p class="stack__intro" data-only="business">
-          Roba standard e diffusa: se un giorno non ci sono io, chiunque sa
-          metterci le mani.
+          Uso strumenti standard e diffusi. Il sito resta tuo, e io resto a
+          disposizione.
         </p>
       </SectionHeader>
 

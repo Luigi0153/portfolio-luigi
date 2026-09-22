@@ -127,6 +127,17 @@ visibili a riposo) non è stato toccato.
   permanenti (tutti verdi) e screenshot a 390/768/1280, entrambi i percorsi, su home, contatti,
   come-lavoro, caso-reale.
 
+  Il 2026-09-23 (terzo giro, testi dettati da Luigi) Shopify esce dall'hero. Eyebrow `Web
+  Developer · AI Web Designer`; riga dev `Programmatore web junior. Lavoro ogni giorno su negozi
+  online veri.`; riga business `Aiuto le aziende a vendere online.` ("junior" non compare nel
+  percorso business: né testo visibile, né title, meta o aria-label). `/come-lavoro`: un'intro
+  sola per i due percorsi (`Questi sono i passi che seguo, dall'idea al sito online.`), passo
+  prototipo e passo online riscritti ("resto al tuo fianco" al posto di "ti lascio le
+  istruzioni per gestirlo da solo"), stack business `Uso strumenti standard e diffusi. Il sito
+  resta tuo, e io resto a disposizione.` al posto di "se un giorno non ci sono io". Shopify
+  resta nello stack, nel caso reale e nei contatti dev; restano da decidere footer, meta della
+  home e og-image, che dicono ancora `Shopify Web Developer`.
+
 - **Prova sopra la piega nell'hero (2026-09-22).** Risponde a due punti della passata 2 di
   `docs/AUDIT.md`: il 3 (i numeri veri stavano a due click dalla home) e il 5 (lo switch cambiava
   troppo poco). Sotto la CTA dell'hero c'è ora una riga che cambia col percorso e linka a
