@@ -13,36 +13,27 @@ import Card from "../components/ui/Card.astro";
 
 const PASSI = [
   {
-    nome: "Ascolto",
-    sintesi: "Prima di aprire l'editor, capisco cosa si rompe.",
-    righe: [
-      "Mezz'ora di domande dirette su chi compra, cosa abbandona e dove si perde.",
-      "Quasi sempre il problema non è quello che mi avevi detto al telefono.",
-    ],
+    nome: "Ci conosciamo",
+    sintesi:
+      "Ci sentiamo e mi racconti il tuo negozio: cosa vendi, a chi, cosa non ti convince.",
+    righe: ["Insieme capiamo i pro e i contro delle tue idee."],
   },
   {
-    nome: "Numeri",
-    sintesi: "Guardo i dati che hai già, prima di produrne di nuovi.",
-    righe: [
-      "Analytics, ordini, ricerche interne, messi insieme dicono quasi sempre da dove partire.",
-      "Se non c'è niente da misurare, si parte da lì, prima i numeri e poi il resto.",
-    ],
+    nome: "Guardo i numeri",
+    sintesi:
+      "Poi guardo i dati del negozio, se ci sono: da dove arrivano i clienti, cosa comprano, dove si fermano.",
+    righe: ["Così partiamo da quello che succede davvero."],
   },
   {
     nome: "Prototipo",
-    sintesi: "Meglio buttare via un prototipo che un mese di sviluppo.",
-    righe: [
-      "Faccio una schermata vera, cliccabile, sul telefono. La guardi e decidi.",
-      "Qui si può ancora cambiare idea senza spendere niente in più.",
-    ],
+    sintesi: "Creo un prototipo, tu lo guardi dal telefono e decidi.",
+    righe: ["Qui si può ancora cambiare idea senza spendere di più."],
   },
   {
-    nome: "Codice",
-    sintesi: "Solo alla fine, e scritto per chi lo aprirà dopo di me.",
-    righe: [
-      "Componenti piccoli, nomi in chiaro, niente librerie per cose che fa il browser.",
-      "Ti lascio il sito e le istruzioni per cambiarlo senza chiamarmi.",
-    ],
+    nome: "Online",
+    sintesi:
+      "Costruisco il sito su Shopify, lo metto online e ti lascio le istruzioni per gestirlo da solo.",
+    righe: ["Se serve, resto a disposizione."],
   },
 ] as const;
 
@@ -91,7 +82,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
 
 <Base
   title="Come lavoro"
-  description="Ascolto, numeri, prototipo, codice. Il processo che uso per far vendere di più un negozio online, e lo stack che c'è dietro."
+  description="Il processo che uso per portare un negozio online a vendere di più, passo per passo, con lo stack che c'è dietro."
   ogImage="/og/come-lavoro.png"
 >
   <section class="intro">
@@ -104,8 +95,8 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
       <p class="eyebrow text-ink-2">Il metodo</p>
       <h1 class="mt-4">Come lavoro</h1>
       <p class="intro__riga" data-only="dev">
-        Quattro passi, sempre nello stesso ordine. Il codice è l'ultimo, ed è la
-        parte che discutiamo di meno.
+        Quattro passi, sempre nello stesso ordine. Il codice arriva per
+        ultimo, quando sappiamo già cosa costruire.
       </p>
       <p class="intro__riga" data-only="business">
         Quattro passi, sempre nello stesso ordine. Restiamo in contatto in
@@ -119,8 +110,7 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
       <SectionHeader
         id="processo-titolo"
         label="Il processo"
-        title="Ascolto, numeri, prototipo, codice"
-        intro="In quest'ordine, sempre, senza saltare nessuno dei quattro."
+        title="Come lavoriamo insieme"
       />
 
       <ol class="processo__lista" role="list">
@@ -189,26 +179,26 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
           <p class="eyebrow text-ink-2">La decisione</p>
           <h3 id="quinto-switch">Uno switch invece di due siti</h3>
           <p>
-            Chi assume e chi vende cercano due cose diverse nelle stesse
-            pagine. Il primo vuole vedere come è fatto, il secondo se
-            funziona. Con due siti separati avrei dovuto scrivere e mantenere
-            tutto due volte.
+            Chi cerca uno sviluppatore e chi vuole vendere online cercano cose
+            diverse nella stessa pagina. Il primo vuole capire come è fatto il
+            sito, il secondo se funziona davvero. Fare due siti separati
+            voleva dire scrivere tutto due volte, e poi mantenerlo due volte.
           </p>
           <p>
-            Lo switch nell'hero non nasconde niente, riordina i contenuti e
-            cambia cosa viene prima. Stesse sezioni, stesso HTML, priorità
-            diverse. La scelta resta in <code>localStorage</code> e vale su
-            tutto il sito.
+            Per questo lo switch che vedi nell'hero non nasconde niente:
+            cambia i testi e l'ordine dei progetti. Le sezioni sono le stesse,
+            l'HTML è lo stesso, cambia solo l'ordine delle priorità. La
+            scelta resta salvata nel browser e vale su tutto il sito.
           </p>
           <p data-only="dev">
-            Tecnicamente è un attributo su <code>&lt;html&gt;</code> e un pugno
-            di regole CSS: zero re-render, zero JavaScript al cambio, e funziona
-            anche prima che React si idrati.
+            Tecnicamente è un attributo sul tag <code>&lt;html&gt;</code> più
+            qualche riga di CSS. La vista la decide il CSS, JavaScript serve
+            solo a registrare il clic, quindi funziona anche prima che React
+            finisca di caricarsi.
           </p>
           <p data-only="business">
-            Per chi visita il sito cambia in un istante, senza ricaricare
-            niente, e chi arriva da Google vede subito la versione giusta per
-            sé.
+            Il cambio è istantaneo, senza ricaricare la pagina, e la scelta
+            resta anche quando torni.
           </p>
         </article>
 
@@ -216,14 +206,16 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
           <p class="eyebrow text-ink-2">Il come</p>
           <h3 id="quinto-stack">Statico, e leggero per scelta</h3>
           <p>
-            Astro genera pagine statiche: React entra solo dove serve davvero
-            toccare qualcosa, cioè lo switch e lo slider prima/dopo. Tutto il
-            resto è HTML e CSS.
+            Il sito è quasi tutto pagine già pronte quando arrivano al
+            browser, niente da costruire al volo. Uso React solo dove serve
+            davvero muovere qualcosa, cioè lo switch e lo slider del
+            prima/dopo. Il resto è HTML e CSS, e basta.
           </p>
           <p>
-            Le animazioni sono GSAP con ScrollTrigger, e si spengono da sole con{" "}
-            <code>prefers-reduced-motion</code>. I font sono self-hosted, le
-            immagini le converte Astro in webp.
+            Le animazioni si spengono da sole se il telefono chiede di
+            ridurre il movimento. I font sono ospitati sul sito stesso, non
+            scaricati da fuori, e le immagini vengono convertite in
+            automatico in un formato più leggero.
           </p>
           <p>
             L'oggetto 3D nell'hero era previsto: l'ho tolto. Costava più
