@@ -10,7 +10,7 @@ tags:
   - Mobile
 cover: ../../assets/progetti/caso-reale.png
 coverAlt: "Quattro barre che salgono, l'ultima in arancio, davanti a un cerchio giallo."
-sommario: "Boutique di borse e accessori in Campania. Due mesi di dati, redesign estetico congelato."
+sommario: "Boutique di borse e accessori. Due mesi di dati, redesign estetico congelato."
 ordine_dev: 1
 ordine_business: 1
 dati:
