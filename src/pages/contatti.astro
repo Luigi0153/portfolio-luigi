@@ -15,8 +15,8 @@ import Card from "../components/ui/Card.astro";
 import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
 
 const descrizione = FORM_ATTIVO
-  ? "Scrivimi: email, LinkedIn, GitHub o il form qui sotto. Rispondo entro un giorno lavorativo, anche solo per dirti che non sono la persona giusta."
-  : "Scrivimi: email, LinkedIn o GitHub. Rispondo entro un giorno lavorativo, anche solo per dirti che non sono la persona giusta.";
+  ? "Scrivimi: email, LinkedIn, GitHub o il form qui sotto, anche solo per dirti che non sono la persona giusta."
+  : "Scrivimi: email, LinkedIn o GitHub, anche solo per dirti che non sono la persona giusta.";
 ---
 
 <Base title="Contatti" description={descrizione} ogImage="/og/contatti.png">
@@ -35,12 +35,11 @@ const descrizione = FORM_ATTIVO
         <span data-only="business">Raccontami il negozio.</span>
       </h1>
       <p class="intro__riga" data-only="dev">
-        Repo, staging, un bug che non torna: scrivi pure in mezzo al discorso.
-        Rispondo entro un giorno lavorativo.
+        Cerchi uno sviluppatore Shopify per il tuo team? Scrivimi, ne parliamo.
       </p>
       <p class="intro__riga" data-only="business">
-        Anche se non sai da dove si comincia. Rispondo entro un giorno
-        lavorativo, e se non sono la persona giusta te lo dico subito.
+        Hai un progetto per la tua azienda o ti serve un sito? Scrivimi, ne
+        parliamo.
       </p>
     </div>
   </section>
@@ -559,7 +558,7 @@ const descrizione = FORM_ATTIVO
 
         if (risposta.ok) {
           form.reset();
-          scrivi("ok", "Ricevuto. Ti rispondo entro un giorno lavorativo.");
+          scrivi("ok", "Ricevuto. Ti rispondo io.");
         } else {
           scrivi("ko", "Non è partito. Riprova, o scrivimi direttamente via email.");
         }
