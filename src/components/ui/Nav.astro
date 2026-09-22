@@ -56,12 +56,24 @@ const pathname = Astro.url.pathname;
 
 <style>
   /*
-    Il distacco dall'alto è padding dell'header, non top della pillola: così
-    lo stesso valore vale da fermi e da sticky, e la pillola non salta al
-    primo scroll. L'header trasparente copre tutta la riga, quindi non deve
-    intercettare i click fuori dalla pillola.
+    Il distacco dall'alto e dai lati è padding dell'header, non top della
+    pillola: così lo stesso valore vale da fermi e da sticky, e la pillola non
+    salta al primo scroll. L'header trasparente copre tutta la riga, quindi non
+    deve intercettare i click fuori dalla pillola.
+
+    Qui stanno anche le misure che cambiano con la larghezza, così pillola,
+    logo e voci leggono tutte gli stessi valori. Gli spazi sono in clamp():
+    stretti sui telefoni piccoli, appena più larghi su quelli grandi, mai
+    sparpagliati. Il testo invece scende solo dove gli spazi hanno già toccato
+    il minimo, cioè sotto i 360px, e si ferma a 13px: 0.3125rem + 2.5vw fa
+    14px a 360 e 13px a 320.
   */
   .site-nav {
+    --nav-gap: clamp(0.1875rem, 0.9vw, 0.25rem);
+    --nav-pad-voce: clamp(0.375rem, 1.9vw, 0.625rem);
+    --nav-pad-logo: clamp(0.375rem, 1.6vw, 0.5rem);
+    --nav-testo-voce: clamp(0.8125rem, 0.3125rem + 2.5vw, 0.875rem);
+
     position: sticky;
     top: 0;
     z-index: 50;
@@ -70,21 +82,28 @@ const pathname = Astro.url.pathname;
     pointer-events: none;
   }
 
+  @media (min-width: 768px) {
+    .site-nav {
+      --nav-gap: 0.5rem;
+      --nav-pad-voce: 0.875rem;
+      --nav-pad-logo: 0.625rem;
+      --nav-testo-voce: 0.9375rem;
+    }
+  }
+
   /*
-    Sotto i 768 la pillola è larga quanto lo schermo: il logo resta a sinistra
-    e le voci si allineano al bordo destro (space-between), mentre lo spazio
-    che avanza si distribuisce tra le voci invece di restare tutto a destra.
-    Da 768 la pillola è fit-content, quindi non avanza spazio e queste due
-    regole non hanno più nulla da distribuire: si spengono da sole.
+    La pillola è larga quanto il suo contenuto e sta in mezzo, a ogni
+    larghezza: mai a tutta riga. I 24px che la tengono staccata dai bordi sono
+    il padding-inline dell'header (12px per lato, --nav-top), quindi qui il
+    limite è il 100% di quello spazio già rientrato.
   */
   .site-nav__pill {
     pointer-events: auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.25rem;
-    width: 100%;
-    max-width: var(--container-site);
+    gap: var(--nav-gap);
+    width: fit-content;
+    max-width: 100%;
     margin-inline: auto;
     padding: 5px;
     border: var(--border-retro);
@@ -94,9 +113,6 @@ const pathname = Astro.url.pathname;
 
   @media (min-width: 768px) {
     .site-nav__pill {
-      /* su desktop la pillola è larga quanto il suo contenuto */
-      width: fit-content;
-      gap: 0.5rem;
       padding: 6px;
       padding-left: 0.5rem;
     }
@@ -106,7 +122,7 @@ const pathname = Astro.url.pathname;
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    padding-inline: 0.5rem;
+    padding-inline: var(--nav-pad-logo);
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 1;
@@ -116,14 +132,10 @@ const pathname = Astro.url.pathname;
   @media (min-width: 768px) {
     .site-nav__logo {
       font-size: 1.375rem;
-      padding-inline: 0.625rem;
     }
   }
 
-  /* Su mobile il separatore sparisce: lì il distacco dal logo lo fa già lo
-     spazio vuoto di space-between, e un trattino in mezzo lo spezzerebbe. */
   .site-nav__sep {
-    display: none;
     flex: none;
     width: 2px;
     height: 1.25rem;
@@ -132,23 +144,13 @@ const pathname = Astro.url.pathname;
     opacity: 0.16;
   }
 
-  @media (min-width: 768px) {
-    .site-nav__sep {
-      display: block;
-    }
-  }
-
   .site-nav__nav {
     position: relative;
     min-width: 0;
-    /* prende lo spazio residuo della pillola, che la lista poi ripartisce
-       tra le tre voci; su desktop non ne resta, quindi non cresce */
-    flex: 1;
   }
 
   .site-nav__list {
     display: flex;
-    justify-content: space-between;
   }
 
   /* La pillola che scorre: sta sotto al testo, larghezza e posizione le
@@ -182,19 +184,13 @@ const pathname = Astro.url.pathname;
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    padding-inline: 0.5rem;
-    font-size: 0.875rem;
+    padding-inline: var(--nav-pad-voce);
+    font-size: var(--nav-testo-voce);
     font-weight: 500;
+    /* le tre voci restano su una riga sola a qualsiasi larghezza */
     white-space: nowrap;
     text-decoration: none;
     transition: color 0.15s var(--ease-brand);
-  }
-
-  @media (min-width: 768px) {
-    .site-nav__link {
-      padding-inline: 0.875rem;
-      font-size: 0.9375rem;
-    }
   }
 
   /* cream su verde-deep = 4,75:1, sopra AA. Il ritardo tiene il testo scuro
@@ -280,6 +276,7 @@ const pathname = Astro.url.pathname;
     if (!nav) return;
 
     const thumb = nav.querySelector<HTMLElement>(".site-nav__thumb");
+    const cornice = nav.querySelector<HTMLElement>(".site-nav__nav");
     const links = [...nav.querySelectorAll<HTMLAnchorElement>(".site-nav__link")];
 
     // 1. Pagina attiva: con transition:persist resta quella di partenza
@@ -292,14 +289,22 @@ const pathname = Astro.url.pathname;
     }
 
     function posiziona() {
-      if (!thumb) return;
+      if (!thumb || !cornice) return;
       const attivo = links.find((link) => link.hasAttribute("aria-current"));
       if (!attivo) {
         thumb.classList.remove("site-nav__thumb--attivo");
         return;
       }
-      thumb.style.width = `${attivo.offsetWidth}px`;
-      thumb.style.transform = `translateX(${attivo.offsetLeft}px)`;
+      /*
+        Rettangoli veri e non offsetWidth/offsetLeft: con padding e testo in
+        clamp() le voci misurano frazioni di pixel, e gli offset* arrotondano
+        all'intero — il riempimento resterebbe mezzo pixel fuori posto, che a
+        320px si vede. La differenza tra i due left è la distanza dal bordo
+        del nav, che è anche l'offsetParent del thumb.
+      */
+      const voce = attivo.getBoundingClientRect();
+      thumb.style.width = `${voce.width}px`;
+      thumb.style.transform = `translateX(${voce.left - cornice.getBoundingClientRect().left}px)`;
       thumb.classList.add("site-nav__thumb--attivo");
     }
 

@@ -7,7 +7,7 @@
 - **Fase 2** — hero con switch target (isola React, scelta in `localStorage`, `html[data-target]`), scena scrivania con hotspot ed etichette.
 - **Fase 3** — collection `progetti`, caso reale + 2 placeholder, griglia con ordine per percorso, dettaglio `/progetti/[slug]` con colonna pinnata, ramp/funnel/StatTile/slider prima-dopo, tilt card, View Transitions, conteggio numeri.
 - **Fase 5** — `/come-lavoro` (4 passi, stack, progetto n°5), `/contatti` (canali + form Formspree attivo), 404, sitemap + robots (endpoint) + og-image per ogni pagina, `vercel.json`, README in italiano. Review finale fatta: contrasti AA e bersagli tattili a posto.
-- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), tutti verdi.
+- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
 
@@ -48,6 +48,20 @@ visibili a riposo) non è stato toccato.
   come-lavoro 252,4→168,9 KB, contatti 205,3→121,9 KB, caso-reale 267,3→183,8 KB. Verificato con
   i cinque test permanenti e screenshot a 390/1280, tutto verde. Resta il terzo pedaggio (React
   per lo switch, -66 KB) e la fase di Lighthouse dedicata.
+
+- **Nav a pillola su mobile (2026-09-22).** Annullata la distribuzione a tutta larghezza del
+  commit `4155f25`: sotto i 768 la pillola torna larga quanto il contenuto e centrata, staccata
+  12px per lato (il padding-inline dell'header, cioè i 24px chiesti). Gli spazi stanno in tre
+  variabili di `.site-nav` (`--nav-gap`, `--nav-pad-voce`, `--nav-pad-logo`), tutte in `clamp()`:
+  lo spazio tra due voci va da 12,2px a 320 a 20px da 527 in su, dove si ferma. Il testo delle
+  voci (`--nav-testo-voce`) scende solo dove gli spazi hanno già toccato il minimo — 14px da 360
+  in su, 13px a 320, mai sotto — e resta su una riga sola. Il riempimento verde si posiziona con
+  `getBoundingClientRect()` invece di `offsetWidth`/`offsetLeft`, che arrotondano all'intero
+  mentre ora le voci misurano frazioni di pixel. Separatore rimesso anche sotto i 768: con la
+  pillola stretta è di nuovo lui a staccare il logo dalle voci. Nuovo test permanente
+  `scripts/test-nav.mjs`: 6 larghezze × 3 voci attive, ognuna anche ruotata in orizzontale.
+  A 320 la pillola misura 282 di 296 disponibili: è la larghezza più stretta che regge, sotto
+  quella il contenuto uscirebbe dal bordo.
 
 ## Annullato
 - **Fase 4 — oggetto 3D nell'hero.** Annullata il 2026-09-19. Due motivi: lo spazio dell'hero è già occupato dalla scena scrivania della Fase 2.5, e Three.js aggiungerebbe peso JS proprio dove il Lighthouse mobile è già sotto soglia (85 contro il ≥ 90 della regola 7). Restano quindi non necessari `HeroObject.tsx`, `public/models/hero.glb` e `hero-fallback.png`. Le dipendenze `three` e `@types/three` sono in `package.json` ma non importate da nessun file: da rimuovere quando si tocca il `package.json`.
