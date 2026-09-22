@@ -70,10 +70,18 @@ const pathname = Astro.url.pathname;
     pointer-events: none;
   }
 
+  /*
+    Sotto i 768 la pillola è larga quanto lo schermo: il logo resta a sinistra
+    e le voci si allineano al bordo destro (space-between), mentre lo spazio
+    che avanza si distribuisce tra le voci invece di restare tutto a destra.
+    Da 768 la pillola è fit-content, quindi non avanza spazio e queste due
+    regole non hanno più nulla da distribuire: si spengono da sole.
+  */
   .site-nav__pill {
     pointer-events: auto;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.25rem;
     width: 100%;
     max-width: var(--container-site);
@@ -112,7 +120,10 @@ const pathname = Astro.url.pathname;
     }
   }
 
+  /* Su mobile il separatore sparisce: lì il distacco dal logo lo fa già lo
+     spazio vuoto di space-between, e un trattino in mezzo lo spezzerebbe. */
   .site-nav__sep {
+    display: none;
     flex: none;
     width: 2px;
     height: 1.25rem;
@@ -121,13 +132,23 @@ const pathname = Astro.url.pathname;
     opacity: 0.16;
   }
 
+  @media (min-width: 768px) {
+    .site-nav__sep {
+      display: block;
+    }
+  }
+
   .site-nav__nav {
     position: relative;
     min-width: 0;
+    /* prende lo spazio residuo della pillola, che la lista poi ripartisce
+       tra le tre voci; su desktop non ne resta, quindi non cresce */
+    flex: 1;
   }
 
   .site-nav__list {
     display: flex;
+    justify-content: space-between;
   }
 
   /* La pillola che scorre: sta sotto al testo, larghezza e posizione le
