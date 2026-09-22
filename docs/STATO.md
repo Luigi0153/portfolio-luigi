@@ -99,7 +99,31 @@ visibili a riposo) non è stato toccato.
   titolo del caso reale, vecchi nomi dei passi): aggiornate. Verificata con i cinque test
   permanenti (tutti verdi) e screenshot a 390/768/1280, entrambi i percorsi, su home, contatti,
   come-lavoro, caso-reale.
+
+- **Prova sopra la piega nell'hero (2026-09-22).** Risponde a due punti della passata 2 di
+  `docs/AUDIT.md`: il 3 (i numeri veri stavano a due click dalla home) e il 5 (lo switch cambiava
+  troppo poco). Sotto la CTA dell'hero c'è ora una riga che cambia col percorso e linka a
+  `/progetti/caso-reale`: dev `Il 94% delle visite del caso reale arriva da telefono. Per questo
+  parto sempre dal mobile.`, business `+86% di fatturato da giugno a luglio, nel caso reale.`
+  Le due cifre sono verificate su `docs/content/caso-reale.md` (righe 9 e 11). Testo statico e
+  non `StatTile`: senza conteggio non c'è nessuna animazione da far ripartire quando lo switch
+  scopre l'altra variante, che è il rischio principale dell'opzione rimandata qui sotto in
+  "Manca". Verificata con i cinque test permanenti (tutti verdi) e screenshot della home a
+  390/768/1280 nei due percorsi.
 - **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
+- **Riordino delle sezioni del caso reale per percorso — opzione futura, da valutare quando ci
+  saranno i contenuti di Fornace Vietri e pizzeria.** Era la proposta 1 delle due preparate il
+  2026-09-22 sul punto 5 della passata 2 di `docs/AUDIT.md` ("lo switch promette due siti e ne
+  consegna tre righe"); Luigi ha scelto la 2, già in produzione (vedi sotto). L'idea: su
+  `/progetti/caso-reale` le quattro sezioni (Contesto, Decisione, Risultato, Cosa ho imparato)
+  cambiano ordine col percorso — business parte dal Risultato, cioè dai numeri e dal ramp chart;
+  dev tiene l'ordine processuale di oggi. Zero copy nuovo, cambia solo la sequenza. Costo stimato
+  mezza giornata: servono due varianti `data-only` dell'intero blocco (il pin della colonna
+  sinistra non è coinvolto, è ancorato a titolo e cover). Il rischio da risolvere prima di
+  aprirla: duplicare nel DOM componenti con animazione (StatTile col conteggio, RampChart,
+  Funnel, slider prima/dopo) vuol dire che la variante nascosta non anima mai, e chi cambia
+  percorso dopo aver già scrollato la vedrebbe ferma — serve un hook che faccia ripartire le
+  entrate al cambio di `html[data-target]`.
 - Fase di performance dedicata a fine progetto (regola 7).
 
 ## Decisioni aperte
