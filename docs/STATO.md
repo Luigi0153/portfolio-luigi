@@ -7,7 +7,7 @@
 - **Fase 2** — hero con switch target (isola React, scelta in `localStorage`, `html[data-target]`), scena scrivania con hotspot ed etichette.
 - **Fase 3** — collection `progetti`, caso reale + 2 placeholder, griglia con ordine per percorso, dettaglio `/progetti/[slug]` con colonna pinnata, ramp/funnel/StatTile/slider prima-dopo, tilt card, View Transitions, conteggio numeri.
 - **Fase 5** — `/come-lavoro` (4 passi, stack, progetto n°5), `/contatti` (canali + form Formspree attivo), 404, sitemap + robots (endpoint) + og-image per ogni pagina, `vercel.json`, README in italiano. Review finale fatta: contrasti AA e bersagli tattili a posto.
-- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), tutti verdi.
+- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
 
@@ -195,6 +195,51 @@ visibili a riposo) non è stato toccato.
   vero", lo "stack" nella description di `/come-lavoro`, le og-image fuori sincrono) non è stato
   toccato: resta da decidere. Verificato con i sei test permanenti sulla build di preview (tutti
   verdi) e screenshot a 390/1280.
+
+- **Nav, forme e testi (2026-09-23).**
+  - **Riempimento della nav trasparente.** Segnalato da Luigi: voce attiva col testo cream e
+    riempimento trasparente. Nel sorgente, nella build e sul sito online il riempimento era già
+    `--color-ink` (dal commit `d711bf2`): il bug non si riproduce, e con il vecchio
+    `var(--color-verde-deep)` rimesso apposta il fondo diventa `rgba(0, 0, 0, 0)`, cioè
+    proprio il sintomo, quindi con ogni probabilità era una vista rimasta indietro (dev server o
+    cache del browser). Cercando è però uscito un difetto vero: l'id di `transition:persist`
+    dell'header era un contatore diverso per pagina (home `-7`, caso reale `-3`, contatti e
+    come-lavoro `-1`), quindi uscendo dalla home o dal caso reale l'header veniva sostituito e
+    il riempimento smetteva di scorrere. Ora il nome è fisso (`transition:persist="site-nav"`);
+    per non lasciare "Progetti" accesa uscendo dalla home, le voci di sezione ripartono spente a
+    ogni pagina. `test-nav` verifica su tutte le pagine, aperte direttamente e raggiunte dalla
+    nav, che la voce col testo cream abbia sotto il riempimento con fondo ink (letto dal token)
+    e che l'header resti lo stesso nodo.
+  - **Colori residui.** Nel codice (componenti, CSS, script, classi Tailwind, stili inline, script
+    delle immagini) nessun riferimento a verde, verde-deep, blu, giallo, rosso o ai loro hex.
+    Restavano solo i testi alternativi di tre cover, che descrivevano colori non più presenti:
+    riscritti (`cerchio nero`, `barra nera`, `Due archi neri affiancati...`). Lasciati apposta: i
+    documenti storici (`MASTER_PROMPT.md`, `docs/AUDIT.md`, `docs/inventario-testi.md`, questo
+    file) e `docs/content/fornace-vietri.md`, dove blu, giallo e verde sono i colori delle
+    ceramiche. Le illustrazioni della scena scrivania (schermo blu, tasti verdi e rossi del
+    telefono, barre del grafico) sono disegni raster e non sono state toccate.
+  - **Forme Bauhaus lontane dal testo.** Nuovo `scripts/test-forme.mjs`: per ogni forma calcola
+    l'area che può occupare davvero (disco della diagonale per quelle che girano, più la corsa
+    del parallax verso l'alto, ritaglio dell'overflow) e vuole almeno 8px da ogni riga di testo,
+    etichette della scena comprese. Il primo giro ha trovato 24 casi: il cerchio e il quarto di
+    `/contatti` sul titolo, il semicerchio dell'hero sulla CTA e sul +86% a 1024 e 1280, e a 390
+    tutte e quattro le forme dell'hero sulle etichette delle tessere. Correzioni: hero sotto i
+    768 senza barra e con cerchio, semicerchio e quarto spostati negli angoli; hero da 1024 con
+    il semicerchio sotto la scena invece che in basso a sinistra; `/contatti` con il quarto
+    nell'angolo in alto a destra e il cerchio sotto la fine del titolo; `/come-lavoro` cerchio
+    4px più in alto (a 320 stava a 5,8px). Verificato anche a 360, 430, 900, 1100 e 1440.
+  - **Testi.** 404: titolo `Pagina non trovata.`, testo `La pagina che cerchi non esiste o è
+    stata spostata.`, description `Pagina non trovata.` (il bottone `Torna alla home` c'era
+    già, `Vedi i progetti` è rimasto). Form: intro dev `Nome, email e messaggio. Ti rispondo
+    io.`, "call" → "chiamata" nell'intro business. GitHub: `Guarda il mio codice` (contatti e
+    footer). Description di `/come-lavoro`: `Come lavoro con i clienti, passo dopo passo, e gli
+    strumenti che uso.` Og: home con slogan `Creo e seguo siti e negozi online.`, contatti con
+    titolo `Discutiamone insieme.` e come sottotitolo la riga della pagina (la vecchia
+    prometteva di rispondere entro un giorno lavorativo, promessa tolta dal sito il 2026-09-22),
+    caso reale con titolo `I numeri prima, il sito dopo.` e lente `decisione`.
+    `prepara-og.mjs` accetta ora i file da rigenerare come argomenti.
+  Verificato sulla build di preview con i sette test permanenti (tutti verdi) e screenshot a
+  390/768/1280 di home, contatti, come-lavoro e 404.
 
 - **Prova sopra la piega nell'hero (2026-09-22).** Risponde a due punti della passata 2 di
   `docs/AUDIT.md`: il 3 (i numeri veri stavano a due click dalla home) e il 5 (lo switch cambiava

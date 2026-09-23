@@ -9,6 +9,7 @@
   Il PNG finale passa comunque da sharp per la compressione in palette.
 
   Uso: node scripts/prepara-og.mjs   (rilanciare se cambiano titoli o palette)
+       node scripts/prepara-og.mjs og.png og/contatti.png   (solo quelle)
   Output: public/og.png e public/og/<slug>.png
 */
 import { chromium } from "playwright";
@@ -52,7 +53,7 @@ const PAGINE = [
     file: "og.png",
     etichetta: "Web Developer e AI Web Designer",
     titolo: "Ciao, sono Luigi.",
-    sottotitolo: "Negozi che vendono, codice che regge.",
+    sottotitolo: "Creo e seguo siti e negozi online.",
   },
   {
     file: "og/come-lavoro.png",
@@ -63,13 +64,14 @@ const PAGINE = [
   {
     file: "og/contatti.png",
     etichetta: "Contatti",
-    titolo: "Parliamone.",
-    sottotitolo: "Rispondo entro un giorno lavorativo.",
+    titolo: "Discutiamone insieme.",
+    sottotitolo:
+      "Cerchi uno sviluppatore per il tuo team o per creare e gestire il tuo sito? Contattami.",
   },
   {
     file: "og/caso-reale.png",
-    etichetta: "Progetto · Lente: rimozione",
-    titolo: "Non ho rifatto il sito. Ho tolto cose.",
+    etichetta: "Progetto · Lente: decisione",
+    titolo: "I numeri prima, il sito dopo.",
     sottotitolo: "+63% ordini, +86% fatturato, stesso store.",
   },
   {
@@ -176,7 +178,12 @@ const page = await browser.newPage({
 
 await mkdir("public/og", { recursive: true });
 
-for (const pagina of PAGINE) {
+// Con dei file come argomenti rigenera solo quelli: le altre og, rifatte senza
+// motivo, cambierebbero solo nell'antialiasing.
+const scelte = process.argv.slice(2);
+const daFare = scelte.length > 0 ? PAGINE.filter((p) => scelte.includes(p.file)) : PAGINE;
+
+for (const pagina of daFare) {
   const svg = template(pagina);
 
   // L'SVG sta dentro una pagina HTML minima: serve solo ad azzerare i margini
