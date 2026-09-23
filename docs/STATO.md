@@ -186,6 +186,16 @@ visibili a riposo) non è stato toccato.
   non testo. Verificato con i sei test permanenti sulla build di preview (tutti verdi) e
   screenshot a 390/1280, entrambi i percorsi, su tutte le pagine incluso lo styleguide.
 
+- **Revisione testi con la nuova regola 5 (2026-09-23).** Riletti tutti i testi visibili del
+  sito contro la regola 5 riscritta (niente ironia salvo la tazza, niente giochi di parole,
+  niente termini tecnici non necessari). Luigi ha scelto due correzioni dalla lista proposta:
+  riga dev dell'hero senza "veri" (`Lavoro ogni giorno su negozi online.`), e via il paragrafo
+  sull'oggetto 3D nell'hero dal blocco "Il come" di `/come-lavoro` (il blocco resta di due
+  paragrafi). Il resto della lista (404, "reparto di competenza" nel form, "Il codice, quello
+  vero", lo "stack" nella description di `/come-lavoro`, le og-image fuori sincrono) non è stato
+  toccato: resta da decidere. Verificato con i sei test permanenti sulla build di preview (tutti
+  verdi) e screenshot a 390/1280.
+
 - **Prova sopra la piega nell'hero (2026-09-22).** Risponde a due punti della passata 2 di
   `docs/AUDIT.md`: il 3 (i numeri veri stavano a due click dalla home) e il 5 (lo switch cambiava
   troppo poco). Sotto la CTA dell'hero c'è ora una riga che cambia col percorso e linka a
