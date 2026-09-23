@@ -167,8 +167,8 @@ visibili a riposo) non è stato toccato.
     cream-2 e testo ink (14,5:1) al posto del testo blu senza fondo.
   - **Esito del form** (`/contatti`): messaggio positivo fondo ink/testo cream (prima
     verde-deep); quello negativo era già cream-2 con bordo arancio, invariato.
-  - **Burst dell'hover sulla scena** (`DeskScene.astro`): due toni di arancio (`--color-arancio`
-    e `#dc8059`, quest'ultimo fuori token per lo stesso motivo per cui lo era il magenta) al
+  - **Burst dell'hover sulla scena** (`DeskScene.astro`): arancio e cream-2, entrambi token (un
+    primo passaggio aveva messo un secondo tono di arancio fuori token, corretto lo stesso giorno) al
     posto dei due magenta.
   - **Before/After**: tag "Dopo" cream-2 con bordo ink (prima giallo).
   - **Cover dei progetti e og-image**: `prepara-cover.mjs` e `prepara-og.mjs` avevano la

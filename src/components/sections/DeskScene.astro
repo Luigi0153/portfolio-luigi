@@ -5,7 +5,7 @@
  * con aspect-ratio fisso. <768px: griglia 2x2 di tessere (requisito, non
  * ripiego). Le immagini sono PNG con alpha generati da scripts/prepara-scena.mjs
  * e convertiti in webp da <Image>. Burst e scintille sono SVG inline dietro
- * l'oggetto, in due toni di arancio fuori dai token (solo qui, per il pulsare).
+ * l'oggetto, in arancio e cream-2 (nessun colore fuori dai token).
  */
 import { Image } from "astro:assets";
 import computer from "../../assets/scene/computer.png";
@@ -163,9 +163,9 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
 
 <style>
   .desk {
-    /* Due toni di arancio per il burst, fuori dai token (solo qui) */
+    /* Il burst alterna arancio e cream-2: solo token, niente hex qui */
     --burst-1: var(--color-arancio);
-    --burst-2: #dc8059;
+    --burst-2: var(--color-cream-2);
     --scintilla: #ffffff;
     width: 100%;
   }
