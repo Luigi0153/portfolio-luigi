@@ -299,11 +299,6 @@ visibili a riposo) non è stato toccato.
 ## Decisioni aperte
 - **Lighthouse mobile home a 85**, sotto il ≥ 90 della regola 7. In locale l'LCP è l'h1 a 188 ms: i 3,6 s vengono dal throttling simulato. Sospetto principale il peso JS (gsap 27 KB + ScrollTrigger 17 KB + React 65 KB, 36 KiB segnalati come inutilizzati). Non ancora stabilito se sia una regressione della Fase 3 o il livello di partenza.
 - Servono da Luigi: i testi dei prompt 2 e 3 del progetto n°5 (vedi "Manca").
-- **Fornace, testi dei mockup non allineati.** Le immagini generate dicono "Richiedine una
-  simile" (copertina, stati, scheda venduto) e "Richiedine uno simile" (collezione); il testo
-  della pagina usa "uno simile", come il documento. Lo stato disponibile nelle immagini è
-  etichettato "Pezzo unico", nel testo "Disponibile". Da decidere se rigenerare le immagini o
-  adattare il testo.
 
 ## Decise
 - Form di `/contatti`: **Formspree** (deciso il 2026-09-19).

@@ -40,7 +40,7 @@ In più il laboratorio carica i pezzi dal telefono, tra un'infornata e l'altra. 
 
 ## La decisione
 
-Un pezzo venduto non sparisce dal negozio. Resta visibile con lo stato "Venduto" e un bottone "Richiedine uno simile".
+Un pezzo venduto non sparisce dal negozio. Resta visibile con lo stato "Venduto" e un bottone richiedine uno simile (nelle immagini il testo segue il pezzo: "Richiedine una simile" per la brocca).
 
 Perché: per un artigiano i pezzi venduti mostrano cosa sa fare. Se li nascondi, il negozio si svuota proprio quando vende. Se restano visibili, chi arriva tardi può chiedere un pezzo su commissione.
 
@@ -49,8 +49,8 @@ Il rischio: un negozio pieno di pezzi venduti può sembrare vuoto. Per questo la
 ## Il sistema
 
 ### Tre stati del prodotto
-- **Disponibile**: prezzo e "Aggiungi al carrello".
-- **Venduto**: niente prezzo, etichetta "Venduto", bottone "Richiedine uno simile".
+- **Disponibile**: prezzo e "Aggiungi al carrello". I pezzi disponibili portano l'etichetta "Pezzo unico".
+- **Venduto**: niente prezzo, etichetta "Venduto", bottone richiedine uno simile.
 - **Su commissione**: pezzi fatti su richiesta, con i tempi indicativi e "Chiedi un preventivo".
 
 Lo stato lo sceglie il laboratorio con un solo campo nella scheda prodotto, dal telefono.
@@ -81,7 +81,7 @@ In `src/assets/progetti/fornace-vietri/`, foto realistiche generate con l'AI:
 
 - Shopify funziona anche per chi non vende in serie, ma va deciso all'inizio, non aggiustato dopo.
 - Chi carica i prodotti dal telefono ha poco tempo. Ogni campo in più nella scheda prima o poi resta vuoto, quindi i campi devono essere pochi.
-- Con la scritta "esaurito" il cliente se ne va. Con "Venduto, richiedine uno simile" può fare una richiesta al laboratorio.
+- Con la scritta "esaurito" il cliente se ne va. Con l'etichetta Venduto e un bottone richiedine uno simile può fare una richiesta al laboratorio.
 
 ## Nel negozio vero farei
 

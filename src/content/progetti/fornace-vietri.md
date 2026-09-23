@@ -32,7 +32,7 @@ capitoli:
   - id: decisione
     titolo: La decisione
     righe:
-      - "Un pezzo venduto non sparisce dal negozio. Resta visibile con l'etichetta Venduto e un bottone “Richiedine uno simile”."
+      - "Un pezzo venduto non sparisce dal negozio. Resta visibile con l'etichetta Venduto e un bottone richiedine uno simile."
       - "Per un artigiano i pezzi venduti mostrano cosa sa fare. Se li nascondi, il negozio si svuota proprio quando vende. Se restano visibili, chi arriva tardi può chiedere un pezzo su commissione."
       - "Il rischio è un negozio che sembra vuoto perché è pieno di pezzi venduti. Per questo la collezione mostra prima i pezzi disponibili e poi quelli venduti, separati."
     figura:
@@ -45,7 +45,8 @@ capitoli:
     sottosezioni:
       - titolo: Tre stati del prodotto
         righe:
-          - "Disponibile, con il prezzo e “Aggiungi al carrello”. Venduto, senza prezzo e con “Richiedine uno simile”. Su commissione, con i tempi indicativi e “Chiedi un preventivo”."
+          - "Disponibile, con il prezzo e “Aggiungi al carrello”. I pezzi disponibili portano l'etichetta “Pezzo unico”."
+          - "Venduto, senza prezzo e con un bottone richiedine uno simile. Su commissione, con i tempi indicativi e “Chiedi un preventivo”."
           - "Il laboratorio sceglie lo stato con un solo campo nella scheda prodotto, dal telefono."
       - titolo: Collezioni per tecnica e per colore
         righe:
@@ -76,7 +77,7 @@ capitoli:
     righe:
       - "Shopify funziona anche per chi non vende in serie, ma va deciso all'inizio, non aggiustato dopo."
       - "Chi carica i prodotti dal telefono ha poco tempo. Ogni campo in più nella scheda prima o poi resta vuoto, quindi i campi devono essere pochi."
-      - "Con la scritta “esaurito” il cliente se ne va. Con “Venduto, richiedine uno simile” può fare una richiesta al laboratorio."
+      - "Con la scritta “esaurito” il cliente se ne va. Con l'etichetta Venduto e un bottone richiedine uno simile può fare una richiesta al laboratorio."
   - id: negozio-vero
     titolo: Nel negozio vero farei
     righe:
