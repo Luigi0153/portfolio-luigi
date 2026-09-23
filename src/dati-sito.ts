@@ -31,5 +31,5 @@ export const FORM_ATTIVO = !/^x+$/.test(FORMSPREE_ID);
 /** Voci social del footer e della pagina contatti. */
 export const SOCIAL = [
   { nome: "LinkedIn", href: LINKEDIN, handle: "Parliamo di lavoro" },
-  { nome: "GitHub", href: GITHUB, handle: "Il codice, quello vero" },
+  { nome: "GitHub", href: GITHUB, handle: "Guarda il mio codice" },
 ] as const;

@@ -8,7 +8,7 @@ tags:
   - CRO
   - WordPress
 cover: ../../assets/progetti/pizzeria.png
-coverAlt: "Un cerchio arancio con una fetta tolta, accanto a una barra verde."
+coverAlt: "Un cerchio arancio con una fetta tolta, accanto a una barra nera."
 sommario: "Una pagina sola e un obiettivo solo: far prenotare un tavolo dal telefono."
 ordine_dev: 3
 ordine_business: 2
