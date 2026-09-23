@@ -4,21 +4,29 @@ import { glob } from "astro/loaders";
 /**
  * Progetti / case study.
  *
- * Le quattro sezioni del case study stanno nel frontmatter e non nel corpo:
- * sono al massimo 3 righe ciascuna (regola 5 di CLAUDE.md) e la pagina deve
- * poterci intercalare i componenti dati (grafico, funnel, before/after), cosa
- * che in Markdown puro non si può fare senza MDX. Il corpo resta per i testi
- * liberi dei progetti "in arrivo".
+ * I capitoli del case study stanno nel frontmatter e non nel corpo: la pagina
+ * deve poterci intercalare componenti dati (grafico, funnel, before/after) e
+ * immagini, cosa che in Markdown puro non si può fare senza MDX. Ogni progetto
+ * dichiara i suoi capitoli, con titolo e ordine propri: il caso reale ne ha
+ * quattro, un concept può averne altri. Il corpo resta per i testi liberi dei
+ * progetti "in arrivo".
  */
 /** I blocchi dati disponibili: componenti veri, non nomi liberi. */
 const BLOCCHI = z.enum(["ramp", "funnel", "statistiche", "before-after"]);
 
+/** Righe di testo di un capitolo: poche e brevi, al massimo 3. */
+const RIGHE = z.array(z.string()).max(3);
+
 const progetti = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/progetti" }),
-  schema: ({ image }) =>
-    z.object({
+  schema: ({ image }) => {
+    const IMMAGINE = z.object({ src: image(), alt: z.string() });
+
+    return z.object({
       titolo: z.string(),
       slug: z.string(),
+      /** Riga sotto il titolo della pagina (per esempio: progetto concept). */
+      nota: z.string().optional(),
       /** La lente con cui si legge il progetto: dà il taglio al racconto. */
       lente: z.enum(["flusso", "sistema", "vincolo", "decisione", "rimozione"]),
       /** A chi parla: filtra nulla, decide solo l'ordine e l'accento. */
@@ -32,30 +40,33 @@ const progetti = defineCollection({
       /** Posizione nella griglia per ciascun percorso (1 = primo). */
       ordine_dev: z.number().int().positive(),
       ordine_business: z.number().int().positive(),
-      /** Card con tag "in arrivo" e nessun link al dettaglio. */
+      /** Card con tag "in arrivo": il dettaglio mostra il corpo del file. */
       in_arrivo: z.boolean().default(false),
-      /* I default sono scritti per esteso: zod non ripassa il valore di
-         .default() dentro lo schema, quindi un `.default({})` lascerebbe
-         l'oggetto senza le sue chiavi e il template leggerebbe undefined. */
-
-      /** Blocchi dati montati dal template, sotto la sezione che li nomina. */
-      dati: z
-        .object({
-          contesto: z.array(BLOCCHI).default([]),
-          decisione: z.array(BLOCCHI).default([]),
-          risultato: z.array(BLOCCHI).default([]),
-          imparato: z.array(BLOCCHI).default([]),
-        })
-        .default({ contesto: [], decisione: [], risultato: [], imparato: [] }),
-      sezioni: z
-        .object({
-          contesto: z.array(z.string()).max(3).default([]),
-          decisione: z.array(z.string()).max(3).default([]),
-          risultato: z.array(z.string()).max(3).default([]),
-          imparato: z.array(z.string()).max(3).default([]),
-        })
-        .default({ contesto: [], decisione: [], risultato: [], imparato: [] }),
-    }),
+      /**
+       * I capitoli, nell'ordine in cui si leggono. Dentro ogni capitolo la
+       * pagina monta, in quest'ordine: righe, figura, blocchi dati,
+       * sottosezioni, galleria di schermate.
+       */
+      capitoli: z
+        .array(
+          z.object({
+            /** Ancora del capitolo: diventa l'id `sez-<id>` del titolo. */
+            id: z.string(),
+            titolo: z.string(),
+            righe: RIGHE.default([]),
+            /** Un'immagine a tutta colonna, sotto le righe. */
+            figura: IMMAGINE.optional(),
+            dati: z.array(BLOCCHI).default([]),
+            sottosezioni: z
+              .array(z.object({ titolo: z.string(), righe: RIGHE.min(1) }))
+              .default([]),
+            /** Schermate affiancate su desktop, scorrevoli su mobile. */
+            galleria: z.array(IMMAGINE.extend({ etichetta: z.string() })).default([]),
+          }),
+        )
+        .default([]),
+    });
+  },
 });
 
 export const collections = { progetti };

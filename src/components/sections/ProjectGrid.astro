@@ -7,8 +7,8 @@
  * quello che c'è, e le card sono link. Tabulazione e screen reader seguirebbero
  * l'ordine sorgente (WCAG 2.4.3 e 1.3.2), quindi le celle vengono riordinate
  * nel DOM da uno script inline, prima del paint.
- * Niente tre card uguali in fila: il progetto vero prende la cella grande,
- * quelli in arrivo restano piccoli.
+ * Niente tre card uguali in fila: il caso reale prende la cella grande,
+ * gli altri restano piccoli.
  */
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
@@ -25,8 +25,12 @@ const { id = "progetti", class: className } = Astro.props;
 
 const progetti = await getCollection("progetti");
 
-// La cella grande va al primo progetto pubblicato: gli altri sono promesse.
-const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
+// La cella grande va al progetto pubblicato che viene primo nel percorso dev
+// (l'ordine del markup). Esplicito e non il primo della collection: l'ordine
+// in cui il loader legge i file non è garantito.
+const featured = progetti
+  .filter((p) => !p.data.in_arrivo)
+  .sort((a, b) => a.data.ordine_dev - b.data.ordine_dev)[0]?.id;
 ---
 
 <section id={id} class:list={["section-pad", className]} aria-labelledby={`${id}-titolo`}>
@@ -191,7 +195,9 @@ const featured = progetti.find((p) => !p.data.in_arrivo)?.id;
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 3;
+    /* 3:2 come le copertine fotografiche. Le cover geometriche sono 4:3 e
+       perdono solo una fascia vuota sopra e sotto. */
+    aspect-ratio: 3 / 2;
     object-fit: cover;
     border-bottom: var(--border-retro);
   }

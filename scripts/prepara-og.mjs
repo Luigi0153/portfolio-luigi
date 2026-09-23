@@ -7,6 +7,7 @@
   Chromium via Playwright (già in devDependencies), con i woff2 di @fontsource
   incorporati in base64: stessi font del sito, nessuna dipendenza nuova.
   Il PNG finale passa comunque da sharp per la compressione in palette.
+  Eccezione: le pagine con `copertina` usano quell'immagine, tagliata a 1200x630.
 
   Uso: node scripts/prepara-og.mjs   (rilanciare se cambiano titoli o palette)
        node scripts/prepara-og.mjs og.png og/contatti.png   (solo quelle)
@@ -75,10 +76,9 @@ const PAGINE = [
     sottotitolo: "+63% ordini, +86% fatturato, stesso store.",
   },
   {
+    // Nessun template: la copertina ha già nome e sottotitolo del progetto
     file: "og/fornace-vietri.png",
-    etichetta: "Progetto · In arrivo",
-    titolo: "Fornace Vietri",
-    sottotitolo: "Concept Shopify per una ceramica artigiana.",
+    copertina: "src/assets/progetti/fornace-vietri/fornace-copertina.jpg",
   },
   {
     file: "og/pizzeria.png",
@@ -184,6 +184,21 @@ const scelte = process.argv.slice(2);
 const daFare = scelte.length > 0 ? PAGINE.filter((p) => scelte.includes(p.file)) : PAGINE;
 
 for (const pagina of daFare) {
+  const destinazione = path.join("public", pagina.file);
+  await mkdir(path.dirname(destinazione), { recursive: true });
+
+  // Le pagine con una copertina fotografica la usano così com'è, tagliata al
+  // centro a 1200x630. Niente palette: su una foto farebbe bande di colore.
+  if (pagina.copertina) {
+    const png = await sharp(pagina.copertina)
+      .resize(W, H, { fit: "cover", position: "centre" })
+      .png({ compressionLevel: 9 })
+      .toBuffer();
+    await writeFile(destinazione, png);
+    console.log(`ok ${pagina.file} (${Math.round(png.length / 1024)} KB, dalla copertina)`);
+    continue;
+  }
+
   const svg = template(pagina);
 
   // L'SVG sta dentro una pagina HTML minima: serve solo ad azzerare i margini
@@ -198,9 +213,6 @@ for (const pagina of daFare) {
   await page.evaluate(() => document.fonts.ready);
 
   const png = await page.screenshot({ type: "png" });
-
-  const destinazione = path.join("public", pagina.file);
-  await mkdir(path.dirname(destinazione), { recursive: true });
 
   // palette: i PNG a tinte piatte scendono da ~90 KB a ~25 KB senza perdite visibili
   const compresso = await sharp(png)

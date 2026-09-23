@@ -1,12 +1,21 @@
-# Fornace Vietri — concept (bozza da correggere)
+# Fornace Vietri — concept
 
 > Progetto concept: il laboratorio è inventato, il problema è comune a tanti artigiani.
 > Nessun numero inventato: niente vendite, niente percentuali, niente clienti.
 > Il valore del case study sta nel ragionamento e nel sistema, non nei risultati.
-> Le voci marcate [DA DECIDERE] le sceglie Luigi.
+> I testi pubblicati sono in `src/content/progetti/fornace-vietri.md`, riscritti da questa
+> bozza secondo la regola 5 di `CLAUDE.md` (niente metafore, frasi dirette).
 
 Lente del portfolio: un sistema.
 Tag: Shopify · Design system · Catalogo · Mobile
+
+Riga sotto il titolo: "Progetto concept. Il laboratorio è inventato, il problema è reale. Le foto sono generate con l'AI."
+
+## Decisioni prese
+
+- **Decisione centrale del case study:** il pezzo venduto resta visibile nel negozio.
+- **Immagini dei pezzi:** foto realistiche, generate con l'AI per il concept.
+- **Mockup:** immagini statiche, non un prototipo navigabile.
 
 ---
 
@@ -33,11 +42,9 @@ In più il laboratorio carica i pezzi dal telefono, tra un'infornata e l'altra. 
 
 Un pezzo venduto non sparisce dal negozio. Resta visibile con lo stato "Venduto" e un bottone "Richiedine uno simile".
 
-Perché: per un artigiano i pezzi venduti sono la prova di cosa sa fare. Nasconderli significa svuotare il negozio proprio mentre funziona. Tenerli visibili trasforma un "esaurito" in una richiesta su commissione.
+Perché: per un artigiano i pezzi venduti mostrano cosa sa fare. Se li nascondi, il negozio si svuota proprio quando vende. Se restano visibili, chi arriva tardi può chiedere un pezzo su commissione.
 
 Il rischio: un negozio pieno di pezzi venduti può sembrare vuoto. Per questo la collezione mostra prima i disponibili e poi i venduti, separati.
-
-[DA DECIDERE 1] Tieni questa decisione come centrale, oppure preferisci un'altra? Alternativa possibile: "le foto disordinate le sistemo con un sistema di impaginazione, non rifacendo le foto".
 
 ## Il sistema
 
@@ -57,25 +64,24 @@ Formato fisso quadrato, sfondo crema uniforme dietro la foto, nome e stato sempr
 ### Sezioni riutilizzabili
 Poche sezioni, combinabili dal laboratorio senza toccare codice: griglia prodotti, pezzo in evidenza, racconto del laboratorio, richiesta su commissione.
 
-## Cosa mostrare (mockup)
+## Immagini
 
-Quattro schermate mobile, 390px:
-1. Home con pezzo in evidenza e collezioni per tecnica.
-2. Collezione "Blu", disponibili prima e venduti dopo.
-3. Scheda prodotto disponibile.
-4. Scheda prodotto venduto, con "Richiedine uno simile".
+In `src/assets/progetti/fornace-vietri/`, foto realistiche generate con l'AI:
 
-Più un quadro con le tre card affiancate nei tre stati: è l'immagine che spiega il sistema in un colpo d'occhio.
-
-[DA DECIDERE 2] Le immagini dei pezzi in ceramica: generate in Gemini nello stesso stile retro della scena scrivania, oppure più realistiche?
-
-[DA DECIDERE 3] Il prototipo cliccabile: pagina navigabile dentro il portfolio (le quattro schermate collegate tra loro), oppure solo immagini statiche con lo slider?
+- `fornace-copertina` — cover nella griglia progetti e in cima alla pagina; anche og-image.
+- `fornace-brand` — identità del negozio, dopo "Il laboratorio".
+- `fornace-stati` — le tre card affiancate nei tre stati, dentro "La decisione".
+- Quattro schermate mobile, 390px, in galleria dentro "Il sistema":
+  1. `fornace-home` — home con pezzo in evidenza e collezioni per colore e per tecnica.
+  2. `fornace-collezione` — collezione "Blu", disponibili prima e venduti dopo.
+  3. `fornace-prodotto` — scheda prodotto disponibile.
+  4. `fornace-venduto` — scheda prodotto venduto, con "Richiedine una simile".
 
 ## Cosa ho imparato
 
-- Shopify si può piegare anche a chi non vende in serie, ma va deciso all'inizio, non aggiustato dopo.
-- Per chi carica i prodotti dal telefono, ogni campo in più nella scheda è un campo che prima o poi resta vuoto.
-- Un "esaurito" è una porta chiusa. Un "Venduto, richiedine uno simile" è una conversazione che inizia.
+- Shopify funziona anche per chi non vende in serie, ma va deciso all'inizio, non aggiustato dopo.
+- Chi carica i prodotti dal telefono ha poco tempo. Ogni campo in più nella scheda prima o poi resta vuoto, quindi i campi devono essere pochi.
+- Con la scritta "esaurito" il cliente se ne va. Con "Venduto, richiedine uno simile" può fare una richiesta al laboratorio.
 
 ## Nel negozio vero farei
 

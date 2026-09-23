@@ -1,12 +1,41 @@
 # Stato del progetto
 
-**Fase corrente:** Fase 5 chiusa, sito pronto per il deploy. Fase 4 annullata. Prossime: Fase 6 (Fornace Vietri) e Fase 7 (landing pizzeria).
+**Fase corrente:** Fase 6 (Fornace Vietri) chiusa il 2026-09-23, in attesa di conferma. Fase 4 annullata. Prossima: Fase 7 (landing pizzeria).
 
 ## Completo
 - **Fase 1** — token, layout, Nav, Card, Tag, Button, StatTile, SectionHeader, `/styleguide`.
 - **Fase 2** — hero con switch target (isola React, scelta in `localStorage`, `html[data-target]`), scena scrivania con hotspot ed etichette.
 - **Fase 3** — collection `progetti`, caso reale + 2 placeholder, griglia con ordine per percorso, dettaglio `/progetti/[slug]` con colonna pinnata, ramp/funnel/StatTile/slider prima-dopo, tilt card, View Transitions, conteggio numeri.
 - **Fase 5** — `/come-lavoro` (4 passi, stack, progetto n°5), `/contatti` (canali + form Formspree attivo), 404, sitemap + robots (endpoint) + og-image per ogni pagina, `vercel.json`, README in italiano. Review finale fatta: contrasti AA e bersagli tattili a posto.
+- **Fase 6 — concept Fornace Vietri (2026-09-23).** Pagina `/progetti/fornace-vietri` online,
+  non più "in arrivo". Testi da `docs/content/fornace-vietri.md` (decisioni aperte chiuse, via i
+  `[DA DECIDERE]`), riscritti secondo la regola 5: via le metafore ("Un esaurito è una porta
+  chiusa", "Shopify si può piegare", "trasforma un esaurito in una richiesta"), virgolette
+  tipografiche “ ” sui nomi dei bottoni. Sotto il titolo la riga `Progetto concept. Il
+  laboratorio è inventato, il problema è reale. Le foto sono generate con l'AI.` (campo `nota`).
+  Sei capitoli: Il laboratorio (+ `fornace-brand`), Il problema, La decisione (+ `fornace-stati`),
+  Il sistema (quattro sottosezioni + galleria delle quattro schermate), Cosa ho imparato, Nel
+  negozio vero farei. Lente `sistema`, tag Shopify · Design system · Catalogo · Mobile.
+  - **Schema.** Le quattro chiavi fisse `sezioni`/`dati` (contesto, decisione, risultato,
+    imparato) sono diventate un elenco `capitoli`, ognuno con `id`, `titolo`, `righe` (max 3),
+    `figura`, `dati`, `sottosezioni`, `galleria`, montati in quest'ordine. Il caso reale è
+    passato alla stessa struttura con output identico (stessi id `sez-*`, stessi titoli).
+  - **Galleria.** Sotto i 768 scorre in orizzontale con scroll-snap, una schermata alla volta
+    (`min(78vw, 320px)`, la seguente spunta a destra), a filo dei bordi dello schermo;
+    contenitore `role="region"` con `tabindex="0"` per lo scorrimento da tastiera. Da 768 le
+    quattro schermate stanno affiancate in griglia. Etichetta mono sopra ogni schermata.
+  - **Cover.** `fornace-copertina` in griglia e in cima alla pagina; la vecchia cover geometrica
+    `fornace-vietri.png` è eliminata e tolta da `prepara-cover.mjs`. Le cover della griglia
+    passano da 4:3 a 3:2, il formato della copertina: le cover geometriche (1200x900) perdono solo
+    50px vuoti sopra e sotto. La cella grande ora va al pubblicato con `ordine_dev` più basso, non
+    al primo file letto dal loader.
+  - **Og-image.** `prepara-og.mjs` accetta `copertina`: per Fornace l'og è la copertina tagliata
+    al centro a 1200x630 (PNG 492 KB, senza palette che su una foto farebbe bande).
+  - **Test.** `test-progetti` conta un solo tag "in arrivo" (pizzeria) e verifica la pagina di
+    Fornace a 390 e 1280: riga concept, sei capitoli in ordine, ogni immagine nel suo capitolo,
+    alt, caricamento, galleria affiancata a 1280 e scorrevole con snap a 390, og servita.
+    Verificato sulla build di preview con i sette test permanenti (tutti verdi) e screenshot
+    a 390/1280 di griglia (entrambi i percorsi) e pagina.
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
@@ -251,7 +280,7 @@ visibili a riposo) non è stato toccato.
   scopre l'altra variante, che è il rischio principale dell'opzione rimandata qui sotto in
   "Manca". Verificata con i cinque test permanenti (tutti verdi) e screenshot della home a
   390/768/1280 nei due percorsi.
-- **Fase 6/7** — concept Fornace Vietri e landing pizzeria: per ora sono due card "in arrivo" con pagina di dettaglio quasi vuota. Servono i contenuti in `docs/content/`.
+- **Fase 7** — landing pizzeria: per ora è una card "in arrivo" con pagina di dettaglio quasi vuota. I contenuti sono in `docs/content/` (commit `8ae8968`).
 - **Riordino delle sezioni del caso reale per percorso — opzione futura, da valutare quando ci
   saranno i contenuti di Fornace Vietri e pizzeria.** Era la proposta 1 delle due preparate il
   2026-09-22 sul punto 5 della passata 2 di `docs/AUDIT.md` ("lo switch promette due siti e ne
@@ -269,7 +298,12 @@ visibili a riposo) non è stato toccato.
 
 ## Decisioni aperte
 - **Lighthouse mobile home a 85**, sotto il ≥ 90 della regola 7. In locale l'LCP è l'h1 a 188 ms: i 3,6 s vengono dal throttling simulato. Sospetto principale il peso JS (gsap 27 KB + ScrollTrigger 17 KB + React 65 KB, 36 KiB segnalati come inutilizzati). Non ancora stabilito se sia una regressione della Fase 3 o il livello di partenza.
-- Servono da Luigi: i testi dei prompt 2 e 3 del progetto n°5 (vedi "Manca") e i contenuti in `docs/content/` per Fornace Vietri e pizzeria (c'è solo `caso-reale.md`).
+- Servono da Luigi: i testi dei prompt 2 e 3 del progetto n°5 (vedi "Manca").
+- **Fornace, testi dei mockup non allineati.** Le immagini generate dicono "Richiedine una
+  simile" (copertina, stati, scheda venduto) e "Richiedine uno simile" (collezione); il testo
+  della pagina usa "uno simile", come il documento. Lo stato disponibile nelle immagini è
+  etichettato "Pezzo unico", nel testo "Disponibile". Da decidere se rigenerare le immagini o
+  adattare il testo.
 
 ## Decise
 - Form di `/contatti`: **Formspree** (deciso il 2026-09-19).

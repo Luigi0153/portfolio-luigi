@@ -2,9 +2,9 @@
 /**
  * Dettaglio di un progetto.
  * Desktop: due colonne, la sinistra (titolo, lente, tags, cover) resta pinnata
- * da ScrollTrigger mentre scorrono le sezioni. Mobile: tutto in colonna, niente
- * pin. I blocchi dati arrivano dal frontmatter e vengono montati sotto la
- * sezione che li nomina, nell'ordine dichiarato.
+ * da ScrollTrigger mentre scorrono i capitoli. Mobile: tutto in colonna, niente
+ * pin. Capitoli, immagini e blocchi dati arrivano dal frontmatter e vengono
+ * montati nell'ordine dichiarato (vedi content.config.ts).
  */
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
@@ -29,15 +29,6 @@ export async function getStaticPaths() {
 const { progetto } = Astro.props;
 const { data } = progetto;
 const { Content } = await render(progetto);
-
-const SEZIONI = [
-  { chiave: "contesto", titolo: "Contesto" },
-  { chiave: "decisione", titolo: "Decisione" },
-  { chiave: "risultato", titolo: "Risultato" },
-  { chiave: "imparato", titolo: "Cosa ho imparato" },
-] as const;
-
-const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
 ---
 
 <Base
@@ -57,6 +48,8 @@ const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
           <h1 class="caso__titolo" transition:name={`titolo-${data.slug}`}>
             {data.titolo}
           </h1>
+
+          {data.nota && <p class="caso__nota">{data.nota}</p>}
 
           <ul class="caso__tags" role="list">
             {
@@ -85,63 +78,115 @@ const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
 
       <div class="caso__corpo">
         {
-          haSezioni ? (
-            SEZIONI.map(({ chiave, titolo }) => {
-              const righe = data.sezioni[chiave];
-              const blocchi = data.dati[chiave];
-              if (righe.length === 0 && blocchi.length === 0) return null;
+          data.capitoli.length > 0 ? (
+            data.capitoli.map((capitolo) => (
+              <section class="caso__sezione" aria-labelledby={`sez-${capitolo.id}`}>
+                <h2 class="caso__sezione-titolo" id={`sez-${capitolo.id}`}>
+                  {capitolo.titolo}
+                </h2>
 
-              return (
-                <section class="caso__sezione" aria-labelledby={`sez-${chiave}`}>
-                  <h2 class="caso__sezione-titolo" id={`sez-${chiave}`}>
-                    {titolo}
-                  </h2>
+                {capitolo.righe.map((riga) => (
+                  <p class="caso__riga">{riga}</p>
+                ))}
 
-                  {righe.map((riga) => (
-                    <p class="caso__riga">{riga}</p>
-                  ))}
+                {capitolo.figura && (
+                  <figure class="caso__figura">
+                    <Image
+                      class="caso__figura-img"
+                      src={capitolo.figura.src}
+                      alt={capitolo.figura.alt}
+                      widths={[700, 1100, 1500]}
+                      sizes="(min-width: 1024px) 760px, 90vw"
+                      format="webp"
+                      quality={80}
+                      loading="lazy"
+                    />
+                  </figure>
+                )}
 
-                  {blocchi.map((blocco) => (
-                    <div class="caso__dato">
-                      {blocco === "statistiche" && (
-                        <div class="caso__stat">
-                          <StatTile
-                            value="+63%"
-                            label="Ordini"
-                            note="Da 19 a 31, giugno contro luglio."
-                            conta
-                          />
-                          <StatTile
-                            value="+86%"
-                            label="Fatturato"
-                            note="Stesso periodo, stesso store."
-                            tone="arancio"
-                            conta
-                          />
-                          <StatTile
-                            value="94%"
-                            label="Traffico da mobile"
-                            note="Il desktop qui non esiste."
-                            conta
-                          />
-                        </div>
-                      )}
-                      {blocco === "ramp" && <RampChart />}
-                      {blocco === "funnel" && <Funnel />}
-                      {blocco === "before-after" && (
-                        <BeforeAfter
-                          prima={schedaPrima}
-                          primaAlt="Scheda prodotto mobile prima: testo fitto, gerarchia piatta, pulsante di acquisto in fondo alla pagina."
-                          dopo={schedaDopo}
-                          dopoAlt="Scheda prodotto mobile dopo: immagine grande, prezzo in evidenza, pulsante di acquisto sempre visibile in fondo allo schermo."
-                          etichetta="Trascina per confrontare la scheda prodotto prima e dopo"
+                {capitolo.dati.map((blocco) => (
+                  <div class="caso__dato">
+                    {blocco === "statistiche" && (
+                      <div class="caso__stat">
+                        <StatTile
+                          value="+63%"
+                          label="Ordini"
+                          note="Da 19 a 31, giugno contro luglio."
+                          conta
                         />
-                      )}
-                    </div>
-                  ))}
-                </section>
-              );
-            })
+                        <StatTile
+                          value="+86%"
+                          label="Fatturato"
+                          note="Stesso periodo, stesso store."
+                          tone="arancio"
+                          conta
+                        />
+                        <StatTile
+                          value="94%"
+                          label="Traffico da mobile"
+                          note="Il desktop qui non esiste."
+                          conta
+                        />
+                      </div>
+                    )}
+                    {blocco === "ramp" && <RampChart />}
+                    {blocco === "funnel" && <Funnel />}
+                    {blocco === "before-after" && (
+                      <BeforeAfter
+                        prima={schedaPrima}
+                        primaAlt="Scheda prodotto mobile prima: testo fitto, gerarchia piatta, pulsante di acquisto in fondo alla pagina."
+                        dopo={schedaDopo}
+                        dopoAlt="Scheda prodotto mobile dopo: immagine grande, prezzo in evidenza, pulsante di acquisto sempre visibile in fondo allo schermo."
+                        etichetta="Trascina per confrontare la scheda prodotto prima e dopo"
+                      />
+                    )}
+                  </div>
+                ))}
+
+                {capitolo.sottosezioni.map((sotto) => (
+                  <div class="caso__sotto">
+                    <h3 class="caso__sotto-titolo">{sotto.titolo}</h3>
+                    {sotto.righe.map((riga) => (
+                      <p class="caso__riga">{riga}</p>
+                    ))}
+                  </div>
+                ))}
+
+                {/* Mobile: una schermata alla volta, scorrendo in orizzontale.
+                    Da 768 in su: tutte e quattro affiancate. Il contenitore è
+                    focalizzabile perché da tastiera si possa scorrere. */}
+                {capitolo.galleria.length > 0 && (
+                  <div
+                    class="caso__galleria"
+                    role="region"
+                    aria-label={`Schermate del negozio, ${capitolo.galleria.length} immagini`}
+                    tabindex="0"
+                  >
+                    <ul class="caso__schermate" role="list">
+                      {capitolo.galleria.map((schermata) => (
+                        <li class="caso__schermata">
+                          <figure>
+                            <figcaption class="eyebrow caso__schermata-etichetta">
+                              {schermata.etichetta}
+                            </figcaption>
+                            <Image
+                              class="caso__schermata-img"
+                              src={schermata.src}
+                              alt={schermata.alt}
+                              widths={[300, 450, 600, 780]}
+                              sizes="(min-width: 768px) 190px, 78vw"
+                              format="webp"
+                              quality={80}
+                              loading="lazy"
+                            />
+                          </figure>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </section>
+            ))
           ) : (
             <div class="caso__prosa">
               <Content />
@@ -191,6 +236,12 @@ const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
     text-wrap: balance;
   }
 
+  .caso__nota {
+    margin-top: 0.75rem;
+    max-width: 44ch;
+    color: var(--color-ink-2);
+  }
+
   .caso__tags {
     display: flex;
     flex-wrap: wrap;
@@ -236,6 +287,96 @@ const haSezioni = SEZIONI.some(({ chiave }) => data.sezioni[chiave].length > 0);
   .caso__stat {
     display: grid;
     gap: 1.5rem;
+  }
+
+  .caso__figura {
+    margin: 2rem 0 0;
+  }
+
+  .caso__figura-img,
+  .caso__schermata-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--border-retro);
+    border-radius: var(--radius-img);
+  }
+
+  .caso__sotto {
+    margin-top: 2rem;
+  }
+
+  /* Un gradino sotto il titolo del capitolo (che usa già --text-h3) */
+  .caso__sotto-titolo {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .caso__sotto .caso__riga {
+    margin-top: 0.5rem;
+  }
+
+  /* Mobile: le schermate scorrono in orizzontale, una alla volta. La striscia
+     esce dal gutter fino ai bordi dello schermo, così la schermata seguente si
+     vede spuntare a destra e si capisce che si può scorrere. */
+  .caso__galleria {
+    margin: 2.5rem calc(-1 * var(--gutter)) 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .caso__galleria::-webkit-scrollbar {
+    display: none;
+  }
+
+  .caso__galleria:focus-visible {
+    outline-offset: -3px;
+  }
+
+  /* max-content: la lista è larga quanto le schermate, così il padding di
+     destra resta dentro l'area scorrevole e l'ultima schermata non tocca il
+     bordo. Le schermate si misurano quindi in vw e non in percentuale. */
+  .caso__schermate {
+    display: flex;
+    width: max-content;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.25rem var(--gutter) 0.5rem;
+    list-style: none;
+  }
+
+  .caso__schermata {
+    flex: 0 0 min(78vw, 320px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .caso__schermata figure {
+    margin: 0;
+  }
+
+  .caso__schermata-etichetta {
+    margin-bottom: 0.625rem;
+    color: var(--color-ink-2);
+  }
+
+  @media (min-width: 768px) {
+    .caso__galleria {
+      margin-inline: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+
+    .caso__schermate {
+      display: grid;
+      width: auto;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: start;
+      padding: 0;
+    }
   }
 
   .caso__prosa {

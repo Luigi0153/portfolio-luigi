@@ -39,20 +39,10 @@ const casoReale = `
   <rect x="120" y="760" width="790" height="7" fill="${T.ink}"/>
 </svg>`;
 
-/* Cover 2 - Fornace Vietri: archi di maiolica, uno dentro l'altro. */
-const fornace = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <rect width="${W}" height="${H}" fill="${T.cream2}"/>
-  <g stroke="${T.ink}" stroke-width="7">
-    <path d="M250 740 L250 430 A200 200 0 0 1 650 430 L650 740 Z" fill="${T.ink}"/>
-    <path d="M360 740 L360 470 A90 90 0 0 1 540 470 L540 740 Z" fill="${T.cream}"/>
-    <path d="M700 740 L700 545 A125 125 0 0 1 950 545 L950 740 Z" fill="${T.ink}"/>
-  </g>
-  <rect x="150" y="740" width="880" height="7" fill="${T.ink}"/>
-  <circle cx="450" cy="255" r="52" fill="${T.arancio}" stroke="${T.ink}" stroke-width="7"/>
-</svg>`;
+/* La cover di Fornace Vietri non è più generata qui: è la copertina del
+   concept, in src/assets/progetti/fornace-vietri/. */
 
-/* Cover 3 - pizzeria: il cerchio con la fetta tolta, la barra del forno. */
+/* Cover 2 - pizzeria: il cerchio con la fetta tolta, la barra del forno. */
 const pizzeria = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <rect width="${W}" height="${H}" fill="${T.cream2}"/>
@@ -136,7 +126,6 @@ await mkdir(OUT, { recursive: true });
 
 const immagini = [
   ["caso-reale.png", casoReale],
-  ["fornace-vietri.png", fornace],
   ["pizzeria.png", pizzeria],
   ["scheda-prima.png", prima],
   ["scheda-dopo.png", dopo],
