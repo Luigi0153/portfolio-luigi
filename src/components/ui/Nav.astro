@@ -11,6 +11,9 @@
  * L'header ha transition:persist per non sfarfallare tra una pagina e
  * l'altra: il DOM sopravvive allo swap, quindi aria-current NON si aggiorna
  * da solo e va ricalcolato dal client a ogni astro:page-load.
+ * Il nome è fisso: senza, Astro usa un contatore che cambia da pagina a
+ * pagina (home, caso reale e contatti avevano tre id diversi) e l'header
+ * veniva sostituito invece che tenuto.
  */
 const voci = [
   { href: "/#progetti", label: "Progetti", sezione: "progetti" },
@@ -21,7 +24,7 @@ const voci = [
 const pathname = Astro.url.pathname;
 ---
 
-<header class="site-nav" transition:persist>
+<header class="site-nav" transition:persist="site-nav">
   <div class="site-nav__pill">
     <a class="site-nav__logo" href="/" aria-label="Luigi Romano, torna alla home">
       <svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true" focusable="false">
@@ -292,10 +295,16 @@ const pathname = Astro.url.pathname;
     const cornice = nav.querySelector<HTMLElement>(".site-nav__nav");
     const links = [...nav.querySelectorAll<HTMLAnchorElement>(".site-nav__link")];
 
-    // 1. Pagina attiva: con transition:persist resta quella di partenza
+    // 1. Pagina attiva: con transition:persist resta quella di partenza.
+    // Le voci di sezione ripartono spente: se la sezione è in questa pagina
+    // le riaccende l'osservatore qui sotto, altrimenti "Progetti" resterebbe
+    // attiva uscendo dalla home.
     const qui = location.pathname.replace(/\/$/, "") || "/";
     for (const link of links) {
-      if (link.dataset.sezione) continue;
+      if (link.dataset.sezione) {
+        link.removeAttribute("aria-current");
+        continue;
+      }
       const suo = new URL(link.href).pathname.replace(/\/$/, "") || "/";
       if (suo === qui) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");

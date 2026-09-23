@@ -9,7 +9,10 @@
   4. il riempimento ink è esattamente sulla voce attiva;
   5. il marchio è un bersaglio 44x44 con l'SVG da 36 al centro, ha il nome
      nell'aria-label e l'anello ink al focus; il separatore c'è solo da 768;
-  6. "Luigi Romano" resta nel titolo, nei meta e nel footer di ogni pagina.
+  6. "Luigi Romano" resta nel titolo, nei meta e nel footer di ogni pagina;
+  7. su ogni pagina, aperta direttamente o raggiunta dalla nav, la voce col
+     testo cream ha sotto il riempimento con fondo ink (il colore letto dal
+     token, non scritto qui), e l'header resta lo stesso nodo tra le pagine.
   Uso: node scripts/test-nav.mjs   (server attivo su BASE_URL o :4321)
 */
 import { chromium } from "playwright";
@@ -226,6 +229,136 @@ for (const url of conNome) {
     `${url}: og:site_name, og:title, twitter:title e author contengono il nome`,
   );
   atteso(n.footer.includes(nome), `${url}: il nome è nel footer`);
+  await page.close();
+}
+
+/*
+  Riempimento della voce attiva: fondo ink su ogni pagina. Se il colore del
+  thumb sparisce (un token rimosso, una variabile scritta male) il testo cream
+  resta su cream-2 e la voce diventa invisibile: build e CSS non lo segnalano.
+  Per ogni voce col testo cream il thumb deve essere visibile, ink e sotto di
+  lei; se nessuna voce è attiva, nessun testo deve essere cream.
+*/
+const riempimento = (page) =>
+  page.evaluate(() => {
+    const colore = (token) => {
+      const prova = document.createElement("span");
+      prova.style.color = `var(${token})`;
+      document.body.append(prova);
+      const c = getComputedStyle(prova).color;
+      prova.remove();
+      return c;
+    };
+    const ink = colore("--color-ink");
+    const cream = colore("--color-cream");
+    const thumb = document.querySelector(".site-nav__thumb");
+    const ct = getComputedStyle(thumb);
+    const rt = thumb.getBoundingClientRect();
+    const links = [...document.querySelectorAll(".site-nav__link")];
+    const chiare = links.filter((l) => getComputedStyle(l).color === cream);
+    return {
+      ink,
+      fondo: ct.backgroundColor,
+      visibile: Number(ct.opacity) > 0.99,
+      attive: links.filter((l) => l.hasAttribute("aria-current")).map((l) => l.textContent.trim()),
+      chiare: chiare.map((l) => {
+        const r = l.getBoundingClientRect();
+        return {
+          voce: l.textContent.trim(),
+          scarto: +Math.abs(rt.left + rt.width / 2 - (r.left + r.width / 2)).toFixed(2),
+        };
+      }),
+    };
+  });
+
+const verificaRiempimento = (f, etichetta, voce) => {
+  if (voce) {
+    atteso(
+      f.attive.length === 1 && f.attive[0] === voce,
+      `${etichetta}: una sola voce attiva, "${voce}" (${f.attive.join(", ") || "nessuna"})`,
+    );
+  } else {
+    atteso(f.attive.length === 0, `${etichetta}: nessuna voce attiva (${f.attive.join(", ") || "nessuna"})`);
+  }
+  if (f.chiare.length === 0) {
+    atteso(!voce, `${etichetta}: nessun testo cream nella nav`);
+    return;
+  }
+  for (const c of f.chiare) {
+    atteso(
+      f.fondo === f.ink && f.visibile && c.scarto <= 0.51,
+      `${etichetta}: "${c.voce}" cream su riempimento ink (fondo ${f.fondo}, visibile ${f.visibile}, scarto ${c.scarto}px)`,
+    );
+  }
+};
+
+const tuttePagine = [
+  { url: "/", voce: null },
+  { url: "/", voce: "Progetti", sezione: "progetti" },
+  { url: "/come-lavoro", voce: "Come lavoro" },
+  { url: "/contatti", voce: "Contatti" },
+  { url: "/progetti/caso-reale", voce: null },
+  { url: "/progetti/fornace-vietri", voce: null },
+  { url: "/progetti/pizzeria", voce: null },
+  { url: "/404", voce: null },
+  { url: "/styleguide", voce: null },
+];
+
+/* Pagina aperta direttamente */
+for (const w of [390, 1280]) {
+  for (const p of tuttePagine) {
+    const page = await browser.newPage({ viewport: { width: w, height: 844 } });
+    await page.goto(BASE + p.url, { waitUntil: "networkidle" });
+    await page.addStyleTag({ content: "html { scroll-behavior: auto !important; }" });
+    await page.evaluate(() => document.fonts.ready);
+    if (p.sezione) {
+      await page.evaluate((id) => document.getElementById(id)?.scrollIntoView({ block: "start" }), p.sezione);
+    }
+    await page.waitForTimeout(600);
+    verificaRiempimento(await riempimento(page), `${w}px ${p.url}${p.sezione ? "#" + p.sezione : ""}`, p.voce);
+    await page.close();
+  }
+}
+
+/* Pagina raggiunta dalla nav (View Transitions, header persistito) */
+const giro = [
+  { da: "/", clic: "Come lavoro", voce: "Come lavoro" },
+  { da: "/come-lavoro", clic: "Contatti", voce: "Contatti" },
+  { da: "/contatti", clic: "Progetti", voce: "Progetti" },
+  { da: "/progetti/caso-reale", clic: "Contatti", voce: "Contatti" },
+  { da: "/404", clic: "Come lavoro", voce: "Come lavoro" },
+];
+for (const w of [390, 1280]) {
+  for (const g of giro) {
+    const page = await browser.newPage({ viewport: { width: w, height: 844 } });
+    await page.goto(BASE + g.da, { waitUntil: "networkidle" });
+    await page.evaluate(() => {
+      document.querySelector(".site-nav").dataset.marcato = "si";
+    });
+    await page.click(`.site-nav__link:text-is("${g.clic}")`);
+    await page.waitForURL((u) => u.pathname !== g.da, { timeout: 5000 });
+    await page.waitForTimeout(1000);
+    const etichetta = `${w}px ${g.da} → ${g.clic}`;
+    const persistito = await page.evaluate(
+      () => document.querySelector(".site-nav").dataset.marcato === "si",
+    );
+    atteso(persistito, `${etichetta}: l'header è lo stesso nodo della pagina di partenza`);
+    verificaRiempimento(await riempimento(page), etichetta, g.voce);
+    await page.close();
+  }
+}
+
+/* Dalla home con "Progetti" attiva a un'altra pagina: "Progetti" si spegne */
+{
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  await page.goto(BASE + "/", { waitUntil: "networkidle" });
+  await page.addStyleTag({ content: "html { scroll-behavior: auto !important; }" });
+  await page.evaluate(() => document.getElementById("progetti")?.scrollIntoView({ block: "start" }));
+  await page.waitForTimeout(600);
+  await page.click('.site-nav__link:text-is("Contatti")');
+  await page.waitForURL("**/contatti");
+  await page.waitForTimeout(1000);
+  verificaRiempimento(await riempimento(page), "1280px /#progetti → Contatti", "Contatti");
   await page.close();
 }
 
