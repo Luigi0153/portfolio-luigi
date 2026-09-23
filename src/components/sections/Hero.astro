@@ -159,7 +159,13 @@ import DeskScene from "./DeskScene.astro";
     }
   }
 
-  /* --- Forme Bauhaus decorative: solo ink, più una sola in arancio --- */
+  /*
+    --- Forme Bauhaus decorative: solo ink, più una sola in arancio ---
+    Nessuna forma tocca il testo (scripts/test-forme.mjs). Quelle con
+    data-spin girano su sé stesse, quindi in un giro occupano un cerchio largo
+    quanto la loro diagonale; il parallax le fa salire fino a 40px rispetto al
+    testo. Le posizioni qui sotto tengono conto di tutti e due.
+  */
   .hero__forme {
     position: absolute;
     inset: 0;
@@ -172,9 +178,11 @@ import DeskScene from "./DeskScene.astro";
     will-change: transform;
   }
 
+  /* Sotto i 768 testo e tessere occupano tutta la larghezza: le forme
+     spuntano solo dagli angoli, e la barra non ha un posto libero. */
   .forma--cerchio {
-    top: -28px;
-    right: 6%;
+    top: -46px;
+    right: -12px;
     width: 84px;
     height: 84px;
     border-radius: 50%;
@@ -182,8 +190,8 @@ import DeskScene from "./DeskScene.astro";
   }
 
   .forma--semicerchio {
-    bottom: 32px;
-    left: -46px;
+    bottom: -30px;
+    left: -74px;
     width: 140px;
     height: 70px;
     border-radius: 140px 140px 0 0;
@@ -191,21 +199,45 @@ import DeskScene from "./DeskScene.astro";
   }
 
   .forma--quarto {
-    right: 18%;
-    bottom: -44px;
-    width: 130px;
-    height: 130px;
+    right: -34px;
+    bottom: -58px;
+    width: 100px;
+    height: 100px;
     border-radius: 100% 0 0 0;
     background: var(--color-ink);
   }
 
   .forma--barra {
-    right: -64px;
-    bottom: 26%;
+    display: none;
     width: 180px;
     height: 24px;
     border-radius: var(--radius-pill);
     background: var(--color-ink);
+  }
+
+  @media (min-width: 768px) {
+    .forma--cerchio {
+      top: -28px;
+      right: 6%;
+    }
+
+    .forma--semicerchio {
+      bottom: 32px;
+      left: -46px;
+    }
+
+    .forma--quarto {
+      right: 18%;
+      bottom: -44px;
+      width: 130px;
+      height: 130px;
+    }
+
+    .forma--barra {
+      display: block;
+      right: -64px;
+      bottom: 26%;
+    }
   }
 
   @media (min-width: 1024px) {
@@ -216,9 +248,11 @@ import DeskScene from "./DeskScene.astro";
       height: 120px;
     }
 
+    /* Sotto la scena, lontano dalla colonna di testo: in basso a sinistra
+       girando passava sulla CTA e sulla riga del +86%. */
     .forma--semicerchio {
-      bottom: 60px;
-      left: -56px;
+      bottom: 24px;
+      left: calc(62% - 85px);
       width: 170px;
       height: 85px;
     }

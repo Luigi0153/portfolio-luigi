@@ -195,11 +195,17 @@ const descrizione = FORM_ATTIVO
     position: absolute;
   }
 
+  /*
+    Nessuna forma tocca il testo (scripts/test-forme.mjs). Il titolo occupa
+    quasi tutta la riga, quindi le forme stanno sopra di lui o sotto la sua
+    fine, mai alla sua altezza. Il quarto è ritagliato da un cerchio con il
+    centro nell'angolo in alto a destra: è da lì che si misura la distanza.
+  */
   .forma--quarto {
-    top: -20px;
+    top: -30px;
     right: -40px;
-    width: 130px;
-    height: 130px;
+    width: 120px;
+    height: 120px;
     border-radius: 0 0 0 100%;
     background: var(--color-arancio);
   }
@@ -212,19 +218,28 @@ const descrizione = FORM_ATTIVO
 
   @media (min-width: 768px) {
     .forma--quarto {
-      right: 6%;
-      width: 190px;
-      height: 190px;
+      top: 0;
+      right: 0;
+      width: 130px;
+      height: 130px;
     }
 
+    /* Sotto la fine del titolo, a destra della riga di testo */
     .forma--cerchio {
       display: block;
-      right: 26%;
-      bottom: 18%;
+      right: 12%;
+      bottom: 0;
       width: 88px;
       height: 88px;
       border-radius: 50%;
       background: var(--color-ink);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .forma--quarto {
+      width: 170px;
+      height: 170px;
     }
   }
 
