@@ -10,7 +10,7 @@
 Lente del portfolio: un flusso.
 Tag: Landing page · Prenotazioni · Mobile · Instagram
 
-Riga sotto il titolo: "Progetto concept. La pizzeria è inventata, il problema è reale. Le foto sono generate con l'AI."
+Riga sotto il titolo: "Progetto concept. La pizzeria e la sua storia sono inventate, il problema è reale. Le foto sono generate con l'AI."
 
 ## Decisioni prese
 
@@ -75,7 +75,7 @@ In `src/assets/progetti/pizzeria-vico-stretto/`, foto realistiche generate con l
 
 - `pizzeria-copertina` — cover nella griglia progetti e in cima alla pagina; anche og-image.
 - `pizzeria-brand` — tavola del brand (logo, colori, caratteri, foto, menu), dopo "La pizzeria".
-- `pizzeria-flusso` — il percorso prima (cinque passaggi) e dopo (tre tocchi), dentro "Il flusso".
+- `pizzeria-flusso` — il percorso prima (cinque passaggi) e dopo (tre tocchi), dentro "Il flusso". Sotto i 768px la versione in colonna `pizzeria-flusso-mobile`, stesso alt.
 - Tre schermate mobile in galleria dentro "La pagina":
   1. `pizzeria-landing` — la pagina completa su telefono.
   2. `pizzeria-prenota` — il pannello di scelta di giorno, orario e persone.

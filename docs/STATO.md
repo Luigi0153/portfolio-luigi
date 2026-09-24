@@ -65,6 +65,17 @@
     galleria, alt, caricamento, snap a 390, og). Verificato sulla build di preview con i sette
     test permanenti (tutti verdi) e screenshot a 390/1280 di griglia (entrambi i percorsi) e
     pagina.
+- **Pizzeria, nuova identità (2026-09-24).** Immagini sostituite da Luigi con la direzione
+  "bottega in bianco e nero": fondo nero, marmo, un solo rosso per pomodoro e bottone, logo a
+  sigillo con "dal 1961", Bodoni Moda e Karla, ambienti in bianco e nero e pizze a colori, menu
+  su marmo con i puntini fino al prezzo. Riscritti cover alt e tutti gli alt; la riga concept
+  diventa `Progetto concept. La pizzeria e la sua storia sono inventate, il problema è reale.
+  Le foto sono generate con l'AI.` Og rigenerata dalla nuova copertina (309 KB).
+  - **Figura con versione mobile.** Campo opzionale `figura.mobile` nello schema: la pagina
+    monta un `<picture>` con la versione larga in `<source media="(min-width: 768px)">`
+    (ottimizzata con `getImage`, con `width`/`height` per il suo rapporto) e la versione
+    mobile nell'`<img>`, stesso alt. Usato per `pizzeria-flusso` / `pizzeria-flusso-mobile`.
+    `test-progetti` verifica che a 390 si carichi la mobile e a 1280 la larga.
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)

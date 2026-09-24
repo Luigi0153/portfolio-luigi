@@ -150,9 +150,11 @@ const CONCEPT = [
   {
     slug: "pizzeria",
     copertina: "pizzeria-copertina",
-    nota: "Progetto concept. La pizzeria è inventata, il problema è reale. Le foto sono generate con l'AI.",
+    nota: "Progetto concept. La pizzeria e la sua storia sono inventate, il problema è reale. Le foto sono generate con l'AI.",
     capitoli: ["La pizzeria", "Il problema", "Il flusso", "La decisione", "Cosa ho tolto", "La pagina", "Cosa ho imparato", "Nel locale vero farei"],
     figure: { "pizzeria-brand": "sez-pizzeria", "pizzeria-flusso": "sez-flusso" },
+    // figura con una versione ricomposta sotto i 768px (<picture>)
+    mobile: "pizzeria-flusso",
     // capitolo -> tipo di lista e numero di voci
     elenchi: { "sez-flusso": "ol 3", "sez-tolto": "ul 4", "sez-pagina": "ul 4" },
     galleria: { capitolo: "sez-pagina", schermate: 3 },
@@ -296,6 +298,15 @@ for (const concetto of CONCEPT) {
       imgs.filter((i) => !(i.complete && i.naturalWidth > 0)).map((i) => i.getAttribute("src")),
     );
     atteso(caricate.length === 0, `${vp}px ${slug}: tutte le immagini si caricano ${caricate.join(" ")}`);
+
+    if (concetto.mobile) {
+      const corrente = await page.$eval(`.caso__figura picture img[src*="${concetto.mobile}"]`, (i) => i.currentSrc);
+      const mobile = corrente.includes(`${concetto.mobile}-mobile`);
+      atteso(
+        vp < 768 ? mobile : !mobile && corrente.includes(concetto.mobile),
+        `${vp}px ${slug}: ${concetto.mobile} nella versione ${vp < 768 ? "mobile" : "larga"}`,
+      );
+    }
 
     const senzaOverflow = await page.evaluate(
       () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,

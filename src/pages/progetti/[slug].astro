@@ -6,7 +6,7 @@
  * pin. Capitoli, immagini e blocchi dati arrivano dal frontmatter e vengono
  * montati nell'ordine dichiarato (vedi content.config.ts).
  */
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import InvitoContatto from "../../components/sections/InvitoContatto.astro";
@@ -28,6 +28,21 @@ export async function getStaticPaths() {
 
 const { progetto } = Astro.props;
 const { data } = progetto;
+
+/* Figure con una versione mobile: la versione desktop va in un <source> da
+   768px in su, e serve già ottimizzata qui (getImage) perché <source> non è
+   un componente. Chiave: id del capitolo. */
+const SIZES_FIGURA = "(min-width: 1024px) 760px, 90vw";
+const figureDesktop = Object.fromEntries(
+  await Promise.all(
+    data.capitoli
+      .filter((c) => c.figura?.mobile)
+      .map(async (c) => [
+        c.id,
+        await getImage({ src: c.figura!.src, widths: [700, 1100, 1500], format: "webp", quality: 80 }),
+      ]),
+  ),
+);
 ---
 
 <Base
@@ -91,14 +106,37 @@ const { data } = progetto;
                   </ul>
                 ))}
 
-              {capitolo.figura && (
+              {capitolo.figura?.mobile ? (
+                <figure class="caso__figura">
+                  <picture>
+                    <source
+                      media="(min-width: 768px)"
+                      type="image/webp"
+                      srcset={figureDesktop[capitolo.id].srcSet.attribute}
+                      sizes={SIZES_FIGURA}
+                      width={capitolo.figura.src.width}
+                      height={capitolo.figura.src.height}
+                    />
+                    <Image
+                      class="caso__figura-img"
+                      src={capitolo.figura.mobile}
+                      alt={capitolo.figura.alt}
+                      widths={[390, 780]}
+                      sizes="90vw"
+                      format="webp"
+                      quality={80}
+                      loading="lazy"
+                    />
+                  </picture>
+                </figure>
+              ) : capitolo.figura && (
                 <figure class="caso__figura">
                   <Image
                     class="caso__figura-img"
                     src={capitolo.figura.src}
                     alt={capitolo.figura.alt}
                     widths={[700, 1100, 1500]}
-                    sizes="(min-width: 1024px) 760px, 90vw"
+                    sizes={SIZES_FIGURA}
                     format="webp"
                     quality={80}
                     loading="lazy"
@@ -315,6 +353,10 @@ const { data } = progetto;
 
   .caso__figura {
     margin: 2rem 0 0;
+  }
+
+  .caso__figura picture {
+    display: block;
   }
 
   .caso__figura-img,

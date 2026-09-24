@@ -58,8 +58,11 @@ const progetti = defineCollection({
                 voci: z.array(z.string()).min(2).max(6),
               })
               .optional(),
-            /** Un'immagine a tutta colonna, sotto le righe. */
-            figura: IMMAGINE.optional(),
+            /**
+             * Un'immagine a tutta colonna, sotto le righe. `mobile` è una
+             * versione ricomposta per gli schermi sotto i 768px, con lo stesso alt.
+             */
+            figura: IMMAGINE.extend({ mobile: image().optional() }).optional(),
             dati: z.array(BLOCCHI).default([]),
             sottosezioni: z
               .array(z.object({ titolo: z.string(), righe: RIGHE.min(1) }))
