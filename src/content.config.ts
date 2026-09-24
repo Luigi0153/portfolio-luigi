@@ -8,8 +8,7 @@ import { glob } from "astro/loaders";
  * deve poterci intercalare componenti dati (grafico, funnel, before/after) e
  * immagini, cosa che in Markdown puro non si può fare senza MDX. Ogni progetto
  * dichiara i suoi capitoli, con titolo e ordine propri: il caso reale ne ha
- * quattro, un concept può averne altri. Il corpo resta per i testi liberi dei
- * progetti "in arrivo".
+ * quattro, un concept può averne altri. Il corpo dei file non viene usato.
  */
 /** I blocchi dati disponibili: componenti veri, non nomi liberi. */
 const BLOCCHI = z.enum(["ramp", "funnel", "statistiche", "before-after"]);
@@ -40,11 +39,9 @@ const progetti = defineCollection({
       /** Posizione nella griglia per ciascun percorso (1 = primo). */
       ordine_dev: z.number().int().positive(),
       ordine_business: z.number().int().positive(),
-      /** Card con tag "in arrivo": il dettaglio mostra il corpo del file. */
-      in_arrivo: z.boolean().default(false),
       /**
        * I capitoli, nell'ordine in cui si leggono. Dentro ogni capitolo la
-       * pagina monta, in quest'ordine: righe, figura, blocchi dati,
+       * pagina monta, in quest'ordine: righe, elenco, figura, blocchi dati,
        * sottosezioni, galleria di schermate.
        */
       capitoli: z
@@ -54,6 +51,13 @@ const progetti = defineCollection({
             id: z.string(),
             titolo: z.string(),
             righe: RIGHE.default([]),
+            /** Passi in ordine (numerato) o punti: per quando tre righe non bastano. */
+            elenco: z
+              .object({
+                numerato: z.boolean().default(false),
+                voci: z.array(z.string()).min(2).max(6),
+              })
+              .optional(),
             /** Un'immagine a tutta colonna, sotto le righe. */
             figura: IMMAGINE.optional(),
             dati: z.array(BLOCCHI).default([]),
@@ -64,7 +68,7 @@ const progetti = defineCollection({
             galleria: z.array(IMMAGINE.extend({ etichetta: z.string() })).default([]),
           }),
         )
-        .default([]),
+        .min(1),
     });
   },
 });

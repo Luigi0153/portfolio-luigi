@@ -82,9 +82,7 @@ const PAGINE = [
   },
   {
     file: "og/pizzeria.png",
-    etichetta: "Progetto · In arrivo",
-    titolo: "Landing per una pizzeria",
-    sottotitolo: "Una pagina sola, un obiettivo solo.",
+    copertina: "src/assets/progetti/pizzeria-vico-stretto/pizzeria-copertina.jpg",
   },
 ];
 

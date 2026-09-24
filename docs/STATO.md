@@ -1,6 +1,6 @@
 # Stato del progetto
 
-**Fase corrente:** Fase 6 (Fornace Vietri) chiusa il 2026-09-23, in attesa di conferma. Fase 4 annullata. Prossima: Fase 7 (landing pizzeria).
+**Fase corrente:** Fase 7 (pizzeria Vico Stretto) chiusa il 2026-09-24, in attesa di conferma. Fase 4 annullata.
 
 ## Completo
 - **Fase 1** — token, layout, Nav, Card, Tag, Button, StatTile, SectionHeader, `/styleguide`.
@@ -36,6 +36,35 @@
     alt, caricamento, galleria affiancata a 1280 e scorrevole con snap a 390, og servita.
     Verificato sulla build di preview con i sette test permanenti (tutti verdi) e screenshot
     a 390/1280 di griglia (entrambi i percorsi) e pagina.
+- **Fase 7 — concept pizzeria Vico Stretto (2026-09-24).** Pagina `/progetti/pizzeria` online,
+  stesso schema di Fornace. Titolo `Pizzeria Vico Stretto`, lente `flusso`, tag Landing page ·
+  Prenotazioni · Mobile · Instagram, riga `Progetto concept. La pizzeria è inventata, il
+  problema è reale. Le foto sono generate con l'AI.` Testi da `docs/content/pizzeria.md`
+  (decisioni chiuse: prenotazione via WhatsApp con messaggio già scritto, foto realistiche
+  generate con l'AI, mockup statici; via i `[DA DECIDERE]`), riscritti secondo la regola 5.
+  Otto capitoli: La pizzeria (+ `pizzeria-brand`), Il problema, Il flusso (+ `pizzeria-flusso`),
+  La decisione, Cosa ho tolto, La pagina (+ galleria di tre schermate), Cosa ho imparato, Nel
+  locale vero farei. La sezione "I vincoli" del documento non ha un capitolo suo: commissioni e
+  gestionale stanno in una riga di Il problema, il menu in PDF in Cosa ho tolto.
+  - **Schema.** Nuovo campo `elenco` del capitolo (`numerato`, `voci` da 2 a 6), montato tra le
+    righe e la figura: i tre passi del flusso (`<ol>`) e le quattro voci di Cosa ho tolto e La
+    pagina (`<ul>`) non stavano nelle tre righe. Marcatori ink-2, numeri in mono.
+  - **Galleria.** Il numero di colonne da 768 segue il numero di schermate (`--schermate`,
+    quattro per Fornace, tre qui), e `sizes` di conseguenza. `aria-label` da "Schermate del
+    negozio" a "Schermate del progetto".
+  - **Niente più "in arrivo".** Tolti il campo `in_arrivo` dallo schema, il tag nella griglia e
+    nella pagina, il ramo che mostrava il corpo del file (con `render` e `.caso__prosa`), il
+    filtro sulla cella grande; `capitoli` ora è obbligatorio (almeno uno). Il `Tag` tone
+    `cream` resta, perché lo usano i chip di codice di `/come-lavoro`; nello styleguide l'esempio
+    "In arrivo" è diventato un chip `Liquid`. Eliminata la vecchia cover geometrica
+    `pizzeria.png` e il suo SVG in `prepara-cover.mjs`.
+  - **Og-image.** `og/pizzeria.png` dalla copertina, tagliata a 1200x630 (444 KB).
+  - **Test.** `test-progetti` verifica che nessuna card sia "in arrivo", le copertine dei due
+    concept in griglia, e passa le stesse verifiche di pagina a Fornace e pizzeria da una
+    tabella `CONCEPT` (riga concept, capitoli in ordine, elenchi, figure nel capitolo giusto,
+    galleria, alt, caricamento, snap a 390, og). Verificato sulla build di preview con i sette
+    test permanenti (tutti verdi) e screenshot a 390/1280 di griglia (entrambi i percorsi) e
+    pagina.
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
@@ -280,7 +309,6 @@ visibili a riposo) non è stato toccato.
   scopre l'altra variante, che è il rischio principale dell'opzione rimandata qui sotto in
   "Manca". Verificata con i cinque test permanenti (tutti verdi) e screenshot della home a
   390/768/1280 nei due percorsi.
-- **Fase 7** — landing pizzeria: per ora è una card "in arrivo" con pagina di dettaglio quasi vuota. I contenuti sono in `docs/content/` (commit `8ae8968`).
 - **Riordino delle sezioni del caso reale per percorso — opzione futura, da valutare quando ci
   saranno i contenuti di Fornace Vietri e pizzeria.** Era la proposta 1 delle due preparate il
   2026-09-22 sul punto 5 della passata 2 di `docs/AUDIT.md` ("lo switch promette due siti e ne
@@ -299,6 +327,16 @@ visibili a riposo) non è stato toccato.
 ## Decisioni aperte
 - **Lighthouse mobile home a 85**, sotto il ≥ 90 della regola 7. In locale l'LCP è l'h1 a 188 ms: i 3,6 s vengono dal throttling simulato. Sospetto principale il peso JS (gsap 27 KB + ScrollTrigger 17 KB + React 65 KB, 36 KiB segnalati come inutilizzati). Non ancora stabilito se sia una regressione della Fase 3 o il livello di partenza.
 - Servono da Luigi: i testi dei prompt 2 e 3 del progetto n°5 (vedi "Manca").
+- **[DA VERIFICARE] Il nome "Vico Stretto"** (dal documento dei contenuti): prima di pubblicare
+  controllare che non esista una pizzeria reale con questo nome. In caso, cambiarlo. Il nome
+  compare nel titolo e nei testi di `src/content/progetti/pizzeria.md`, ma anche dentro tutte
+  e sei le immagini di `src/assets/progetti/pizzeria-vico-stretto/` e nell'og: cambiarlo vuol
+  dire rifare le immagini.
+- **Schema del flusso illeggibile a 390.** `pizzeria-flusso` è larga 2880x987: a 350px il testo
+  dei riquadri misura pochi pixel. Il contenuto è comunque nella pagina (i tre passi nell'elenco
+  sopra, i cinque di prima nel capitolo Il problema e nell'alt). Se serve leggibile anche da
+  telefono: una versione verticale dell'immagine per il mobile, oppure lo schema scorrevole in
+  orizzontale come la galleria.
 
 ## Decise
 - Form di `/contatti`: **Formspree** (deciso il 2026-09-19).

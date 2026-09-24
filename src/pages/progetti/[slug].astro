@@ -7,7 +7,7 @@
  * montati nell'ordine dichiarato (vedi content.config.ts).
  */
 import { Image } from "astro:assets";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import InvitoContatto from "../../components/sections/InvitoContatto.astro";
 import Tag from "../../components/ui/Tag.astro";
@@ -28,7 +28,6 @@ export async function getStaticPaths() {
 
 const { progetto } = Astro.props;
 const { data } = progetto;
-const { Content } = await render(progetto);
 ---
 
 <Base
@@ -52,13 +51,6 @@ const { Content } = await render(progetto);
           {data.nota && <p class="caso__nota">{data.nota}</p>}
 
           <ul class="caso__tags" role="list">
-            {
-              data.in_arrivo && (
-                <Tag as="li" tone="cream">
-                  In arrivo
-                </Tag>
-              )
-            }
             {data.tags.map((t) => <Tag as="li">{t}</Tag>)}
           </ul>
 
@@ -78,120 +70,127 @@ const { Content } = await render(progetto);
 
       <div class="caso__corpo">
         {
-          data.capitoli.length > 0 ? (
-            data.capitoli.map((capitolo) => (
-              <section class="caso__sezione" aria-labelledby={`sez-${capitolo.id}`}>
-                <h2 class="caso__sezione-titolo" id={`sez-${capitolo.id}`}>
-                  {capitolo.titolo}
-                </h2>
+          data.capitoli.map((capitolo) => (
+            <section class="caso__sezione" aria-labelledby={`sez-${capitolo.id}`}>
+              <h2 class="caso__sezione-titolo" id={`sez-${capitolo.id}`}>
+                {capitolo.titolo}
+              </h2>
 
-                {capitolo.righe.map((riga) => (
-                  <p class="caso__riga">{riga}</p>
+              {capitolo.righe.map((riga) => (
+                <p class="caso__riga">{riga}</p>
+              ))}
+
+              {capitolo.elenco &&
+                (capitolo.elenco.numerato ? (
+                  <ol class="caso__elenco caso__elenco--numerato">
+                    {capitolo.elenco.voci.map((voce) => <li>{voce}</li>)}
+                  </ol>
+                ) : (
+                  <ul class="caso__elenco">
+                    {capitolo.elenco.voci.map((voce) => <li>{voce}</li>)}
+                  </ul>
                 ))}
 
-                {capitolo.figura && (
-                  <figure class="caso__figura">
-                    <Image
-                      class="caso__figura-img"
-                      src={capitolo.figura.src}
-                      alt={capitolo.figura.alt}
-                      widths={[700, 1100, 1500]}
-                      sizes="(min-width: 1024px) 760px, 90vw"
-                      format="webp"
-                      quality={80}
-                      loading="lazy"
-                    />
-                  </figure>
-                )}
+              {capitolo.figura && (
+                <figure class="caso__figura">
+                  <Image
+                    class="caso__figura-img"
+                    src={capitolo.figura.src}
+                    alt={capitolo.figura.alt}
+                    widths={[700, 1100, 1500]}
+                    sizes="(min-width: 1024px) 760px, 90vw"
+                    format="webp"
+                    quality={80}
+                    loading="lazy"
+                  />
+                </figure>
+              )}
 
-                {capitolo.dati.map((blocco) => (
-                  <div class="caso__dato">
-                    {blocco === "statistiche" && (
-                      <div class="caso__stat">
-                        <StatTile
-                          value="+63%"
-                          label="Ordini"
-                          note="Da 19 a 31, giugno contro luglio."
-                          conta
-                        />
-                        <StatTile
-                          value="+86%"
-                          label="Fatturato"
-                          note="Stesso periodo, stesso store."
-                          tone="arancio"
-                          conta
-                        />
-                        <StatTile
-                          value="94%"
-                          label="Traffico da mobile"
-                          note="Il desktop qui non esiste."
-                          conta
-                        />
-                      </div>
-                    )}
-                    {blocco === "ramp" && <RampChart />}
-                    {blocco === "funnel" && <Funnel />}
-                    {blocco === "before-after" && (
-                      <BeforeAfter
-                        prima={schedaPrima}
-                        primaAlt="Scheda prodotto mobile prima: testo fitto, gerarchia piatta, pulsante di acquisto in fondo alla pagina."
-                        dopo={schedaDopo}
-                        dopoAlt="Scheda prodotto mobile dopo: immagine grande, prezzo in evidenza, pulsante di acquisto sempre visibile in fondo allo schermo."
-                        etichetta="Trascina per confrontare la scheda prodotto prima e dopo"
+              {capitolo.dati.map((blocco) => (
+                <div class="caso__dato">
+                  {blocco === "statistiche" && (
+                    <div class="caso__stat">
+                      <StatTile
+                        value="+63%"
+                        label="Ordini"
+                        note="Da 19 a 31, giugno contro luglio."
+                        conta
                       />
-                    )}
-                  </div>
-                ))}
+                      <StatTile
+                        value="+86%"
+                        label="Fatturato"
+                        note="Stesso periodo, stesso store."
+                        tone="arancio"
+                        conta
+                      />
+                      <StatTile
+                        value="94%"
+                        label="Traffico da mobile"
+                        note="Il desktop qui non esiste."
+                        conta
+                      />
+                    </div>
+                  )}
+                  {blocco === "ramp" && <RampChart />}
+                  {blocco === "funnel" && <Funnel />}
+                  {blocco === "before-after" && (
+                    <BeforeAfter
+                      prima={schedaPrima}
+                      primaAlt="Scheda prodotto mobile prima: testo fitto, gerarchia piatta, pulsante di acquisto in fondo alla pagina."
+                      dopo={schedaDopo}
+                      dopoAlt="Scheda prodotto mobile dopo: immagine grande, prezzo in evidenza, pulsante di acquisto sempre visibile in fondo allo schermo."
+                      etichetta="Trascina per confrontare la scheda prodotto prima e dopo"
+                    />
+                  )}
+                </div>
+              ))}
 
-                {capitolo.sottosezioni.map((sotto) => (
-                  <div class="caso__sotto">
-                    <h3 class="caso__sotto-titolo">{sotto.titolo}</h3>
-                    {sotto.righe.map((riga) => (
-                      <p class="caso__riga">{riga}</p>
+              {capitolo.sottosezioni.map((sotto) => (
+                <div class="caso__sotto">
+                  <h3 class="caso__sotto-titolo">{sotto.titolo}</h3>
+                  {sotto.righe.map((riga) => (
+                    <p class="caso__riga">{riga}</p>
+                  ))}
+                </div>
+              ))}
+
+              {/* Mobile: una schermata alla volta, scorrendo in orizzontale.
+                  Da 768 in su: tutte affiancate, una colonna per schermata.
+                  Il contenitore è focalizzabile perché da tastiera si possa
+                  scorrere. */}
+              {capitolo.galleria.length > 0 && (
+                <div
+                  class="caso__galleria"
+                  role="region"
+                  aria-label={`Schermate del progetto, ${capitolo.galleria.length} immagini`}
+                  tabindex="0"
+                  style={`--schermate: ${capitolo.galleria.length}`}
+                >
+                  <ul class="caso__schermate" role="list">
+                    {capitolo.galleria.map((schermata) => (
+                      <li class="caso__schermata">
+                        <figure>
+                          <figcaption class="eyebrow caso__schermata-etichetta">
+                            {schermata.etichetta}
+                          </figcaption>
+                          <Image
+                            class="caso__schermata-img"
+                            src={schermata.src}
+                            alt={schermata.alt}
+                            widths={[300, 450, 600, 780]}
+                            sizes={`(min-width: 768px) ${Math.ceil(760 / capitolo.galleria.length)}px, 78vw`}
+                            format="webp"
+                            quality={80}
+                            loading="lazy"
+                          />
+                        </figure>
+                      </li>
                     ))}
-                  </div>
-                ))}
-
-                {/* Mobile: una schermata alla volta, scorrendo in orizzontale.
-                    Da 768 in su: tutte e quattro affiancate. Il contenitore è
-                    focalizzabile perché da tastiera si possa scorrere. */}
-                {capitolo.galleria.length > 0 && (
-                  <div
-                    class="caso__galleria"
-                    role="region"
-                    aria-label={`Schermate del negozio, ${capitolo.galleria.length} immagini`}
-                    tabindex="0"
-                  >
-                    <ul class="caso__schermate" role="list">
-                      {capitolo.galleria.map((schermata) => (
-                        <li class="caso__schermata">
-                          <figure>
-                            <figcaption class="eyebrow caso__schermata-etichetta">
-                              {schermata.etichetta}
-                            </figcaption>
-                            <Image
-                              class="caso__schermata-img"
-                              src={schermata.src}
-                              alt={schermata.alt}
-                              widths={[300, 450, 600, 780]}
-                              sizes="(min-width: 768px) 190px, 78vw"
-                              format="webp"
-                              quality={80}
-                              loading="lazy"
-                            />
-                          </figure>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </section>
-            ))
-          ) : (
-            <div class="caso__prosa">
-              <Content />
-            </div>
-          )
+                  </ul>
+                </div>
+              )}
+            </section>
+          ))
         }
       </div>
     </div>
@@ -278,6 +277,31 @@ const { Content } = await render(progetto);
     margin-top: 1rem;
     max-width: 62ch;
     font-size: var(--text-body-lg);
+  }
+
+  /* Stessa misura delle righe; il numero o il pallino sta fuori dal testo.
+     list-style esplicito: il preflight di Tailwind lo azzera. */
+  .caso__elenco {
+    display: grid;
+    gap: 0.625rem;
+    margin: 1rem 0 0;
+    max-width: 62ch;
+    padding-left: 1.5rem;
+    font-size: var(--text-body-lg);
+    list-style: disc;
+  }
+
+  .caso__elenco--numerato {
+    list-style: decimal;
+  }
+
+  .caso__elenco li::marker {
+    color: var(--color-ink-2);
+  }
+
+  .caso__elenco--numerato li::marker {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
   }
 
   .caso__dato {
@@ -373,15 +397,10 @@ const { Content } = await render(progetto);
     .caso__schermate {
       display: grid;
       width: auto;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(var(--schermate, 4), minmax(0, 1fr));
       align-items: start;
       padding: 0;
     }
-  }
-
-  .caso__prosa {
-    max-width: 62ch;
-    font-size: var(--text-body-lg);
   }
 
   @media (min-width: 640px) {

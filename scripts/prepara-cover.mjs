@@ -39,18 +39,8 @@ const casoReale = `
   <rect x="120" y="760" width="790" height="7" fill="${T.ink}"/>
 </svg>`;
 
-/* La cover di Fornace Vietri non è più generata qui: è la copertina del
-   concept, in src/assets/progetti/fornace-vietri/. */
-
-/* Cover 2 - pizzeria: il cerchio con la fetta tolta, la barra del forno. */
-const pizzeria = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <rect width="${W}" height="${H}" fill="${T.cream2}"/>
-  <path d="M520 450 L520 190 A260 260 0 1 0 780 450 Z" fill="${T.arancio}" stroke="${T.ink}" stroke-width="7"/>
-  <path d="M556 414 L556 226 A188 188 0 0 1 744 414 Z" fill="${T.ink}" stroke="${T.ink}" stroke-width="7"/>
-  <rect x="840" y="250" width="150" height="400" rx="75" fill="${T.ink}" stroke="${T.ink}" stroke-width="7"/>
-  <rect x="180" y="700" width="450" height="46" rx="23" fill="${T.ink}"/>
-</svg>`;
+/* Le cover di Fornace Vietri e della pizzeria non sono più generate qui: sono
+   le copertine dei concept, in src/assets/progetti/<progetto>/. */
 
 /* Before/after della scheda prodotto mobile, 390x844.
    "prima": wireframe fitto, gerarchia piatta, CTA sotto la piega.
@@ -126,7 +116,6 @@ await mkdir(OUT, { recursive: true });
 
 const immagini = [
   ["caso-reale.png", casoReale],
-  ["pizzeria.png", pizzeria],
   ["scheda-prima.png", prima],
   ["scheda-dopo.png", dopo],
 ];

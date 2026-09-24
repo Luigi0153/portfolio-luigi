@@ -1,13 +1,22 @@
-# Pizzeria Vico Stretto — concept (bozza da correggere)
+# Pizzeria Vico Stretto — concept
 
 > Progetto concept: la pizzeria è inventata, il problema è comune a tante pizzerie di quartiere.
 > Nessun numero inventato: niente prenotazioni, percentuali o clienti.
 > Il valore del case study sta nel flusso e nelle scelte, non nei risultati.
-> Le voci marcate [DA DECIDERE] le sceglie Luigi.
-> [DA VERIFICARE] Il nome "Vico Stretto": prima di pubblicare controlla che non esista una pizzeria reale con questo nome. In caso, cambiarlo.
+> I testi pubblicati sono in `src/content/progetti/pizzeria.md`, riscritti da questa
+> bozza secondo la regola 5 di `CLAUDE.md` (frasi dirette, niente metafore).
+> La verifica del nome "Vico Stretto" è tra le decisioni aperte di `docs/STATO.md`.
 
 Lente del portfolio: un flusso.
 Tag: Landing page · Prenotazioni · Mobile · Instagram
+
+Riga sotto il titolo: "Progetto concept. La pizzeria è inventata, il problema è reale. Le foto sono generate con l'AI."
+
+## Decisioni prese
+
+- **Prenotazione:** passa da WhatsApp con un messaggio già scritto, non da un modulo con conferma via email.
+- **Foto della pizza e del locale:** realistiche, generate con l'AI per il concept.
+- **Mockup:** immagini statiche, non un prototipo navigabile.
 
 ---
 
@@ -44,8 +53,6 @@ Perché: la pizzeria usa già WhatsApp tutto il giorno, non paga commissioni, e 
 
 Il rischio: senza un sistema automatico, due persone potrebbero chiedere l'ultimo tavolo nello stesso momento. Si accetta, perché la conferma la dà sempre la pizzeria.
 
-[DA DECIDERE 1] Tieni WhatsApp come scelta centrale, oppure preferisci un modulo con conferma via email?
-
 ## Cosa ho tolto
 
 - Il menu di navigazione: la pagina ha un solo obiettivo, far prenotare.
@@ -62,15 +69,17 @@ Una sola pagina, pensata per il telefono:
 3. Orari, indirizzo con mappa, e il bottone per chiamare, sempre a portata di pollice.
 4. Il bottone "Prenota" resta fisso in basso mentre si scorre.
 
-## Cosa mostrare (mockup)
+## Immagini
 
-- Il flusso disegnato: reel → landing → scelta di giorno, ora e persone → WhatsApp precompilato. Con i passaggi tolti rispetto a prima.
-- La landing su telefono, completa.
-- Il pannello di scelta della prenotazione.
-- Il messaggio WhatsApp già scritto.
-- Una tavola bento del brand: logo, colori, menu, foto.
+In `src/assets/progetti/pizzeria-vico-stretto/`, foto realistiche generate con l'AI, mockup statici:
 
-[DA DECIDERE 2] Le foto della pizza e del locale: generate in Gemini, realistiche come quelle della ceramica?
+- `pizzeria-copertina` — cover nella griglia progetti e in cima alla pagina; anche og-image.
+- `pizzeria-brand` — tavola del brand (logo, colori, caratteri, foto, menu), dopo "La pizzeria".
+- `pizzeria-flusso` — il percorso prima (cinque passaggi) e dopo (tre tocchi), dentro "Il flusso".
+- Tre schermate mobile in galleria dentro "La pagina":
+  1. `pizzeria-landing` — la pagina completa su telefono.
+  2. `pizzeria-prenota` — il pannello di scelta di giorno, orario e persone.
+  3. `pizzeria-messaggio` — il messaggio WhatsApp già scritto, con la risposta della pizzeria.
 
 ## Cosa ho imparato
 

@@ -1,7 +1,7 @@
 ---
 /**
- * Tag mono: etichette tech, stato ("in arrivo"), categorie.
- * tone: ink (default, solo bordo), cream (fondo cream-2: chip di codice, "in arrivo").
+ * Tag mono: etichette tech, categorie.
+ * tone: ink (default, solo bordo), cream (fondo cream-2: chip di codice).
  */
 interface Props {
   tone?: "ink" | "cream";
@@ -36,7 +36,7 @@ const { tone = "ink", as: Tag = "span", class: className } = Astro.props;
     white-space: nowrap;
   }
 
-  /* Chip di codice e "in arrivo": stesso fondo pieno, testo e bordo restano ink */
+  /* Chip di codice: fondo pieno, testo e bordo restano ink */
   .tag--cream {
     background-color: var(--color-cream-2);
   }

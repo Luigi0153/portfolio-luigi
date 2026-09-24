@@ -25,12 +25,10 @@ const { id = "progetti", class: className } = Astro.props;
 
 const progetti = await getCollection("progetti");
 
-// La cella grande va al progetto pubblicato che viene primo nel percorso dev
-// (l'ordine del markup). Esplicito e non il primo della collection: l'ordine
-// in cui il loader legge i file non è garantito.
-const featured = progetti
-  .filter((p) => !p.data.in_arrivo)
-  .sort((a, b) => a.data.ordine_dev - b.data.ordine_dev)[0]?.id;
+// La cella grande va al progetto che viene primo nel percorso dev (l'ordine
+// del markup). Esplicito e non il primo della collection: l'ordine in cui il
+// loader legge i file non è garantito.
+const featured = progetti.toSorted((a, b) => a.data.ordine_dev - b.data.ordine_dev)[0]?.id;
 ---
 
 <section id={id} class:list={["section-pad", className]} aria-labelledby={`${id}-titolo`}>
@@ -77,11 +75,6 @@ const featured = progetti
                   <p class="progetti__sommario">{data.sommario}</p>
 
                   <ul class="progetti__tags" role="list">
-                    {data.in_arrivo && (
-                      <Tag as="li" tone="cream">
-                        In arrivo
-                      </Tag>
-                    )}
                     {data.tags.map((t) => (
                       <Tag as="li">{t}</Tag>
                     ))}
