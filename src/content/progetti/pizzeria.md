@@ -10,7 +10,7 @@ tags:
   - Mobile
   - Instagram
 cover: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-copertina.jpg
-coverAlt: "Il marchio Vico Stretto, un sigillo tondo con la scritta dal 1961, e la pagina della pizzeria su telefono. In alto la foto in bianco e nero della sala, il titolo La pizza del quartiere, da tre generazioni e il bottone rosso Prenota un tavolo. Accanto il menu su una lastra di marmo, con Margherita a 6 euro, Marinara a 5, Provola e pepe a 7 e Salame piccante a 7,50."
+coverAlt: "Il marchio Vico Stretto, un sigillo tondo con la scritta dal 1961, e la pagina della pizzeria su telefono, su un fondo di marmo chiaro. In alto la foto in bianco e nero della sala, il titolo La pizza del quartiere, da tre generazioni e il bottone bordeaux Prenota un tavolo. Accanto il menu su una lavagna nera, con Margherita a 6 euro, Marinara a 5, Provola e pepe a 7 e Salame piccante a 7,50."
 sommario: "Concept di una pagina per una pizzeria di quartiere. Si prenota un tavolo dal telefono in tre tocchi, con la conferma su WhatsApp."
 ordine_dev: 3
 ordine_business: 2
@@ -22,7 +22,7 @@ capitoli:
       - "Lavora molto con Instagram. I reel delle pizze girano, e la gente scrive nei messaggi per chiedere se c'è posto."
     figura:
       src: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-brand.jpg
-      alt: "Identità della pizzeria, su fondo nero. Il logo è un sigillo tondo con le iniziali VS e le scritte Pizzeria Vico Stretto, Napoli e dal 1961. Tre colori: Nero, Marmo e Rosso, che serve solo per il pomodoro e il bottone. Il carattere Bodoni Moda, con Karla per i testi. Il menu su una lastra di marmo, con i puntini fino al prezzo: Margherita a 6 euro, Marinara a 5, Provola e pepe a 7 e Salame piccante a 7,50. Le foto della sala, del forno a legna e delle mani che stendono l'impasto sono in bianco e nero, la foto di una margherita è a colori."
+      alt: "Identità della pizzeria, su un fondo di marmo chiaro. Il logo è un sigillo tondo con le iniziali VS e le scritte Pizzeria Vico Stretto, Napoli e dal 1961. Tre colori: Marmo, Nero e Bordeaux, che serve solo per il bottone. Il carattere Bodoni Moda, con Karla per i testi. Il menu è una lavagna nera, con i puntini fino al prezzo: Margherita a 6 euro, Marinara a 5, Provola e pepe a 7 e Salame piccante a 7,50. Le foto della sala, del forno a legna e delle mani che stendono l'impasto sono in bianco e nero, la foto di una margherita è a colori."
   - id: problema
     titolo: Il problema
     righe:
@@ -70,10 +70,10 @@ capitoli:
     galleria:
       - etichetta: La pagina
         src: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-landing.jpg
-        alt: "La pagina della pizzeria su telefono, dall'alto in basso. Il logo e il nome, la foto in bianco e nero della sala, il titolo La pizza del quartiere, da tre generazioni e il bottone rosso Prenota un tavolo. Il menu su una lastra di marmo con quattro pizze, ognuna con la sua foto a colori e il prezzo, una foto in bianco e nero del forno, gli orari da martedì a domenica dalle 19 alle 23:30, l'indirizzo nel centro storico di Napoli con la mappa, i bottoni Mappe e Chiama, e il bottone Prenota un tavolo fisso in fondo."
+        alt: "La pagina della pizzeria su telefono, dall'alto in basso. Il logo e il nome, la foto in bianco e nero della sala, il titolo La pizza del quartiere, da tre generazioni e il bottone bordeaux Prenota un tavolo. Il menu su una lavagna nera con quattro pizze, ognuna con la sua foto a colori e il prezzo, una foto in bianco e nero del forno, gli orari da martedì a domenica dalle 19 alle 23:30, l'indirizzo nel centro storico di Napoli con la mappa, i bottoni Mappe e Chiama, e il bottone Prenota un tavolo fisso in fondo."
       - etichetta: La prenotazione
         src: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-prenota.jpg
-        alt: "Il pannello Quando venite? Scelti sabato 26 tra i giorni, le 20:30 tra gli orari e 4 persone. Sotto il riepilogo, il bottone rosso Invia su WhatsApp e la nota che la pizzeria conferma con una risposta."
+        alt: "Il pannello Quando venite? Scelti sabato 26 tra i giorni, le 20:30 tra gli orari e 4 persone. Sotto il riepilogo, il bottone bordeaux Invia su WhatsApp e la nota che la pizzeria conferma con una risposta."
       - etichetta: Il messaggio
         src: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-messaggio.jpg
         alt: "La chat su WhatsApp con la pizzeria. Il messaggio già scritto con giorno sabato 26, orario 20:30 e 4 persone, e la risposta della pizzeria: Perfetto, vi aspettiamo sabato alle 20:30. A presto!"

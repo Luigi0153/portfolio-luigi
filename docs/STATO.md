@@ -76,6 +76,12 @@
     (ottimizzata con `getImage`, con `width`/`height` per il suo rapporto) e la versione
     mobile nell'`<img>`, stesso alt. Usato per `pizzeria-flusso` / `pizzeria-flusso-mobile`.
     `test-progetti` verifica che a 390 si carichi la mobile e a 1280 la larga.
+- **Pizzeria, palette rivista (2026-09-25).** Immagini sostituite di nuovo, stessi nomi: via il
+  fondo nero e il rosso, dentro marmo chiaro al 60%, nero al 30%, bordeaux al 10%. Restano
+  sigillo "dal 1961", Bodoni Moda e Karla, ambienti in bianco e nero e pizze a colori; il menu
+  passa da lastra di marmo a lavagna nera. Riscritti gli alt che nominavano il fondo nero o il
+  colore rosso (copertina, `pizzeria-brand`, `pizzeria-landing`, `pizzeria-prenota`) con
+  "marmo chiaro", "bordeaux" e "lavagna nera". Og rigenerata dalla nuova copertina.
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
