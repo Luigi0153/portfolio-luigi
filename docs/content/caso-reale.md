@@ -9,6 +9,7 @@ Lente del portfolio: "una decisione che posso difendere".
 - Giugno → luglio: ordini +63% (19 → 31), fatturato +86%, scontrino medio +14% (€56 → €64).
 - Borse = 68% del fatturato: in pratica è un negozio di borse, non "borse + abbigliamento + accessori".
 - 94% del traffico da mobile. 30% degli ordini dal canale TikTok Shop (invisibili nel funnel web).
+- Chi compra: donne, il 59% tra i 35 e i 54 anni (dati del pubblico dello store, skill sisters-store-brand).
 - Funnel luglio, solo sito: 4.233 sessioni → 4,04% aggiunge al carrello → 82,5% arriva al checkout → 10,6% completa.
 - 15,8% del fatturato aveva `product_type` vuoto: rompeva report e collezioni smart.
 

@@ -1,0 +1,68 @@
+---
+/**
+ * I blocchi dati del caso reale: componenti veri, montati per nome.
+ * I numeri sono quelli di docs/content/caso-reale.md, e nessun altro.
+ */
+import StatTile from "./StatTile.astro";
+import RampChart from "./RampChart.astro";
+import Funnel from "./Funnel.astro";
+import BeforeAfter from "./BeforeAfter.astro";
+import schedaOggi from "../../assets/progetti/caso-reale/caso-oggi-scheda-schermo.jpg";
+import schedaFase1 from "../../assets/progetti/caso-reale/caso-fase1-scheda-schermo.jpg";
+
+interface Props {
+  blocchi: ("ramp" | "funnel" | "statistiche" | "before-after")[];
+}
+
+const { blocchi } = Astro.props;
+---
+
+{
+  blocchi.map((blocco) => (
+    <div class="caso__dato">
+      {blocco === "statistiche" && (
+        <div class="caso__stat">
+          <StatTile value="+63%" label="Ordini" note="Da 19 a 31, giugno contro luglio." conta />
+          <StatTile
+            value="+86%"
+            label="Fatturato"
+            note="Stesso periodo, stesso store."
+            tone="arancio"
+            conta
+          />
+          <StatTile value="94%" label="Traffico da mobile" note="Il desktop qui non esiste." conta />
+        </div>
+      )}
+      {blocco === "ramp" && <RampChart />}
+      {blocco === "funnel" && <Funnel />}
+      {blocco === "before-after" && (
+        <BeforeAfter
+          prima={schedaOggi}
+          primaAlt="La scheda prodotto di oggi, come appare aprendola dal telefono. In alto la scritta Invita un amico per maggiori sconti e il nome Boutique, poi la foto della borsa a tracolla in pelle cognac, il nome, il prezzo con l'etichetta In offerta, i colori Cognac e Nero e la quantità. Il bottone Aggiungi non si vede, sta più in basso."
+          dopo={schedaFase1}
+          dopoAlt="La scheda prodotto proposta per la Fase 1, come appare aprendola dal telefono. In alto una striscia nera con Spedizione tracciata, Reso facile e Pagamenti sicuri, poi la foto grande della borsa con tre miniature, la categoria Borse a tracolla, il nome, il prezzo e i colori. In fondo allo schermo il bottone nero pieno Aggiungi al carrello."
+          etichetta="Trascina per confrontare la scheda prodotto di oggi con quella della Fase 1"
+          etichettaPrima="Oggi"
+          etichettaDopo="Fase 1"
+        />
+      )}
+    </div>
+  ))
+}
+
+<style>
+  .caso__dato {
+    margin-top: 2rem;
+  }
+
+  .caso__stat {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .caso__stat {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

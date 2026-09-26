@@ -2,8 +2,7 @@
   Genera le og-image 1200x630 (home, pagine principali, ogni progetto).
 
   Template SVG unico con i soli colori dei token. Il rendering NON passa da
-  sharp/librsvg come prepara-cover.mjs: lì il testo era vietato proprio perché
-  librsvg non ha i font del sito. Qui il testo serve, quindi l'SVG lo disegna
+  sharp/librsvg, che non ha i font del sito. Qui il testo serve, quindi l'SVG lo disegna
   Chromium via Playwright (già in devDependencies), con i woff2 di @fontsource
   incorporati in base64: stessi font del sito, nessuna dipendenza nuova.
   Il PNG finale passa comunque da sharp per la compressione in palette.
@@ -70,10 +69,9 @@ const PAGINE = [
       "Cerchi uno sviluppatore per il tuo team o per creare e gestire il tuo sito? Contattami.",
   },
   {
+    // Nessun template: la copertina ha già titolo e sottotitolo del progetto
     file: "og/caso-reale.png",
-    etichetta: "Progetto · Lente: decisione",
-    titolo: "I numeri prima, il sito dopo.",
-    sottotitolo: "+63% ordini, +86% fatturato, stesso store.",
+    copertina: "src/assets/progetti/caso-reale/caso-copertina.jpg",
   },
   {
     // Nessun template: la copertina ha già nome e sottotitolo del progetto

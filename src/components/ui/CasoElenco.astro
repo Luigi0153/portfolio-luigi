@@ -1,0 +1,41 @@
+---
+/** Passi numerati o punti di un case study, alla stessa misura delle righe. */
+interface Props {
+  numerato: boolean;
+  voci: string[];
+}
+
+const { numerato, voci } = Astro.props;
+const Lista = numerato ? "ol" : "ul";
+---
+
+<Lista class:list={["caso__elenco", { "caso__elenco--numerato": numerato }]}>
+  {voci.map((voce) => <li>{voce}</li>)}
+</Lista>
+
+<style>
+  /* Stessa misura delle righe; il numero o il pallino sta fuori dal testo.
+     list-style esplicito: il preflight di Tailwind lo azzera. */
+  .caso__elenco {
+    display: grid;
+    gap: 0.625rem;
+    margin: 1rem 0 0;
+    max-width: 62ch;
+    padding-left: 1.5rem;
+    font-size: var(--text-body-lg);
+    list-style: disc;
+  }
+
+  .caso__elenco--numerato {
+    list-style: decimal;
+  }
+
+  .caso__elenco li::marker {
+    color: var(--color-ink-2);
+  }
+
+  .caso__elenco--numerato li::marker {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+</style>

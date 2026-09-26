@@ -6,17 +6,15 @@
  * pin. Capitoli, immagini e blocchi dati arrivano dal frontmatter e vengono
  * montati nell'ordine dichiarato (vedi content.config.ts).
  */
-import { Image, getImage } from "astro:assets";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import InvitoContatto from "../../components/sections/InvitoContatto.astro";
 import Tag from "../../components/ui/Tag.astro";
-import StatTile from "../../components/ui/StatTile.astro";
-import RampChart from "../../components/ui/RampChart.astro";
-import Funnel from "../../components/ui/Funnel.astro";
-import BeforeAfter from "../../components/ui/BeforeAfter.astro";
-import schedaPrima from "../../assets/progetti/scheda-prima.png";
-import schedaDopo from "../../assets/progetti/scheda-dopo.png";
+import CasoElenco from "../../components/ui/CasoElenco.astro";
+import CasoFigura from "../../components/ui/CasoFigura.astro";
+import CasoDati from "../../components/ui/CasoDati.astro";
+import CasoGalleria from "../../components/ui/CasoGalleria.astro";
 
 export async function getStaticPaths() {
   const progetti = await getCollection("progetti");
@@ -28,21 +26,6 @@ export async function getStaticPaths() {
 
 const { progetto } = Astro.props;
 const { data } = progetto;
-
-/* Figure con una versione mobile: la versione desktop va in un <source> da
-   768px in su, e serve già ottimizzata qui (getImage) perché <source> non è
-   un componente. Chiave: id del capitolo. */
-const SIZES_FIGURA = "(min-width: 1024px) 760px, 90vw";
-const figureDesktop = Object.fromEntries(
-  await Promise.all(
-    data.capitoli
-      .filter((c) => c.figura?.mobile)
-      .map(async (c) => [
-        c.id,
-        await getImage({ src: c.figura!.src, widths: [700, 1100, 1500], format: "webp", quality: 80 }),
-      ]),
-  ),
-);
 ---
 
 <Base
@@ -95,138 +78,36 @@ const figureDesktop = Object.fromEntries(
                 <p class="caso__riga">{riga}</p>
               ))}
 
-              {capitolo.elenco &&
-                (capitolo.elenco.numerato ? (
-                  <ol class="caso__elenco caso__elenco--numerato">
-                    {capitolo.elenco.voci.map((voce) => <li>{voce}</li>)}
-                  </ol>
-                ) : (
-                  <ul class="caso__elenco">
-                    {capitolo.elenco.voci.map((voce) => <li>{voce}</li>)}
-                  </ul>
-                ))}
+              {capitolo.elenco && <CasoElenco {...capitolo.elenco} />}
 
-              {capitolo.figura?.mobile ? (
-                <figure class="caso__figura">
-                  <picture>
-                    <source
-                      media="(min-width: 768px)"
-                      type="image/webp"
-                      srcset={figureDesktop[capitolo.id].srcSet.attribute}
-                      sizes={SIZES_FIGURA}
-                      width={capitolo.figura.src.width}
-                      height={capitolo.figura.src.height}
-                    />
-                    <Image
-                      class="caso__figura-img"
-                      src={capitolo.figura.mobile}
-                      alt={capitolo.figura.alt}
-                      widths={[390, 780]}
-                      sizes="90vw"
-                      format="webp"
-                      quality={80}
-                      loading="lazy"
-                    />
-                  </picture>
-                </figure>
-              ) : capitolo.figura && (
-                <figure class="caso__figura">
-                  <Image
-                    class="caso__figura-img"
-                    src={capitolo.figura.src}
-                    alt={capitolo.figura.alt}
-                    widths={[700, 1100, 1500]}
-                    sizes={SIZES_FIGURA}
-                    format="webp"
-                    quality={80}
-                    loading="lazy"
-                  />
-                </figure>
-              )}
+              {capitolo.figura && <CasoFigura {...capitolo.figura} />}
 
-              {capitolo.dati.map((blocco) => (
-                <div class="caso__dato">
-                  {blocco === "statistiche" && (
-                    <div class="caso__stat">
-                      <StatTile
-                        value="+63%"
-                        label="Ordini"
-                        note="Da 19 a 31, giugno contro luglio."
-                        conta
-                      />
-                      <StatTile
-                        value="+86%"
-                        label="Fatturato"
-                        note="Stesso periodo, stesso store."
-                        tone="arancio"
-                        conta
-                      />
-                      <StatTile
-                        value="94%"
-                        label="Traffico da mobile"
-                        note="Il desktop qui non esiste."
-                        conta
-                      />
-                    </div>
-                  )}
-                  {blocco === "ramp" && <RampChart />}
-                  {blocco === "funnel" && <Funnel />}
-                  {blocco === "before-after" && (
-                    <BeforeAfter
-                      prima={schedaPrima}
-                      primaAlt="Scheda prodotto mobile prima: testo fitto, gerarchia piatta, pulsante di acquisto in fondo alla pagina."
-                      dopo={schedaDopo}
-                      dopoAlt="Scheda prodotto mobile dopo: immagine grande, prezzo in evidenza, pulsante di acquisto sempre visibile in fondo allo schermo."
-                      etichetta="Trascina per confrontare la scheda prodotto prima e dopo"
-                    />
-                  )}
-                </div>
-              ))}
+              <CasoDati blocchi={capitolo.dati} />
 
               {capitolo.sottosezioni.map((sotto) => (
-                <div class="caso__sotto">
+                <div class:list={["caso__sotto", { "caso__sotto--etichetta": sotto.etichetta }]}>
+                  {sotto.etichetta && (
+                    <p class="caso__sotto-etichetta">
+                      <Tag>{sotto.etichetta}</Tag>
+                    </p>
+                  )}
                   <h3 class="caso__sotto-titolo">{sotto.titolo}</h3>
                   {sotto.righe.map((riga) => (
                     <p class="caso__riga">{riga}</p>
                   ))}
+                  {sotto.elenco && <CasoElenco {...sotto.elenco} />}
+                  <CasoDati blocchi={sotto.dati} />
+                  {sotto.immagini.map((immagine) =>
+                    "galleria" in immagine ? (
+                      <CasoGalleria schermate={immagine.galleria} />
+                    ) : (
+                      <CasoFigura {...immagine} />
+                    ),
+                  )}
                 </div>
               ))}
 
-              {/* Mobile: una schermata alla volta, scorrendo in orizzontale.
-                  Da 768 in su: tutte affiancate, una colonna per schermata.
-                  Il contenitore è focalizzabile perché da tastiera si possa
-                  scorrere. */}
-              {capitolo.galleria.length > 0 && (
-                <div
-                  class="caso__galleria"
-                  role="region"
-                  aria-label={`Schermate del progetto, ${capitolo.galleria.length} immagini`}
-                  tabindex="0"
-                  style={`--schermate: ${capitolo.galleria.length}`}
-                >
-                  <ul class="caso__schermate" role="list">
-                    {capitolo.galleria.map((schermata) => (
-                      <li class="caso__schermata">
-                        <figure>
-                          <figcaption class="eyebrow caso__schermata-etichetta">
-                            {schermata.etichetta}
-                          </figcaption>
-                          <Image
-                            class="caso__schermata-img"
-                            src={schermata.src}
-                            alt={schermata.alt}
-                            widths={[300, 450, 600, 780]}
-                            sizes={`(min-width: 768px) ${Math.ceil(760 / capitolo.galleria.length)}px, 78vw`}
-                            format="webp"
-                            quality={80}
-                            loading="lazy"
-                          />
-                        </figure>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              {capitolo.galleria.length > 0 && <CasoGalleria schermate={capitolo.galleria} />}
             </section>
           ))
         }
@@ -317,59 +198,20 @@ const figureDesktop = Object.fromEntries(
     font-size: var(--text-body-lg);
   }
 
-  /* Stessa misura delle righe; il numero o il pallino sta fuori dal testo.
-     list-style esplicito: il preflight di Tailwind lo azzera. */
-  .caso__elenco {
-    display: grid;
-    gap: 0.625rem;
-    margin: 1rem 0 0;
-    max-width: 62ch;
-    padding-left: 1.5rem;
-    font-size: var(--text-body-lg);
-    list-style: disc;
-  }
-
-  .caso__elenco--numerato {
-    list-style: decimal;
-  }
-
-  .caso__elenco li::marker {
-    color: var(--color-ink-2);
-  }
-
-  .caso__elenco--numerato li::marker {
-    font-family: var(--font-mono);
-    font-size: 0.875em;
-  }
-
-  .caso__dato {
-    margin-top: 2rem;
-  }
-
-  .caso__stat {
-    display: grid;
-    gap: 1.5rem;
-  }
-
-  .caso__figura {
-    margin: 2rem 0 0;
-  }
-
-  .caso__figura picture {
-    display: block;
-  }
-
-  .caso__figura-img,
-  .caso__schermata-img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border: var(--border-retro);
-    border-radius: var(--radius-img);
-  }
-
   .caso__sotto {
     margin-top: 2rem;
+  }
+
+  /* Le parti con etichetta (per esempio le proposte) sono blocchi a sé:
+     una linea sopra le separa da quello che viene prima. */
+  .caso__sotto--etichetta {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: var(--border-retro);
+  }
+
+  .caso__sotto-etichetta {
+    margin-bottom: 0.75rem;
   }
 
   /* Un gradino sotto il titolo del capitolo (che usa già --text-h3) */
@@ -380,75 +222,6 @@ const figureDesktop = Object.fromEntries(
 
   .caso__sotto .caso__riga {
     margin-top: 0.5rem;
-  }
-
-  /* Mobile: le schermate scorrono in orizzontale, una alla volta. La striscia
-     esce dal gutter fino ai bordi dello schermo, così la schermata seguente si
-     vede spuntare a destra e si capisce che si può scorrere. */
-  .caso__galleria {
-    margin: 2.5rem calc(-1 * var(--gutter)) 0;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--gutter);
-    scrollbar-width: none;
-  }
-
-  .caso__galleria::-webkit-scrollbar {
-    display: none;
-  }
-
-  .caso__galleria:focus-visible {
-    outline-offset: -3px;
-  }
-
-  /* max-content: la lista è larga quanto le schermate, così il padding di
-     destra resta dentro l'area scorrevole e l'ultima schermata non tocca il
-     bordo. Le schermate si misurano quindi in vw e non in percentuale. */
-  .caso__schermate {
-    display: flex;
-    width: max-content;
-    gap: 1rem;
-    margin: 0;
-    padding: 0.25rem var(--gutter) 0.5rem;
-    list-style: none;
-  }
-
-  .caso__schermata {
-    flex: 0 0 min(78vw, 320px);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  .caso__schermata figure {
-    margin: 0;
-  }
-
-  .caso__schermata-etichetta {
-    margin-bottom: 0.625rem;
-    color: var(--color-ink-2);
-  }
-
-  @media (min-width: 768px) {
-    .caso__galleria {
-      margin-inline: 0;
-      overflow: visible;
-      scroll-snap-type: none;
-    }
-
-    .caso__schermate {
-      display: grid;
-      width: auto;
-      grid-template-columns: repeat(var(--schermate, 4), minmax(0, 1fr));
-      align-items: start;
-      padding: 0;
-    }
-  }
-
-  @media (min-width: 640px) {
-    .caso__stat {
-      grid-template-columns: repeat(3, 1fr);
-    }
   }
 
   @media (min-width: 1024px) {

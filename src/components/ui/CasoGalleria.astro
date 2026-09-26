@@ -1,0 +1,119 @@
+---
+/**
+ * Schermate di un case study.
+ * Mobile: una schermata alla volta, scorrendo in orizzontale. Da 768 in su:
+ * tutte affiancate, una colonna per schermata. Il contenitore è
+ * focalizzabile perché da tastiera si possa scorrere.
+ */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  schermate: { src: ImageMetadata; alt: string; etichetta: string }[];
+}
+
+const { schermate } = Astro.props;
+---
+
+<div
+  class="caso__galleria"
+  role="region"
+  aria-label={`Schermate del progetto, ${schermate.length} immagini`}
+  tabindex="0"
+  style={`--schermate: ${schermate.length}`}
+>
+  <ul class="caso__schermate" role="list">
+    {
+      schermate.map((schermata) => (
+        <li class="caso__schermata">
+          <figure>
+            <figcaption class="eyebrow caso__schermata-etichetta">{schermata.etichetta}</figcaption>
+            <Image
+              class="caso__schermata-img"
+              src={schermata.src}
+              alt={schermata.alt}
+              widths={[300, 450, 600, 780]}
+              sizes={`(min-width: 768px) ${Math.ceil(760 / schermate.length)}px, 78vw`}
+              format="webp"
+              quality={80}
+              loading="lazy"
+            />
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  /* Mobile: le schermate scorrono in orizzontale, una alla volta. La striscia
+     esce dal gutter fino ai bordi dello schermo, così la schermata seguente si
+     vede spuntare a destra e si capisce che si può scorrere. */
+  .caso__galleria {
+    margin: 2.5rem calc(-1 * var(--gutter)) 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .caso__galleria::-webkit-scrollbar {
+    display: none;
+  }
+
+  .caso__galleria:focus-visible {
+    outline-offset: -3px;
+  }
+
+  /* max-content: la lista è larga quanto le schermate, così il padding di
+     destra resta dentro l'area scorrevole e l'ultima schermata non tocca il
+     bordo. Le schermate si misurano quindi in vw e non in percentuale. */
+  .caso__schermate {
+    display: flex;
+    width: max-content;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.25rem var(--gutter) 0.5rem;
+    list-style: none;
+  }
+
+  .caso__schermata {
+    flex: 0 0 min(78vw, 320px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .caso__schermata figure {
+    margin: 0;
+  }
+
+  .caso__schermata-etichetta {
+    margin-bottom: 0.625rem;
+    color: var(--color-ink-2);
+  }
+
+  .caso__schermata-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--border-retro);
+    border-radius: var(--radius-img);
+  }
+
+  @media (min-width: 768px) {
+    .caso__galleria {
+      margin-inline: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+
+    .caso__schermate {
+      display: grid;
+      width: auto;
+      grid-template-columns: repeat(var(--schermate, 4), minmax(0, 1fr));
+      align-items: start;
+      padding: 0;
+    }
+  }
+</style>

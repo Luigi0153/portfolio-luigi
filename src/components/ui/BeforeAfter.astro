@@ -15,10 +15,22 @@ interface Props {
   dopo: ImageMetadata;
   dopoAlt: string;
   etichetta: string;
+  /** Le due targhette sopra le immagini. */
+  etichettaPrima?: string;
+  etichettaDopo?: string;
   class?: string;
 }
 
-const { prima, primaAlt, dopo, dopoAlt, etichetta, class: className } = Astro.props;
+const {
+  prima,
+  primaAlt,
+  dopo,
+  dopoAlt,
+  etichetta,
+  etichettaPrima = "Prima",
+  etichettaDopo = "Dopo",
+  class: className,
+} = Astro.props;
 
 const primaOtt = await getImage({ src: prima, format: "webp", quality: 80 });
 const dopoOtt = await getImage({ src: dopo, format: "webp", quality: 80 });
@@ -34,6 +46,8 @@ const dopoOtt = await getImage({ src: dopo, format: "webp", quality: 80 });
     larghezza={prima.width}
     altezza={prima.height}
     etichetta={etichetta}
+    etichettaPrima={etichettaPrima}
+    etichettaDopo={etichettaDopo}
   />
 </div>
 

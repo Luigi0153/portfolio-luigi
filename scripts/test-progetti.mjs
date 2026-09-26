@@ -1,12 +1,15 @@
 /*
   Verifica della sezione progetti e del case study, a 390 e 1280:
   - lista: tre card, ordine che segue il percorso scelto, nessun "in arrivo",
-    copertine fotografiche dei due concept;
+    copertine fotografiche per tutti e tre i progetti;
   - dettaglio: due colonne con colonna pinnata a 1280, una colonna a 390;
+  - caso reale: sette sezioni, ogni immagine al suo posto, la proposta in due
+    parti segnate come tali;
   - concept (Fornace Vietri, pizzeria): riga concept, capitoli in ordine,
     immagini al loro posto, galleria affiancata a 1280 e scorrevole una alla
     volta a 390, og-image;
-  - slider prima/dopo guidabile da tastiera;
+  - slider prima/dopo guidabile da tastiera, con etichette "Oggi" e "Fase 1"
+    e due immagini della stessa misura (390x844 a doppia risoluzione);
   - View Transitions: la navigazione interna non perde il percorso scelto;
   - conteggio dei numeri: il valore finale è quello giusto anche dopo l'animazione.
   Uso: node scripts/test-progetti.mjs   (server su BASE_URL o :4321)
@@ -68,8 +71,9 @@ for (const vp of [390, 1280]) {
     );
     atteso(inArrivo === 0, `${vp}px ${target}: nessuna card "in arrivo"`);
 
-    // i due concept hanno la copertina fotografica, caricata davvero
+    // tutti i progetti hanno la copertina fotografica, caricata davvero
     for (const [slug, file] of [
+      ["caso-reale", "caso-copertina"],
       ["fornace-vietri", "fornace-copertina"],
       ["pizzeria", "pizzeria-copertina"],
     ]) {
@@ -98,8 +102,70 @@ for (const vp of [390, 1280]) {
 
   const sezioni = await page.locator(".caso__sezione-titolo").allTextContents();
   atteso(
-    sezioni.join(" | ") === "Contesto | Decisione | Risultato | Cosa ho imparato",
-    `${vp}px dettaglio: le quattro sezioni nell'ordine giusto`,
+    sezioni.map((s) => s.trim()).join(" | ") ===
+      "Contesto | Decisione | Cosa ho fatto | Risultato | Il negozio oggi | Il passo successivo | Cosa ho imparato",
+    `${vp}px dettaglio: le sette sezioni nell'ordine giusto`,
+  );
+
+  // ogni immagine nel capitolo giusto, e nella proposta nell'ordine giusto
+  const posto = await page.evaluate(() => {
+    const dove = (el) => el?.closest(".caso__sezione")?.querySelector("h2")?.id;
+    const file = (img) => (img.getAttribute("src") ?? "").match(/caso-[a-z0-9-]+?(?=[._])/)?.[0];
+    const sotto = [...document.querySelectorAll(".caso__sezione:has(#sez-passo) .caso__sotto")];
+    return {
+      cover: document.querySelector(".caso__cover")?.getAttribute("src")?.includes("caso-copertina"),
+      riepilogo: dove(document.querySelector('.caso__figura img[src*="caso-riepilogo"]')),
+      oggi: [...document.querySelectorAll(".caso__sezione:has(#sez-oggi) .caso__schermata img")].map(file),
+      parti: sotto.map((s) => ({
+        etichetta: s.querySelector(".caso__sotto-etichetta")?.textContent.trim(),
+        titolo: s.querySelector(".caso__sotto-titolo")?.textContent.trim(),
+        slider: !!s.querySelector(".ba__range"),
+        immagini: [...s.querySelectorAll(".caso__figura img, .caso__schermata img")].map(file),
+      })),
+    };
+  });
+  atteso(posto.cover, `${vp}px dettaglio: la copertina in cima alla pagina`);
+  atteso(posto.riepilogo === "sez-fatto", `${vp}px dettaglio: caso-riepilogo dentro Cosa ho fatto`);
+  atteso(
+    posto.oggi.join(" ") === "caso-oggi-home caso-oggi-scheda",
+    `${vp}px dettaglio: il negozio oggi in galleria (${posto.oggi.join(" ")})`,
+  );
+  const [fase1, fase2] = posto.parti;
+  atteso(
+    posto.parti.length === 2 && posto.parti.every((p) => p.etichetta === "Proposta"),
+    `${vp}px dettaglio: il passo successivo ha due parti segnate come proposta`,
+  );
+  atteso(
+    fase1?.titolo === "Fase 1, correzioni" && fase1.slider && fase1.immagini.length === 0,
+    `${vp}px dettaglio: lo slider sta nella Fase 1`,
+  );
+  atteso(
+    fase2?.titolo === "Fase 2, nuova identità" &&
+      fase2.immagini.join(" ") === "caso-fase2-identita caso-fase2-home caso-fase2-scheda caso-fase2-packaging",
+    `${vp}px dettaglio: Fase 2 con identità, galleria e packaging in ordine (${fase2?.immagini.join(" ")})`,
+  );
+
+  // tutte le immagini hanno un alt vero e, scorrendo, si caricano
+  await page.evaluate(async () => {
+    for (let y = 0; y < document.body.scrollHeight; y += 500) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 60));
+    }
+  });
+  await page.$$eval(".caso__galleria", (g) => g.forEach((el) => el.scrollTo({ left: el.scrollWidth })));
+  await page.waitForTimeout(800);
+  const immagini = await page.$$eval(".caso img", (imgs) => ({
+    senzaAlt: imgs.filter((i) => i.alt.trim().length <= 20).length,
+    nonCaricate: imgs.filter((i) => !(i.complete && i.naturalWidth > 0)).map((i) => i.getAttribute("src")),
+  }));
+  atteso(immagini.senzaAlt === 0, `${vp}px dettaglio: ogni immagine ha un alt descrittivo`);
+  atteso(
+    immagini.nonCaricate.length === 0,
+    `${vp}px dettaglio: tutte le immagini si caricano ${immagini.nonCaricate.join(" ")}`,
+  );
+  atteso(
+    await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
+    `${vp}px dettaglio: nessun overflow orizzontale della pagina`,
   );
 
   // due colonne solo da 1024 in su: sopra, titolo e corpo sono affiancati
@@ -352,6 +418,22 @@ for (const concetto of CONCEPT) {
     () => getComputedStyle(document.querySelector(".ba__img--dopo")).clipPath,
   );
   atteso(clip.includes("%"), `slider: l'immagine "dopo" è tagliata alla posizione (${clip})`);
+
+  const tag = await page.locator(".ba__tag").allTextContents();
+  atteso(tag.join(" | ") === "Oggi | Fase 1", `slider: etichette Oggi e Fase 1 (${tag.join(" | ")})`);
+
+  // le due schermate: stessa misura, prima schermata di un telefono a 2x
+  const misure = await page.$$eval(".ba__img", (imgs) =>
+    imgs.map((i) => ({ w: i.naturalWidth, h: i.naturalHeight, src: i.currentSrc })),
+  );
+  atteso(
+    misure.length === 2 && misure.every((m) => m.w === 780 && m.h === 1688),
+    `slider: due immagini 780x1688 (${misure.map((m) => `${m.w}x${m.h}`).join(", ")})`,
+  );
+  atteso(
+    misure[0]?.src.includes("caso-oggi-scheda-schermo") && misure[1]?.src.includes("caso-fase1-scheda-schermo"),
+    "slider: oggi a sinistra, Fase 1 a destra",
+  );
   await page.close();
 }
 

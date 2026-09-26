@@ -8,6 +8,8 @@ interface Props {
   larghezza: number;
   altezza: number;
   etichetta: string;
+  etichettaPrima: string;
+  etichettaDopo: string;
 }
 
 /**
@@ -26,6 +28,8 @@ export default function BeforeAfter({
   larghezza,
   altezza,
   etichetta,
+  etichettaPrima,
+  etichettaDopo,
 }: Props) {
   const [pos, setPos] = useState(50);
   const id = useId();
@@ -53,10 +57,10 @@ export default function BeforeAfter({
         <span className="ba__linea" aria-hidden="true" />
 
         <span className="ba__tag ba__tag--prima" aria-hidden="true">
-          Prima
+          {etichettaPrima}
         </span>
         <span className="ba__tag ba__tag--dopo" aria-hidden="true">
-          Dopo
+          {etichettaDopo}
         </span>
 
         <label className="ba__label" htmlFor={id}>

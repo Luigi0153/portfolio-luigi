@@ -8,7 +8,7 @@ import { glob } from "astro/loaders";
  * deve poterci intercalare componenti dati (grafico, funnel, before/after) e
  * immagini, cosa che in Markdown puro non si può fare senza MDX. Ogni progetto
  * dichiara i suoi capitoli, con titolo e ordine propri: il caso reale ne ha
- * quattro, un concept può averne altri. Il corpo dei file non viene usato.
+ * sette, un concept altri. Il corpo dei file non viene usato.
  */
 /** I blocchi dati disponibili: componenti veri, non nomi liberi. */
 const BLOCCHI = z.enum(["ramp", "funnel", "statistiche", "before-after"]);
@@ -16,10 +16,18 @@ const BLOCCHI = z.enum(["ramp", "funnel", "statistiche", "before-after"]);
 /** Righe di testo di un capitolo: poche e brevi, al massimo 3. */
 const RIGHE = z.array(z.string()).max(3);
 
+/** Passi in ordine (numerato) o punti: per quando tre righe non bastano. */
+const ELENCO = z.object({
+  numerato: z.boolean().default(false),
+  voci: z.array(z.string()).min(2).max(6),
+});
+
 const progetti = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/progetti" }),
   schema: ({ image }) => {
     const IMMAGINE = z.object({ src: image(), alt: z.string() });
+    /** Schermate affiancate su desktop, scorrevoli su mobile. */
+    const GALLERIA = z.array(IMMAGINE.extend({ etichetta: z.string() }));
 
     return z.object({
       titolo: z.string(),
@@ -51,24 +59,34 @@ const progetti = defineCollection({
             id: z.string(),
             titolo: z.string(),
             righe: RIGHE.default([]),
-            /** Passi in ordine (numerato) o punti: per quando tre righe non bastano. */
-            elenco: z
-              .object({
-                numerato: z.boolean().default(false),
-                voci: z.array(z.string()).min(2).max(6),
-              })
-              .optional(),
+            elenco: ELENCO.optional(),
             /**
              * Un'immagine a tutta colonna, sotto le righe. `mobile` è una
              * versione ricomposta per gli schermi sotto i 768px, con lo stesso alt.
              */
             figura: IMMAGINE.extend({ mobile: image().optional() }).optional(),
             dati: z.array(BLOCCHI).default([]),
+            /**
+             * Parti del capitolo con un titolo proprio. Dentro, in quest'ordine:
+             * righe, elenco, blocchi dati, immagini. `etichetta` sta sopra il
+             * titolo (per esempio "Proposta", per il lavoro non ancora fatto).
+             * `immagini` è una sequenza libera di figure e gallerie.
+             */
             sottosezioni: z
-              .array(z.object({ titolo: z.string(), righe: RIGHE.min(1) }))
+              .array(
+                z.object({
+                  titolo: z.string(),
+                  etichetta: z.string().optional(),
+                  righe: RIGHE.min(1),
+                  elenco: ELENCO.optional(),
+                  dati: z.array(BLOCCHI).default([]),
+                  immagini: z
+                    .array(z.union([IMMAGINE, z.object({ galleria: GALLERIA.min(1) })]))
+                    .default([]),
+                }),
+              )
               .default([]),
-            /** Schermate affiancate su desktop, scorrevoli su mobile. */
-            galleria: z.array(IMMAGINE.extend({ etichetta: z.string() })).default([]),
+            galleria: GALLERIA.default([]),
           }),
         )
         .min(1),

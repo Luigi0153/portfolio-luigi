@@ -53,7 +53,7 @@ solito apre sulla 4322).
 
 | Script | Cosa fa |
 | :--- | :--- |
-| `node scripts/prepara-cover.mjs` | Rigenera le cover dei progetti (SVG → PNG con sharp) |
+| `node scripts/prepara-slider.mjs` | Ritaglia le schede del caso reale per lo slider prima/dopo |
 | `node scripts/prepara-scena.mjs` | Rigenera gli oggetti della scena scrivania |
 | `node scripts/prepara-og.mjs` | Rigenera le og-image 1200×630 in `public/og/` |
 | `node scripts/screenshot.mjs /percorso` | Screenshot a 390/768/1280 per entrambi i target |

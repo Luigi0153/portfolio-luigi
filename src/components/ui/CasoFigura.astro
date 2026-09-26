@@ -1,0 +1,78 @@
+---
+/**
+ * Un'immagine a tutta colonna dentro un case study.
+ * Con `mobile`: <picture> con la versione ricomposta sotto i 768px e quella
+ * larga in un <source> da 768px in su. La versione larga serve già
+ * ottimizzata (getImage) perché <source> non è un componente. Stesso alt.
+ */
+import { Image, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  mobile?: ImageMetadata;
+}
+
+const { src, alt, mobile } = Astro.props;
+
+const WIDTHS = [700, 1100, 1500];
+const SIZES = "(min-width: 1024px) 760px, 90vw";
+const larga = mobile && (await getImage({ src, widths: WIDTHS, format: "webp", quality: 80 }));
+---
+
+<figure class="caso__figura">
+  {
+    mobile && larga ? (
+      <picture>
+        <source
+          media="(min-width: 768px)"
+          type="image/webp"
+          srcset={larga.srcSet.attribute}
+          sizes={SIZES}
+          width={src.width}
+          height={src.height}
+        />
+        <Image
+          class="caso__figura-img"
+          src={mobile}
+          alt={alt}
+          widths={[390, 780]}
+          sizes="90vw"
+          format="webp"
+          quality={80}
+          loading="lazy"
+        />
+      </picture>
+    ) : (
+      <Image
+        class="caso__figura-img"
+        src={src}
+        alt={alt}
+        widths={WIDTHS}
+        sizes={SIZES}
+        format="webp"
+        quality={80}
+        loading="lazy"
+      />
+    )
+  }
+</figure>
+
+<style>
+  .caso__figura {
+    margin: 2rem 0 0;
+  }
+
+  .caso__figura picture {
+    display: block;
+  }
+
+  .caso__figura-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--border-retro);
+    border-radius: var(--radius-img);
+  }
+</style>

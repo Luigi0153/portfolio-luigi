@@ -1,6 +1,6 @@
 # Stato del progetto
 
-**Fase corrente:** Fase 7 (pizzeria Vico Stretto) chiusa il 2026-09-24, in attesa di conferma. Fase 4 annullata.
+**Fase corrente:** caso reale aggiornato con immagini e proposta il 2026-09-26, in attesa di conferma. Fase 4 annullata.
 
 ## Completo
 - **Fase 1** — token, layout, Nav, Card, Tag, Button, StatTile, SectionHeader, `/styleguide`.
@@ -82,6 +82,39 @@
   passa da lastra di marmo a lavagna nera. Riscritti gli alt che nominavano il fondo nero o il
   colore rosso (copertina, `pizzeria-brand`, `pizzeria-landing`, `pizzeria-prenota`) con
   "marmo chiaro", "bordeaux" e "lavagna nera". Og rigenerata dalla nuova copertina.
+- **Caso reale, immagini e proposta (2026-09-26).** Immagini in `src/assets/progetti/caso-reale/`.
+  Sette capitoli: Contesto, Decisione, Cosa ho fatto (nuovo), Risultato, Il negozio oggi
+  (nuovo), Il passo successivo (nuovo), Cosa ho imparato.
+  - **Copertina.** `caso-copertina` in griglia e in cima alla pagina al posto della cover
+    geometrica; og dalla copertina tagliata a 1200x630 (469 KB). Eliminati `caso-reale.png`, i
+    segnaposto `scheda-prima.png`/`scheda-dopo.png` e `prepara-cover.mjs`, che generava solo
+    quelle tre (tolto anche dal README).
+  - **Cosa ho fatto.** I quattro interventi reali in elenco (aggiunta rapida nelle card scritta
+    con Claude Code, badge ESAURITO, testi su spedizioni e resi oggi nel footer, categorie del
+    catalogo) più la figura `caso-riepilogo`.
+  - **Il negozio oggi.** `caso-oggi-home` e `caso-oggi-scheda` in galleria, con la riga sul
+    negozio anonimo.
+  - **Il passo successivo.** Due sottosezioni con etichetta "Proposta" (Tag) e una linea sopra.
+    Fase 1, correzioni, con le quattro correzioni in elenco e lo slider. Fase 2, nuova
+    identità, con `caso-fase2-identita`, galleria `caso-fase2-home` + `caso-fase2-scheda`,
+    `caso-fase2-packaging`.
+  - **Slider.** Da Risultato a Fase 1. `scripts/prepara-slider.mjs` ritaglia con sharp
+    `caso-oggi-scheda` e `caso-fase1-scheda` alla prima schermata, 780x1688 (390x844 a 2x),
+    senza ricomporre: in "Oggi" il bottone Aggiungi resta sotto il taglio, com'è davvero.
+    `BeforeAfter` accetta `etichettaPrima`/`etichettaDopo` (default Prima/Dopo): qui "Oggi" e
+    "Fase 1".
+  - **Schema.** Le sottosezioni hanno ora `etichetta`, `elenco`, `dati` e `immagini`, una
+    sequenza libera di figure e gallerie. Figura, galleria, elenco e blocchi dati sono passati
+    in componenti (`CasoFigura`, `CasoGalleria`, `CasoElenco`, `CasoDati`) usati da capitoli e
+    sottosezioni; output dei concept invariato.
+  - **Testi.** Nessun numero fuori da `docs/content/caso-reale.md`: niente prezzi, codici colore
+    o date degli screenshot negli alt. La fascia 35-54 anni della Fase 2 è stata aggiunta al
+    documento, dalla skill `sisters-store-brand` (59% delle clienti). In Decisione "ho lavorato
+    in ordine su tre cose" è diventato "tre priorità in ordine", perché Cosa ho fatto e la Fase 1
+    mostrano che la scheda prodotto non è ancora stata rifatta.
+  - **Test.** `test-progetti` verifica le sette sezioni, la copertina (griglia e pagina), ogni
+    immagine nel suo capitolo e la Fase 2 nell'ordine giusto, le due parti "Proposta", alt,
+    caricamento, overflow, slider con etichette Oggi e Fase 1 e immagini 780x1688.
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
