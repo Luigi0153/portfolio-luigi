@@ -72,7 +72,16 @@ const featured = progetti.toSorted((a, b) => a.data.ordine_dev - b.data.ordine_d
                   <h3 class="progetti__titolo" transition:name={`titolo-${data.slug}`}>
                     {data.titolo}
                   </h3>
-                  <p class="progetti__sommario">{data.sommario}</p>
+                  {data.sommario_business ? (
+                    <>
+                      <p class="progetti__sommario" data-only="dev">{data.sommario}</p>
+                      <p class="progetti__sommario" data-only="business">
+                        {data.sommario_business}
+                      </p>
+                    </>
+                  ) : (
+                    <p class="progetti__sommario">{data.sommario}</p>
+                  )}
 
                   <ul class="progetti__tags" role="list">
                     {data.tags.map((t) => (

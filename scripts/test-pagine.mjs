@@ -246,6 +246,102 @@ for (const vp of [390, 1280]) {
   await page.close();
 }
 
+/* ---------- Pagine progetto per percorso ---------- */
+const SINTESI =
+  "Da giugno a luglio gli ordini sono passati da 19 a 31 e il fatturato è cresciuto dell'86%.";
+const INVITO = {
+  dev: {
+    riga: "Cerchi uno sviluppatore per il tuo team o per un progetto? Scrivimi, ti rispondo io.",
+    bottone: "Scrivimi",
+  },
+  business: {
+    riga: "Raccontami cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.",
+    bottone: "Parliamone",
+  },
+};
+
+for (const vp of [390, 1280]) {
+  for (const target of ["dev", "business"]) {
+    const { page, errori } = await nuovaPagina(vp, target);
+    await page.goto(BASE + "/progetti/caso-reale", { waitUntil: "networkidle" });
+    const etichetta = `${vp}px ${target} caso reale`;
+
+    const p = await page.evaluate(() => {
+      const visibili = (sel) =>
+        [...document.querySelectorAll(sel)].filter((el) => el.getClientRects().length > 0);
+      const testo = (el) => el.textContent.replace(/\s+/g, " ").trim();
+      const sintesi = visibili(".caso__sintesi");
+      const link = sintesi[0]?.querySelector("a");
+      return {
+        sintesi: sintesi.map(testo),
+        link: link ? { testo: testo(link), href: link.getAttribute("href") } : null,
+        // La sintesi sta nell'intestazione, subito sotto il titolo
+        sottoTitolo: sintesi[0]?.previousElementSibling?.matches("h1") ?? false,
+        invitoTitoli: visibili(".invito h2").map(testo),
+        invitoRiga: visibili(".invito__riga").map(testo),
+        invitoBottone: visibili(".invito .btn").map(testo),
+      };
+    });
+
+    if (target === "business") {
+      atteso(
+        p.sintesi.length === 1 && p.sintesi[0].startsWith(SINTESI) && p.sottoTitolo,
+        `${etichetta}: riga di sintesi sotto il titolo`,
+      );
+      atteso(
+        p.link?.testo === "Vai al risultato" && p.link.href === "#sez-risultato",
+        `${etichetta}: link "Vai al risultato" verso #sez-risultato`,
+      );
+      await page.getByRole("link", { name: "Vai al risultato" }).click();
+      await page.waitForTimeout(800);
+      const arrivo = await page.evaluate(() => {
+        const r = document.querySelector("#sez-risultato").getBoundingClientRect();
+        return r.top >= 0 && r.top < window.innerHeight / 2;
+      });
+      atteso(arrivo, `${etichetta}: il link porta al capitolo Risultato`);
+    } else {
+      atteso(p.sintesi.length === 0, `${etichetta}: nessuna riga di sintesi`);
+    }
+
+    atteso(
+      p.invitoTitoli.length === 1 &&
+        p.invitoTitoli[0] === "Raccontami il progetto" &&
+        p.invitoRiga.join() === INVITO[target].riga &&
+        p.invitoBottone.join() === INVITO[target].bottone,
+      `${etichetta}: invito con un solo titolo, riga e bottone del percorso (${p.invitoBottone.join()})`,
+    );
+    atteso(await senzaOverflow(page), `${etichetta}: nessun overflow orizzontale`);
+    atteso(errori.length === 0, `${etichetta}: nessun errore in console`);
+    if (errori.length) console.error("   ", errori.slice(0, 3));
+    await page.close();
+  }
+}
+
+// Le description delle pagine progetto sono i sommari del percorso dev
+{
+  const { page } = await nuovaPagina(1280);
+  const DESCRIPTION = {
+    "/progetti/caso-reale":
+      "Boutique di borse e accessori. Prima due mesi di dati, poi quattro interventi su Shopify, con il redesign in pausa.",
+    "/progetti/fornace-vietri":
+      "Concept Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
+    "/progetti/pizzeria":
+      "Concept di una landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
+  };
+  for (const [percorso, attesa] of Object.entries(DESCRIPTION)) {
+    await page.goto(BASE + percorso, { waitUntil: "domcontentloaded" });
+    const meta = await page.evaluate(() => ({
+      description: document.querySelector('meta[name="description"]')?.content,
+      og: document.querySelector('meta[property="og:description"]')?.content,
+    }));
+    atteso(
+      meta.description === attesa && meta.og === attesa,
+      `seo: ${percorso} ha la description del sommario dev`,
+    );
+  }
+  await page.close();
+}
+
 /* ---------- SEO ---------- */
 {
   const { page } = await nuovaPagina(1280);

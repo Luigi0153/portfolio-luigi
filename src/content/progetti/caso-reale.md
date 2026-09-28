@@ -10,7 +10,12 @@ tags:
   - Mobile
 cover: ../../assets/progetti/caso-reale/caso-copertina.jpg
 coverAlt: "Il titolo Non ho rifatto il sito. Ho letto i numeri. e la riga Boutique di borse e accessori, il negozio com'è oggi e dove può arrivare. Accanto due telefoni. Oggi, la scheda di una borsa a tracolla cognac su fondo bianco, con il bottone Aggiungi solo bordato e sotto il bottone viola Acquista con Shop Pay. Fase 2, la home proposta, con una donna che cammina in un vicolo con la borsa a tracolla, il titolo Capsule Cognac e due borse sotto."
-sommario: "Boutique di borse e accessori. Due mesi di dati, redesign estetico congelato."
+sommario: "Boutique di borse e accessori. Prima due mesi di dati, poi quattro interventi su Shopify, con il redesign in pausa."
+sommario_business: "Boutique di borse e accessori. Da giugno a luglio il fatturato è cresciuto dell'86%, senza rifare la grafica."
+sintesi_business:
+  testo: "Da giugno a luglio gli ordini sono passati da 19 a 31 e il fatturato è cresciuto dell'86%."
+  capitolo: risultato
+  link: "Vai al risultato"
 ordine_dev: 1
 ordine_business: 1
 capitoli:

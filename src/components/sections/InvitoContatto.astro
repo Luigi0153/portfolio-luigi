@@ -23,13 +23,29 @@ const { id = "invito", class: className } = Astro.props;
       <div class="invito__testo">
         <p class="eyebrow text-ink-2">Contatti</p>
         <h2 class="invito__titolo" id={`${id}-titolo`}>Raccontami il progetto</h2>
-        <p class="invito__riga">
-          Scrivimi quello che hai in mente, ti rispondo io.
+        {/* Il titolo resta uno solo: con due titoli e aria-labelledby su
+            entrambi, lo screen reader leggerebbe anche quello nascosto.
+            Cambiano per percorso solo la riga e il bottone. */}
+        <p class="invito__riga" data-only="dev">
+          Cerchi uno sviluppatore per il tuo team o per un progetto? Scrivimi, ti rispondo io.
+        </p>
+        <p class="invito__riga" data-only="business">
+          Raccontami cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo
+          fianco.
         </p>
       </div>
 
-      <Button variant="primary" size="lg" href="/contatti" class="invito__cta">
+      <Button variant="primary" size="lg" href="/contatti" class="invito__cta" data-only="dev">
         Scrivimi
+      </Button>
+      <Button
+        variant="primary"
+        size="lg"
+        href="/contatti"
+        class="invito__cta"
+        data-only="business"
+      >
+        Parliamone
       </Button>
     </div>
   </div>

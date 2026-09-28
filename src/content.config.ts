@@ -44,8 +44,26 @@ const progetti = defineCollection({
       cover: image(),
       /** Testo alternativo della cover: le cover sono decorative ma non vuote. */
       coverAlt: z.string(),
-      /** Una riga sulla card. Serve anche come description della pagina. */
+      /**
+       * Una riga sulla card, nel percorso dev e senza JavaScript. Serve anche
+       * come description della pagina.
+       */
       sommario: z.string(),
+      /** La riga sulla card nel percorso business. Senza, vale `sommario`. */
+      sommario_business: z.string().optional(),
+      /**
+       * Riga sotto il titolo della pagina, solo nel percorso business: il
+       * risultato in breve, con un link al capitolo che lo racconta.
+       * Testo fisso, niente conteggi animati (vedi data-only in global.css).
+       */
+      sintesi_business: z
+        .object({
+          testo: z.string(),
+          /** Id del capitolo di destinazione: il link porta a `#sez-<id>`. */
+          capitolo: z.string(),
+          link: z.string(),
+        })
+        .optional(),
       /** Posizione nella griglia per ciascun percorso (1 = primo). */
       ordine_dev: z.number().int().positive(),
       ordine_business: z.number().int().positive(),
@@ -89,7 +107,10 @@ const progetti = defineCollection({
           }),
         )
         .min(1),
-    });
+    }).refine(
+      (d) => !d.sintesi_business || d.capitoli.some((c) => c.id === d.sintesi_business?.capitolo),
+      { message: "sintesi_business.capitolo: nessun capitolo con questo id", path: ["sintesi_business"] },
+    );
   },
 });
 

@@ -48,6 +48,15 @@ const { data } = progetto;
 
           {data.nota && <p class="caso__nota">{data.nota}</p>}
 
+          {
+            data.sintesi_business && (
+              <p class="caso__sintesi" data-only="business">
+                {data.sintesi_business.testo}{" "}
+                <a href={`#sez-${data.sintesi_business.capitolo}`}>{data.sintesi_business.link}</a>
+              </p>
+            )
+          }
+
           <ul class="caso__tags" role="list">
             {data.tags.map((t) => <Tag as="li">{t}</Tag>)}
           </ul>
@@ -158,6 +167,15 @@ const { data } = progetto;
     margin-top: 0.75rem;
     max-width: 44ch;
     color: var(--color-ink-2);
+  }
+
+  /* Il risultato in breve, per il percorso business: in ink e non ink-2,
+     perché i numeri sono la prima cosa che questo lettore cerca. */
+  .caso__sintesi {
+    margin-top: 0.75rem;
+    max-width: 44ch;
+    color: var(--color-ink);
+    font-size: var(--text-body-lg);
   }
 
   .caso__tags {
