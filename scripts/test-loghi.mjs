@@ -286,6 +286,8 @@ for (const vp of VIEWPORT) {
         alt: document.querySelector(".dettaglio__logo")?.alt ?? "",
         frasi: [...document.querySelectorAll(".dettaglio__nota")].map((p) => p.textContent.trim()),
         haPrima: Boolean(document.querySelector("#prima-dopo")),
+        testo: document.querySelector(".dettaglio__testo")?.textContent.trim() ?? null,
+        descrizione: document.querySelector('meta[name="description"]')?.content ?? "",
         // Ogni sezione di formato ha almeno un'immagine: niente sezioni vuote.
         sezioniVuote: [...document.querySelectorAll(".dettaglio__sezione")].filter(
           (s) => s.querySelectorAll("img").length === 0,
@@ -303,6 +305,11 @@ for (const vp of VIEWPORT) {
     atteso(
       d.alt.includes(d.h1[0]) && d.alt.includes(tipoEtichetta),
       `${vp.w}px ${href}: alt con nome e tipo ("${d.alt}")`,
+    );
+    // Il testo, se c'è, è anche la description della pagina
+    atteso(
+      d.testo === null || (d.testo.length > 0 && d.descrizione === d.testo),
+      `${vp.w}px ${href}: ${d.testo === null ? "nessun testo" : "testo visibile e usato come description"}`,
     );
     const vuoleFrase = TIPI_CON_FRASE.includes(tipo);
     // Sotto il logo grande, e anche sotto il prima e dopo se c'è

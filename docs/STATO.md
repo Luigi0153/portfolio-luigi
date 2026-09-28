@@ -134,7 +134,9 @@
     progetto). `ordine` non era nel documento: serve a decidere i "primi quattro" della home,
     perché l'ordine del loader non è garantito. Lo slug è il nome del file. Quattro voci:
     Luigi Romano (Geometrico, fondo cream), Fornace Vietri (Serif), Vico Stretto (Sigillo),
-    Boutique (Monogramma, collega al caso reale), tutte tipo Progetto, senza `testo`.
+    Boutique (Monogramma, collega al caso reale), tutte tipo Progetto. Il `testo` di ognuna
+    è scritto da Luigi (2026-09-28): compare sotto il nome nel dettaglio ed è anche la meta
+    description della pagina.
   - **Regole condivise** in `src/loghi.ts`: etichette dei tipi, frase di non affiliazione,
     fondo, alt (`Logo di <nome> (<Tipo>)`), chiave dello stile, `getLoghi()` ordinato.
   - **Riquadro** (`LogoRiquadro.astro`, griglia in `LoghiGriglia.astro`): quadrato del colore
@@ -157,7 +159,8 @@
   - **Test.** Nuovo `scripts/test-loghi.mjs` (390 touch e 1280): caricamento, riquadri quadrati
     e colonne, tipo e alt, nome su touch e al passaggio del mouse, filtri con clic e tastiera,
     aria-pressed, senza JavaScript, frase di non affiliazione nel riquadro e nel dettaglio,
-    formati senza sezioni vuote, immagini caricate, home (striscia, nav, footer), overflow.
+    formati senza sezioni vuote, testo visibile e uguale alla description quando c'è,
+    immagini caricate, home (striscia, nav, footer), overflow.
     Il ramo esplorazione con tutti e quattro i formati è stato provato con una voce temporanea,
     poi tolta. `test-pagine`: la sitemap conta 7 pagine fisse più quelle dei loghi.
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), tutti verdi.
