@@ -170,12 +170,21 @@ const { data } = progetto;
   }
 
   /* Il risultato in breve, per il percorso business: in ink e non ink-2,
-     perché i numeri sono la prima cosa che questo lettore cerca. */
+     perché i numeri sono la prima cosa che questo lettore cerca. Solo sotto
+     i 1024: da lì le colonne sono due e le tessere del Contesto, con gli
+     stessi numeri, stanno subito accanto. display:none la toglie anche agli
+     screen reader. */
   .caso__sintesi {
     margin-top: 0.75rem;
     max-width: 44ch;
     color: var(--color-ink);
     font-size: var(--text-body-lg);
+  }
+
+  @media (min-width: 1024px) {
+    .caso__sintesi {
+      display: none;
+    }
   }
 
   .caso__tags {

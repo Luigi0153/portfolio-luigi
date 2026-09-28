@@ -187,9 +187,9 @@
   - **Testi per percorso**, scelti da Luigi tra due varianti ciascuno.
     - *Invito al contatto* (`InvitoContatto.astro`, home e pagine progetto): titolo unico
       "Raccontami il progetto"; dev `Cerchi uno sviluppatore per il tuo team o per un
-      progetto? Scrivimi, ti rispondo io.` con bottone "Scrivimi"; business `Raccontami cosa
-      vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.` con bottone
-      "Parliamone". Riga e bottone sono due coppie `data-only`, il titolo no.
+      progetto? Scrivimi, ti rispondo io.` con bottone "Scrivimi"; business `Dimmi cosa vendi
+      e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.` con bottone
+      "Parliamone" (prima "Raccontami cosa vendi...", cambiato per non ripetere il titolo). Riga e bottone sono due coppie `data-only`, il titolo no.
     - *Sommari delle card*: nuovo campo facoltativo `sommario_business` (senza, vale
       `sommario`). I tre `sommario` riscritti sono anche le nuove description delle pagine
       (caso reale "Prima due mesi di dati, poi quattro interventi su Shopify...", Fornace
@@ -197,10 +197,13 @@
     - *Sintesi del caso reale*: nuovo campo `sintesi_business` (`testo`, `capitolo`, `link`),
       montato sotto il titolo solo nel percorso business, testo fisso in ink, link "Vai al
       risultato" a `#sez-risultato`. Lo schema blocca la build se `capitolo` non è l'id di
-      un capitolo.
+      un capitolo. Visibile solo sotto i 1024: da lì le colonne sono due e le tessere del
+      Contesto, con gli stessi numeri, stanno subito accanto; `display:none` la toglie anche
+      agli screen reader.
     - `test-switch` verifica invito e sommari visibili nei due percorsi, prima e dopo il
       refresh; `test-pagine` verifica sul caso reale la sintesi (solo business, sotto il
-      titolo, il link porta al Risultato), l'invito per percorso e le tre description.
+      titolo, il link porta al Risultato, nascosta e fuori dagli screen reader da 1024, con
+      il confine provato a 1023 e 1024), l'invito per percorso e le tre description.
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), `test-percorsi` (390 e 1280, due percorsi), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)

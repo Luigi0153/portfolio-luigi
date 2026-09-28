@@ -255,7 +255,7 @@ const INVITO = {
     bottone: "Scrivimi",
   },
   business: {
-    riga: "Raccontami cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.",
+    riga: "Dimmi cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.",
     bottone: "Parliamone",
   },
 };
@@ -283,11 +283,21 @@ for (const vp of [390, 1280]) {
       };
     });
 
-    if (target === "business") {
+    // getByRole esclude quello che è nascosto agli screen reader
+    const linkAccessibili = await page.getByRole("link", { name: "Vai al risultato" }).count();
+
+    if (target === "business" && vp >= 1024) {
+      // Da 1024 le tessere del Contesto, con gli stessi numeri, stanno accanto
+      atteso(
+        p.sintesi.length === 0 && linkAccessibili === 0,
+        `${etichetta}: da 1024 la riga di sintesi è nascosta, anche agli screen reader`,
+      );
+    } else if (target === "business") {
       atteso(
         p.sintesi.length === 1 && p.sintesi[0].startsWith(SINTESI) && p.sottoTitolo,
         `${etichetta}: riga di sintesi sotto il titolo`,
       );
+      atteso(linkAccessibili === 1, `${etichetta}: il link è raggiungibile dagli screen reader`);
       atteso(
         p.link?.testo === "Vai al risultato" && p.link.href === "#sez-risultato",
         `${etichetta}: link "Vai al risultato" verso #sez-risultato`,
@@ -315,6 +325,21 @@ for (const vp of [390, 1280]) {
     if (errori.length) console.error("   ", errori.slice(0, 3));
     await page.close();
   }
+}
+
+// Il confine della riga di sintesi: visibile a 1023, nascosta a 1024
+for (const [vp, visibile] of [
+  [1023, true],
+  [1024, false],
+]) {
+  const { page } = await nuovaPagina(vp, "business");
+  await page.goto(BASE + "/progetti/caso-reale", { waitUntil: "domcontentloaded" });
+  const n = await page.getByRole("link", { name: "Vai al risultato" }).count();
+  atteso(
+    n === (visibile ? 1 : 0),
+    `${vp}px business caso reale: riga di sintesi ${visibile ? "visibile" : "nascosta"}`,
+  );
+  await page.close();
 }
 
 // Le description delle pagine progetto sono i sommari del percorso dev

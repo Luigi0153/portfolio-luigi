@@ -24,7 +24,7 @@ const ATTESI = {
   },
   business: {
     invitoRiga:
-      "Raccontami cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.",
+      "Dimmi cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.",
     invitoBottone: "Parliamone",
     sommari: [
       "Boutique di borse e accessori. Da giugno a luglio il fatturato è cresciuto dell'86%, senza rifare la grafica.",
