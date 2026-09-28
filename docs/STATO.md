@@ -110,8 +110,11 @@
   - **Testi.** Nessun numero fuori da `docs/content/caso-reale.md`: niente prezzi, codici colore
     o date degli screenshot negli alt. La fascia 35-54 anni della Fase 2 è stata aggiunta al
     documento, dalla skill `sisters-store-brand`: sono le statistiche Instagram del negozio
-    (follower, non clienti verificate), e la pagina lo dice ("secondo le statistiche Instagram
-    del negozio"). In Decisione "ho lavorato in ordine su tre cose" è diventato "tre priorità in
+    (follower, non clienti verificate). Per questo la Fase 2 non parla più di "chi compra qui"
+    ma del "pubblico del negozio su Instagram, in maggioranza donne tra i 35 e i 54 anni",
+    nella pagina e nelle due immagini dell'identità, larga e mobile (sostituite da Luigi il
+    2026-09-28). Nel resto del sito "chi compra" compare solo in Fornace, dove parla di chi
+    compra ceramica in generale, non di un pubblico misurato. In Decisione "ho lavorato in ordine su tre cose" è diventato "tre priorità in
     ordine", perché Cosa ho fatto e la Fase 1 mostrano che la scheda prodotto non è ancora stata
     rifatta. Le tre priorità seguono l'ordine della "Scelta" del documento.
   - **Versioni mobile (2026-09-28).** `caso-riepilogo` e `caso-fase2-identita` hanno una
