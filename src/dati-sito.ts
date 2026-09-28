@@ -15,6 +15,9 @@ export const LINKEDIN = "https://www.linkedin.com/in/luigi-romano-951806377";
 
 export const GITHUB = "https://github.com/luigi0153";
 
+/** Repository pubblico di questo sito: il "Vedi il codice" dell'hero. */
+export const REPO_PORTFOLIO = "https://github.com/Luigi0153/portfolio-luigi";
+
 /**
  * Id del form Formspree: l'ultima parte dell'endpoint
  * `https://formspree.io/f/<id>`.

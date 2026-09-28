@@ -1,0 +1,77 @@
+---
+/**
+ * "Cosa faccio per te": i servizi, solo nel percorso business.
+ *
+ * È il punto 4 di docs/AUDIT.md: un negoziante vedeva i progetti ma non
+ * capiva cosa poteva chiedere. data-only="business" la toglie a schermo e
+ * agli screen reader nel percorso dev e senza JavaScript (che vale dev).
+ * Un servizio per riga, senza icone: le righe si leggono da sole.
+ */
+import Button from "../ui/Button.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
+
+const SERVIZI = [
+  "Apro il tuo negozio su Shopify, dalla scelta del tema alle prime vendite.",
+  "Carico e sistemo il catalogo: prodotti, foto, categorie, schede.",
+  "Creo siti e landing page, anche su WordPress.",
+  "Leggo i numeri del negozio e ti dico cosa cambiare prima di spendere.",
+  "Resto al tuo fianco dopo il lancio, per aggiornamenti e modifiche.",
+];
+---
+
+<section class="servizi" aria-labelledby="servizi-titolo" data-only="business">
+  <div class="container-site servizi__griglia">
+    <SectionHeader id="servizi-titolo" title="Cosa faccio per te" />
+
+    <div>
+      <ul class="servizi__lista" role="list">
+        {SERVIZI.map((servizio) => <li class="servizi__voce">{servizio}</li>)}
+      </ul>
+
+      <Button variant="primary" size="lg" href="/contatti" class="servizi__cta">
+        Contattami
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Sopra c'è già il padding di fondo della griglia progetti. */
+  .servizi {
+    padding-bottom: var(--section-y);
+  }
+
+  .servizi__griglia {
+    display: grid;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .servizi__griglia {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+      gap: 4rem;
+    }
+  }
+
+  /* La larghezza massima sta sulla lista e non sulle voci: così le linee
+     tra una riga e l'altra sono tutte lunghe uguali. */
+  .servizi__lista {
+    max-width: 40rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: var(--border-retro);
+  }
+
+  .servizi__voce {
+    padding-block: 1.125rem;
+    border-top: var(--border-retro);
+    font-size: var(--text-body-lg);
+    line-height: 1.45;
+  }
+
+  .servizi :global(.servizi__cta) {
+    margin-top: 2rem;
+  }
+</style>

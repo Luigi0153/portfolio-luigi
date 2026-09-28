@@ -163,7 +163,31 @@
     immagini caricate, home (striscia, nav, footer), overflow.
     Il ramo esplorazione con tutti e quattro i formati è stato provato con una voce temporanea,
     poi tolta. `test-pagine`: la sitemap conta 7 pagine fisse più quelle dei loghi.
-- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), tutti verdi.
+- **Switch, livello 3 e servizi (2026-09-28).** Proposta sui tre livelli dello switch (home,
+  capitoli, testi brevi): Luigi ha scelto il livello 3 per intero, il livello 1 com'è (l'ordine
+  della griglia cambiava già) e il livello 2 rimandato (riordino dei capitoli del caso reale:
+  il Risultato rimanda a Cosa ho fatto e a Decisione, i grafici stanno nel Contesto, i concept
+  non hanno un risultato). Fatti per ora:
+  - **"Vedi il codice"** nel percorso dev porta al repository pubblico
+    (`REPO_PORTFOLIO` in `dati-sito.ts`), in una nuova scheda con `rel="noopener noreferrer"`,
+    freccia SVG `aria-hidden` in `currentColor` e "(si apre in una nuova scheda)" per gli
+    screen reader. Nell'hero ora ci sono due Button `data-only` invece di due etichette in uno:
+    "Vedi i risultati" (business) porta ancora a `#progetti`. Con la freccia il bottone è più
+    largo: sotto i 768 i due bottoni dell'hero hanno 24px di padding laterale invece di 28
+    (187 + 142 + 16 = 345px nei 350 utili a 390), e vanno in colonna sotto i 390 invece che
+    sotto i 380.
+  - **"Cosa faccio per te"** (`CosaFaccio.astro`), solo nel percorso business
+    (`data-only="business"`: senza JavaScript non c'è), in home tra la griglia progetti e i
+    loghi. Cinque servizi dettati da Luigi, uno per riga tra linee ink, nessuna icona, bottone
+    primary "Contattami" verso `/contatti`. Da 1024 titolo a sinistra e lista a destra.
+  - **Test.** Nuovo `scripts/test-percorsi.mjs` (390 e 1280, due percorsi, più senza
+    JavaScript): bottone primary giusto per percorso, repository, nuova scheda, icona e avviso,
+    CTA sulla stessa riga, sezione servizi solo nel business e nel posto giusto, voci in
+    ordine, una per riga, senza icone, linee lunghe uguali, bottone di contatto, overflow.
+  - **Da fare, testi scelti da Luigi tra due varianti:** invito al contatto per percorso
+    (titolo unico), sommari delle card per percorso, riga di sintesi business in cima al caso
+    reale.
+- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), `test-percorsi` (390 e 1280, due percorsi), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
 

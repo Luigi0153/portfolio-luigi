@@ -6,6 +6,7 @@
  * animate da GSAP solo senza prefers-reduced-motion.
  */
 import Button from "../ui/Button.astro";
+import { REPO_PORTFOLIO } from "../../dati-sito";
 import TargetSwitch from "../ui/TargetSwitch";
 import DeskScene from "./DeskScene.astro";
 ---
@@ -42,9 +43,37 @@ import DeskScene from "./DeskScene.astro";
         <TargetSwitch client:idle />
       </div>
       <div class="hero__cta" data-hero-reveal>
-        <Button variant="primary" size="lg" href="#progetti">
-          <span data-only="dev">Vedi il codice</span>
-          <span data-only="business">Vedi i risultati</span>
+        {/* Due bottoni e non due etichette: nel percorso dev il primary porta
+            al codice vero di questo sito, fuori dal sito e in una nuova scheda. */}
+        <Button
+          variant="primary"
+          size="lg"
+          href={REPO_PORTFOLIO}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-only="dev"
+        >
+          Vedi il codice
+          <svg
+            class="hero__esterno"
+            viewBox="0 0 16 16"
+            width="14"
+            height="14"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M6 3h7v7M13 3 4 12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="square"
+            />
+          </svg>
+          <span class="sr-only">(si apre in una nuova scheda)</span>
+        </Button>
+        <Button variant="primary" size="lg" href="#progetti" data-only="business">
+          Vedi i risultati
         </Button>
         <Button variant="secondary" size="lg" href="/contatti">Contattami</Button>
       </div>
@@ -113,23 +142,39 @@ import DeskScene from "./DeskScene.astro";
     color: var(--color-ink-2);
   }
 
-  /* Le due CTA restano affiancate da 390 in su: misurate, 168 + 150 + 16 di
-     gap = 334px, che stanno nei 350px utili a 390 ma non nei 320 di uno
-     schermo da 360. Sotto quella soglia vanno in colonna, a larghezza piena
-     e col primary sopra. flex-wrap resta la rete di sicurezza se un giorno
-     un'etichetta si allunga. */
+  /* Le due CTA restano affiancate da 390 in su. "Vedi il codice" con la
+     freccia del link esterno è più largo della vecchia etichetta: sotto i
+     768 i due bottoni hanno 24px di padding laterale invece di 28, e
+     misurati fanno 187 + 142 + 16 di gap = 345px, che stanno nei 350px utili
+     a 390. Sotto i 390 vanno in colonna, a larghezza piena e col primary
+     sopra. flex-wrap resta la rete di sicurezza se un giorno un'etichetta si
+     allunga. */
   .hero__cta {
     display: grid;
     gap: 0.75rem;
     margin-top: 1.5rem;
   }
 
-  @media (min-width: 380px) {
+  @media (max-width: 767px) {
+    .hero__cta :global(.btn) {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 390px) {
     .hero__cta {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
     }
+  }
+
+  /* Freccia del link esterno: segue il colore del testo del bottone, anche
+     nel riempimento dell'hover. */
+  .hero__esterno {
+    flex: none;
+    margin-left: 0.5rem;
+    vertical-align: -0.05em;
   }
 
   /* La prova sotto la CTA: secondaria rispetto al titolo, ma il numero in ink
