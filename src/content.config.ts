@@ -93,4 +93,37 @@ const progetti = defineCollection({
   },
 });
 
-export const collections = { progetti };
+/**
+ * Loghi: un file per marchio, il corpo non viene usato.
+ * L'alt dell'immagine principale non sta qui: lo compone la pagina da nome e
+ * tipo, così non può restare indietro quando uno dei due cambia.
+ */
+const loghi = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/loghi" }),
+  schema: ({ image }) =>
+    z.object({
+      nome: z.string(),
+      tipo: z.enum(["progetto", "esercizio", "rebranding", "esplorazione"]),
+      /** Uno stile per logo: i filtri di /loghi nascono dagli stili usati. */
+      stile: z.string(),
+      /** Fondo del riquadro: un hex, oppure un token del sito (cream, cream-2). */
+      fondo: z.union([
+        z.enum(["cream", "cream-2"]),
+        z.string().regex(/^#[0-9a-fA-F]{6}$/, "fondo: hex a 6 cifre, per esempio #F3EEE4"),
+      ]),
+      immagine: image(),
+      /** Posizione in /loghi e nella striscia della home (1 = primo). */
+      ordine: z.number().int().positive(),
+      /** Il marchio originale, per il prima e dopo. */
+      prima: image().optional(),
+      /** La bozza a mano, per il passaggio dallo schizzo al finale. */
+      schizzo: image().optional(),
+      /** Il marchio applicato: insegna, busta, packaging. Da due a tre foto. */
+      applicazioni: z.array(z.object({ src: image(), alt: z.string() })).max(3).default([]),
+      testo: z.string().optional(),
+      /** Percorso della pagina progetto da cui viene il logo. */
+      progetto: z.string().startsWith("/").optional(),
+    }),
+});
+
+export const collections = { progetti, loghi };

@@ -1,0 +1,165 @@
+---
+/**
+ * Loghi: tutti i marchi, con i filtri per stile.
+ *
+ * I filtri nascono dagli stili davvero usati nella collection, non da una
+ * lista fissa. Senza JavaScript la barra dei filtri resta nascosta e si vede
+ * tutto; con JavaScript compare e filtra nascondendo i riquadri, senza
+ * ricaricare la pagina.
+ */
+import Base from "../../layouts/Base.astro";
+import LoghiGriglia from "../../components/ui/LoghiGriglia.astro";
+import { chiaveStile, getLoghi } from "../../loghi";
+
+const loghi = await getLoghi();
+
+// Nell'ordine in cui compaiono i loghi, senza doppioni.
+const stili = [...new Map(loghi.map((l) => [chiaveStile(l.data.stile), l.data.stile]))];
+---
+
+<Base
+  title="Loghi"
+  description="I marchi disegnati da Luigi Romano per i suoi progetti e per esercizio."
+>
+  <section class="loghi" aria-labelledby="loghi-titolo">
+    <div class="container-site">
+      <h1 id="loghi-titolo">Loghi</h1>
+      <p class="loghi__intro">I marchi che ho disegnato per i miei progetti e per esercizio.</p>
+
+      <div class="loghi__filtri" role="group" aria-label="Filtra per stile" data-filtri hidden>
+        <button type="button" class="filtro" aria-pressed="true" data-filtro="">Tutti</button>
+        {
+          stili.map(([chiave, stile]) => (
+            <button type="button" class="filtro" aria-pressed="false" data-filtro={chiave}>
+              {stile}
+            </button>
+          ))
+        }
+      </div>
+      <p class="sr-only" aria-live="polite" data-conteggio></p>
+
+      <LoghiGriglia loghi={loghi} class="loghi__griglia" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .loghi {
+    padding-block: 3rem 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .loghi {
+      padding-block: 4.5rem 8rem;
+    }
+  }
+
+  .loghi__intro {
+    margin-top: 1rem;
+    max-width: 60ch;
+    color: var(--color-ink-2);
+  }
+
+  .loghi__filtri {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .loghi__filtri[hidden] {
+    display: none;
+  }
+
+  /* Le pillole hanno l'aspetto dei Tag, ma sono bottoni: 36px di altezza
+     invece di 28, per stare comodi sotto il dito. */
+  .filtro {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0.25rem 0.9rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: var(--radius-pill);
+    background-color: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.2s var(--ease-brand),
+      color 0.2s var(--ease-brand);
+  }
+
+  @media (hover: hover) {
+    .filtro:hover {
+      background-color: var(--color-cream-2);
+    }
+  }
+
+  .filtro[aria-pressed="true"] {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  .filtro:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .filtro {
+      transition: none;
+    }
+  }
+
+  .loghi :global(.loghi__griglia) {
+    margin-top: 2rem;
+  }
+</style>
+
+<script>
+  /**
+   * Filtri per stile. Un filtro alla volta: premere lo stile già attivo
+   * torna a "Tutti". I riquadri si nascondono con `hidden`, quindi escono
+   * anche dall'ordine di tabulazione e dagli screen reader.
+   */
+  function avvia() {
+    const barra = document.querySelector<HTMLElement>("[data-filtri]");
+    const griglia = document.querySelector<HTMLElement>("[data-loghi]");
+    const conteggio = document.querySelector<HTMLElement>("[data-conteggio]");
+    if (!barra || !griglia) return;
+
+    const bottoni = [...barra.querySelectorAll<HTMLButtonElement>("[data-filtro]")];
+    const riquadri = [...griglia.querySelectorAll<HTMLElement>("[data-stile]")];
+
+    const applica = (filtro: string) => {
+      for (const b of bottoni) {
+        b.setAttribute("aria-pressed", String(b.dataset.filtro === filtro));
+      }
+      let visibili = 0;
+      for (const r of riquadri) {
+        r.hidden = filtro !== "" && r.dataset.stile !== filtro;
+        if (!r.hidden) visibili++;
+      }
+      if (conteggio) {
+        conteggio.textContent = visibili === 1 ? "1 logo" : `${visibili} loghi`;
+      }
+    };
+
+    for (const b of bottoni) {
+      b.addEventListener("click", () => {
+        const scelto = b.dataset.filtro ?? "";
+        const giaAttivo = b.getAttribute("aria-pressed") === "true";
+        applica(giaAttivo ? "" : scelto);
+      });
+    }
+
+    barra.hidden = false;
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+</script>

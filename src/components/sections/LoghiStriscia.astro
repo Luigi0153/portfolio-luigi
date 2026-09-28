@@ -1,0 +1,48 @@
+---
+/**
+ * Striscia "Loghi" della home: i primi quattro riquadri e il link a /loghi.
+ * Uguale nei due percorsi.
+ */
+import SectionHeader from "../ui/SectionHeader.astro";
+import LoghiGriglia from "../ui/LoghiGriglia.astro";
+import { getLoghi } from "../../loghi";
+
+const loghi = (await getLoghi()).slice(0, 4);
+---
+
+<section class="striscia" aria-labelledby="loghi-striscia-titolo">
+  <div class="container-site">
+    <SectionHeader
+      id="loghi-striscia-titolo"
+      title="Loghi"
+      intro="I marchi che ho disegnato per i miei progetti e per esercizio."
+    />
+
+    <LoghiGriglia loghi={loghi} class="striscia__griglia" />
+
+    <p class="striscia__link">
+      <a href="/loghi">Vedi tutti i loghi</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Sopra c'è già il padding di fondo della griglia progetti. */
+  .striscia {
+    padding-bottom: var(--section-y);
+  }
+
+  .striscia :global(.striscia__griglia) {
+    margin-top: 2.5rem;
+  }
+
+  .striscia__link {
+    margin-top: 2rem;
+  }
+
+  .striscia__link a {
+    display: inline-block;
+    padding-block: 0.2rem;
+    font-weight: 600;
+  }
+</style>

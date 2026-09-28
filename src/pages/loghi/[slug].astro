@@ -1,0 +1,379 @@
+---
+/**
+ * Dettaglio di un logo. Mostra solo i formati che hanno immagini, in
+ * quest'ordine: logo grande, prima e dopo, applicazioni, dallo schizzo al
+ * finale. Per rebranding ed esplorazioni la frase di non affiliazione sta
+ * sotto il logo grande e sotto il prima e dopo, dove compare il marchio
+ * originale.
+ */
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import Tag from "../../components/ui/Tag.astro";
+import { NON_AFFILIATO, TIPI, altLogo, fondo, getLoghi, nonAffiliato, type Logo } from "../../loghi";
+
+export async function getStaticPaths() {
+  const loghi = await getLoghi();
+  return loghi.map((logo) => ({ params: { slug: logo.id }, props: { logo } }));
+}
+
+interface Props {
+  logo: Logo;
+}
+
+const { logo } = Astro.props;
+const { data } = logo;
+const tipo = TIPI[data.tipo];
+const conNota = nonAffiliato(logo);
+const colore = `--fondo: ${fondo(logo)}`;
+
+const descrizione =
+  data.testo ?? `Il logo di ${data.nome} disegnato da Luigi Romano. ${tipo}, stile ${data.stile}.`;
+---
+
+<Base title={`Logo ${data.nome}`} description={descrizione}>
+  <article class="dettaglio">
+    <div class="container-site">
+      <a class="dettaglio__indietro eyebrow" href="/loghi">Torna ai loghi</a>
+
+      <header class="dettaglio__testata">
+        <ul class="dettaglio__tags" role="list">
+          <Tag as="li" tone="cream">{tipo}</Tag>
+          <Tag as="li">{data.stile}</Tag>
+        </ul>
+        <h1 class="dettaglio__titolo">{data.nome}</h1>
+        {data.testo && <p class="dettaglio__testo">{data.testo}</p>}
+        {
+          data.progetto && (
+            <p class="dettaglio__progetto">
+              <a href={data.progetto}>Vedi il progetto</a>
+            </p>
+          )
+        }
+      </header>
+
+      <div class="dettaglio__campo" style={colore}>
+        <Image
+          class="dettaglio__logo"
+          src={data.immagine}
+          alt={altLogo(logo)}
+          widths={[320, 520, 900]}
+          sizes="(min-width: 1024px) 520px, 76vw"
+          format="webp"
+          quality={90}
+          loading="eager"
+          transition:name={`logo-${logo.id}`}
+        />
+      </div>
+      {conNota && <p class="dettaglio__nota">{NON_AFFILIATO}</p>}
+
+      {
+        data.prima && (
+          <section class="dettaglio__sezione" aria-labelledby="prima-dopo">
+            <h2 class="dettaglio__h2" id="prima-dopo">Prima e dopo</h2>
+            <div class="pd">
+              <div class="pd__campo pd__campo--prima">
+                <Image
+                  class="pd__img"
+                  src={data.prima}
+                  alt={`Logo di ${data.nome} prima del rebranding`}
+                  widths={[480, 800]}
+                  sizes="(min-width: 1024px) 480px, 70vw"
+                  format="webp"
+                  quality={85}
+                  loading="lazy"
+                />
+              </div>
+              <div class="pd__linea" aria-hidden="true">
+                <span class="eyebrow">↑ Prima</span>
+                <span class="pd__riga" />
+                <span class="eyebrow">Dopo ↓</span>
+              </div>
+              <div class="pd__campo" style={colore}>
+                <Image
+                  class="pd__img"
+                  src={data.immagine}
+                  alt={`${altLogo(logo)}, dopo il rebranding`}
+                  widths={[480, 800]}
+                  sizes="(min-width: 1024px) 480px, 70vw"
+                  format="webp"
+                  quality={85}
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            {conNota && <p class="dettaglio__nota">{NON_AFFILIATO}</p>}
+          </section>
+        )
+      }
+
+      {
+        data.applicazioni.length > 0 && (
+          <section class="dettaglio__sezione" aria-labelledby="applicazioni">
+            <h2 class="dettaglio__h2" id="applicazioni">Applicazioni</h2>
+            <ul class="applicazioni" role="list">
+              {data.applicazioni.map((foto) => (
+                <li>
+                  <Image
+                    class="applicazioni__img"
+                    src={foto.src}
+                    alt={foto.alt}
+                    widths={[400, 700]}
+                    sizes="(min-width: 768px) 380px, 90vw"
+                    format="webp"
+                    quality={80}
+                    loading="lazy"
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        data.schizzo && (
+          <section class="dettaglio__sezione" aria-labelledby="schizzo">
+            <h2 class="dettaglio__h2" id="schizzo">Dallo schizzo al finale</h2>
+            <div class="schizzo">
+              <figure class="schizzo__figura">
+                <Image
+                  class="schizzo__img"
+                  src={data.schizzo}
+                  alt={`Schizzo a mano del logo di ${data.nome}`}
+                  widths={[400, 700]}
+                  sizes="(min-width: 768px) 520px, 90vw"
+                  format="webp"
+                  quality={80}
+                  loading="lazy"
+                />
+                <figcaption class="eyebrow text-ink-2">Schizzo</figcaption>
+              </figure>
+              <span class="schizzo__freccia" aria-hidden="true" />
+              <figure class="schizzo__figura">
+                <div class="schizzo__campo" style={colore}>
+                  <Image
+                    class="pd__img"
+                    src={data.immagine}
+                    alt={`${altLogo(logo)}, versione finale`}
+                    widths={[400, 700]}
+                    sizes="(min-width: 768px) 520px, 90vw"
+                    format="webp"
+                    quality={85}
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption class="eyebrow text-ink-2">Finale</figcaption>
+              </figure>
+            </div>
+          </section>
+        )
+      }
+    </div>
+  </article>
+</Base>
+
+<style>
+  .dettaglio {
+    padding-block: 2.5rem 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .dettaglio {
+      padding-block: 3.5rem 8rem;
+    }
+  }
+
+  /* Stesso link di ritorno delle pagine progetto: 24px di bersaglio. */
+  .dettaglio__indietro {
+    display: inline-block;
+    margin-block: -0.4rem;
+    padding-block: 0.4rem;
+    color: var(--color-ink-2);
+    text-decoration: none;
+  }
+
+  .dettaglio__indietro::before {
+    content: "< ";
+  }
+
+  .dettaglio__indietro:hover {
+    color: var(--color-arancio);
+  }
+
+  .dettaglio__testata {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .dettaglio__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .dettaglio__titolo {
+    font-size: var(--text-h2);
+  }
+
+  .dettaglio__testo {
+    max-width: 60ch;
+    color: var(--color-ink-2);
+  }
+
+  /* 24px di bersaglio anche qui, come il link di ritorno. */
+  .dettaglio__progetto a {
+    display: inline-block;
+    padding-block: 0.2rem;
+    font-weight: 600;
+  }
+
+  .dettaglio__campo,
+  .pd__campo,
+  .schizzo__campo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border-retro);
+    border-radius: var(--radius-card);
+    background-color: var(--fondo);
+  }
+
+  .dettaglio__campo {
+    aspect-ratio: 1;
+    margin-top: 2rem;
+    padding: 12%;
+  }
+
+  @media (min-width: 768px) {
+    .dettaglio__campo {
+      aspect-ratio: 2 / 1;
+      padding: 9% 28%;
+    }
+  }
+
+  .dettaglio__logo,
+  .pd__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .dettaglio__nota {
+    margin-top: 0.75rem;
+    color: var(--color-ink-2);
+    font-size: var(--text-label);
+  }
+
+  .dettaglio__sezione {
+    margin-top: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .dettaglio__sezione {
+      margin-top: 6rem;
+    }
+  }
+
+  .dettaglio__h2 {
+    font-size: var(--text-h3);
+    margin-bottom: 1.5rem;
+  }
+
+  /* --- Prima e dopo: l'originale sopra, il nuovo sotto --- */
+  .pd {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 40rem;
+  }
+
+  .pd__campo {
+    aspect-ratio: 16 / 9;
+    padding: 8% 16%;
+  }
+
+  .pd__campo--prima {
+    background-color: var(--color-cream-2);
+  }
+
+  .pd__linea {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-ink);
+  }
+
+  .pd__riga {
+    flex: 1;
+    border-top: var(--border-retro);
+  }
+
+  /* --- Applicazioni --- */
+  .applicazioni {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 768px) {
+    .applicazioni {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  .applicazioni__img,
+  .schizzo__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: var(--border-retro);
+    border-radius: var(--radius-img);
+  }
+
+  /* --- Dallo schizzo al finale: affiancati da 768, in colonna sotto --- */
+  .schizzo {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: center;
+  }
+
+  .schizzo__figura {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
+  .schizzo__campo {
+    aspect-ratio: 1;
+    padding: 14%;
+  }
+
+  .schizzo__freccia::before {
+    content: "↓";
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  @media (min-width: 768px) {
+    .schizzo {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .schizzo__freccia::before {
+      content: "→";
+    }
+  }
+</style>

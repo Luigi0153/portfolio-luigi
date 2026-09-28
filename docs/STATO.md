@@ -1,6 +1,6 @@
 # Stato del progetto
 
-**Fase corrente:** caso reale con immagini, proposta e versioni mobile delle due figure larghe (2026-09-28). Fase 4 annullata.
+**Fase corrente:** sezione loghi (2026-09-28). Fase 4 annullata.
 
 ## Completo
 - **Fase 1** — token, layout, Nav, Card, Tag, Button, StatTile, SectionHeader, `/styleguide`.
@@ -126,7 +126,41 @@
   - **Test.** `test-progetti` verifica le sette sezioni, la copertina (griglia e pagina), ogni
     immagine nel suo capitolo e la Fase 2 nell'ordine giusto, le due parti "Proposta", alt,
     caricamento, overflow, slider con etichette Oggi e Fase 1 e immagini 780x1688.
-- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), tutti verdi.
+- **Sezione loghi (2026-09-28).** Da `docs/FASE_LOGHI.md`.
+  - **Collection `loghi`** (`src/content/loghi/`, un file per logo, corpo non usato): `nome`,
+    `tipo` (progetto | esercizio | rebranding | esplorazione), `stile`, `fondo` (hex a 6 cifre
+    oppure `cream`/`cream-2`, che puntano ai token), `immagine`, `ordine`, e facoltativi `prima`,
+    `schizzo`, `applicazioni` (massimo 3, con alt), `testo`, `progetto` (percorso della pagina
+    progetto). `ordine` non era nel documento: serve a decidere i "primi quattro" della home,
+    perché l'ordine del loader non è garantito. Lo slug è il nome del file. Quattro voci:
+    Luigi Romano (Geometrico, fondo cream), Fornace Vietri (Serif), Vico Stretto (Sigillo),
+    Boutique (Monogramma, collega al caso reale), tutte tipo Progetto, senza `testo`.
+  - **Regole condivise** in `src/loghi.ts`: etichette dei tipi, frase di non affiliazione,
+    fondo, alt (`Logo di <nome> (<Tipo>)`), chiave dello stile, `getLoghi()` ordinato.
+  - **Riquadro** (`LogoRiquadro.astro`, griglia in `LoghiGriglia.astro`): quadrato del colore
+    di fondo, tipo sempre visibile in alto a sinistra, nome in basso sempre visibile su touch e
+    che sale al passaggio del mouse o col focus dove c'è hover. Nome e tipo scritti sono
+    `aria-hidden`: l'alt, che è il nome del link, li contiene già. Per rebranding ed
+    esplorazioni la frase di non affiliazione sta sotto il riquadro, fuori dal link.
+  - **/loghi**: titolo, una riga, filtri a pillola (aspetto dei Tag, 36px di altezza) generati
+    dagli stili usati, griglia 2 colonne e 4 da 1024. Filtri `<button aria-pressed>` in un
+    `role="group"`, uno alla volta, premere lo stile attivo torna a "Tutti"; riquadri nascosti
+    con `hidden`, conteggio in una live region. Senza JavaScript la barra resta `hidden` e si
+    vede tutto.
+  - **/loghi/[slug]**: tipo e stile come Tag, nome in h1, `testo` e link "Vedi il progetto" se
+    ci sono, logo grande sul suo fondo; poi solo i formati con immagini: Prima e dopo (linea con
+    "↑ Prima" e "Dopo ↓"), Applicazioni, Dallo schizzo al finale (freccia ↓ su telefono, → da
+    768). La frase di non affiliazione sta sotto il logo grande e sotto il prima e dopo.
+  - **Home**: `LoghiStriscia.astro` dopo la griglia progetti, primi quattro riquadri e link
+    "Vedi tutti i loghi". Navbar invariata a tre voci; `Loghi` nel footer dopo Progetti.
+  - **Og**: le pagine loghi usano `og.png` di default, nessuna og dedicata.
+  - **Test.** Nuovo `scripts/test-loghi.mjs` (390 touch e 1280): caricamento, riquadri quadrati
+    e colonne, tipo e alt, nome su touch e al passaggio del mouse, filtri con clic e tastiera,
+    aria-pressed, senza JavaScript, frase di non affiliazione nel riquadro e nel dettaglio,
+    formati senza sezioni vuote, immagini caricate, home (striscia, nav, footer), overflow.
+    Il ramo esplorazione con tutti e quattro i formati è stato provato con una voce temporanea,
+    poi tolta. `test-pagine`: la sitemap conta 7 pagine fisse più quelle dei loghi.
+- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
 

@@ -260,9 +260,13 @@ for (const vp of [390, 1280]) {
   const sitemap = await page.goto(BASE + "/sitemap-0.xml");
   const testoSitemap = await sitemap.text();
   const conta = (s) => (testoSitemap.match(new RegExp(s, "g")) ?? []).length;
+  // Le pagine dei singoli loghi crescono con la collection: si contano a parte.
+  const dettagliLoghi = conta("/loghi/[a-z0-9-]+/");
   atteso(
-    conta("<loc>") === 6 && !testoSitemap.includes("styleguide"),
-    `seo: la sitemap elenca le 6 pagine pubbliche e non la styleguide (${conta("<loc>")})`,
+    conta("<loc>") - dettagliLoghi === 7 &&
+      dettagliLoghi >= 4 &&
+      !testoSitemap.includes("styleguide"),
+    `seo: la sitemap elenca le 7 pagine pubbliche, ${dettagliLoghi} loghi e non la styleguide (${conta("<loc>")})`,
   );
 
   // Ogni pagina ha canonical e og:image propria
@@ -271,6 +275,8 @@ for (const vp of [390, 1280]) {
     "/come-lavoro",
     "/contatti",
     "/progetti/caso-reale",
+    "/loghi",
+    "/loghi/fornace-vietri",
   ]) {
     await page.goto(BASE + percorso, { waitUntil: "domcontentloaded" });
     const meta = await page.evaluate(() => ({

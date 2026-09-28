@@ -1,0 +1,42 @@
+---
+/**
+ * Griglia dei riquadri: 2 colonne su telefono, 4 da 1024px.
+ * La usano /loghi e la striscia della home.
+ */
+import LogoRiquadro from "./LogoRiquadro.astro";
+import type { Logo } from "../../loghi";
+
+interface Props {
+  loghi: Logo[];
+  class?: string;
+}
+
+const { loghi, class: className } = Astro.props;
+---
+
+<ul class:list={["loghi-griglia", className]} role="list" data-loghi>
+  {loghi.map((logo) => <LogoRiquadro logo={logo} />)}
+</ul>
+
+<style>
+  .loghi-griglia {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 768px) {
+    .loghi-griglia {
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .loghi-griglia {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+/**
+ * Riquadro di un logo: il marchio sul suo colore di fondo, in un quadrato.
+ * Il tipo è sempre visibile; il nome sempre su touch, al passaggio del mouse
+ * (o col focus) dove c'è un puntatore. Nome e tipo scritti sono aria-hidden:
+ * l'alt dell'immagine, che è anche il nome del link, li dice già tutti e due.
+ * Per rebranding ed esplorazioni la frase di non affiliazione sta sotto il
+ * riquadro, fuori dal link, così resta leggibile anche da screen reader.
+ */
+import { Image } from "astro:assets";
+import Card from "./Card.astro";
+import Tag from "./Tag.astro";
+import {
+  NON_AFFILIATO,
+  TIPI,
+  altLogo,
+  chiaveStile,
+  fondo,
+  nonAffiliato,
+  type Logo,
+} from "../../loghi";
+
+interface Props {
+  logo: Logo;
+}
+
+const { logo } = Astro.props;
+const { data } = logo;
+---
+
+<li class="logo" data-stile={chiaveStile(data.stile)} data-tipo={data.tipo}>
+  <Card href={`/loghi/${logo.id}`} padding="none" class="logo__card">
+    <div class="logo__campo" style={`--fondo: ${fondo(logo)}`}>
+      <Image
+        class="logo__img"
+        src={data.immagine}
+        alt={altLogo(logo)}
+        widths={[240, 480]}
+        sizes="(min-width: 1024px) 220px, 36vw"
+        format="webp"
+        quality={85}
+        loading="lazy"
+        transition:name={`logo-${logo.id}`}
+      />
+      <span class="logo__tipo" aria-hidden="true"><Tag tone="cream">{TIPI[data.tipo]}</Tag></span>
+      <span class="logo__nome" aria-hidden="true">{data.nome}</span>
+    </div>
+  </Card>
+  {nonAffiliato(logo) && <p class="logo__nota">{NON_AFFILIATO}</p>}
+</li>
+
+<style>
+  .logo[hidden] {
+    display: none;
+  }
+
+  .logo__campo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    /* Sopra resta il posto per il tipo, sotto per il nome: il logo non ci
+       finisce mai sotto. Le percentuali del padding seguono la larghezza. */
+    padding: 3rem 12% 3.25rem;
+    background-color: var(--fondo);
+  }
+
+  .logo__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .logo__tipo {
+    position: absolute;
+    top: 0.625rem;
+    left: 0.625rem;
+  }
+
+  .logo__nome {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 0.625rem 0.75rem;
+    border-top: var(--border-retro);
+    background-color: var(--color-cream-2);
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  /* Col puntatore il nome sale dal bordo; il clip della card lo nasconde a
+     riposo. Su touch non c'è hover: resta sempre visibile. */
+  @media (hover: hover) {
+    .logo__nome {
+      transform: translateY(100%);
+      transition: transform 0.25s var(--ease-brand);
+    }
+
+    .logo :global(.logo__card:hover) .logo__nome,
+    .logo :global(.logo__card:focus-visible) .logo__nome {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo__nome {
+      transition: none;
+    }
+  }
+
+  .logo__nota {
+    margin-top: 0.625rem;
+    color: var(--color-ink-2);
+    font-size: var(--text-label);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 768px) {
+    .logo__tipo {
+      top: 0.875rem;
+      left: 0.875rem;
+    }
+
+    .logo__nome {
+      padding: 0.75rem 1rem;
+      font-size: 1.125rem;
+    }
+  }
+</style>
