@@ -1,6 +1,6 @@
 # Stato del progetto
 
-**Fase corrente:** caso reale aggiornato con immagini e proposta il 2026-09-26, in attesa di conferma. Fase 4 annullata.
+**Fase corrente:** caso reale con immagini, proposta e versioni mobile delle due figure larghe (2026-09-28). Fase 4 annullata.
 
 ## Completo
 - **Fase 1** — token, layout, Nav, Card, Tag, Button, StatTile, SectionHeader, `/styleguide`.
@@ -109,9 +109,17 @@
     sottosezioni; output dei concept invariato.
   - **Testi.** Nessun numero fuori da `docs/content/caso-reale.md`: niente prezzi, codici colore
     o date degli screenshot negli alt. La fascia 35-54 anni della Fase 2 è stata aggiunta al
-    documento, dalla skill `sisters-store-brand` (59% delle clienti). In Decisione "ho lavorato
-    in ordine su tre cose" è diventato "tre priorità in ordine", perché Cosa ho fatto e la Fase 1
-    mostrano che la scheda prodotto non è ancora stata rifatta.
+    documento, dalla skill `sisters-store-brand`: sono le statistiche Instagram del negozio
+    (follower, non clienti verificate), e la pagina lo dice ("secondo le statistiche Instagram
+    del negozio"). In Decisione "ho lavorato in ordine su tre cose" è diventato "tre priorità in
+    ordine", perché Cosa ho fatto e la Fase 1 mostrano che la scheda prodotto non è ancora stata
+    rifatta. Le tre priorità seguono l'ordine della "Scelta" del documento.
+  - **Versioni mobile (2026-09-28).** `caso-riepilogo` e `caso-fase2-identita` hanno una
+    versione ricomposta per il telefono (`-mobile`, 780 di larghezza), montata con lo stesso
+    `<picture>` del flusso della pizzeria: sotto i 768 la mobile, da 768 la larga, stesso alt.
+    Lo schema accetta ora `mobile` anche sulle figure delle sottosezioni (`FIGURA` in
+    `content.config.ts`, condivisa con `figura` del capitolo). `test-progetti` verifica a 390
+    la versione mobile e a 1280 la larga per le due figure.
   - **Test.** `test-progetti` verifica le sette sezioni, la copertina (griglia e pagina), ogni
     immagine nel suo capitolo e la Fase 2 nell'ordine giusto, le due parti "Proposta", alt,
     caricamento, overflow, slider con etichette Oggi e Fase 1 e immagini 780x1688.

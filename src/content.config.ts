@@ -26,6 +26,8 @@ const progetti = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/progetti" }),
   schema: ({ image }) => {
     const IMMAGINE = z.object({ src: image(), alt: z.string() });
+    /** `mobile`: versione ricomposta per gli schermi sotto i 768px, stesso alt. */
+    const FIGURA = IMMAGINE.extend({ mobile: image().optional() });
     /** Schermate affiancate su desktop, scorrevoli su mobile. */
     const GALLERIA = z.array(IMMAGINE.extend({ etichetta: z.string() }));
 
@@ -60,11 +62,8 @@ const progetti = defineCollection({
             titolo: z.string(),
             righe: RIGHE.default([]),
             elenco: ELENCO.optional(),
-            /**
-             * Un'immagine a tutta colonna, sotto le righe. `mobile` è una
-             * versione ricomposta per gli schermi sotto i 768px, con lo stesso alt.
-             */
-            figura: IMMAGINE.extend({ mobile: image().optional() }).optional(),
+            /** Un'immagine a tutta colonna, sotto le righe. */
+            figura: FIGURA.optional(),
             dati: z.array(BLOCCHI).default([]),
             /**
              * Parti del capitolo con un titolo proprio. Dentro, in quest'ordine:
@@ -81,7 +80,7 @@ const progetti = defineCollection({
                   elenco: ELENCO.optional(),
                   dati: z.array(BLOCCHI).default([]),
                   immagini: z
-                    .array(z.union([IMMAGINE, z.object({ galleria: GALLERIA.min(1) })]))
+                    .array(z.union([FIGURA, z.object({ galleria: GALLERIA.min(1) })]))
                     .default([]),
                 }),
               )

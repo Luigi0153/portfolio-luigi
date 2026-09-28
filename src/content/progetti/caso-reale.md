@@ -43,6 +43,7 @@ capitoli:
         - "Le categorie del catalogo sistemate, perché rompevano report e collezioni."
     figura:
       src: ../../assets/progetti/caso-reale/caso-riepilogo.jpg
+      mobile: ../../assets/progetti/caso-reale/caso-riepilogo-mobile.jpg
       alt: "Riepilogo del lavoro sul negozio anonimo. In alto il titolo Cosa ho fatto sul negozio e il dato 4,04% delle visite aggiunge qualcosa al carrello, su 4.233 sessioni. Quattro riquadri. Aggiunta rapida, nelle card delle novità si aggiunge al carrello senza aprire la scheda, scritta in codice con Claude Code, con uno zaino e il suo bottone Aggiungi al carrello. Badge esaurito, i pezzi finiti restano visibili con il badge rosso e il bottone disattivato. Spedizioni e resi, i testi che mancavano, oggi nel footer, lontano da chi sta decidendo. Catalogo in ordine, il 15,8% del fatturato era su prodotti senza categoria, ora divisi in Borse a tracolla, Zaini e Portafogli. Sotto, Quello che ho notato dopo: nella scheda il bottone Aggiungi è solo bordato, mentre il pagamento rapido è pieno e viola. È un'ipotesi da verificare ed è il punto di partenza della proposta."
   - id: risultato
     titolo: Risultato
@@ -85,6 +86,7 @@ capitoli:
           - "Avorio, nero e cuoio, un carattere serif per i nomi dei prodotti e le foto delle borse indossate."
         immagini:
           - src: ../../assets/progetti/caso-reale/caso-fase2-identita.jpg
+            mobile: ../../assets/progetti/caso-reale/caso-fase2-identita-mobile.jpg
             alt: "Prima e dopo dell'identità, su fondo avorio, riga per riga. Logo, oggi una scritta a mano sottile che sul telefono si legge a fatica, nella proposta il nome Boutique in maiuscolo spaziato e una B per icona, etichette e packaging. Palette, oggi i colori di serie del tema con il blu di fabbrica e il viola del pagamento, nella proposta avorio, nero e cuoio, che richiama le borse, il 68% del fatturato. Caratteri, oggi un testo sottile che sul telefono affatica, nella proposta un serif per i nomi dei prodotti e un bastoni a peso pieno per i testi. Foto, oggi solo il prodotto su bianco, nella proposta il prodotto su avorio e la borsa indossata. Racconto, oggi una griglia di prodotti tutti uguali, nella proposta le borse raccontate in capsule, con una foto indossata e sotto il look da comprare. Bottoni, oggi il bottone principale è il meno visibile dei due, nella proposta un solo bottone pieno con le garanzie subito sotto."
           - galleria:
               - etichetta: La home

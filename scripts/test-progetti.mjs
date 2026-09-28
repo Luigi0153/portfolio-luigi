@@ -110,7 +110,8 @@ for (const vp of [390, 1280]) {
   // ogni immagine nel capitolo giusto, e nella proposta nell'ordine giusto
   const posto = await page.evaluate(() => {
     const dove = (el) => el?.closest(".caso__sezione")?.querySelector("h2")?.id;
-    const file = (img) => (img.getAttribute("src") ?? "").match(/caso-[a-z0-9-]+?(?=[._])/)?.[0];
+    const file = (img) =>
+      (img.getAttribute("src") ?? "").match(/caso-[a-z0-9-]+?(?=[._])/)?.[0]?.replace(/-mobile$/, "");
     const sotto = [...document.querySelectorAll(".caso__sezione:has(#sez-passo) .caso__sotto")];
     return {
       cover: document.querySelector(".caso__cover")?.getAttribute("src")?.includes("caso-copertina"),
@@ -163,6 +164,19 @@ for (const vp of [390, 1280]) {
     immagini.nonCaricate.length === 0,
     `${vp}px dettaglio: tutte le immagini si caricano ${immagini.nonCaricate.join(" ")}`,
   );
+
+  // sotto i 768 la versione mobile, da 768 quella larga
+  for (const figura of ["caso-riepilogo", "caso-fase2-identita"]) {
+    const img = await page.$eval(`.caso__figura picture img[src*="${figura}"]`, (i) => ({
+      corrente: i.currentSrc,
+      larga: i.parentElement.querySelector('source[media="(min-width: 768px)"]')?.srcset ?? "",
+    }));
+    const mobile = img.corrente.includes(`${figura}-mobile`);
+    atteso(
+      (vp < 768 ? mobile : !mobile && img.corrente.includes(figura)) && img.larga.includes(figura) && !img.larga.includes("-mobile"),
+      `${vp}px dettaglio: ${figura} nella versione ${vp < 768 ? "mobile" : "larga"}`,
+    );
+  }
   atteso(
     await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
     `${vp}px dettaglio: nessun overflow orizzontale della pagina`,
