@@ -81,7 +81,7 @@ capitoli:
       - titolo: Fase 2, nuova identità
         etichetta: Proposta
         righe:
-          - "Una direzione ispirata ai brand di moda campani e adattata a chi compra qui, cioè donne tra i 35 e i 54 anni, quasi sempre dal telefono."
+          - "Una direzione ispirata ai brand di moda campani e adattata a chi compra qui: secondo le statistiche Instagram del negozio, donne tra i 35 e i 54 anni, quasi sempre dal telefono."
           - "Avorio, nero e cuoio, un carattere serif per i nomi dei prodotti e le foto delle borse indossate."
         immagini:
           - src: ../../assets/progetti/caso-reale/caso-fase2-identita.jpg
