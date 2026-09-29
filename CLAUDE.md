@@ -27,7 +27,11 @@ Deploy Vercel. Nessuna altra libreria UI/animazione senza il mio ok esplicito.
 9. Se un'istruzione è ambigua, fai una domanda sola e proponi la tua opzione preferita.
 10. Prima di aggiungere un pacchetto npm, spiega in una riga perché e aspetta il mio ok.
 11. Astro 7: `astro dev` e `astro preview` girano come demoni (il comando esce subito; porta e pid nell'output, stop con `npx astro dev stop` / `npx astro preview stop`). Dopo ogni `npm install` o nuova isola React riavvia il demone dev. Se un'isola non si idrata ma la build è pulita (es. `_jsxDEV is not a function`): ferma il demone, cancella `node_modules/.vite`, riavvia — non toccare la config JSX.
-12. A fine di ogni fase aggiorna `docs/STATO.md`. All'inizio di ogni sessione orientati leggendo solo `CLAUDE.md`, `docs/STATO.md` e `docs/design-tokens.md`. I file su cui devi lavorare aprili liberamente, senza chiedere.
+12. A fine di ogni fase aggiorna `docs/STATO.md`, che tiene solo lo stato attuale e i lavori da fare: la storia delle fasi finite va in `docs/STORIA.md`, che non si legge a inizio sessione e si apre solo per cercare come o perché è stato fatto qualcosa. All'inizio di ogni sessione orientati leggendo solo `CLAUDE.md`, `docs/STATO.md` e `docs/design-tokens.md`. I file su cui devi lavorare aprili liberamente, senza chiedere.
+13. Push: solo se lo chiedo esplicitamente. "Nessun push" vale per quel blocco di lavoro.
+14. Blocchi di lavoro: prima di lavorare elenca i file che toccherai, poi procedi senza aspettare. A fine blocco, riepilogo in tabella con commit, cosa è cambiato, risultato dei test.
+15. Script: gli script non banali si scrivono in un file `.cjs` e poi si lanciano. Niente heredoc, niente `node -e` con regex o backtick. Python non è installato.
+16. Leggi `docs/NOTE-TEST.md` solo quando scrivi o modifichi test.
 
 ## Skill disponibili in .claude/skills
 Mie: design-taste-frontend, ui-ux-pro-max, web-design-guidelines, cro, shopify-expert, sisters-store-brand.
