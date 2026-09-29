@@ -1,6 +1,6 @@
 # Stato del progetto
 
-**Fase corrente:** sezione loghi (2026-09-28). Fase 4 annullata.
+**Fase corrente:** passata prestazioni, blocco A fatto (2026-09-29). Fase 4 annullata.
 
 ## Completo
 - **Fase 1** — token, layout, Nav, Card, Tag, Button, StatTile, SectionHeader, `/styleguide`.
@@ -204,6 +204,32 @@
       refresh; `test-pagine` verifica sul caso reale la sintesi (solo business, sotto il
       titolo, il link porta al Risultato, nascosta e fuori dagli screen reader da 1024, con
       il confine provato a 1023 e 1024), l'invito per percorso e le tre description.
+- **Passata prestazioni, blocco A (2026-09-29).** Da `docs/PRESTAZIONI.md`, interventi 1, 2 e 3,
+  un commit ciascuno.
+  - **1. Filtri di /loghi** visibili da subito: via l'attributo `hidden` e la riga dello script
+    che lo toglieva; li nasconde solo `<noscript slot="head"><style is:inline>` con
+    `display:none!important` (serve `!important`: `.loghi__filtri` ha `display:flex` con
+    specificità più alta). CLS 0,085 → 0.
+  - **2. Riserva del mono.** `@font-face "JetBrains Mono Riserva"` in `global.css`, con
+    `src: local("Consolas")`, `size-adjust: 109%` e override verticali (ascent 93,6%, descent
+    27,5%, line-gap 0), messo in `--font-mono` subito dopo JetBrains Mono. Calibrato misurando i
+    quattro tag del caso reale con e senza il font: 108% dà 0,72px, 109% 0,08px, 110% 0,56px
+    di differenza massima. Lo scatto si vede a 412px (la larghezza di Lighthouse mobile), non a
+    390: lì "Mobile" va a capo con entrambi i font. Confronto su 13 pagine, 4 larghezze (390,
+    412, 768, 1280) e 2 percorsi, 2604 elementi in mono: nessuna a capo o altezza diversa (senza
+    gli override verticali restava un chip `<code>` di `/come-lavoro` più basso di 2px).
+    CLS del caso reale 0,203 → 0.
+  - **3. Slider del caso reale**: `loading="lazy"` e `decoding="async"` sulle due `<img>` di
+    `BeforeAfter.tsx` (erano nel markup del server e si scaricavano subito). Peso del caso reale
+    422 → 312 KB.
+  - **Misura** (Lighthouse 12 mobile, build di preview, mediana di 3 run, "prima" dal report):
+    caso reale 84 → 93 (LCP 2,88 → 2,46 s, CLS 0,203 → 0), /loghi 97 → 99 (LCP 1,97 → 1,83 s,
+    CLS 0,085 → 0). Il TBT del caso reale oscilla molto tra le run (11-236 ms sulla stessa
+    build, anche senza la modifica del font): non va letto come effetto degli interventi.
+  - **Da fare.** Blocco B: interventi 4 (dimensioni delle immagini) e 5 (CSS dentro l'HTML), con
+    misura prima e dopo. Prova C: intervento 6 (entrata del titolo dell'hero su telefono), da
+    valutare guardando l'animazione. **Rimandati:** 7 (switch senza React) e 8 (un peso di Hanken
+    Grotesk in meno).
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), `test-percorsi` (390 e 1280, due percorsi), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
@@ -278,7 +304,7 @@ visibili a riposo) non è stato toccato.
 
 ## Manca
 - **Prompt 2 e 3 del progetto n°5.** L'array `PROMPT_REALI` in `src/pages/come-lavoro.astro` ne ha uno solo, l'unico con una fonte nel repo (PROMPT DI AVVIO, da `MASTER_PROMPT.md`). Gli altri due non sono recuperabili da qui: il blocco "FASE 2.5" non è mai stato scritto in `MASTER_PROMPT.md` (il file ha un solo commit, e contiene le fasi 1-5), e il commit `a1784f8` registra la diagnosi del burst, non il prompt che l'ha prodotta. Servono i testi veri da Luigi: la sezione è già pronta, basta aggiungere le voci.
-- **Dominio da confermare.** `site` in `astro.config.mjs` è `https://luigi-portfolio.vercel.app`: se Vercel assegna un nome diverso al primo import va corretto lì e ricostruito (canonical, og:url, sitemap e robots leggono da lì).
+- **Dominio.** `luigiromano.cloud` è valido su Vercel: record A `@` → `216.198.79.1` e CNAME `www` → `vercel-dns`; `www` reindirizza a `luigiromano.cloud`. Da controllare: `site` in `astro.config.mjs` è ancora `https://luigiromano.vercel.app`, quindi canonical, og:url, sitemap e robots puntano a quell'indirizzo e non a `luigiromano.cloud` (vanno corretti lì e ricostruiti, quando Luigi lo decide).
 - **Passaggio sui copy.** L'inventario voce per voce è in `docs/inventario-testi.md` (135 voci,
   con giudizio e posizione nel codice): è la lista di lavoro per la riscrittura. Fatti la griglia
   progetti, l'invito al contatto, il sottotitolo dell'hero (2026-09-21, quest'ultimo fuori
@@ -461,10 +487,10 @@ visibili a riposo) non è stato toccato.
   Funnel, slider prima/dopo) vuol dire che la variante nascosta non anima mai, e chi cambia
   percorso dopo aver già scrollato la vedrebbe ferma — serve un hook che faccia ripartire le
   entrate al cambio di `html[data-target]`.
-- Fase di performance dedicata a fine progetto (regola 7).
+- Fase di performance dedicata a fine progetto (regola 7): avviata il 2026-09-29, blocco A fatto, il resto in "Passata prestazioni" sopra.
 
 ## Decisioni aperte
-- **Lighthouse mobile home a 85**, sotto il ≥ 90 della regola 7. In locale l'LCP è l'h1 a 188 ms: i 3,6 s vengono dal throttling simulato. Sospetto principale il peso JS (gsap 27 KB + ScrollTrigger 17 KB + React 65 KB, 36 KiB segnalati come inutilizzati). Non ancora stabilito se sia una regressione della Fase 3 o il livello di partenza.
+- **Lighthouse mobile home**: era 85 (sotto il ≥ 90 della regola 7), il 2026-09-29 è 94 nella passata prestazioni (mediana di 3 run, percorso sviluppatore, LCP 2,71 s). Nella stessa passata Fornace e pizzeria sono a 96; caso reale (93) e /loghi (99) sono misurati dopo il blocco A. L'LCP della home è il titolo dell'hero, che parte invisibile: vedi la prova C.
 - Servono da Luigi: i testi dei prompt 2 e 3 del progetto n°5 (vedi "Manca").
 - **[DA VERIFICARE] Il nome "Vico Stretto"** (dal documento dei contenuti): prima di pubblicare
   controllare che non esista una pizzeria reale con questo nome. In caso, cambiarlo. Il nome
