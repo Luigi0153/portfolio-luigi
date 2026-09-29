@@ -103,7 +103,8 @@ docs/
 
 Tre cose sono segnaposto e vanno compilate:
 
-1. `astro.config.mjs` → `site`: il dominio vero (serve a canonical, og:url e sitemap).
+1. `astro.config.mjs` → `site`: il dominio vero, già impostato a `https://luigiromano.cloud`
+   (senza www; www reindirizza qui da Vercel). Serve a canonical, og:url, anteprime social, sitemap e robots.
 2. `src/dati-sito.ts` → `LINKEDIN`, `GITHUB`: i profili veri.
 3. `src/dati-sito.ts` → `FORMSPREE_ID`: l'id del form da [formspree.io](https://formspree.io).
    Finché resta il segnaposto, la pagina contatti lo dichiara e rimanda all'email.
