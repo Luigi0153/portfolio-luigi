@@ -45,13 +45,23 @@ export default function BeforeAfter({
           } as React.CSSProperties
         }
       >
-        <img className="ba__img" src={primaSrc} alt={primaAlt} width={larghezza} height={altezza} />
+        <img
+          className="ba__img"
+          src={primaSrc}
+          alt={primaAlt}
+          width={larghezza}
+          height={altezza}
+          loading="lazy"
+          decoding="async"
+        />
         <img
           className="ba__img ba__img--dopo"
           src={dopoSrc}
           alt={dopoAlt}
           width={larghezza}
           height={altezza}
+          loading="lazy"
+          decoding="async"
         />
 
         <span className="ba__linea" aria-hidden="true" />
