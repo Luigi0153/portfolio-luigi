@@ -18,8 +18,8 @@ const ATTESI = {
     invitoBottone: "Scrivimi",
     sommari: [
       "Boutique di borse e accessori. Prima due mesi di dati, poi quattro interventi su Shopify, con il redesign in pausa.",
-      "Concept Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
-      "Concept di una landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
+      "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
+      "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
     ],
   },
   business: {
@@ -28,8 +28,8 @@ const ATTESI = {
     invitoBottone: "Parliamone",
     sommari: [
       "Boutique di borse e accessori. Da giugno a luglio il fatturato è cresciuto dell'86%, senza rifare la grafica.",
-      "Concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni.",
-      "Concept per un laboratorio di ceramica. Ogni pezzo è unico, e chi arriva tardi può chiederne uno simile.",
+      "Branding concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni.",
+      "Branding concept per un laboratorio di ceramica. Ogni pezzo è unico, e chi arriva tardi può chiederne uno simile.",
     ],
   },
 };

@@ -1,7 +1,8 @@
 ---
 titolo: "Fornace Vietri"
 slug: fornace-vietri
-nota: "Progetto concept. Il laboratorio è inventato, il problema è reale. Le foto sono generate con l'AI."
+tipo: "Branding concept"
+nota: "Brand e negozio online, progetto inventato. Le foto sono generate con l'AI."
 lente: sistema
 target: dev
 tags:
@@ -11,8 +12,8 @@ tags:
   - Mobile
 cover: ../../assets/progetti/fornace-vietri/fornace-copertina.jpg
 coverAlt: "Due schermate del negozio Fornace Vietri su telefono. Nella prima un piatto dipinto a mano, nella seconda una brocca con l'etichetta Venduto e il bottone Richiedine una simile."
-sommario: "Concept Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche."
-sommario_business: "Concept per un laboratorio di ceramica. Ogni pezzo è unico, e chi arriva tardi può chiederne uno simile."
+sommario: "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche."
+sommario_business: "Branding concept per un laboratorio di ceramica. Ogni pezzo è unico, e chi arriva tardi può chiederne uno simile."
 ordine_dev: 2
 ordine_business: 3
 capitoli:

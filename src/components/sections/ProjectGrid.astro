@@ -68,7 +68,9 @@ const featured = progetti.toSorted((a, b) => a.data.ordine_dev - b.data.ordine_d
                 />
 
                 <div class="progetti__corpo">
-                  <p class="eyebrow text-ink-2 progetti__lente">{data.lente}</p>
+                  <p class="eyebrow text-ink-2 progetti__lente">
+                    {data.tipo ? `${data.tipo} · ${data.lente}` : data.lente}
+                  </p>
                   <h3 class="progetti__titolo" transition:name={`titolo-${data.slug}`}>
                     {data.titolo}
                   </h3>

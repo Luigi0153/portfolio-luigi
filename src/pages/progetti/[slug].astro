@@ -40,7 +40,9 @@ const { data } = progetto;
         <div class="caso__intestazione" data-pin>
           <a class="caso__indietro eyebrow" href="/#progetti">Torna ai progetti</a>
 
-          <p class="eyebrow text-ink-2 caso__lente">{data.lente}</p>
+          <p class="eyebrow text-ink-2 caso__lente">
+            {data.tipo ? `${data.tipo} · ${data.lente}` : data.lente}
+          </p>
 
           <h1 class="caso__titolo" transition:name={`titolo-${data.slug}`}>
             {data.titolo}

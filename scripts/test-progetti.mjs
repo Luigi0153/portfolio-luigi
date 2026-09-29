@@ -65,6 +65,22 @@ for (const vp of [390, 1280]) {
     const secondo = target === "dev" ? "Fornace Vietri" : "Pizzeria Vico Stretto";
     atteso(ordine[1] === secondo, `${vp}px ${target}: al secondo posto "${secondo}"`);
 
+    // i due concept portano l'etichetta del tipo, il caso reale no
+    const tipi = await page.$$eval(".progetti__cella", (celle) =>
+      Object.fromEntries(
+        celle.map((c) => [
+          c.querySelector("a").getAttribute("href"),
+          c.querySelector(".progetti__lente").textContent.trim(),
+        ]),
+      ),
+    );
+    atteso(
+      tipi["/progetti/fornace-vietri"].startsWith("Branding concept · ") &&
+        tipi["/progetti/pizzeria"].startsWith("Branding concept · ") &&
+        !/concept/i.test(tipi["/progetti/caso-reale"]),
+      `${vp}px ${target}: etichetta "Branding concept" sulle due card dei concept`,
+    );
+
     // nessun progetto è più "in arrivo"
     const inArrivo = await page.$$eval(".progetti__cella", (celle) =>
       celle.filter((c) => /in arrivo/i.test(c.textContent)).length,
@@ -217,11 +233,13 @@ for (const vp of [390, 1280]) {
 }
 
 /* ---------- Dettaglio dei concept ---------- */
+const TIPO_CONCEPT = "Branding concept";
+const NOTA_CONCEPT = "Brand e negozio online, progetto inventato. Le foto sono generate con l'AI.";
 const CONCEPT = [
   {
     slug: "fornace-vietri",
     copertina: "fornace-copertina",
-    nota: "Progetto concept. Il laboratorio è inventato, il problema è reale. Le foto sono generate con l'AI.",
+    nota: NOTA_CONCEPT,
     capitoli: ["Il laboratorio", "Il problema", "La decisione", "Il sistema", "Cosa ho imparato", "Nel negozio vero farei"],
     figure: { "fornace-brand": "sez-laboratorio", "fornace-stati": "sez-decisione" },
     elenchi: {},
@@ -230,7 +248,7 @@ const CONCEPT = [
   {
     slug: "pizzeria",
     copertina: "pizzeria-copertina",
-    nota: "Progetto concept. La pizzeria e la sua storia sono inventate, il problema è reale. Le foto sono generate con l'AI.",
+    nota: NOTA_CONCEPT,
     capitoli: ["La pizzeria", "Il problema", "Il flusso", "La decisione", "Cosa ho tolto", "La pagina", "Cosa ho imparato", "Nel locale vero farei"],
     figure: { "pizzeria-brand": "sez-pizzeria", "pizzeria-flusso": "sez-flusso" },
     // figura con una versione ricomposta sotto i 768px (<picture>)
@@ -258,6 +276,13 @@ for (const concetto of CONCEPT) {
     atteso(
       nota === concetto.nota,
       `${vp}px ${slug}: riga concept subito sotto il titolo`,
+    );
+
+    // l'etichetta del tipo sta sopra il titolo, prima della lente
+    const etichetta = await page.locator(".caso__lente").textContent();
+    atteso(
+      etichetta.trim().startsWith(TIPO_CONCEPT + " · "),
+      `${vp}px ${slug}: etichetta "${TIPO_CONCEPT}" sopra il titolo`,
     );
 
     atteso(

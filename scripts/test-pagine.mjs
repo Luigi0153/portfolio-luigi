@@ -349,9 +349,9 @@ for (const [vp, visibile] of [
     "/progetti/caso-reale":
       "Boutique di borse e accessori. Prima due mesi di dati, poi quattro interventi su Shopify, con il redesign in pausa.",
     "/progetti/fornace-vietri":
-      "Concept Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
+      "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
     "/progetti/pizzeria":
-      "Concept di una landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
+      "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
   };
   for (const [percorso, attesa] of Object.entries(DESCRIPTION)) {
     await page.goto(BASE + percorso, { waitUntil: "domcontentloaded" });

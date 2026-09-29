@@ -1,7 +1,8 @@
 ---
 titolo: "Pizzeria Vico Stretto"
 slug: pizzeria
-nota: "Progetto concept. La pizzeria e la sua storia sono inventate, il problema è reale. Le foto sono generate con l'AI."
+tipo: "Branding concept"
+nota: "Brand e negozio online, progetto inventato. Le foto sono generate con l'AI."
 lente: flusso
 target: business
 tags:
@@ -11,8 +12,8 @@ tags:
   - Instagram
 cover: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-copertina.jpg
 coverAlt: "Il marchio Vico Stretto, un sigillo tondo con la scritta dal 1961, e la pagina della pizzeria su telefono, su un fondo di marmo chiaro. In alto la foto in bianco e nero della sala, il titolo La pizza del quartiere, da tre generazioni e il bottone bordeaux Prenota un tavolo. Accanto il menu su una lavagna nera, con Margherita a 6 euro, Marinara a 5, Provola e pepe a 7 e Salame piccante a 7,50."
-sommario: "Concept di una landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale."
-sommario_business: "Concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni."
+sommario: "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale."
+sommario_business: "Branding concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni."
 ordine_dev: 3
 ordine_business: 2
 capitoli:
