@@ -312,6 +312,12 @@ for (const vp of VIEWPORT) {
       d.testo === null || (d.testo.length > 0 && d.descrizione === d.testo),
       `${vp.w}px ${href}: ${d.testo === null ? "nessun testo" : "testo visibile e usato come description"}`,
     );
+    // Ogni logo ha la sua spiegazione: da tre a quattro frasi
+    const frasiTesto = (d.testo ?? "").split(/[.!?](?:\s|$)/).filter(Boolean).length;
+    atteso(
+      frasiTesto >= 3 && frasiTesto <= 4,
+      `${vp.w}px ${href}: spiegazione di ${frasiTesto} frasi (attese 3 o 4)`,
+    );
     const vuoleFrase = TIPI_CON_FRASE.includes(tipo);
     // Sotto il logo grande, e anche sotto il prima e dopo se c'è
     const frasiAttese = vuoleFrase ? (d.haPrima ? 2 : 1) : 0;
