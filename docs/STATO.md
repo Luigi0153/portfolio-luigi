@@ -232,7 +232,10 @@
     build, anche senza la modifica del font): non va letto come effetto degli interventi.
   - **Da fare.** Blocco B: interventi 4 (dimensioni delle immagini) e 5 (CSS dentro l'HTML), con
     misura prima e dopo. Prova C: intervento 6 (entrata del titolo dell'hero su telefono), da
-    valutare guardando l'animazione. **Rimandati:** 7 (switch senza React) e 8 (un peso di Hanken
+    valutare guardando l'animazione, **insieme al CLS intermittente dell'hero** da sistemare
+    nello stesso intervento: 0,063 a 1280px (la riga dev sotto il titolo scende da 320 a 443px
+    e trascina le forme, 3 caricamenti su 12) e 0,024 a 390px (le forme Bauhaus, 2 su 6), tra i
+    120 e i 270 ms. Dettagli nella misura del "Blocco testi e carosello". **Rimandati:** 7 (switch senza React) e 8 (un peso di Hanken
     Grotesk in meno).
 - **Blocco testi e carosello (2026-09-30).** Cinque punti dettati da Luigi, un commit ciascuno,
   nessun push. Dettaglio delle voci cambiate in `docs/inventario-testi.md`.
