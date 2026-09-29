@@ -56,29 +56,6 @@ const STACK = [
     voci: ["WordPress", "Vercel", "Playwright", "Figma"],
   },
 ] as const;
-
-/*
-  I prompt reali usati per costruire questo sito. Sono estratti, non il testo
-  integrale: la pagina deve restare leggibile.
-
-  Va qui SOLO testo verificabile alla fonte. Il primo è copiato da
-  MASTER_PROMPT.md. Mancano ancora quello della scena scrivania (Fase 2.5) e
-  quello di debug del burst: nessuno dei due è nel repo — il blocco "FASE 2.5"
-  non è mai stato scritto in MASTER_PROMPT.md e il commit a1784f8 registra la
-  diagnosi, non la domanda che l'ha prodotta. Finché non arrivano i testi veri
-  restano fuori: inventarli sarebbe il contrario di quello che dice la sezione.
-
-  Il titolo non conta i prompt apposta, così regge a due come a tre.
-*/
-const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
-  {
-    fase: "Fase 0, l'avvio",
-    testo:
-      "Sei il mio Senior Frontend Engineer e UX/UI Designer. Prima di fare qualsiasi cosa: leggi CLAUDE.md, docs/design-tokens.md e docs/content/caso-reale.md. Elenca in 5 righe cosa hai capito (target, stack, mood, regole) e le skill che userai. […] Non scrivere ancora codice del sito. Fermati e aspetta che ti dica «FASE 1».",
-    esito:
-      "Un riassunto di verifica invece di una cartella piena di file da buttare. Prima di scrivere codice, ho passato del tempo a capire cosa stavo per costruire.",
-  },
-];
 ---
 
 <Base
@@ -215,37 +192,31 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
           </p>
         </article>
       </div>
+    </div>
+  </section>
 
-      {
-        PROMPT_REALI.length > 0 && (
-          <div class="prompt">
-            <h3 class="prompt__titolo">I prompt che hanno deciso qualcosa</h3>
-            <p class="prompt__intro">
-              Estratti veri, presi dai file del progetto.
-            </p>
+  <section class="section-pad ia" aria-labelledby="ia-titolo">
+    <div class="container-site">
+      <SectionHeader id="ia-titolo" title="Come uso l'intelligenza artificiale" />
 
-            <ol class="prompt__lista" role="list">
-              {PROMPT_REALI.map(({ fase, testo, esito }, i) => (
-                <li class="prompt__voce" data-reveal>
-                  <Card class="prompt__card" surface="cream" padding="md">
-                    <p class="eyebrow prompt__meta">
-                      <span aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-                      <span class="prompt__fase">{fase}</span>
-                    </p>
-                    <blockquote class="prompt__testo">
-                      <p>{testo}</p>
-                    </blockquote>
-                    <p class="prompt__esito">
-                      <span class="eyebrow text-ink-2">Cosa ne è uscito</span>
-                      {esito}
-                    </p>
-                  </Card>
-                </li>
-              ))}
-            </ol>
-          </div>
-        )
-      }
+      <div class="ia__testo" data-reveal>
+        <p class="ia__apertura">
+          Uso l'intelligenza artificiale in ogni progetto, come uno strumento
+          di lavoro. Le idee, le scelte e il controllo finale restano miei.
+        </p>
+        <p>
+          Mi aiuta a provare più strade in meno tempo: varianti di un logo,
+          abbinamenti di colori e font, prime bozze dei testi. Scrivo il codice
+          insieme a Claude Code e lo controllo con test automatici prima di
+          pubblicarlo. Per i concept genero le foto con l'AI, e lo scrivo
+          sempre.
+        </p>
+        <p>
+          Così il lavoro va più veloce, e il tempo che risparmio lo dedico a
+          capire chi compra e a rendere il negozio semplice da usare. Oggi
+          saper usare bene questi strumenti fa parte del mestiere.
+        </p>
+      </div>
 
       <div class="quinto__cta" data-reveal>
         <Button variant="primary" size="lg" href="/contatti">
@@ -462,67 +433,32 @@ const PROMPT_REALI: { fase: string; testo: string; esito: string }[] = [
     overflow-wrap: anywhere;
   }
 
-  /* --- I tre prompt --- */
-  .prompt {
-    margin-top: 3.5rem;
-    padding-top: 2.5rem;
-    border-top: var(--border-retro);
+  /* --- Come uso l'intelligenza artificiale --- */
+  .ia {
+    background: var(--color-cream-2);
+    border-block: var(--border-retro);
   }
 
-  .prompt__intro {
-    margin-top: 0.75rem;
-    max-width: 60ch;
-    color: var(--color-ink-2);
-  }
-
-  .prompt__lista {
+  .ia__testo {
     display: grid;
-    gap: 1.25rem;
-    margin-top: 2rem;
+    gap: 1rem;
+    max-width: 40rem;
+    margin-top: 2.5rem;
   }
 
-  /* auto-fit e non un numero fisso di colonne: la sezione deve reggere
-     due prompt come tre, senza una card stirata a tutta larghezza. */
-  @media (min-width: 1024px) {
-    .prompt__lista {
-      grid-template-columns: repeat(auto-fit, minmax(0, 22rem));
-      justify-content: start;
-      gap: 1.5rem;
+  @media (min-width: 768px) {
+    .ia__testo {
+      margin-top: 3.5rem;
     }
   }
 
-  .prompt__card {
-    height: 100%;
-  }
-
-  .prompt__meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+  .ia__testo p {
     color: var(--color-ink-2);
   }
 
-  .prompt__fase {
+  .ia__apertura {
     color: var(--color-ink);
-  }
-
-  .prompt__testo {
-    margin-top: 1rem;
-    padding-left: 1rem;
-    border-left: 3px solid var(--color-ink);
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    line-height: 1.6;
-  }
-
-  .prompt__esito {
-    margin-top: 1.25rem;
-    color: var(--color-ink-2);
-  }
-
-  .prompt__esito .eyebrow {
-    display: block;
-    margin-bottom: 0.35rem;
+    font-size: var(--text-body-lg);
   }
 
   /* --- CTA --- */
