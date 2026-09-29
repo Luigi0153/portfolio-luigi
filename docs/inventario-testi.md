@@ -308,6 +308,22 @@ non sono state toccate.
 stata allineata il 2026-09-22: `questi tassi sono un pavimento, non una misura` → `questi tassi
 sono minimi, non definitivi`.
 
+## Blocco testi e carosello (2026-09-30)
+
+Cinque punti dettati da Luigi in un blocco unico. I testi di 1, 2 e 3 sono suoi, parola per
+parola; quelli di 5 sono di Claude e **provvisori**, da riscrivere con i suoi appunti.
+
+| Voce | Dov'era | Cosa è successo |
+|---|---|---|
+| `Progetto concept.` (prima parola della riga sotto il titolo) | Fornace e pizzeria, `nota` | Diventa l'etichetta `Branding concept`, nuovo campo `tipo`, mostrata prima della lente in card e in pagina (`BRANDING CONCEPT · SISTEMA`, `BRANDING CONCEPT · FLUSSO`). |
+| `Il laboratorio è inventato, il problema è reale.` / `La pizzeria e la sua storia sono inventate, il problema è reale.` | Fornace e pizzeria, `nota` | → `Brand e negozio online, progetto inventato.` La dichiarazione sulle foto resta: `Le foto sono generate con l'AI.` |
+| `Concept Shopify per…` / `Concept di una landing page per…` / `Concept per…` (2) | `sommario` e `sommario_business` dei due concept, anche description della pagina | `Concept` → `Branding concept`: `Branding concept con negozio Shopify per un laboratorio di ceramica…`, `Branding concept con landing page per una pizzeria…`, `Branding concept per…` (2). |
+| `un progetto concept` | testo del logo Vico Stretto | → `un branding concept`. |
+| `I prompt che hanno deciso qualcosa`, `Estratti veri, presi dai file del progetto.`, `Cosa ne è uscito`, `Fase 0, l'avvio` e il prompt di avvio | `/come-lavoro`, dentro il progetto n°5 | Tolti, con la costante `PROMPT_REALI` e gli stili. |
+| — | `/come-lavoro` | Nuova sezione `Come uso l'intelligenza artificiale`, tre paragrafi dettati da Luigi. Il bottone finale (`Parliamo di codice` / `Parliamo del tuo negozio`, `Vedi i progetti`) passa in fondo a questa sezione. |
+| `Cosa faccio per te` (titolo h2) e i cinque servizi (`Apro il tuo negozio su Shopify…`, `Carico e sistemo il catalogo…`, `Creo siti e landing page…`, `Leggo i numeri…`, `Resto al tuo fianco dopo il lancio…`) | Home, percorso business, `CosaFaccio.astro` | `Cosa faccio per te` diventa l'etichetta sopra l'apertura. Nuovi: apertura `Creo negozi online e siti per le attività: su Shopify, su WordPress o con altri strumenti, in base a quello che ti serve.`, quattro servizi (titolo + riga), chiusura `Il sito è tuo, e io resto al tuo fianco.` con `Contattami`. |
+| `testo` dei quattro loghi | `src/content/loghi/*.md` | Da tre a quattro frasi ciascuno, **provvisorie**. Le frasi scritte da Luigi il 2026-09-28 sono rimaste, con in più forma, colori e ispirazione presi solo dal repo. Il logo di Boutique è `ispirato ai brand di moda campani`. |
+
 ## Cosa non ho potuto giudicare
 
 Il campione ha un solo genere: risposta lunga e parlata. Di microcopy, titoli e sommari — cioè

@@ -1,6 +1,6 @@
 # Stato del progetto
 
-**Fase corrente:** passata prestazioni, blocco A fatto (2026-09-29). Fase 4 annullata.
+**Fase corrente:** blocco testi e carosello fatto (2026-09-30), dopo la passata prestazioni, blocco A (2026-09-29). Fase 4 annullata.
 
 ## Completo
 - **Fase 1** — token, layout, Nav, Card, Tag, Button, StatTile, SectionHeader, `/styleguide`.
@@ -153,7 +153,8 @@
     ci sono, logo grande sul suo fondo; poi solo i formati con immagini: Prima e dopo (linea con
     "↑ Prima" e "Dopo ↓"), Applicazioni, Dallo schizzo al finale (freccia ↓ su telefono, → da
     768). La frase di non affiliazione sta sotto il logo grande e sotto il prima e dopo.
-  - **Home**: `LoghiStriscia.astro` dopo la griglia progetti, primi quattro riquadri e link
+  - **Home**: `LoghiStriscia.astro` dopo la griglia progetti, prima i primi quattro riquadri,
+    dal 2026-09-30 tutti i loghi in un carosello (vedi "Blocco testi e carosello"), e link
     "Vedi tutti i loghi". Navbar invariata a tre voci; `Loghi` nel footer dopo Progetti.
   - **Og**: le pagine loghi usano `og.png` di default, nessuna og dedicata.
   - **Test.** Nuovo `scripts/test-loghi.mjs` (390 touch e 1280): caricamento, riquadri quadrati
@@ -180,6 +181,9 @@
     (`data-only="business"`: senza JavaScript non c'è), in home tra la griglia progetti e i
     loghi. Cinque servizi dettati da Luigi, uno per riga tra linee ink, nessuna icona, bottone
     primary "Contattami" verso `/contatti`. Da 1024 titolo a sinistra e lista a destra.
+    **Rifatta il 2026-09-30** (quattro servizi, apertura in Fraunces, forme SVG, blocco di
+    chiusura ink): vedi "Blocco testi e carosello". Le righe di questo elenco che parlano di
+    cinque servizi, senza icone e titolo a sinistra non valgono più.
   - **Test.** Nuovo `scripts/test-percorsi.mjs` (390 e 1280, due percorsi, più senza
     JavaScript): bottone primary giusto per percorso, repository, nuova scheda, icona e avviso,
     CTA sulla stessa riga, sezione servizi solo nel business e nel posto giusto, voci in
@@ -230,7 +234,72 @@
     misura prima e dopo. Prova C: intervento 6 (entrata del titolo dell'hero su telefono), da
     valutare guardando l'animazione. **Rimandati:** 7 (switch senza React) e 8 (un peso di Hanken
     Grotesk in meno).
-- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), `test-percorsi` (390 e 1280, due percorsi), tutti verdi.
+- **Blocco testi e carosello (2026-09-30).** Cinque punti dettati da Luigi, un commit ciascuno,
+  nessun push. Dettaglio delle voci cambiate in `docs/inventario-testi.md`.
+  - **1. Etichetta `Branding concept`** (`9bb5484`). Nuovo campo facoltativo `tipo` nello schema
+    di `progetti`, mostrato prima della lente nella card e nella pagina (`BRANDING CONCEPT ·
+    SISTEMA`, `… · FLUSSO`). Sotto il titolo di Fornace e pizzeria: `Brand e negozio online,
+    progetto inventato. Le foto sono generate con l'AI.` Sommari e description passano da
+    `Concept` a `Branding concept`. Della vecchia riga è sparito `il problema è reale`, perché
+    `progetto inventato` lo sostituisce: se serve, si rimette. Il caso reale non ha `tipo`.
+  - **2. `/come-lavoro`** (`fba312f`). Tolta la sezione con il prompt (costante `PROMPT_REALI`,
+    markup e stili). Al suo posto la sezione `Come uso l'intelligenza artificiale`, tre
+    paragrafi verbatim, sfondo cream-2 come lo stack. I bottoni finali sono passati in fondo
+    a questa sezione, ultima della pagina. Il paragrafo con `<code>` di "Uno switch invece di
+    due siti" (solo percorso dev) è rimasto: non fa parte della sezione prompt.
+  - **3. `Cosa faccio per te`** (`b8e1359`), solo percorso business. Etichetta mono sopra
+    l'apertura in Fraunces (è l'h2), quattro righe numerate tra linee ink da 1px (`<ol>`), ogni
+    riga con una forma SVG diversa (cerchio, quarto di cerchio, quadrato, triangolo), ink con
+    un solo dettaglio arancio, `aria-hidden`. Sotto 768 le righe si impilano (numero e forma,
+    poi titolo e testo), da 768 sono su una riga. Blocco di chiusura pieno ink con testo cream e
+    `Contattami` (primary arancio; sul fondo ink il riempimento dell'hover diventa cream, perché
+    quello ink non si vedrebbe). Nessuna animazione: la sezione non ne aveva e nel resto della
+    home non ce ne sono di simili.
+  - **4. Carosello dei loghi** (`c841056`). `LoghiCarosello.astro`, usato da `LoghiStriscia`, che
+    ora mostra tutti i loghi (prima i primi quattro). Movimento: solo `@keyframes scorri` su
+    `transform`, 40 px al secondo, durata ricavata dalla lunghezza della fila. Lo script
+    duplica la fila `2 + ceil(vista / fila)` volte, riempie la vista anche con un solo logo, e
+    ricalcola a ogni resize e al cambio di `prefers-reduced-motion`. Le copie hanno
+    `aria-hidden="true"`, i loro link `tabindex="-1"`, e perdono `data-astro-transition-scope`
+    (due `view-transition-name` uguali farebbero saltare la transizione). Fermo: al passaggio del
+    mouse (solo `@media (hover: hover)`), con `:has(:focus-visible)` (non `:focus-within`: un clic
+    col mouse su un link lascerebbe il carosello fermo per sempre) e al tocco. Trascinamento con
+    pointer events, `touch-action: pan-y`, cattura del puntatore solo dopo 5px di movimento
+    (prima, il clic sui link si perderebbe) e clic soppresso dopo un trascinamento; lo scarto si
+    riporta sempre dentro la lunghezza di una fila, quindi la fila non finisce mai. Lo
+    scorrimento che il browser fa per il focus da tastiera diventa uno spostamento. Con
+    `prefers-reduced-motion` e senza JavaScript: niente copie, niente animazione,
+    `overflow-x: auto`, si scorre a mano. Righe con misure fisse, altezza uguale con e senza
+    copie. Immagini `loading="lazy"`.
+  - **5. Testi dei loghi, provvisori** (`dc5e43e`). Da tre a quattro frasi per logo, solo
+    informazioni del repo. **Da riscrivere con i tuoi appunti.** Le frasi che Luigi aveva già
+    scritto il 2026-09-28 sono rimaste in testa, con in più forma, colori e ispirazione. Luigi
+    Romano: barra nera e quarto di cerchio arancione, Bauhaus. Fornace: Costiera Amalfitana, i
+    quattro colori del negozio, Young Serif. Vico Stretto: sigillo con VS, Napoli, dal 1961,
+    marmo chiaro, nero e bordeaux, Bodoni Moda, "bottega in bianco e nero". Boutique: `ispirato ai
+    brand di moda campani`, avorio, nero e cuoio, la B come icona. "Progetto concept" del logo
+    Vico Stretto è diventato "branding concept".
+  - **Test.** Nuovo `scripts/test-carosello.mjs` (390 touch e 1280): animazione CSS in loop,
+    copie e loro aria-hidden/tabindex, vista sempre piena in tutto il giro e dopo ogni
+    trascinamento, nessun salto al riavvolgimento del loop, pausa al focus / al mouse / al tocco
+    e ripartenza, trascinamento con mouse e con dito (eventi touch veri via CDP) che riprende da
+    dove è stato lasciato, clic soppresso dopo il trascinamento e clic normale che apre il logo,
+    reduced-motion (anche il cambio a pagina aperta), senza JavaScript, CLS della striscia 0,
+    lazy. Provato una volta con 12 loghi e con 1 logo (voci temporanee, poi tolte): la vista è
+    sempre piena. Aggiornati `test-progetti` (etichetta e riga sotto il titolo, in card e in
+    pagina), `test-pagine` (sezione IA con il testo esatto, niente prompt, description),
+    `test-switch` (sommari), `test-percorsi` (struttura nuova di "Cosa faccio per te", colori
+    letti dai token), `test-loghi` (carosello in home, da 3 a 4 frasi per logo).
+  - **Misura** (Lighthouse 12 mobile, home, build di preview, percorso dev, 3 run, mediana):
+    **96** (89 / 96 / 96) contro il 94 di prima, CLS **0** (0 / 0 / 0,022) come prima, LCP 2,63 s,
+    TBT 114 ms (302 / 114 / 64). La run da 89 ha 330 ms di task lunghi nello script dell'hero;
+    il CLS 0,022 della terza è la forma Bauhaus del quarto di cerchio dell'hero. Il carosello non
+    entra in nessuno dei due. L'hero dà uno spostamento intermittente anche fuori da Lighthouse,
+    misurato con un osservatore di layout-shift: a 390 0,024 (le forme Bauhaus, 2 caricamenti su
+    6), a 1280 0,063 (la riga dev sotto il titolo che scende da 320 a 443px e trascina le forme,
+    3 su 12), sempre tra i 120 e i 270 ms, prima che il carosello esista. Non toccato: va
+    guardato se il CLS della home conta.
+- Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), `test-percorsi` (390 e 1280, due percorsi), `test-carosello` (390 touch e 1280, reduced-motion, senza JavaScript), tutti verdi.
 
 ## Correzioni dall'audit (2026-09-21)
 
@@ -303,7 +372,8 @@ visibili a riposo) non è stato toccato.
 - **Fase 4 — oggetto 3D nell'hero.** Annullata il 2026-09-19. Due motivi: lo spazio dell'hero è già occupato dalla scena scrivania della Fase 2.5, e Three.js aggiungerebbe peso JS proprio dove il Lighthouse mobile è già sotto soglia (85 contro il ≥ 90 della regola 7). Restano quindi non necessari `HeroObject.tsx`, `public/models/hero.glb` e `hero-fallback.png`. Le dipendenze `three` e `@types/three` sono in `package.json` ma non importate da nessun file: da rimuovere quando si tocca il `package.json`.
 
 ## Manca
-- **Prompt 2 e 3 del progetto n°5.** L'array `PROMPT_REALI` in `src/pages/come-lavoro.astro` ne ha uno solo, l'unico con una fonte nel repo (PROMPT DI AVVIO, da `MASTER_PROMPT.md`). Gli altri due non sono recuperabili da qui: il blocco "FASE 2.5" non è mai stato scritto in `MASTER_PROMPT.md` (il file ha un solo commit, e contiene le fasi 1-5), e il commit `a1784f8` registra la diagnosi del burst, non il prompt che l'ha prodotta. Servono i testi veri da Luigi: la sezione è già pronta, basta aggiungere le voci.
+- **Testi dei loghi (2026-09-30).** Quelli in `src/content/loghi/*.md` sono **provvisori**: tre o quattro frasi per logo scritte da Claude con le sole informazioni del repo, sopra le frasi che Luigi aveva già scritto. Da riscrivere con i suoi appunti.
+- ~~Prompt 2 e 3 del progetto n°5.~~ Chiuso il 2026-09-30: la sezione con i prompt è stata tolta da `/come-lavoro` (al suo posto "Come uso l'intelligenza artificiale"), quindi non servono più.
 - **Dominio.** `luigiromano.cloud` è valido su Vercel: record A `@` → `216.198.79.1` e CNAME `www` → `vercel-dns`; `www` reindirizza a `luigiromano.cloud`. Dominio definitivo (2026-09-29): `site` in `astro.config.mjs` è `https://luigiromano.cloud`, senza www, e da lì leggono canonical, og:url, anteprime social, sitemap e robots (verificato nella build). Nessun altro file del repo contiene il dominio; non ci sono dati strutturati. `docs/AUDIT.md` nomina ancora `luigiromano.vercel.app` perché è la revisione fatta su quel sito.
 - **Passaggio sui copy.** L'inventario voce per voce è in `docs/inventario-testi.md` (135 voci,
   con giudizio e posizione nel codice): è la lista di lavoro per la riscrittura. Fatti la griglia
@@ -490,8 +560,8 @@ visibili a riposo) non è stato toccato.
 - Fase di performance dedicata a fine progetto (regola 7): avviata il 2026-09-29, blocco A fatto, il resto in "Passata prestazioni" sopra.
 
 ## Decisioni aperte
-- **Lighthouse mobile home**: era 85 (sotto il ≥ 90 della regola 7), il 2026-09-29 è 94 nella passata prestazioni (mediana di 3 run, percorso sviluppatore, LCP 2,71 s). Nella stessa passata Fornace e pizzeria sono a 96; caso reale (93) e /loghi (99) sono misurati dopo il blocco A. L'LCP della home è il titolo dell'hero, che parte invisibile: vedi la prova C.
-- Servono da Luigi: i testi dei prompt 2 e 3 del progetto n°5 (vedi "Manca").
+- **Lighthouse mobile home**: era 85 (sotto il ≥ 90 della regola 7), il 2026-09-29 è 94 nella passata prestazioni (mediana di 3 run, percorso sviluppatore, LCP 2,71 s). Nella stessa passata Fornace e pizzeria sono a 96; caso reale (93) e /loghi (99) sono misurati dopo il blocco A. L'LCP della home è il titolo dell'hero, che parte invisibile: vedi la prova C. Dopo il blocco testi e carosello (2026-09-30): 96 di mediana (89 / 96 / 96), CLS 0, LCP 2,63 s.
+- Servono da Luigi: gli appunti per riscrivere i testi dei quattro loghi (vedi "Manca").
 - **[DA VERIFICARE] Il nome "Vico Stretto"** (dal documento dei contenuti): prima di pubblicare
   controllare che non esista una pizzeria reale con questo nome. In caso, cambiarlo. Il nome
   compare nel titolo e nei testi di `src/content/progetti/pizzeria.md`, ma anche dentro tutte
