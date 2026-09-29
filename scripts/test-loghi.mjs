@@ -8,7 +8,8 @@
   - la frase di non affiliazione compare solo sotto rebranding ed esplorazioni,
     nel riquadro e nel dettaglio;
   - ogni dettaglio mostra solo i formati con immagini, tutte caricate;
-  - home: striscia con i primi quattro, link a /loghi, nav a tre voci, footer;
+  - home: striscia con il carosello (tutti i loghi, nell'ordine), link a /loghi,
+    nav a tre voci, footer (il movimento è in test-carosello);
   - nessun overflow orizzontale.
   Uso: node scripts/test-loghi.mjs   (server su BASE_URL o :4321)
 */
@@ -344,7 +345,7 @@ for (const vp of VIEWPORT) {
       dopoProgetti:
         Boolean(striscia && griglia) &&
         Boolean(griglia.compareDocumentPosition(striscia) & Node.DOCUMENT_POSITION_FOLLOWING),
-      hrefs: [...(striscia?.querySelectorAll("[data-stile] a") ?? [])].map((a) =>
+      hrefs: [...(striscia?.querySelectorAll("[data-insieme] [data-stile] a") ?? [])].map((a) =>
         a.getAttribute("href"),
       ),
       linkTutti: [...(striscia?.querySelectorAll('a[href="/loghi"]') ?? [])].map((a) =>
@@ -359,7 +360,7 @@ for (const vp of VIEWPORT) {
   atteso(h.dopoProgetti, `${vp.w}px home: la striscia viene dopo la griglia progetti`);
   atteso(
     h.hrefs.join() === dettagli.slice(0, 4).join(),
-    `${vp.w}px home: i primi quattro riquadri (${h.hrefs.length})`,
+    `${vp.w}px home: i quattro loghi nella fila del carosello (${h.hrefs.length})`,
   );
   atteso(
     h.linkTutti.includes("Vedi tutti i loghi"),

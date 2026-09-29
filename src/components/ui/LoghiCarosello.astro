@@ -1,0 +1,332 @@
+---
+/**
+ * Carosello dei loghi: una fila di riquadri che scorre in loop continuo.
+ *
+ * Il movimento è solo un'animazione CSS su transform (keyframes `scorri`).
+ * Lo script serve a tre cose: duplicare la fila quante volte serve a
+ * riempire lo schermo, permettere di trascinarla con mouse e dito, e
+ * rispettare prefers-reduced-motion. Senza JavaScript, e con
+ * prefers-reduced-motion, la fila resta ferma e si sfoglia a mano con lo
+ * scorrimento normale del browser.
+ *
+ * Si ferma al passaggio del mouse, al focus da tastiera e al tocco.
+ * Le copie sono aria-hidden e i loro link hanno tabindex="-1": per la
+ * tastiera e per gli screen reader esiste una sola fila. Funziona da solo
+ * con qualsiasi numero di loghi.
+ */
+import LogoRiquadro from "./LogoRiquadro.astro";
+import type { Logo } from "../../loghi";
+
+interface Props {
+  loghi: Logo[];
+  class?: string;
+}
+
+const { loghi, class: className } = Astro.props;
+---
+
+{
+  loghi.length > 0 && (
+    <div class:list={["carosello", className]} data-carosello>
+      <div class="carosello__vista" data-vista>
+        <div class="carosello__trascina" data-trascina>
+          <div class="carosello__pista" data-pista>
+            <ul class="carosello__insieme" role="list" data-insieme>
+              {loghi.map((logo) => (
+                <LogoRiquadro logo={logo} />
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .carosello {
+    /* Misure dei riquadri: fisse, così l'altezza della fila non cambia mai
+       quando lo script duplica la fila (CLS 0). */
+    --tile: 9.5rem;
+    --spazio: 1rem;
+    /* Pixel al secondo: la durata dell'animazione si ricava dalla lunghezza
+       della fila, così la velocità resta la stessa con 4 o con 40 loghi. */
+    --velocita: 40;
+  }
+
+  @media (min-width: 768px) {
+    .carosello {
+      --tile: 12rem;
+      --spazio: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .carosello {
+      --tile: 14rem;
+    }
+  }
+
+  /* Il padding lascia posto all'ombra dura e all'outline del focus delle card,
+     che altrimenti verrebbero tagliati dall'overflow; il margine negativo
+     tiene la fila allineata al resto della pagina. */
+  .carosello__vista {
+    margin: -0.75rem;
+    padding: 0.75rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .carosello__trascina {
+    /* Spostamento dato dal trascinamento (px, scritto dallo script). */
+    transform: translate3d(var(--trascina, 0px), 0, 0);
+  }
+
+  .carosello__pista {
+    display: flex;
+    width: max-content;
+  }
+
+  /* Ogni insieme finisce con uno spazio, così la lunghezza di una fila è
+     esattamente la distanza dopo cui l'animazione ricomincia. */
+  .carosello__insieme {
+    display: flex;
+    flex: none;
+    gap: var(--spazio);
+    margin: 0;
+    padding: 0 var(--spazio) 0 0;
+    list-style: none;
+  }
+
+  .carosello__insieme > :global(.logo) {
+    flex: 0 0 var(--tile);
+    width: var(--tile);
+  }
+
+  /* --- Movimento: solo con JavaScript e senza prefers-reduced-motion --- */
+  .carosello:global(.is-animato) .carosello__vista {
+    overflow: hidden;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .carosello:global(.is-animato.is-trascinato) .carosello__vista {
+    cursor: grabbing;
+  }
+
+  .carosello:global(.is-animato) .carosello__pista {
+    animation: scorri var(--durata, 30s) linear infinite;
+    will-change: transform;
+  }
+
+  /* Fermo: mouse sopra (solo dove esiste l'hover), focus da tastiera, tocco. */
+  .carosello:global(.is-animato.is-fermo) .carosello__pista,
+  .carosello:global(.is-animato:has(:focus-visible)) .carosello__pista {
+    animation-play-state: paused;
+  }
+
+  @media (hover: hover) {
+    .carosello:global(.is-animato) .carosello__vista:hover .carosello__pista {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes scorri {
+    to {
+      transform: translate3d(calc(var(--w, 0px) * -1), 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carosello:global(.is-animato) .carosello__pista {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  /**
+   * Duplica la fila, la fa scorrere e la rende trascinabile.
+   *
+   * Posizione = trascinamento (`--trascina`, sul contenitore) + animazione
+   * (`scorri`, sulla pista). Il trascinamento si riporta sempre dentro la
+   * lunghezza di una fila (W): la fila si ripete uguale ogni W, quindi il
+   * riporto non si vede. Copie necessarie: la posizione più a sinistra è
+   * -2W, per coprire lo schermo servono 2W + larghezza della vista.
+   */
+  const VELOCITA = 40; // px al secondo, uguale a --velocita nel CSS
+  const SOGLIA = 5; // px di movimento oltre i quali un tocco diventa trascinamento
+
+  let pulizia: (() => void) | undefined;
+
+  function spegni() {
+    pulizia?.();
+    pulizia = undefined;
+  }
+
+  function avvia() {
+    spegni();
+
+    const radice = document.querySelector<HTMLElement>("[data-carosello]");
+    const vista = radice?.querySelector<HTMLElement>("[data-vista]");
+    const trascina = radice?.querySelector<HTMLElement>("[data-trascina]");
+    const pista = radice?.querySelector<HTMLElement>("[data-pista]");
+    const originale = radice?.querySelector<HTMLElement>("[data-insieme]");
+    if (!radice || !vista || !trascina || !pista || !originale) return;
+
+    const senzaMovimento = matchMedia("(prefers-reduced-motion: reduce)");
+    const stop = new AbortController();
+    const { signal } = stop;
+
+    let lunghezza = 0; // W: larghezza di una fila, spazio finale compreso
+    let scarto = 0; // trascinamento corrente, sempre in (-W, 0]
+
+    const riporta = (valore: number) =>
+      lunghezza > 0 ? -((((-valore % lunghezza) + lunghezza) % lunghezza)) : 0;
+
+    const imposta = (valore: number) => {
+      scarto = riporta(valore);
+      trascina.style.setProperty("--trascina", `${scarto}px`);
+    };
+
+    const togliCopie = () => {
+      pista.querySelectorAll("[data-copia]").forEach((copia) => copia.remove());
+    };
+
+    /** Fila copiata: invisibile a screen reader e tastiera, senza nomi di transizione. */
+    const copia = () => {
+      const c = originale.cloneNode(true) as HTMLElement;
+      c.setAttribute("aria-hidden", "true");
+      c.setAttribute("data-copia", "");
+      c.removeAttribute("data-insieme");
+      c.querySelectorAll("a").forEach((a) => a.setAttribute("tabindex", "-1"));
+      // Due elementi con lo stesso view-transition-name farebbero saltare la
+      // transizione verso la pagina del logo: il nome resta solo sull'originale.
+      c.querySelectorAll("[data-astro-transition-scope]").forEach((el) =>
+        el.removeAttribute("data-astro-transition-scope"),
+      );
+      return c;
+    };
+
+    const costruisci = () => {
+      togliCopie();
+
+      if (senzaMovimento.matches) {
+        radice.classList.remove("is-animato");
+        pista.style.removeProperty("--w");
+        pista.style.removeProperty("--durata");
+        imposta(0);
+        return;
+      }
+
+      lunghezza = originale.getBoundingClientRect().width;
+      if (lunghezza <= 0) return;
+
+      const insiemi = 2 + Math.ceil(vista.clientWidth / lunghezza);
+      for (let i = 1; i < insiemi; i++) pista.append(copia());
+
+      pista.style.setProperty("--w", `${lunghezza}px`);
+      pista.style.setProperty("--durata", `${lunghezza / VELOCITA}s`);
+      radice.classList.add("is-animato");
+      // Da qui la vista non scorre più da sola: riparte da zero.
+      vista.scrollLeft = 0;
+      imposta(scarto);
+    };
+
+    // --- Trascinamento con mouse e dito ---
+    let inCorso = false;
+    let inizioX = 0;
+    let base = 0;
+    let mosso = false;
+
+    const rilascia = () => {
+      if (!inCorso) return;
+      inCorso = false;
+      radice.classList.remove("is-fermo", "is-trascinato");
+    };
+
+    vista.addEventListener(
+      "pointerdown",
+      (e) => {
+        if (!radice.classList.contains("is-animato")) return;
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        inCorso = true;
+        mosso = false;
+        inizioX = e.clientX;
+        base = scarto;
+        radice.classList.add("is-fermo");
+      },
+      { signal },
+    );
+
+    vista.addEventListener(
+      "pointermove",
+      (e) => {
+        if (!inCorso) return;
+        const dx = e.clientX - inizioX;
+        if (!mosso && Math.abs(dx) > SOGLIA) {
+          mosso = true;
+          // La cattura solo dopo lo spostamento: subito, il clic su un link
+          // verrebbe girato alla vista e il logo non si aprirebbe più.
+          vista.setPointerCapture(e.pointerId);
+          radice.classList.add("is-trascinato");
+        }
+        if (mosso) imposta(base + dx);
+      },
+      { signal },
+    );
+
+    vista.addEventListener("pointerup", rilascia, { signal });
+    vista.addEventListener("pointercancel", rilascia, { signal });
+
+    // Dopo un trascinamento il clic sul logo sotto il dito non deve aprirlo.
+    vista.addEventListener(
+      "click",
+      (e) => {
+        if (!mosso) return;
+        mosso = false;
+        e.preventDefault();
+        e.stopPropagation();
+      },
+      { signal, capture: true },
+    );
+
+    // Niente trascinamento nativo delle immagini e dei link.
+    vista.addEventListener("dragstart", (e) => e.preventDefault(), { signal });
+
+    // Il focus da tastiera fa scorrere la vista per mostrare il logo: quello
+    // scorrimento diventa spostamento, così non si esce mai dalle copie.
+    vista.addEventListener(
+      "scroll",
+      () => {
+        if (!radice.classList.contains("is-animato") || vista.scrollLeft === 0) return;
+        const spostamento = vista.scrollLeft;
+        vista.scrollLeft = 0;
+        imposta(scarto - spostamento);
+      },
+      { signal },
+    );
+
+    // --- Ricalcolo: cambio di larghezza (i riquadri hanno misure diverse per
+    // breakpoint) e cambio della preferenza sul movimento ---
+    let attesa = 0;
+    const ricalcola = () => {
+      cancelAnimationFrame(attesa);
+      attesa = requestAnimationFrame(costruisci);
+    };
+    window.addEventListener("resize", ricalcola, { signal });
+    senzaMovimento.addEventListener("change", ricalcola, { signal });
+
+    costruisci();
+
+    pulizia = () => {
+      stop.abort();
+      cancelAnimationFrame(attesa);
+    };
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+  document.addEventListener("astro:before-swap", spegni);
+</script>

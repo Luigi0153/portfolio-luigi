@@ -1,13 +1,13 @@
 ---
 /**
- * Striscia "Loghi" della home: i primi quattro riquadri e il link a /loghi.
- * Uguale nei due percorsi.
+ * Striscia "Loghi" della home: tutti i riquadri in un carosello e il link a
+ * /loghi. Uguale nei due percorsi.
  */
 import SectionHeader from "../ui/SectionHeader.astro";
-import LoghiGriglia from "../ui/LoghiGriglia.astro";
+import LoghiCarosello from "../ui/LoghiCarosello.astro";
 import { getLoghi } from "../../loghi";
 
-const loghi = (await getLoghi()).slice(0, 4);
+const loghi = await getLoghi();
 ---
 
 <section class="striscia" aria-labelledby="loghi-striscia-titolo">
@@ -18,7 +18,7 @@ const loghi = (await getLoghi()).slice(0, 4);
       intro="I marchi che ho disegnato per i miei progetti e per esercizio."
     />
 
-    <LoghiGriglia loghi={loghi} class="striscia__griglia" />
+    <LoghiCarosello loghi={loghi} class="striscia__carosello" />
 
     <p class="striscia__link">
       <a href="/loghi">Vedi tutti i loghi</a>
@@ -32,7 +32,7 @@ const loghi = (await getLoghi()).slice(0, 4);
     padding-bottom: var(--section-y);
   }
 
-  .striscia :global(.striscia__griglia) {
+  .striscia :global(.striscia__carosello) {
     margin-top: 2.5rem;
   }
 
