@@ -4,7 +4,10 @@
     GitHub in una nuova scheda, con l'icona e l'avviso per gli screen reader;
     nel percorso business "Vedi i risultati" porta alla griglia;
   - "Cosa faccio per te": solo nel percorso business, dopo la griglia
-    progetti, cinque servizi uno per riga, senza icone, bottone ai contatti;
+    progetti: apertura in Fraunces, quattro righe numerate tra linee sottili
+    ink con una forma Bauhaus diversa ciascuna (SVG), righe impilate a 390 e
+    affiancate a 1280, blocco di chiusura ink con testo cream e bottone
+    arancio verso i contatti;
   - senza JavaScript vale il percorso dev;
   - nessun overflow, nessun errore in console.
   Uso: node scripts/test-percorsi.mjs   (server su BASE_URL o :4321)
@@ -13,13 +16,19 @@ import { chromium } from "playwright";
 
 const BASE = process.env.BASE_URL ?? "http://localhost:4321";
 const REPO = "https://github.com/Luigi0153/portfolio-luigi";
+const APERTURA =
+  "Creo negozi online e siti per le attività: su Shopify, su WordPress o con altri strumenti, in base a quello che ti serve.";
 const SERVIZI = [
-  "Apro il tuo negozio su Shopify, dalla scelta del tema alle prime vendite.",
-  "Carico e sistemo il catalogo: prodotti, foto, categorie, schede.",
-  "Creo siti e landing page, anche su WordPress.",
-  "Leggo i numeri del negozio e ti dico cosa cambiare prima di spendere.",
-  "Resto al tuo fianco dopo il lancio, per aggiornamenti e modifiche.",
+  ["Negozio online su Shopify", "Dalla scelta del tema alle prime vendite."],
+  ["Landing page", "Una pagina sola, pensata per un prodotto, un evento o una promozione."],
+  ["Siti su WordPress e altri strumenti", "Scelgo lo strumento più adatto alla tua attività e al tuo budget."],
+  ["Logo e immagine del negozio", "Colori, font e logo che si riconoscono, dal sito alle buste per le spedizioni."],
 ];
+const CHIUSURA = "Il sito è tuo, e io resto al tuo fianco.";
+/* Colori dei token in rgb, come li restituisce getComputedStyle. */
+const INK = "rgb(26, 26, 26)";
+const CREAM = "rgb(253, 244, 228)";
+const ARANCIO = "rgb(201, 60, 0)";
 
 const browser = await chromium.launch();
 let fallimenti = 0;
@@ -61,22 +70,76 @@ const leggiHome = (page) =>
         Math.abs(cta[0].getBoundingClientRect().top - cta[1].getBoundingClientRect().top) < 1,
       servizi: {
         visibile: visibile(servizi),
-        titolo: servizi?.querySelector("h2")?.textContent.trim(),
-        voci: [...(servizi?.querySelectorAll("li") ?? [])].map((li) => li.textContent.trim()),
-        icone: servizi?.querySelectorAll("li svg, li img").length ?? 0,
-        // Una voce per riga: nessuna voce accanto a un'altra
+        eyebrow: servizi?.querySelector(".eyebrow")?.textContent.trim(),
+        apertura: servizi?.querySelector("h2")?.textContent.replace(/\s+/g, " ").trim(),
+        aperturaFont: servizi ? getComputedStyle(servizi.querySelector("h2")).fontFamily : "",
+        voci: [...(servizi?.querySelectorAll("li") ?? [])].map((li) => [
+          li.querySelector("h3")?.textContent.trim(),
+          li.querySelector("p")?.textContent.trim(),
+        ]),
+        numeri: [...(servizi?.querySelectorAll(".servizi__numero") ?? [])].map((n) =>
+          n.textContent.trim(),
+        ),
+        // Una forma SVG per riga, tutte diverse, decorative, con un dettaglio arancio
+        forme: [...(servizi?.querySelectorAll("li svg") ?? [])].map((svg) => ({
+          nascosta: svg.getAttribute("aria-hidden") === "true",
+          visibile: visibile(svg),
+          contenuto: svg.innerHTML,
+          arancio: svg.querySelectorAll('[fill="var(--color-arancio)"]').length,
+          ink: svg.querySelectorAll('[fill="var(--color-ink)"]').length,
+        })),
+        immagini: servizi?.querySelectorAll("li img").length ?? 0,
+        // Righe divise da una linea sottile ink (1px), più quella in fondo
+        linee: [...(servizi?.querySelectorAll("li") ?? [])].map((li) => {
+          const c = getComputedStyle(li);
+          return `${c.borderTopWidth} ${c.borderTopStyle} ${c.borderTopColor}`;
+        }),
+        lineaFondo: servizi
+          ? (() => {
+              const c = getComputedStyle(servizi.querySelector("ol"));
+              return `${c.borderBottomWidth} ${c.borderBottomStyle} ${c.borderBottomColor}`;
+            })()
+          : "",
+        // Impilate o affiancate: dove sta il testo rispetto al titolo
+        impilate: [...(servizi?.querySelectorAll("li") ?? [])].every((li) => {
+          const t = li.querySelector("h3").getBoundingClientRect();
+          const p = li.querySelector("p").getBoundingClientRect();
+          return p.top >= t.bottom - 1;
+        }),
+        affiancate: [...(servizi?.querySelectorAll("li") ?? [])].every((li) => {
+          const t = li.querySelector("h3").getBoundingClientRect();
+          const p = li.querySelector("p").getBoundingClientRect();
+          return p.left >= t.right - 1 && p.top < t.bottom && t.top < p.bottom;
+        }),
+        // Una riga sotto l'altra, tutte lunghe quanto la lista
         unaPerRiga: [...(servizi?.querySelectorAll("li") ?? [])].every((li, i, tutte) => {
           if (i === 0) return true;
           return li.getBoundingClientRect().top >= tutte[i - 1].getBoundingClientRect().bottom - 1;
         }),
-        // Le linee tra le righe lunghe quanto quella in fondo alla lista
         lineeUguali: [...(servizi?.querySelectorAll("li") ?? [])].every(
           (li) =>
             Math.abs(li.getBoundingClientRect().width - li.parentElement.getBoundingClientRect().width) < 1,
         ),
-        bottone: [...(servizi?.querySelectorAll('a[href="/contatti"]') ?? [])]
-          .filter(visibile)
-          .map((a) => a.textContent.trim()),
+        chiusura: (() => {
+          const blocco = servizi?.querySelector(".servizi__chiusura");
+          if (!blocco) return null;
+          const btn = blocco.querySelector("a.btn");
+          const cb = getComputedStyle(blocco);
+          const cf = getComputedStyle(blocco.querySelector("p"));
+          const bb = btn ? getComputedStyle(btn) : null;
+          return {
+            fondo: cb.backgroundColor,
+            testo: cf.color,
+            frase: blocco.querySelector("p").textContent.trim(),
+            fraunces: /Fraunces/.test(cf.fontFamily),
+            bottone: btn?.textContent.trim(),
+            href: btn?.getAttribute("href"),
+            fondoBottone: bb?.backgroundColor,
+            testoBottone: bb?.color,
+            dopoLista:
+              blocco.getBoundingClientRect().top >= servizi.querySelector("ol").getBoundingClientRect().bottom,
+          };
+        })(),
         dopoProgetti: segue(progetti, servizi) && segue(servizi, loghi),
       },
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
@@ -122,22 +185,55 @@ for (const vp of [390, 1280]) {
         `${etichetta}: "Vedi i risultati" porta alla griglia, stessa scheda`,
       );
       atteso(
-        h.servizi.visibile && h.servizi.titolo === "Cosa faccio per te",
+        h.servizi.visibile && h.servizi.eyebrow === "Cosa faccio per te",
         `${etichetta}: "Cosa faccio per te" è visibile`,
       );
       atteso(h.servizi.dopoProgetti, `${etichetta}: la sezione sta tra la griglia progetti e i loghi`);
       atteso(
-        h.servizi.voci.join("|") === SERVIZI.join("|"),
-        `${etichetta}: i cinque servizi, nell'ordine`,
+        h.servizi.apertura === APERTURA && /Fraunces/.test(h.servizi.aperturaFont),
+        `${etichetta}: apertura scritta giusta e in Fraunces`,
       );
       atteso(
-        h.servizi.icone === 0 && h.servizi.unaPerRiga,
-        `${etichetta}: un servizio per riga, senza icone`,
+        h.servizi.voci.map((v) => v.join(" / ")).join("|") ===
+          SERVIZI.map((v) => v.join(" / ")).join("|"),
+        `${etichetta}: i quattro servizi, nell'ordine`,
       );
-      atteso(h.servizi.lineeUguali, `${etichetta}: le linee tra le righe sono lunghe uguali`);
+      atteso(h.servizi.numeri.join() === "01,02,03,04", `${etichetta}: righe numerate 01-04`);
       atteso(
-        h.servizi.bottone.length === 1,
-        `${etichetta}: sotto c'è il bottone per il contatto (${h.servizi.bottone[0]})`,
+        h.servizi.forme.length === 4 &&
+          h.servizi.immagini === 0 &&
+          h.servizi.forme.every((f) => f.nascosta && f.visibile && f.arancio === 1 && f.ink >= 1) &&
+          new Set(h.servizi.forme.map((f) => f.contenuto)).size === 4,
+        `${etichetta}: quattro forme SVG diverse, decorative, ink con un dettaglio arancio`,
+      );
+      atteso(
+        h.servizi.linee.every((l) => l === `1px solid ${INK}`) &&
+          h.servizi.lineaFondo === `1px solid ${INK}`,
+        `${etichetta}: righe divise da una linea sottile ink`,
+      );
+      atteso(
+        h.servizi.unaPerRiga && h.servizi.lineeUguali,
+        `${etichetta}: una riga sotto l'altra, linee lunghe uguali`,
+      );
+      atteso(
+        vp < 768 ? h.servizi.impilate : h.servizi.affiancate,
+        `${etichetta}: ${vp < 768 ? "titolo e testo impilati su telefono" : "titolo e testo affiancati su desktop"}`,
+      );
+      const ch = h.servizi.chiusura;
+      atteso(
+        ch?.frase === CHIUSURA && ch.fraunces && ch.dopoLista,
+        `${etichetta}: chiusura "${ch?.frase}" in Fraunces, dopo le righe`,
+      );
+      atteso(
+        ch?.fondo === INK && ch.testo === CREAM,
+        `${etichetta}: blocco di chiusura pieno ink con testo cream`,
+      );
+      atteso(
+        ch?.bottone === "Contattami" &&
+          ch.href === "/contatti" &&
+          ch.fondoBottone === ARANCIO &&
+          ch.testoBottone === CREAM,
+        `${etichetta}: bottone di contatto arancio nel blocco (${ch?.bottone})`,
       );
     }
     atteso(h.ctaAffiancate, `${etichetta}: le due CTA dell'hero restano sulla stessa riga`);

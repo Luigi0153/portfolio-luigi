@@ -5,32 +5,101 @@
  * È il punto 4 di docs/AUDIT.md: un negoziante vedeva i progetti ma non
  * capiva cosa poteva chiedere. data-only="business" la toglie a schermo e
  * agli screen reader nel percorso dev e senza JavaScript (che vale dev).
- * Un servizio per riga, senza icone: le righe si leggono da sole.
+ *
+ * Apertura grande in Fraunces, quattro righe numerate tra linee sottili ink,
+ * ognuna con una forma Bauhaus diversa (cerchio, quarto di cerchio, quadrato,
+ * triangolo) nello stesso linguaggio del marchio: ink con un dettaglio
+ * arancio. In fondo un blocco ink con il bottone di contatto. Nessuna
+ * animazione: la sezione non ne aveva e nel resto della home non ce ne sono
+ * di simili.
  */
 import Button from "../ui/Button.astro";
-import SectionHeader from "../ui/SectionHeader.astro";
 
 const SERVIZI = [
-  "Apro il tuo negozio su Shopify, dalla scelta del tema alle prime vendite.",
-  "Carico e sistemo il catalogo: prodotti, foto, categorie, schede.",
-  "Creo siti e landing page, anche su WordPress.",
-  "Leggo i numeri del negozio e ti dico cosa cambiare prima di spendere.",
-  "Resto al tuo fianco dopo il lancio, per aggiornamenti e modifiche.",
-];
+  {
+    titolo: "Negozio online su Shopify",
+    testo: "Dalla scelta del tema alle prime vendite.",
+    forma: "cerchio",
+  },
+  {
+    titolo: "Landing page",
+    testo: "Una pagina sola, pensata per un prodotto, un evento o una promozione.",
+    forma: "quarto",
+  },
+  {
+    titolo: "Siti su WordPress e altri strumenti",
+    testo: "Scelgo lo strumento più adatto alla tua attività e al tuo budget.",
+    forma: "quadrato",
+  },
+  {
+    titolo: "Logo e immagine del negozio",
+    testo:
+      "Colori, font e logo che si riconoscono, dal sito alle buste per le spedizioni.",
+    forma: "triangolo",
+  },
+] as const;
 ---
 
 <section class="servizi" aria-labelledby="servizi-titolo" data-only="business">
-  <div class="container-site servizi__griglia">
-    <SectionHeader id="servizi-titolo" title="Cosa faccio per te" />
+  <div class="container-site">
+    <p class="eyebrow text-ink-2">Cosa faccio per te</p>
+    <h2 id="servizi-titolo" class="servizi__apertura">
+      Creo negozi online e siti per le attività: su Shopify, su WordPress o con
+      altri strumenti, in base a quello che ti serve.
+    </h2>
 
-    <div>
-      <ul class="servizi__lista" role="list">
-        {SERVIZI.map((servizio) => <li class="servizi__voce">{servizio}</li>)}
-      </ul>
+    <ol class="servizi__lista" role="list">
+      {
+        SERVIZI.map(({ titolo, testo, forma }, i) => (
+          <li class="servizi__voce">
+            <span class="servizi__numero eyebrow" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </span>
 
-      <Button variant="primary" size="lg" href="/contatti" class="servizi__cta">
-        Contattami
-      </Button>
+            <svg
+              class="servizi__forma"
+              viewBox="0 0 100 100"
+              width="64"
+              height="64"
+              aria-hidden="true"
+              focusable="false"
+            >
+              {forma === "cerchio" && (
+                <>
+                  <circle cx="50" cy="50" r="42" fill="var(--color-ink)" />
+                  <circle cx="50" cy="50" r="15" fill="var(--color-arancio)" />
+                </>
+              )}
+              {forma === "quarto" && (
+                <>
+                  <path d="M12 88V18A70 70 0 0 1 82 88Z" fill="var(--color-ink)" />
+                  <path d="M12 88V58A30 30 0 0 1 42 88Z" fill="var(--color-arancio)" />
+                </>
+              )}
+              {forma === "quadrato" && (
+                <>
+                  <rect x="14" y="14" width="72" height="72" fill="var(--color-ink)" />
+                  <rect x="54" y="54" width="32" height="32" fill="var(--color-arancio)" />
+                </>
+              )}
+              {forma === "triangolo" && (
+                <>
+                  <path d="M50 10L92 78H8Z" fill="var(--color-ink)" />
+                  <rect x="8" y="78" width="84" height="12" fill="var(--color-arancio)" />
+                </>
+              )}
+            </svg>
+
+            <h3 class="servizi__titolo">{titolo}</h3>
+            <p class="servizi__testo">{testo}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="servizi__chiusura">
+      <p class="servizi__frase">Il sito è tuo, e io resto al tuo fianco.</p>
+      <Button variant="primary" size="lg" href="/contatti">Contattami</Button>
     </div>
   </div>
 </section>
@@ -41,37 +110,151 @@ const SERVIZI = [
     padding-bottom: var(--section-y);
   }
 
-  .servizi__griglia {
-    display: grid;
-    gap: 2rem;
+  .servizi__apertura {
+    max-width: 24em;
+    margin-top: 1rem;
+    font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+    line-height: 1.2;
   }
 
-  @media (min-width: 1024px) {
-    .servizi__griglia {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      align-items: start;
-      gap: 4rem;
-    }
-  }
-
-  /* La larghezza massima sta sulla lista e non sulle voci: così le linee
-     tra una riga e l'altra sono tutte lunghe uguali. */
+  /* Linee sottili ink tra le righe, lunghe quanto la lista. */
   .servizi__lista {
-    max-width: 40rem;
-    margin: 0;
+    margin: 2.5rem 0 0;
     padding: 0;
     list-style: none;
-    border-bottom: var(--border-retro);
+    border-bottom: 1px solid var(--color-ink);
   }
 
+  /* Telefono: numero e forma sulla prima riga, poi titolo e testo. */
   .servizi__voce {
-    padding-block: 1.125rem;
-    border-top: var(--border-retro);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 0.75rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--color-ink);
+  }
+
+  .servizi__numero {
+    color: var(--color-ink-2);
+  }
+
+  .servizi__forma {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    width: 56px;
+    height: 56px;
+  }
+
+  .servizi__titolo,
+  .servizi__testo {
+    grid-column: 1 / -1;
+  }
+
+  .servizi__titolo {
+    margin: 0.25rem 0 0;
+  }
+
+  .servizi__testo {
+    max-width: 44ch;
+    margin: 0;
+    color: var(--color-ink-2);
     font-size: var(--text-body-lg);
     line-height: 1.45;
   }
 
-  .servizi :global(.servizi__cta) {
-    margin-top: 2rem;
+  @media (min-width: 768px) {
+    .servizi__lista {
+      margin-top: 3.5rem;
+    }
+
+    /* Da 768: numero, forma, titolo e testo affiancati su una riga. */
+    .servizi__voce {
+      grid-template-columns: 2.5rem 72px minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: 1.5rem;
+      row-gap: 0;
+      padding-block: 1.75rem;
+    }
+
+    .servizi__forma {
+      grid-column: 2;
+      justify-self: start;
+      width: 72px;
+      height: 72px;
+    }
+
+    .servizi__titolo {
+      grid-column: 3;
+      grid-row: 1;
+      margin: 0;
+    }
+
+    .servizi__testo {
+      grid-column: 4;
+      grid-row: 1;
+    }
+  }
+
+  /* Blocco di chiusura: pieno ink, testo cream, bottone arancio. */
+  .servizi__chiusura {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-card);
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  .servizi__frase {
+    margin: 0;
+    max-width: 18em;
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .servizi__chiusura {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-top: 3.5rem;
+      padding: 3rem;
+    }
+
+    .servizi__frase {
+      font-size: var(--text-h2);
+    }
+  }
+
+  /* Sul fondo ink il riempimento ink dell'hover non si vedrebbe: il bottone
+     si riempie di cream e il testo passa a ink. */
+  .servizi__chiusura :global(.btn--primary)::before {
+    background-color: var(--color-cream);
+  }
+
+  @media (hover: hover) {
+    .servizi__chiusura :global(.btn--primary:not(:disabled):hover) {
+      border-color: var(--color-cream);
+      color: var(--color-ink);
+    }
+  }
+
+  .servizi__chiusura :global(.btn--primary:not(:disabled):active) {
+    border-color: var(--color-cream);
+    color: var(--color-ink);
+  }
+
+  .servizi__chiusura :global(.btn:focus-visible) {
+    outline-color: var(--color-cream);
   }
 </style>
