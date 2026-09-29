@@ -20,6 +20,23 @@
 @import "@fontsource/hanken-grotesk/latin-600.css";
 @import "@fontsource/jetbrains-mono/latin-400.css";
 
+/* Riserva del mono sui sistemi Windows: Consolas ha un passo di 0,55em contro
+   lo 0,6em di JetBrains Mono, quindi le etichette cambiano larghezza (e
+   qualcuna va a capo) quando il font arriva. Con size-adjust 109% (0,6/0,55)
+   la riserva occupa lo stesso spazio: misurato sui quattro tag del caso
+   reale, differenza sotto 0,1px. Gli override verticali (1,02 e 0,30 di
+   JetBrains Mono, divisi per 1,09) pareggiano anche l'altezza dei chip inline.
+   Dove Consolas non c'è il local() non trova niente e passa oltre, senza
+   scaricare nulla. */
+@font-face {
+  font-family: "JetBrains Mono Riserva";
+  src: local("Consolas");
+  size-adjust: 109%;
+  ascent-override: 93.6%;
+  descent-override: 27.5%;
+  line-gap-override: 0%;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
