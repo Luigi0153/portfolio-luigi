@@ -95,7 +95,9 @@ src/
 └── dati-sito.ts     email, social, id Formspree
 docs/
 ├── design-tokens.md il sistema visivo: si cambia qui, poi nel CSS
-├── STATO.md         a che punto è il progetto
+├── STATO.md         lo stato attuale e i lavori da fare
+├── STORIA.md        la storia delle fasi finite: si apre solo per capire come o perché è stato fatto qualcosa
+├── NOTE-TEST.md     le note per scrivere o modificare i test Playwright
 └── content/         i dati reali dei case study
 ```
 
