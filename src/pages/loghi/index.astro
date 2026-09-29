@@ -3,8 +3,9 @@
  * Loghi: tutti i marchi, con i filtri per stile.
  *
  * I filtri nascono dagli stili davvero usati nella collection, non da una
- * lista fissa. Senza JavaScript la barra dei filtri resta nascosta e si vede
- * tutto; con JavaScript compare e filtra nascondendo i riquadri, senza
+ * lista fissa. La barra è visibile fin dal primo disegno, così la griglia non
+ * scende quando gira JavaScript; senza JavaScript la nasconde un <noscript>
+ * e si vede tutto. Con JavaScript i filtri nascondono i riquadri, senza
  * ricaricare la pagina.
  */
 import Base from "../../layouts/Base.astro";
@@ -21,12 +22,13 @@ const stili = [...new Map(loghi.map((l) => [chiaveStile(l.data.stile), l.data.st
   title="Loghi"
   description="I marchi disegnati da Luigi Romano per i suoi progetti e per esercizio."
 >
+  <noscript slot="head"><style is:inline>[data-filtri]{display:none!important}</style></noscript>
   <section class="loghi" aria-labelledby="loghi-titolo">
     <div class="container-site">
       <h1 id="loghi-titolo">Loghi</h1>
       <p class="loghi__intro">I marchi che ho disegnato per i miei progetti e per esercizio.</p>
 
-      <div class="loghi__filtri" role="group" aria-label="Filtra per stile" data-filtri hidden>
+      <div class="loghi__filtri" role="group" aria-label="Filtra per stile" data-filtri>
         <button type="button" class="filtro" aria-pressed="true" data-filtro="">Tutti</button>
         {
           stili.map(([chiave, stile]) => (
@@ -65,10 +67,6 @@ const stili = [...new Map(loghi.map((l) => [chiaveStile(l.data.stile), l.data.st
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 2rem;
-  }
-
-  .loghi__filtri[hidden] {
-    display: none;
   }
 
   /* Le pillole hanno l'aspetto dei Tag, ma sono bottoni: 36px di altezza
@@ -157,8 +155,6 @@ const stili = [...new Map(loghi.map((l) => [chiaveStile(l.data.stile), l.data.st
         applica(giaAttivo ? "" : scelto);
       });
     }
-
-    barra.hidden = false;
   }
 
   document.addEventListener("astro:page-load", avvia);
