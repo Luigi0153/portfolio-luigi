@@ -3,9 +3,9 @@
   - /loghi carica, un solo h1, i riquadri e i filtri generati dagli stili;
   - i filtri filtrano con clic e da tastiera, con aria-pressed coerente;
   - senza JavaScript la barra dei filtri non c'è e si vede tutto;
-  - nessuna etichetta "Progetto" visibile (card e dettaglio; solo gli altri
-    tipi ne hanno una), nome sempre visibile su touch e al passaggio del
-    mouse su desktop, alt con nome e tipo;
+  - nessuna etichetta "Progetto" né a vista né nell'alt (card e dettaglio;
+    solo gli altri tipi ne hanno una), nome sempre visibile su touch e al
+    passaggio del mouse su desktop, alt con il nome;
   - la frase di non affiliazione compare solo sotto rebranding ed esplorazioni,
     nel riquadro e nel dettaglio;
   - ogni dettaglio mostra solo i formati con immagini, tutte caricate;
@@ -152,8 +152,10 @@ for (const vp of VIEWPORT) {
       `${vp.w}px /loghi ${r.href}: ${r.tipo === "progetto" ? "nessuna etichetta Progetto" : `etichetta del tipo visibile (${r.etichetta})`}`,
     );
     atteso(
-      r.alt.includes(r.nome) && r.alt.includes(ETICHETTE[r.tipo]),
-      `${vp.w}px /loghi ${r.href}: alt con nome e tipo ("${r.alt}")`,
+      r.tipo === "progetto"
+        ? r.alt === `Logo di ${r.nome}`
+        : r.alt.includes(r.nome) && r.alt.includes(ETICHETTE[r.tipo]),
+      `${vp.w}px /loghi ${r.href}: alt senza etichetta Progetto ("${r.alt}")`,
     );
     const vuoleFrase = TIPI_CON_FRASE.includes(r.tipo);
     atteso(
@@ -311,8 +313,10 @@ for (const vp of VIEWPORT) {
       `${vp.w}px ${href}: ${tipo === "progetto" ? "nessuna etichetta Progetto, resta lo stile" : "etichetta del tipo"} (${d.tags.join(", ")})`,
     );
     atteso(
-      d.alt.includes(d.h1[0]) && d.alt.includes(ETICHETTE[tipo]),
-      `${vp.w}px ${href}: alt con nome e tipo ("${d.alt}")`,
+      tipo === "progetto"
+        ? d.alt === `Logo di ${d.h1[0]}`
+        : d.alt.includes(d.h1[0]) && d.alt.includes(ETICHETTE[tipo]),
+      `${vp.w}px ${href}: alt senza etichetta Progetto ("${d.alt}")`,
     );
     // Il testo, se c'è, è anche la description della pagina
     atteso(

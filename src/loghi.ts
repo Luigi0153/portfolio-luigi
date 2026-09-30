@@ -34,7 +34,11 @@ export const nonAffiliato = (logo: Logo) =>
 export const fondo = (logo: Logo) =>
   logo.data.fondo.startsWith("#") ? logo.data.fondo : `var(--color-${logo.data.fondo})`;
 
-export const altLogo = (logo: Logo) => `Logo di ${logo.data.nome} (${TIPI[logo.data.tipo]})`;
+/** Come l'etichetta visibile: il tipo "progetto" non si nomina, gli altri sì. */
+export const altLogo = (logo: Logo) => {
+  const etichetta = etichettaTipo(logo);
+  return etichetta ? `Logo di ${logo.data.nome} (${etichetta})` : `Logo di ${logo.data.nome}`;
+};
 
 /** Chiave dello stile per i filtri: "Monogramma" → "monogramma". */
 export const chiaveStile = (stile: string) =>
