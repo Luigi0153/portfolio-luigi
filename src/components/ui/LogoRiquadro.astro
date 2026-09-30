@@ -1,9 +1,10 @@
 ---
 /**
  * Riquadro di un logo: il marchio sul suo colore di fondo, in un quadrato.
- * Il tipo è sempre visibile; il nome sempre su touch, al passaggio del mouse
- * (o col focus) dove c'è un puntatore. Nome e tipo scritti sono aria-hidden:
- * l'alt dell'immagine, che è anche il nome del link, li dice già tutti e due.
+ * Il nome è sempre visibile su touch, al passaggio del mouse (o col focus) dove
+ * c'è un puntatore. Il tipo si scrive solo quando ha un'etichetta (non per i
+ * "progetto"). Nome ed etichetta scritti sono aria-hidden: l'alt
+ * dell'immagine, che è anche il nome del link, li dice già.
  * Per rebranding ed esplorazioni la frase di non affiliazione sta sotto il
  * riquadro, fuori dal link, così resta leggibile anche da screen reader.
  */
@@ -12,9 +13,9 @@ import Card from "./Card.astro";
 import Tag from "./Tag.astro";
 import {
   NON_AFFILIATO,
-  TIPI,
   altLogo,
   chiaveStile,
+  etichettaTipo,
   fondo,
   nonAffiliato,
   type Logo,
@@ -26,6 +27,7 @@ interface Props {
 
 const { logo } = Astro.props;
 const { data } = logo;
+const etichetta = etichettaTipo(logo);
 ---
 
 <li class="logo" data-stile={chiaveStile(data.stile)} data-tipo={data.tipo}>
@@ -42,7 +44,13 @@ const { data } = logo;
         loading="lazy"
         transition:name={`logo-${logo.id}`}
       />
-      <span class="logo__tipo" aria-hidden="true"><Tag tone="cream">{TIPI[data.tipo]}</Tag></span>
+      {
+        etichetta && (
+          <span class="logo__tipo" aria-hidden="true">
+            <Tag tone="cream">{etichetta}</Tag>
+          </span>
+        )
+      }
       <span class="logo__nome" aria-hidden="true">{data.nome}</span>
     </div>
   </Card>
@@ -60,8 +68,10 @@ const { data } = logo;
     align-items: center;
     justify-content: center;
     aspect-ratio: 1;
-    /* Sopra resta il posto per il tipo, sotto per il nome: il logo non ci
-       finisce mai sotto. Le percentuali del padding seguono la larghezza. */
+    /* Sopra resta il posto per l'etichetta del tipo, sotto per il nome: il
+       logo non ci finisce mai sotto, e ha la stessa misura in tutti i
+       riquadri, con o senza etichetta. Le percentuali del padding seguono la
+       larghezza. */
     padding: 3rem 12% 3.25rem;
     background-color: var(--fondo);
   }

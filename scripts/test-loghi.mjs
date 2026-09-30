@@ -3,7 +3,8 @@
   - /loghi carica, un solo h1, i riquadri e i filtri generati dagli stili;
   - i filtri filtrano con clic e da tastiera, con aria-pressed coerente;
   - senza JavaScript la barra dei filtri non c'è e si vede tutto;
-  - tipo sempre visibile, nome sempre visibile su touch e al passaggio del
+  - nessuna etichetta "Progetto" visibile (card e dettaglio; solo gli altri
+    tipi ne hanno una), nome sempre visibile su touch e al passaggio del
     mouse su desktop, alt con nome e tipo;
   - la frase di non affiliazione compare solo sotto rebranding ed esplorazioni,
     nel riquadro e nel dettaglio;
@@ -98,8 +99,9 @@ const leggiRiquadri = (page, radice = "main") =>
         stile: li.dataset.stile,
         tipo: li.dataset.tipo,
         href: card.getAttribute("href"),
-        etichetta: tipo.textContent.trim(),
-        tipoVisibile: tipo.getClientRects().length > 0 && getComputedStyle(tipo).visibility !== "hidden",
+        etichetta: tipo?.textContent.trim() ?? null,
+        tipoVisibile: Boolean(tipo) && tipo.getClientRects().length > 0 && getComputedStyle(tipo).visibility !== "hidden",
+        parolaProgetto: /Progetto/i.test(li.textContent),
         nome: nome.textContent.trim(),
         // Il nome è visibile se sta dentro il riquadro, non sotto il clip.
         nomeVisibile: rNome.bottom <= rCard.bottom + 0.5 && rNome.top >= rCard.top,
@@ -122,7 +124,7 @@ for (const vp of VIEWPORT) {
 
   const riquadri = await leggiRiquadri(page);
   atteso(riquadri.length >= 4, `${vp.w}px /loghi: ${riquadri.length} riquadri`);
-  dettagli = riquadri.map((r) => r.href);
+  dettagli = riquadri.map((r) => ({ href: r.href, tipo: r.tipo }));
 
   // Riquadri quadrati, 2 colonne a 390 e 4 a 1280
   const griglia = await page.evaluate(() => {
@@ -144,8 +146,10 @@ for (const vp of VIEWPORT) {
 
   for (const r of riquadri) {
     atteso(
-      r.tipoVisibile && r.etichetta === ETICHETTE[r.tipo],
-      `${vp.w}px /loghi ${r.href}: tipo visibile (${r.etichetta})`,
+      r.tipo === "progetto"
+        ? r.etichetta === null && !r.parolaProgetto
+        : r.tipoVisibile && r.etichetta === ETICHETTE[r.tipo],
+      `${vp.w}px /loghi ${r.href}: ${r.tipo === "progetto" ? "nessuna etichetta Progetto" : `etichetta del tipo visibile (${r.etichetta})`}`,
     );
     atteso(
       r.alt.includes(r.nome) && r.alt.includes(ETICHETTE[r.tipo]),
@@ -271,7 +275,7 @@ for (const vp of VIEWPORT) {
 
 /* ---------- /loghi/[slug] ---------- */
 for (const vp of VIEWPORT) {
-  for (const href of dettagli) {
+  for (const { href, tipo } of dettagli) {
     const { page, context, errori } = await nuovaPagina(vp);
     const risposta = await page.goto(BASE + href, { waitUntil: "networkidle" });
     atteso(risposta?.ok(), `${vp.w}px ${href}: la pagina carica`);
@@ -298,13 +302,16 @@ for (const vp of VIEWPORT) {
         ),
       };
     });
-    const tipoEtichetta = d.tags[0];
-    const tipo = Object.keys(ETICHETTE).find((k) => ETICHETTE[k] === tipoEtichetta);
 
     atteso(d.h1.length === 1, `${vp.w}px ${href}: un solo h1 (${d.h1[0]})`);
-    atteso(Boolean(tipo) && d.tagVisibile, `${vp.w}px ${href}: tipo visibile (${tipoEtichetta})`);
     atteso(
-      d.alt.includes(d.h1[0]) && d.alt.includes(tipoEtichetta),
+      tipo === "progetto"
+        ? d.tags.length === 1 && !d.tags.includes("Progetto") && d.tagVisibile
+        : d.tags[0] === ETICHETTE[tipo] && d.tagVisibile,
+      `${vp.w}px ${href}: ${tipo === "progetto" ? "nessuna etichetta Progetto, resta lo stile" : "etichetta del tipo"} (${d.tags.join(", ")})`,
+    );
+    atteso(
+      d.alt.includes(d.h1[0]) && d.alt.includes(ETICHETTE[tipo]),
       `${vp.w}px ${href}: alt con nome e tipo ("${d.alt}")`,
     );
     // Il testo, se c'è, è anche la description della pagina
@@ -365,7 +372,7 @@ for (const vp of VIEWPORT) {
   atteso(h.esiste && h.titolo === "Loghi", `${vp.w}px home: c'è la striscia "Loghi"`);
   atteso(h.dopoProgetti, `${vp.w}px home: la striscia viene dopo la griglia progetti`);
   atteso(
-    h.hrefs.join() === dettagli.slice(0, 4).join(),
+    h.hrefs.join() === dettagli.slice(0, 4).map((d) => d.href).join(),
     `${vp.w}px home: i quattro loghi nella fila del carosello (${h.hrefs.length})`,
   );
   atteso(
@@ -378,9 +385,11 @@ for (const vp of VIEWPORT) {
   const riquadri = await leggiRiquadri(page, 'section[aria-labelledby="loghi-striscia-titolo"]');
   atteso(
     riquadri.every(
-      (r) => r.tipoVisibile && (TIPI_CON_FRASE.includes(r.tipo) ? r.frase === NON_AFFILIATO : r.frase === null),
+      (r) =>
+        (r.tipo === "progetto" ? r.etichetta === null && !r.parolaProgetto : r.tipoVisibile) &&
+        (TIPI_CON_FRASE.includes(r.tipo) ? r.frase === NON_AFFILIATO : r.frase === null),
     ),
-    `${vp.w}px home: tipo visibile e frase di non affiliazione solo dove serve`,
+    `${vp.w}px home: nessuna etichetta Progetto e frase di non affiliazione solo dove serve`,
   );
   atteso(await senzaOverflow(page), `${vp.w}px home: nessun overflow orizzontale`);
   atteso(errori.length === 0, `${vp.w}px home: nessun errore in console`);

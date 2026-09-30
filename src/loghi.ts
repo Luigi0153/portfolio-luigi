@@ -15,6 +15,14 @@ export const TIPI = {
   esplorazione: "Esplorazione",
 } as const satisfies Record<Logo["data"]["tipo"], string>;
 
+/**
+ * Etichetta del tipo che si vede in card e nel dettaglio. Il tipo "progetto" è
+ * il caso normale e non ne ha: il campo resta nei dati e nell'alt, e le altre
+ * etichette (per esempio "Esercizio di stile") si vedono.
+ */
+export const etichettaTipo = (logo: Logo) =>
+  logo.data.tipo === "progetto" ? null : TIPI[logo.data.tipo];
+
 /** Frase fissa sotto i lavori su marchi esistenti (vedi docs/FASE_LOGHI.md). */
 export const NON_AFFILIATO =
   "Esercizio di stile. Non affiliato ai marchi citati, nessun uso commerciale.";

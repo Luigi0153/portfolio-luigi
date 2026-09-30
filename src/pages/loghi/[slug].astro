@@ -9,7 +9,15 @@
 import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import Tag from "../../components/ui/Tag.astro";
-import { NON_AFFILIATO, TIPI, altLogo, fondo, getLoghi, nonAffiliato, type Logo } from "../../loghi";
+import {
+  NON_AFFILIATO,
+  altLogo,
+  etichettaTipo,
+  fondo,
+  getLoghi,
+  nonAffiliato,
+  type Logo,
+} from "../../loghi";
 
 export async function getStaticPaths() {
   const loghi = await getLoghi();
@@ -22,12 +30,13 @@ interface Props {
 
 const { logo } = Astro.props;
 const { data } = logo;
-const tipo = TIPI[data.tipo];
+const etichetta = etichettaTipo(logo);
 const conNota = nonAffiliato(logo);
 const colore = `--fondo: ${fondo(logo)}`;
 
 const descrizione =
-  data.testo ?? `Il logo di ${data.nome} disegnato da Luigi Romano. ${tipo}, stile ${data.stile}.`;
+  data.testo ??
+  `Il logo di ${data.nome} disegnato da Luigi Romano.${etichetta ? ` ${etichetta}.` : ""} Stile ${data.stile}.`;
 ---
 
 <Base title={`Logo ${data.nome}`} description={descrizione}>
@@ -37,7 +46,7 @@ const descrizione =
 
       <header class="dettaglio__testata">
         <ul class="dettaglio__tags" role="list">
-          <Tag as="li" tone="cream">{tipo}</Tag>
+          {etichetta && <Tag as="li" tone="cream">{etichetta}</Tag>}
           <Tag as="li">{data.stile}</Tag>
         </ul>
         <h1 class="dettaglio__titolo">{data.nome}</h1>
