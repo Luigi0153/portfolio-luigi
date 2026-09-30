@@ -58,7 +58,7 @@ const gerarchiaTitoli = (page) =>
 const IA_PARAGRAFI = [
   "Uso l'intelligenza artificiale in ogni progetto, come uno strumento di lavoro. Le idee, le scelte e il controllo finale restano miei.",
   "Mi aiuta a provare più strade in meno tempo: varianti di un logo, abbinamenti di colori e font, prime bozze dei testi. Scrivo il codice insieme a Claude Code e lo controllo con test automatici prima di pubblicarlo. Per i concept genero le foto con l'AI, e lo scrivo sempre.",
-  "Così il lavoro va più veloce, e il tempo che risparmio lo dedico a capire chi compra e a rendere il negozio semplice da usare. Oggi saper usare bene questi strumenti fa parte del mestiere.",
+  "Così il lavoro va più veloce, e il tempo che risparmio lo dedico a rendere il negozio semplice da usare. Oggi saper usare bene questi strumenti fa parte del mestiere.",
 ];
 for (const vp of [390, 1280]) {
   const { page, errori } = await nuovaPagina(vp);
@@ -96,9 +96,9 @@ for (const vp of [390, 1280]) {
     };
   });
   atteso(
-    ia.titolo === "Come uso l'intelligenza artificiale" &&
+    ia.titolo === "Il mio processo creativo" &&
       ia.paragrafi.join("|") === IA_PARAGRAFI.join("|"),
-    `${vp}px come-lavoro: sezione "Come uso l'intelligenza artificiale" con il testo esatto`,
+    `${vp}px come-lavoro: sezione "Il mio processo creativo" con il testo esatto`,
   );
   atteso(
     ia.prompt === 0 && !ia.testoPrompt,
