@@ -1,0 +1,463 @@
+---
+/**
+ * Percorso "Vuoi vendere online": modulo a passi, una domanda per schermata.
+ *
+ * Il markup è un modulo normale con tre fieldset: senza JavaScript i tre
+ * passi compaiono insieme e il POST nativo va a Formspree, che mostra la sua
+ * pagina di conferma. Con JavaScript lo script qui sotto mostra un passo alla
+ * volta, sposta il focus sulla domanda nuova, annuncia "1 di 3" e spedisce
+ * tutto in un solo invio all'ultimo passo.
+ *
+ * Risposte, dati e nomi dei campi: docs/STATO.md, sezione Contatti.
+ */
+import "../../styles/modulo.css";
+import Card from "../ui/Card.astro";
+import Button from "../ui/Button.astro";
+import { EMAIL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../../dati-sito";
+
+const SERVIZI = ["Negozio online", "Sito o landing page", "Logo e immagine", "Altro"];
+const SITUAZIONI = ["Sì, va migliorato", "No, parto da zero", "Ho solo un negozio fisico"];
+const CANALI = ["Telefono", "Email"];
+---
+
+<section class="section-pad" aria-labelledby="business-titolo">
+  <div class="container-site">
+    <div class="business">
+    {
+      FORM_ATTIVO ? (
+        <>
+          <Card class="modulo" as="div" padding="lg">
+            <h2 id="business-titolo">Raccontami cosa ti serve</h2>
+            <p class="modulo__intro" data-intro>Tre domande, ci metti un minuto.</p>
+
+            <form
+              class="modulo__form passi__form"
+              action={FORMSPREE_ENDPOINT}
+              method="POST"
+              data-passi
+              data-corrente="1"
+            >
+              <div class="passi__testa">
+                <p class="passi__indicatore" data-indicatore aria-live="polite" aria-atomic="true">
+                  1 di 3
+                </p>
+                <div class="passi__barre" aria-hidden="true">
+                  <span class="passi__barra" />
+                  <span class="passi__barra" />
+                  <span class="passi__barra" />
+                </div>
+              </div>
+
+              {/* --- Passo 1 --- */}
+              <fieldset class="passo" data-passo data-attivo>
+                <legend class="passo__domanda" tabindex="-1">Cosa ti serve?</legend>
+                <div class="passo__campi">
+                  <div class="scelte">
+                    {SERVIZI.map((voce, i) => (
+                      <label class="scelta">
+                        <input
+                          class="scelta__radio"
+                          type="radio"
+                          name="servizio"
+                          value={voce}
+                          required={i === 0}
+                          aria-describedby="b-servizio-errore"
+                        />
+                        <span>{voce}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p class="campo__errore" id="b-servizio-errore" data-errore-per="servizio" />
+
+                  <div class="campo condizionale" data-condizionale="altro">
+                    <label class="campo__label" for="b-altro">
+                      Altro: scrivi cosa ti serve
+                    </label>
+                    <input
+                      class="campo__input"
+                      id="b-altro"
+                      name="servizio_altro"
+                      type="text"
+                      aria-describedby="b-altro-errore"
+                    />
+                    <p class="campo__errore" id="b-altro-errore" data-errore-per="servizio_altro" />
+                  </div>
+                </div>
+              </fieldset>
+
+              {/* --- Passo 2 --- */}
+              <fieldset class="passo" data-passo>
+                <legend class="passo__domanda" tabindex="-1">
+                  Hai già un sito o un negozio online?
+                </legend>
+                <div class="passo__campi">
+                  <div class="scelte">
+                    {SITUAZIONI.map((voce, i) => (
+                      <label class="scelta">
+                        <input
+                          class="scelta__radio"
+                          type="radio"
+                          name="situazione"
+                          value={voce}
+                          required={i === 0}
+                          aria-describedby="b-situazione-errore"
+                        />
+                        <span>{voce}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p class="campo__errore" id="b-situazione-errore" data-errore-per="situazione" />
+                </div>
+              </fieldset>
+
+              {/* --- Passo 3 --- */}
+              <fieldset class="passo" data-passo>
+                <legend class="passo__domanda" tabindex="-1">
+                  Come ti chiamo e come ti ricontatto?
+                </legend>
+                <div class="passo__campi">
+                  <div class="campo">
+                    <label class="campo__label" for="b-nome">Il tuo nome</label>
+                    <input
+                      class="campo__input"
+                      id="b-nome"
+                      name="nome"
+                      type="text"
+                      autocomplete="name"
+                      required
+                      aria-describedby="b-nome-errore"
+                    />
+                    <p class="campo__errore" id="b-nome-errore" data-errore-per="nome" />
+                  </div>
+
+                  <div class="campo" role="group" aria-labelledby="b-canale-etichetta">
+                    <span class="campo__label" id="b-canale-etichetta">
+                      Come preferisci essere ricontattato?
+                    </span>
+                    <div class="scelte scelte--riga" style="margin-top: 0.5rem">
+                      {CANALI.map((voce, i) => (
+                        <label class="scelta">
+                          <input
+                            class="scelta__radio"
+                            type="radio"
+                            name="contatto_preferito"
+                            value={voce}
+                            required={i === 0}
+                            aria-describedby="b-canale-errore"
+                          />
+                          <span>{voce}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <p
+                      class="campo__errore"
+                      id="b-canale-errore"
+                      data-errore-per="contatto_preferito"
+                    />
+                  </div>
+
+                  <div class="campo condizionale" data-contatto="Telefono">
+                    <label class="campo__label" for="b-telefono">Il tuo numero di telefono</label>
+                    <input
+                      class="campo__input"
+                      id="b-telefono"
+                      name="telefono"
+                      type="tel"
+                      inputmode="tel"
+                      autocomplete="tel"
+                      aria-describedby="b-telefono-errore"
+                    />
+                    <p class="campo__errore" id="b-telefono-errore" data-errore-per="telefono" />
+                  </div>
+
+                  <div class="campo condizionale" data-contatto="Email">
+                    <label class="campo__label" for="b-email">La tua email</label>
+                    <input
+                      class="campo__input"
+                      id="b-email"
+                      name="email"
+                      type="email"
+                      autocomplete="email"
+                      aria-describedby="b-email-errore"
+                    />
+                    <p class="campo__errore" id="b-email-errore" data-errore-per="email" />
+                  </div>
+
+                  <div class="campo">
+                    <div class="consenso">
+                      <input
+                        class="consenso__casella"
+                        type="checkbox"
+                        id="b-consenso"
+                        name="consenso_privacy"
+                        value="sì"
+                        required
+                        aria-describedby="b-consenso-errore"
+                      />
+                      <label class="consenso__testo" for="b-consenso">
+                        Ho letto l'
+                        <a href="/privacy" target="_blank" rel="noopener">
+                          informativa sulla privacy<span class="sr-only">
+                            (si apre in una nuova scheda)
+                          </span>
+                        </a>{" "}
+                        e accetto che usi questi dati per rispondermi.
+                      </label>
+                    </div>
+                    <p class="campo__errore" id="b-consenso-errore" data-errore-per="consenso_privacy" />
+                  </div>
+                </div>
+              </fieldset>
+
+              {/* Trappola anti-spam di Formspree: invisibile e fuori dal tab order */}
+              <div class="modulo__gotcha" aria-hidden="true">
+                <label for="b-gotcha">Lascia vuoto questo campo</label>
+                <input id="b-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <input type="hidden" name="percorso" value="Vuoi vendere online" />
+              <input
+                type="hidden"
+                name="_subject"
+                value="Nuova richiesta dal portfolio (vuole vendere online)"
+              />
+
+              <div class="passi__azioni">
+                <Button variant="secondary" size="lg" type="button" data-indietro hidden>
+                  Indietro
+                </Button>
+                <Button variant="primary" size="lg" type="submit" data-avanti>
+                  <span data-avanti-testo>Invia</span>
+                </Button>
+              </div>
+
+              {/* L'esito degli errori di rete: annunciato, non un alert */}
+              <p class="modulo__esito" data-esito role="status" aria-live="polite" />
+            </form>
+
+            <div class="conferma" data-conferma tabindex="-1" hidden>
+              <p class="conferma__titolo">Ho ricevuto la tua richiesta.</p>
+              <p data-conferma-testo />
+            </div>
+          </Card>
+
+          <p class="passi__diretto">
+            Preferisci scrivermi direttamente? <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          </p>
+        </>
+      ) : (
+        <>
+          <h2 id="business-titolo">Scrivimi</h2>
+          <p class="passi__diretto">
+            Scrivimi direttamente: <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          </p>
+        </>
+      )
+    }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Colonna di lettura: stretta e allineata a sinistra, come il testo sopra */
+  .business {
+    max-width: 44rem;
+  }
+</style>
+
+<script>
+  import {
+    controlli,
+    segnala,
+    pulisci,
+    pulisciCorreggendo,
+    scrivi,
+    invia,
+    MESSAGGI_ERRORE_INVIO,
+  } from "../../scripts/modulo";
+
+  /* Errori scritti a parole, vicino al campo che li ha causati. */
+  const MESSAGGI = {
+    servizio: "Scegli una delle voci.",
+    servizio_altro: "Scrivi in poche parole cosa ti serve.",
+    situazione: "Scegli una delle voci.",
+    nome: "Scrivi come ti chiami.",
+    contatto_preferito: "Scegli se preferisci essere ricontattato al telefono o via email.",
+    telefono_vuoto: "Scrivi il tuo numero di telefono.",
+    telefono_storto: "Il numero non sembra giusto. Usa solo cifre e spazi, con il prefisso se serve.",
+    email: "Serve un'email valida, altrimenti non posso risponderti.",
+    consenso_privacy: "Per inviare la richiesta serve spuntare questa casella.",
+  };
+
+  function avvia() {
+    const form = document.querySelector<HTMLFormElement>("[data-passi]");
+    if (!form || form.dataset.montato === "si") return;
+    form.dataset.montato = "si";
+
+    /* novalidate da qui e non nell'HTML: senza JS restano i controlli nativi
+       di required e type="email". Con JS li sostituiamo con messaggi nostri. */
+    form.noValidate = true;
+
+    const passi = [...form.querySelectorAll<HTMLElement>("[data-passo]")];
+    const indicatore = form.querySelector<HTMLElement>("[data-indicatore]");
+    const indietro = form.querySelector<HTMLButtonElement>("[data-indietro]");
+    const avantiTesto = form.querySelector<HTMLElement>("[data-avanti-testo]");
+    const invio = form.querySelector<HTMLButtonElement>("[data-avanti]");
+    const esito = form.querySelector<HTMLElement>("[data-esito]");
+    const conferma = document.querySelector<HTMLElement>("[data-conferma]");
+    const intro = document.querySelector<HTMLElement>("[data-intro]");
+    const ultimo = passi.length - 1;
+    let corrente = 0;
+
+    const radio = (nome: string) => controlli(form, nome) as HTMLInputElement[];
+    const scelto = (nome: string) => radio(nome).find((r) => r.checked)?.value ?? "";
+    const valore = (nome: string) => (controlli(form, nome)[0]?.value ?? "").trim();
+
+    /* Campi che compaiono solo in certi casi: "Altro" e telefono o email */
+    function sincronizza() {
+      form!
+        .querySelector<HTMLElement>('[data-condizionale="altro"]')
+        ?.toggleAttribute("data-visibile", scelto("servizio") === "Altro");
+      for (const box of form!.querySelectorAll<HTMLElement>("[data-contatto]")) {
+        box.toggleAttribute("data-visibile", box.dataset.contatto === scelto("contatto_preferito"));
+      }
+    }
+
+    function mostra(i: number, conFocus: boolean) {
+      corrente = i;
+      passi.forEach((passo, n) => passo.toggleAttribute("data-attivo", n === i));
+      form!.dataset.corrente = String(i + 1);
+      if (indicatore) indicatore.textContent = `${i + 1} di ${passi.length}`;
+      if (indietro) indietro.hidden = i === 0;
+      if (avantiTesto) avantiTesto.textContent = i === ultimo ? "Invia" : "Avanti";
+      // Il focus va sulla domanda nuova: chi usa la tastiera o uno screen
+      // reader non resta su un bottone che nel frattempo è cambiato.
+      if (conFocus) passi[i].querySelector<HTMLElement>(".passo__domanda")?.focus();
+    }
+
+    /* Controlla solo il passo in corso e dà il focus al primo campo sbagliato */
+    function valida(passo: number): boolean {
+      const rotti: string[] = [];
+      const controlla = (nome: string, bene: boolean, testo: string) => {
+        if (bene) {
+          pulisci(form!, nome);
+        } else {
+          segnala(form!, nome, testo);
+          rotti.push(nome);
+        }
+      };
+
+      if (passo === 0) {
+        controlla("servizio", scelto("servizio") !== "", MESSAGGI.servizio);
+        if (scelto("servizio") === "Altro") {
+          controlla("servizio_altro", valore("servizio_altro") !== "", MESSAGGI.servizio_altro);
+        } else {
+          pulisci(form!, "servizio_altro");
+        }
+      } else if (passo === 1) {
+        controlla("situazione", scelto("situazione") !== "", MESSAGGI.situazione);
+      } else {
+        controlla("nome", valore("nome") !== "", MESSAGGI.nome);
+
+        const canale = scelto("contatto_preferito");
+        controlla("contatto_preferito", canale !== "", MESSAGGI.contatto_preferito);
+
+        if (canale === "Telefono") {
+          const numero = valore("telefono");
+          const cifre = numero.replace(/\D/g, "").length;
+          if (numero === "") controlla("telefono", false, MESSAGGI.telefono_vuoto);
+          else controlla("telefono", /^[\d\s+().-]+$/.test(numero) && cifre >= 6, MESSAGGI.telefono_storto);
+          pulisci(form!, "email");
+        } else if (canale === "Email") {
+          const campo = controlli(form!, "email")[0];
+          // checkValidity usa type="email": niente regex fatte in casa
+          controlla("email", valore("email") !== "" && campo.checkValidity(), MESSAGGI.email);
+          pulisci(form!, "telefono");
+        }
+
+        controlla(
+          "consenso_privacy",
+          (controlli(form!, "consenso_privacy")[0] as HTMLInputElement).checked,
+          MESSAGGI.consenso_privacy,
+        );
+      }
+
+      if (rotti.length > 0) {
+        controlli(form!, rotti[0])[0]?.focus();
+        return false;
+      }
+      return true;
+    }
+
+    // L'errore sparisce mentre correggi, non al prossimo invio
+    pulisciCorreggendo(form, [
+      "servizio",
+      "servizio_altro",
+      "situazione",
+      "nome",
+      "contatto_preferito",
+      "telefono",
+      "email",
+      "consenso_privacy",
+    ]);
+    form.addEventListener("change", () => {
+      sincronizza();
+      if (scelto("servizio") !== "Altro") pulisci(form, "servizio_altro");
+    });
+
+    indietro?.addEventListener("click", () => {
+      if (corrente > 0) mostra(corrente - 1, true);
+    });
+
+    /* Avanti e Invia sono lo stesso bottone di invio: così anche il tasto
+       Invio nei campi di testo porta avanti, senza gestirlo a parte. */
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      if (!valida(corrente)) return;
+
+      if (corrente < ultimo) {
+        mostra(corrente + 1, true);
+        return;
+      }
+
+      // Un solo invio, all'ultimo passo, con solo i dati che servono
+      const dati = new FormData(form);
+      const canale = scelto("contatto_preferito");
+      if (canale === "Telefono") dati.delete("email");
+      else dati.delete("telefono");
+      if (scelto("servizio") !== "Altro") dati.delete("servizio_altro");
+      const email = String(dati.get("email") ?? "").trim();
+      if (email) dati.set("_replyto", email);
+
+      if (invio) invio.disabled = true;
+      scrivi(esito, "", "Invio in corso...");
+
+      const risultato = await invia(form, dati);
+
+      if (risultato === "ok") {
+        scrivi(esito, "", "");
+        const testo = conferma?.querySelector<HTMLElement>("[data-conferma-testo]");
+        if (testo) {
+          testo.textContent =
+            canale === "Telefono"
+              ? "Ti contatto io al numero che mi hai lasciato."
+              : "Ti scrivo io all'indirizzo che mi hai lasciato.";
+        }
+        form.hidden = true;
+        if (intro) intro.hidden = true;
+        if (conferma) {
+          conferma.hidden = false;
+          conferma.focus();
+        }
+      } else {
+        scrivi(esito, "ko", MESSAGGI_ERRORE_INVIO[risultato]);
+        if (invio) invio.disabled = false;
+      }
+    });
+
+    sincronizza();
+    mostra(0, false);
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+</script>

@@ -13,6 +13,8 @@ import SectionHeader from "../components/ui/SectionHeader.astro";
 import Button from "../components/ui/Button.astro";
 import Card from "../components/ui/Card.astro";
 import TargetSwitch from "../components/ui/TargetSwitch";
+import ContattiBusiness from "../components/sections/ContattiBusiness.astro";
+import "../styles/modulo.css";
 import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
 
 const descrizione = FORM_ATTIVO
@@ -39,13 +41,13 @@ const descrizione = FORM_ATTIVO
 
   {/* Stesso switch dell'hero, stessa scelta salvata (localStorage "target").
       Senza una scelta la pagina la chiede e non mostra nessun percorso. */}
-  <section class="scelta" aria-label="Cosa cerchi">
+  <section class="selettore" aria-label="Cosa cerchi">
     <div class="container-site">
       <p class="eyebrow text-ink-2">Cosa cerchi?</p>
-      <div class="scelta__switch">
+      <div class="selettore__switch">
         <TargetSwitch client:load chiediScelta />
       </div>
-      <p class="scelta__invito">
+      <p class="selettore__invito">
         Scegli una voce: il modulo cambia in base a quello che cerchi.
       </p>
     </div>
@@ -175,15 +177,7 @@ const descrizione = FORM_ATTIVO
   </div>
 
   <div data-percorso="business">
-    <section class="section-pad" aria-labelledby="business-titolo">
-      <div class="container-site">
-        <h2 id="business-titolo">Scrivimi</h2>
-        <a class="canale canale--mail" href={`mailto:${EMAIL}`}>
-          <span class="eyebrow canale__etichetta">Email</span>
-          <span class="canale__valore">{EMAIL}</span>
-        </a>
-      </div>
-    </section>
+    <ContattiBusiness />
   </div>
 </Base>
 
@@ -273,23 +267,23 @@ const descrizione = FORM_ATTIVO
   }
 
   /* --- Scelta del percorso --- */
-  .scelta {
+  .selettore {
     padding-block: 1.5rem 0.5rem;
   }
 
-  .scelta__switch {
+  .selettore__switch {
     margin-top: 0.75rem;
   }
 
   /* Il messaggio c'è solo quando nessuna scelta è salvata: senza JavaScript
      (html senza data-target) non serve, perché i due percorsi sono in vista. */
-  .scelta__invito {
+  .selettore__invito {
     display: none;
     margin-top: 0.75rem;
     color: var(--color-ink-2);
   }
 
-  html[data-target]:not([data-scelto]) .scelta__invito {
+  html[data-target]:not([data-scelto]) .selettore__invito {
     display: block;
   }
 
@@ -308,7 +302,7 @@ const descrizione = FORM_ATTIVO
     display: block;
   }
 
-  html:not([data-target]) .scelta {
+  html:not([data-target]) .selettore {
     display: none;
   }
 
@@ -400,140 +394,6 @@ const descrizione = FORM_ATTIVO
     margin-top: 1.5rem;
     color: var(--color-ink-2);
     font-size: var(--text-body);
-  }
-
-  /* --- Form --- */
-  .modulo__intro {
-    margin-top: 0.5rem;
-    color: var(--color-ink-2);
-  }
-
-  .modulo__form {
-    display: grid;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .campo {
-    display: grid;
-  }
-
-  .campo__label {
-    font-weight: 600;
-  }
-
-  .campo__input {
-    margin-top: 0.5rem;
-    padding: 0.75rem 1rem;
-    min-height: 48px;
-    border: var(--border-retro);
-    border-radius: var(--radius-img);
-    background: var(--color-cream);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    font-size: 1rem;
-    transition: box-shadow 0.2s var(--ease-brand);
-  }
-
-  .campo__input--area {
-    resize: vertical;
-    min-height: 8rem;
-    line-height: 1.55;
-  }
-
-  .campo__input:focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
-    box-shadow: var(--shadow-hard-sm);
-  }
-
-  .campo__input[aria-invalid="true"] {
-    border-color: var(--color-arancio);
-  }
-
-  .campo__aiuto {
-    margin-top: 0.5rem;
-    color: var(--color-ink-2);
-    font-size: var(--text-label);
-  }
-
-  .campo__errore:empty {
-    display: none;
-  }
-
-  /* Testo in ink, non arancio: l'arancio a 13px su cream-2 si ferma a 4,24:1,
-     sotto il 4,5 di AA. Il colore resta nel marcatore e nel bordo del campo,
-     così l'errore non è segnalato dal solo colore. */
-  .campo__errore {
-    display: flex;
-    gap: 0.4em;
-    margin-top: 0.5rem;
-    color: var(--color-ink);
-    font-size: var(--text-label);
-    font-weight: 600;
-  }
-
-  .campo__errore::before {
-    content: "!";
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 1.15em;
-    height: 1.15em;
-    border-radius: 50%;
-    background: var(--color-arancio);
-    color: var(--color-cream);
-    font-family: var(--font-mono);
-    font-size: 0.85em;
-    line-height: 1;
-  }
-
-  .modulo__invia {
-    justify-self: start;
-  }
-
-  /* Niente display:none quando è vuoto: è una live region, e diversi screen
-     reader non annunciano il testo che arriva in un nodo appena ri-mostrato.
-     Da vuoto sparisce dalla vista azzerando box e bordo, ma resta nel flusso. */
-  .modulo__esito:empty {
-    padding: 0;
-    border: 0;
-  }
-
-  .modulo__esito {
-    padding: 0.875rem 1rem;
-    border: var(--border-retro);
-    border-radius: var(--radius-img);
-    font-weight: 500;
-  }
-
-  .modulo__esito[data-tipo="ok"] {
-    background: var(--color-ink);
-    color: var(--color-cream);
-  }
-
-  .modulo__esito[data-tipo="ko"] {
-    background: var(--color-cream-2);
-    border-color: var(--color-arancio);
-  }
-
-  /* Honeypot: nascosto agli umani, non a display:none (i bot lo saltano) */
-  .modulo__gotcha {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
 </style>
 
