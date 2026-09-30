@@ -333,7 +333,7 @@ Sei punti dettati da Luigi. I testi nuovi sono suoi, parola per parola.
 | `Come uso l'intelligenza artificiale` (titolo h2) | `/come-lavoro`, ultima sezione | → `Il mio processo creativo`. |
 | `Così il lavoro va più veloce, e il tempo che risparmio lo dedico a capire chi compra e a rendere il negozio semplice da usare. Oggi saper usare bene questi strumenti fa parte del mestiere.` | `/come-lavoro`, terzo paragrafo della stessa sezione | → `Così il lavoro va più veloce, e il tempo che risparmio lo dedico a rendere il negozio semplice da usare. Oggi saper usare bene questi strumenti fa parte del mestiere.` (tolto `capire chi compra e a`). |
 | `Contatti` (voce della nav) | `Nav.astro` | → `Loghi` (porta a `/loghi`). `Scrivimi` resta l'unico accesso ai contatti e ora c'è anche sul telefono. Nessun testo nuovo oltre ai nomi delle voci. |
-| `Progetto` (etichetta del tipo di logo) | Card di `/loghi`, striscia della home, pagine `/loghi/[slug]` | Tolta a vista. Il campo `tipo` resta nei dati e nell'alt dell'immagine (`Logo di X (Progetto)`). Gli altri tipi (per esempio `Esercizio di stile`) mostrano la loro etichetta. |
+| `Progetto` (etichetta del tipo di logo) | Card di `/loghi`, striscia della home, pagine `/loghi/[slug]` | Tolta a vista. Il campo `tipo` resta nei dati. Il 2026-09-30, in un secondo momento, tolta anche dall'alt dell'immagine (`Logo di X (Progetto)` → `Logo di X`). Gli altri tipi (per esempio `Esercizio di stile`) mostrano la loro etichetta, a vista e nell'alt. |
 
 Gli altri tre punti del blocco (piastrella in "Cosa faccio per te", fondi di sezione, animazione
 del marchio) non cambiano nessun testo.

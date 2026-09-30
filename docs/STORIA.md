@@ -387,6 +387,40 @@ lavori da fare stanno in `docs/STATO.md`.
     test-scena, test-etichette, test-progetti, test-pagine, test-nav, test-forme, test-loghi,
     test-percorsi, test-carosello).
 
+- **Chiusura della prova sfondi e nuova figura (2026-09-30).** Tre punti, un commit ciascuno,
+  nessun push. Nello stesso giorno del blocco modifiche qui sopra, di cui corregge il punto 1 e
+  il punto 3.
+  - **1. Sfondi** (`b152a1e`). Scelta la variante A solo per la striscia dei loghi: fondo ink,
+    ora nel CSS della sezione (`LoghiStriscia.astro`, con `:global` per i figli). Tutto il
+    resto è tornato come prima della prova: il commit della prova (`5b7669a`) è stato annullato
+    per intero, quindi sono spariti `?fondi`, il blocco "PROVA FONDI" di `global.css`, gli
+    attributi `data-fondo`, lo script in `Base.astro` e la sabbia (`tokens.css` e
+    `design-tokens.md`). Sul fondo ink: testi cream, intro e note cream-2, bordo e ombra dura
+    delle card cream, anello del focus cream, barra di scorrimento cream-2. Il padding della
+    striscia è ora sopra e sotto, con un margine sotto per staccarla dall'invito. **Contrasti**
+    (WCAG, misurati sulla pagina vera a 390 e 1280, stessi numeri): titolo 15,94, intro e nome
+    dei riquadri 14,51, link "Vedi tutti i loghi" 15,94 (anche in hover, dove resta cream e
+    cambia solo la sottolineatura); anello del focus su card e link 15,94; bordo delle card
+    15,94; sottolineatura arancio del link 3,42 (soglia 3:1 per i non-testo). Il carosello non
+    ha frecce né pulsanti: i controlli sono le card (link) e il trascinamento. Tutto supera AA.
+  - **2. La L del marchio** (`70ae1b3`). La figura di "Cosa faccio per te" è ora il marchio che
+    si costruisce: `LogoCresce.astro` (props `riga`, `totale`) su `src/logo.ts`, che contiene
+    la geometria del marchio (barra 17,10,26x80 e quarto `M43 90V50A40 40 0 0 1 83 90Z` nel
+    viewBox 0 0 100 100) ed è usata anche da `Nav.astro`, così le due non possono divergere.
+    Con N righe la barra è divisa in N-1 segmenti (con una riga sola la L è già completa): la
+    parte arrivata è un solo rettangolo dall'alto che cresce (tanti segmenti affiancati
+    lascerebbero una linea chiara tra l'uno e l'altro); i segmenti che mancano sono rettangoli
+    col solo contorno in ink-2, 1,25px fissi (`vector-effect="non-scaling-stroke"`), e il
+    quarto di cerchio è solo contorno fino all'ultima riga, dove diventa arancio. All'ultima riga
+    i due elementi sono identici a quelli della navbar. Tolti `src/piastrella.ts` e il suo
+    uso. `test-percorsi` controlla altezza della barra riga per riga, contorni nel posto che
+    avranno, quarto solo contorno, ultima riga uguale al marchio letto dalla navbar, stessa
+    misura e posizione. Verificato con 4 righe; per altri numeri vale la stessa logica ma non
+    è coperto da un test.
+  - **3. Alt dei loghi** (`25ff88f`). `altLogo()` non scrive più `(Progetto)`:
+    `Logo di X`. Gli altri tipi mantengono l'etichetta, come a vista.
+  - **Test.** Dieci test permanenti sulla build di preview, tutti verdi.
+
 ## Correzioni dall'audit (2026-09-21)
 
 Fonte: `docs/AUDIT.md`. Di quella lista sono stati chiusi quattro punti, tutti verificati a 390
