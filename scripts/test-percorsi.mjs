@@ -5,9 +5,10 @@
     nel percorso business "Vedi i risultati" porta alla griglia;
   - "Cosa faccio per te": solo nel percorso business, dopo la griglia
     progetti: apertura in Fraunces, quattro righe numerate tra linee sottili
-    ink con la piastrella Bauhaus che cresce (SVG: un pezzo alla riga 1, tutta alla
-    riga 4, l'ultimo pezzo arancio), righe impilate a 390 e
-    affiancate a 1280, blocco di chiusura ink con testo cream e bottone
+    ink con la L del marchio che si costruisce (SVG: un segmento di barra in più
+    per riga, contorno sottile per i pezzi che mancano, quarto di cerchio arancio
+    solo all'ultima riga, dove è identica al marchio della navbar), righe
+    impilate a 390 e affiancate a 1280, blocco di chiusura ink con testo cream e bottone
     arancio verso i contatti;
   - senza JavaScript vale il percorso dev;
   - nessun overflow, nessun errore in console.
@@ -81,21 +82,50 @@ const leggiHome = (page) =>
         numeri: [...(servizi?.querySelectorAll(".servizi__numero") ?? [])].map((n) =>
           n.textContent.trim(),
         ),
-        // Una figura SVG per riga: la stessa piastrella, un pezzo in più alla volta
+        // Marchio della navbar: la L che la figura deve diventare all'ultima riga
+        logoNav: (() => {
+          const svg = document.querySelector(".site-nav__logo svg");
+          const r = svg.querySelector("rect");
+          return {
+            viewBox: svg.getAttribute("viewBox"),
+            barra: ["x", "y", "width", "height"].map((a) => Number(r.getAttribute(a))),
+            quarto: svg.querySelector("path").getAttribute("d"),
+            fillBarra: r.getAttribute("fill"),
+            fillQuarto: svg.querySelector("path").getAttribute("fill"),
+          };
+        })(),
+        // Una figura SVG per riga: la L del marchio, un pezzo in più alla volta
         forme: [...(servizi?.querySelectorAll("li svg") ?? [])].map((svg) => {
           const box = svg.getBoundingClientRect();
           const li = svg.closest("li").getBoundingClientRect();
-          const pezzi = [...svg.querySelectorAll("path")];
+          const num = (el, a) => Number(el.getAttribute(a));
+          const rettangoli = [...svg.querySelectorAll("rect")].map((el) => ({
+            x: num(el, "x"),
+            y: num(el, "y"),
+            w: num(el, "width"),
+            h: num(el, "height"),
+            fill: el.getAttribute("fill"),
+            stroke: el.getAttribute("stroke"),
+            larghezzaLinea: Number(el.getAttribute("stroke-width") ?? 0),
+          }));
+          const quarto = svg.querySelector("path");
           return {
             nascosta: svg.getAttribute("aria-hidden") === "true",
             visibile: visibile(svg),
+            viewBox: svg.getAttribute("viewBox"),
             larghezza: box.width,
             altezza: box.height,
             // Posizione rispetto alla riga: uguale in tutte le righe
             sinistra: box.left - li.left,
-            // Il pezzo appena aggiunto è l'ultimo, arancio; i precedenti ink
-            fill: pezzi.map((pz) => pz.getAttribute("fill")),
-            d: pezzi.map((pz) => pz.getAttribute("d")),
+            pieni: rettangoli.filter((r) => r.fill === "var(--color-ink)"),
+            contorni: rettangoli.filter((r) => r.fill === "none"),
+            tutteLeForme: svg.querySelectorAll("rect, path").length,
+            quarto: {
+              d: quarto.getAttribute("d"),
+              fill: quarto.getAttribute("fill"),
+              stroke: quarto.getAttribute("stroke"),
+              larghezzaLinea: Number(quarto.getAttribute("stroke-width") ?? 0),
+            },
           };
         }),
         immagini: servizi?.querySelectorAll("li img").length ?? 0,
@@ -215,22 +245,75 @@ for (const vp of [390, 1280]) {
           h.servizi.forme.every((f) => f.nascosta && f.visibile),
         `${etichetta}: quattro figure SVG decorative, senza immagini`,
       );
-      atteso(
-        h.servizi.forme.every(
-          (f, i) =>
-            f.d.length === i + 1 &&
-            f.fill.at(-1) === "var(--color-arancio)" &&
-            f.fill.slice(0, -1).every((c) => c === "var(--color-ink)"),
-        ),
-        `${etichetta}: la riga n ha n pezzi, l'ultimo arancio e i precedenti ink`,
-      );
-      atteso(
-        h.servizi.forme.every(
-          (f, i, tutte) =>
-            i === 0 || tutte[i - 1].d.every((d, k) => d === f.d[k]),
-        ),
-        `${etichetta}: ogni figura contiene i pezzi della precedente, negli stessi punti`,
-      );
+      {
+        // N righe: la barra è divisa in N-1 segmenti, uno in più per riga
+        const N = h.servizi.forme.length;
+        const S = N - 1;
+        const { barra, quarto, viewBox } = h.servizi.logoNav;
+        const [bx, by, bw, bh] = barra;
+        const vicino = (a, b) => Math.abs(a - b) < 0.01;
+        const prime = h.servizi.forme.slice(0, -1);
+        const ultima = h.servizi.forme.at(-1);
+
+        atteso(
+          prime.every(
+            (f, i) =>
+              f.pieni.length === 1 &&
+              f.pieni[0].x === bx &&
+              f.pieni[0].w === bw &&
+              vicino(f.pieni[0].y, by) &&
+              vicino(f.pieni[0].h, ((i + 1) * bh) / S),
+          ),
+          `${etichetta}: la barra ink parte dall'alto e cresce di un segmento per riga (${prime.map((f) => f.pieni[0]?.h).join(", ")})`,
+        );
+        atteso(
+          prime.every((f, i) => f.contorni.length === S - (i + 1)) &&
+            prime.every((f) =>
+              f.contorni.every(
+                (c) =>
+                  c.stroke === "var(--color-ink-2)" &&
+                  c.larghezzaLinea <= 2 &&
+                  c.x === bx &&
+                  c.w === bw &&
+                  vicino(c.h, bh / S),
+              ),
+            ) &&
+            prime.every((f) => {
+              // I segmenti che mancano continuano la barra, uno sotto l'altro
+              let fondo = f.pieni[0].y + f.pieni[0].h;
+              return f.contorni.every((c) => {
+                const giusto = vicino(c.y, fondo);
+                fondo = c.y + c.h;
+                return giusto;
+              });
+            }),
+          `${etichetta}: i segmenti che mancano sono un contorno sottile in ink-2, nel posto che avranno`,
+        );
+        atteso(
+          prime.every(
+            (f) =>
+              f.quarto.d === quarto &&
+              f.quarto.fill === "none" &&
+              f.quarto.stroke === "var(--color-ink-2)" &&
+              f.quarto.larghezzaLinea <= 2,
+          ),
+          `${etichetta}: prima dell'ultima riga il quarto di cerchio è solo un contorno`,
+        );
+        atteso(
+          ultima.pieni.length === 1 &&
+            ultima.contorni.length === 0 &&
+            ultima.tutteLeForme === 2 &&
+            [ultima.pieni[0].x, ultima.pieni[0].y, ultima.pieni[0].w, ultima.pieni[0].h].join() ===
+              barra.join() &&
+            ultima.pieni[0].fill === h.servizi.logoNav.fillBarra &&
+            ultima.quarto.d === quarto &&
+            ultima.quarto.fill === h.servizi.logoNav.fillQuarto &&
+            ultima.quarto.fill === "var(--color-arancio)" &&
+            ultima.quarto.stroke === null &&
+            h.servizi.forme.every((f) => f.viewBox === viewBox),
+          `${etichetta}: all'ultima riga la L è identica al marchio della navbar (barra ink, quarto arancio, stesso viewBox)`,
+        );
+      }
       atteso(
         h.servizi.forme.every(
           (f, i, tutte) =>

@@ -7,15 +7,16 @@
  * agli screen reader nel percorso dev e senza JavaScript (che vale dev).
  *
  * Apertura grande in Fraunces, righe numerate tra linee sottili ink. Accanto
- * a ogni numero c'è la stessa piastrella Bauhaus (src/piastrella.ts) che si
- * costruisce: la riga 1 ne mostra un pezzo, la riga 2 due, l'ultima la figura
- * completa. Il pezzo appena aggiunto è arancio, i precedenti ink. La figura ha
- * sempre la stessa dimensione e posizione, con qualsiasi numero di righe. In
- * fondo un blocco ink con il bottone di contatto. Nessuna animazione: la
- * sezione non ne aveva e nel resto della home non ce ne sono di simili.
+ * a ogni numero c'è la L del marchio che si costruisce (LogoCresce): la barra
+ * cresce di un segmento per riga, dall'alto in basso, e all'ultima riga arriva
+ * il quarto di cerchio arancio. I pezzi non ancora arrivati sono un contorno
+ * sottile. La figura ha sempre la stessa dimensione e posizione, con qualsiasi
+ * numero di righe. In fondo un blocco ink con il bottone di contatto. Nessuna
+ * animazione: la sezione non ne aveva e nel resto della home non ce ne sono
+ * di simili.
  */
 import Button from "../ui/Button.astro";
-import { piastrella } from "../../piastrella";
+import LogoCresce from "../ui/LogoCresce.astro";
 
 const SERVIZI = [
   {
@@ -36,8 +37,6 @@ const SERVIZI = [
       "Colori, font e logo che si riconoscono, dal sito alle buste per le spedizioni.",
   },
 ] as const;
-
-const PEZZI = piastrella(SERVIZI.length);
 ---
 
 <section class="servizi" aria-labelledby="servizi-titolo" data-only="business">
@@ -56,18 +55,7 @@ const PEZZI = piastrella(SERVIZI.length);
               {String(i + 1).padStart(2, "0")}
             </span>
 
-            <svg
-              class="servizi__forma"
-              viewBox="0 0 100 100"
-              width="64"
-              height="64"
-              aria-hidden="true"
-              focusable="false"
-            >
-              {PEZZI.slice(0, i + 1).map((d, k) => (
-                <path d={d} fill={k === i ? "var(--color-arancio)" : "var(--color-ink)"} />
-              ))}
-            </svg>
+            <LogoCresce class="servizi__forma" riga={i} totale={SERVIZI.length} />
 
             <h3 class="servizi__titolo">{titolo}</h3>
             <p class="servizi__testo">{testo}</p>
@@ -119,7 +107,7 @@ const PEZZI = piastrella(SERVIZI.length);
     color: var(--color-ink-2);
   }
 
-  .servizi__forma {
+  .servizi__voce :global(.servizi__forma) {
     grid-column: 2;
     grid-row: 1;
     justify-self: end;
@@ -157,7 +145,7 @@ const PEZZI = piastrella(SERVIZI.length);
       padding-block: 1.75rem;
     }
 
-    .servizi__forma {
+    .servizi__voce :global(.servizi__forma) {
       grid-column: 2;
       justify-self: start;
       width: 88px;

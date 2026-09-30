@@ -17,6 +17,8 @@
  * pagina (home, caso reale e contatti avevano tre id diversi) e l'header
  * veniva sostituito invece che tenuto.
  */
+import { LOGO_BARRA, LOGO_QUARTO, LOGO_VIEWBOX } from "../../logo";
+
 const voci = [
   { href: "/#progetti", label: "Progetti", sezione: "progetti" },
   { href: "/come-lavoro", label: "Come lavoro" },
@@ -29,9 +31,9 @@ const pathname = Astro.url.pathname;
 <header class="site-nav" transition:persist="site-nav">
   <div class="site-nav__pill">
     <a class="site-nav__logo" href="/" aria-label="Luigi Romano, torna alla home">
-      <svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true" focusable="false">
-        <rect x="17" y="10" width="26" height="80" fill="var(--color-ink)" />
-        <path class="site-nav__quarto" d="M43 90V50A40 40 0 0 1 83 90Z" fill="var(--color-arancio)" />
+      <svg viewBox={LOGO_VIEWBOX} width="36" height="36" aria-hidden="true" focusable="false">
+        <rect {...LOGO_BARRA} fill="var(--color-ink)" />
+        <path class="site-nav__quarto" d={LOGO_QUARTO} fill="var(--color-arancio)" />
       </svg>
     </a>
     <span class="site-nav__sep" aria-hidden="true"></span>

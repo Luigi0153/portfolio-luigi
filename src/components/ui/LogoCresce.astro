@@ -1,0 +1,77 @@
+---
+/**
+ * Il marchio che si costruisce: la L della navbar, pezzo per pezzo.
+ *
+ * Con `totale` righe la barra è divisa in `totale - 1` segmenti, dall'alto
+ * verso il basso: la riga `riga` (da 0) ne mostra `riga + 1`. All'ultima riga
+ * arriva il quarto di cerchio arancio e la figura è il marchio intero, con la
+ * stessa barra e lo stesso quarto della navbar (src/logo.ts). I pezzi non
+ * ancora arrivati sono un contorno sottile in ink-2, così dalla prima riga si
+ * vede la forma finale. Stesso viewBox in ogni riga, quindi stessa misura e
+ * posizione. Con una sola riga la figura è già completa.
+ */
+import { LOGO_BARRA, LOGO_QUARTO, LOGO_VIEWBOX } from "../../logo";
+
+interface Props {
+  riga: number;
+  totale: number;
+  class?: string;
+}
+
+const { riga, totale, class: className } = Astro.props;
+
+const segmenti = Math.max(totale - 1, 1);
+const completo = riga + 1 >= totale;
+const arrivati = completo ? segmenti : Math.min(riga + 1, segmenti);
+
+const { x, y, width, height } = LOGO_BARRA;
+const passo = height / segmenti;
+const r = (v: number) => Math.round(v * 1000) / 1000;
+
+// La parte arrivata è un solo rettangolo: tanti segmenti affiancati
+// lascerebbero una linea chiara tra l'uno e l'altro.
+const piena = { x, y, width, height: r(passo * arrivati) };
+const attesi = Array.from({ length: segmenti - arrivati }, (_, k) => ({
+  x,
+  y: r(y + passo * (arrivati + k)),
+  width,
+  height: r(passo),
+}));
+---
+
+<svg
+  class={className}
+  viewBox={LOGO_VIEWBOX}
+  width="64"
+  height="64"
+  aria-hidden="true"
+  focusable="false"
+  data-riga={riga}
+>
+  <rect {...piena} fill="var(--color-ink)"></rect>
+  {
+    attesi.map((seg) => (
+      <rect
+        {...seg}
+        fill="none"
+        stroke="var(--color-ink-2)"
+        stroke-width="1.25"
+        vector-effect="non-scaling-stroke"
+      />
+    ))
+  }
+  {
+    completo ? (
+      <path d={LOGO_QUARTO} fill="var(--color-arancio)" />
+    ) : (
+      <path
+        d={LOGO_QUARTO}
+        fill="none"
+        stroke="var(--color-ink-2)"
+        stroke-width="1.25"
+        stroke-linejoin="round"
+        vector-effect="non-scaling-stroke"
+      />
+    )
+  }
+</svg>
