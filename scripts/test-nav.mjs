@@ -1,6 +1,8 @@
 /*
   Verifica della nav a pillola alle larghezze critiche (320 → 1280), con
-  ciascuna voce attiva e con il telefono ruotato in orizzontale:
+  ciascuna voce attiva e con il telefono ruotato in orizzontale. Le voci sono
+  Progetti, Come lavoro e Loghi; "Scrivimi" è l'unico accesso ai contatti e
+  sta in pillola a ogni larghezza, anche sul telefono:
   1. la pillola è larga quanto il suo contenuto, centrata, e resta staccata
      almeno 12px da ogni bordo (100% meno 24px);
   2. gli spazi tra le voci crescono con la larghezza ma non si sparpagliano;
@@ -34,7 +36,7 @@ const atteso = (cond, msg) => (cond ? ok(msg) : ko(msg));
 /* Le tre voci, con la pagina che le rende attive. */
 const pagine = [
   { voce: "Come lavoro", url: "/come-lavoro" },
-  { voce: "Contatti", url: "/contatti" },
+  { voce: "Loghi", url: "/loghi" },
   { voce: "Progetti", url: "/", sezione: "progetti" },
 ];
 
@@ -107,6 +109,18 @@ const misura = (page) =>
       scartoLarghezza: attivo ? +Math.abs(rt.width - r(attivo).width).toFixed(2) : null,
       overflow:
         document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      cta: (() => {
+        const c = document.querySelector(".site-nav__cta");
+        const rc = c.getBoundingClientRect();
+        return {
+          testo: c.textContent.trim(),
+          href: c.getAttribute("href"),
+          h: +rc.height.toFixed(1),
+          visibile: rc.width > 0 && getComputedStyle(c).display !== "none",
+        };
+      })(),
+      contatti: document.querySelectorAll('.site-nav a[href="/contatti"]').length,
+      testiNav: [...document.querySelectorAll(".site-nav a")].map((a) => a.textContent.trim()),
     };
   });
 
@@ -149,6 +163,14 @@ const verifica = (m, etichetta, voce) => {
     `${etichetta}: il marchio ha il nome nell'aria-label e nessun testo visibile`,
   );
   atteso(m.sep === !mobile, `${etichetta}: separatore ${mobile ? "assente" : "presente"} (${m.sep})`);
+  atteso(
+    m.cta.visibile && m.cta.testo === "Scrivimi" && m.cta.href === "/contatti" && m.cta.h >= 44,
+    `${etichetta}: "Scrivimi" è in pillola e porta ai contatti (${m.cta.h}px di altezza)`,
+  );
+  atteso(
+    m.contatti === 1 && !m.testiNav.includes("Contatti"),
+    `${etichetta}: "Scrivimi" è l'unico accesso ai contatti (${m.testiNav.join(", ")})`,
+  );
   return m.pad;
 };
 
@@ -369,7 +391,9 @@ const tuttePagine = [
   { url: "/", voce: null },
   { url: "/", voce: "Progetti", sezione: "progetti" },
   { url: "/come-lavoro", voce: "Come lavoro" },
-  { url: "/contatti", voce: "Contatti" },
+  { url: "/contatti", voce: null },
+  { url: "/loghi", voce: "Loghi" },
+  { url: "/loghi/boutique", voce: null },
   { url: "/progetti/caso-reale", voce: null },
   { url: "/progetti/fornace-vietri", voce: null },
   { url: "/progetti/pizzeria", voce: null },
@@ -396,9 +420,10 @@ for (const w of [390, 1280]) {
 /* Pagina raggiunta dalla nav (View Transitions, header persistito) */
 const giro = [
   { da: "/", clic: "Come lavoro", voce: "Come lavoro" },
-  { da: "/come-lavoro", clic: "Contatti", voce: "Contatti" },
-  { da: "/contatti", clic: "Progetti", voce: "Progetti" },
-  { da: "/progetti/caso-reale", clic: "Contatti", voce: "Contatti" },
+  { da: "/come-lavoro", clic: "Loghi", voce: "Loghi" },
+  { da: "/loghi", clic: "Progetti", voce: "Progetti" },
+  { da: "/contatti", clic: "Loghi", voce: "Loghi" },
+  { da: "/progetti/caso-reale", clic: "Loghi", voce: "Loghi" },
   { da: "/404", clic: "Come lavoro", voce: "Come lavoro" },
 ];
 for (const w of [390, 1280]) {
@@ -428,10 +453,66 @@ for (const w of [390, 1280]) {
   await page.addStyleTag({ content: "html { scroll-behavior: auto !important; }" });
   await page.evaluate(() => document.getElementById("progetti")?.scrollIntoView({ block: "start" }));
   await page.waitForTimeout(600);
-  await page.click('.site-nav__link:text-is("Contatti")');
-  await page.waitForURL("**/contatti");
+  await page.click('.site-nav__link:text-is("Loghi")');
+  await page.waitForURL("**/loghi");
   await page.waitForTimeout(1000);
-  verificaRiempimento(await riempimento(page), "1280px /#progetti → Contatti", "Contatti");
+  verificaRiempimento(await riempimento(page), "1280px /#progetti → Loghi", "Loghi");
+  await page.close();
+}
+
+/*
+  "Scrivimi" nella pagina dei contatti: riempimento ink col testo cream, come
+  una voce attiva, e nessuna voce attiva accanto. Uscendo dalla pagina si
+  spegne. Da nav, senza ricaricare (header persistito).
+*/
+const statoCta = (page) =>
+  page.evaluate(() => {
+    const colore = (token) => {
+      const prova = document.createElement("span");
+      prova.style.color = `var(${token})`;
+      document.body.append(prova);
+      const c = getComputedStyle(prova).color;
+      prova.remove();
+      return c;
+    };
+    const cta = document.querySelector(".site-nav__cta");
+    const cs = getComputedStyle(cta);
+    return {
+      corrente: cta.getAttribute("aria-current"),
+      pieno: cs.backgroundColor === colore("--color-ink") && cs.color === colore("--color-cream"),
+    };
+  });
+
+for (const w of [390, 1280]) {
+  const page = await browser.newPage({ viewport: { width: w, height: 844 } });
+  await page.goto(BASE + "/come-lavoro", { waitUntil: "networkidle" });
+  await page.evaluate(() => {
+    document.querySelector(".site-nav").dataset.marcato = "si";
+  });
+  let c = await statoCta(page);
+  atteso(c.corrente === null && !c.pieno, `${w}px /come-lavoro: "Scrivimi" non è attivo`);
+
+  await page.click(".site-nav__cta");
+  await page.waitForURL("**/contatti");
+  await page.mouse.move(0, 0);
+  await page.waitForTimeout(1000);
+  c = await statoCta(page);
+  atteso(
+    c.corrente === "page" && c.pieno,
+    `${w}px /come-lavoro → Scrivimi: si arriva ai contatti e il bottone è pieno ink (${c.corrente})`,
+  );
+  atteso(
+    await page.evaluate(() => document.querySelector(".site-nav").dataset.marcato === "si"),
+    `${w}px → Scrivimi: l'header è lo stesso nodo`,
+  );
+  verificaRiempimento(await riempimento(page), `${w}px /contatti`, null);
+
+  await page.click(".site-nav__logo");
+  await page.waitForURL((u) => u.pathname === "/");
+  await page.mouse.move(0, 0);
+  await page.waitForTimeout(1000);
+  c = await statoCta(page);
+  atteso(c.corrente === null && !c.pieno, `${w}px /contatti → home: "Scrivimi" si spegne`);
   await page.close();
 }
 

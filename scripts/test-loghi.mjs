@@ -9,7 +9,7 @@
     nel riquadro e nel dettaglio;
   - ogni dettaglio mostra solo i formati con immagini, tutte caricate;
   - home: striscia con il carosello (tutti i loghi, nell'ordine), link a /loghi,
-    nav a tre voci, footer (il movimento è in test-carosello);
+    nav a tre voci con Loghi, footer (il movimento è in test-carosello);
   - nessun overflow orizzontale.
   Uso: node scripts/test-loghi.mjs   (server su BASE_URL o :4321)
 */
@@ -372,7 +372,7 @@ for (const vp of VIEWPORT) {
     h.linkTutti.includes("Vedi tutti i loghi"),
     `${vp.w}px home: link "Vedi tutti i loghi"`,
   );
-  atteso(h.vociNav === 3 && h.navLoghi === 0, `${vp.w}px home: navbar a tre voci, senza Loghi`);
+  atteso(h.vociNav === 3 && h.navLoghi === 1, `${vp.w}px home: navbar a tre voci, con Loghi`);
   atteso(h.footerLoghi === 1, `${vp.w}px home: /loghi nel footer`);
 
   const riquadri = await leggiRiquadri(page, 'section[aria-labelledby="loghi-striscia-titolo"]');

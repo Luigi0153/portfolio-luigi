@@ -1,6 +1,8 @@
 ---
 /**
- * Nav: pillola flottante sticky, marchio SVG + 3 voci + CTA (da 768px).
+ * Nav: pillola flottante sticky, marchio SVG + 3 voci + "Scrivimi".
+ * "Scrivimi" è l'unico accesso ai contatti e sta in pillola a ogni larghezza:
+ * non c'è un menu a parte, le voci stanno tutte in riga.
  *
  * La voce attiva è una pillola ink che scorre da una voce all'altra:
  * un solo elemento (.site-nav__thumb) mosso da JS, perché tra elementi
@@ -18,7 +20,7 @@
 const voci = [
   { href: "/#progetti", label: "Progetti", sezione: "progetti" },
   { href: "/come-lavoro", label: "Come lavoro" },
-  { href: "/contatti", label: "Contatti" },
+  { href: "/loghi", label: "Loghi" },
 ];
 
 const pathname = Astro.url.pathname;
@@ -58,7 +60,13 @@ const pathname = Astro.url.pathname;
       </ul>
     </nav>
 
-    <a class="site-nav__cta" href="/contatti">Scrivimi</a>
+    <a
+      class="site-nav__cta"
+      href="/contatti"
+      aria-current={pathname === "/contatti" || pathname === "/contatti/" ? "page" : undefined}
+    >
+      Scrivimi
+    </a>
   </div>
 </header>
 
@@ -69,16 +77,21 @@ const pathname = Astro.url.pathname;
     salta al primo scroll. L'header trasparente copre tutta la riga, quindi non
     deve intercettare i click fuori dalla pillola.
 
-    Qui stanno anche le misure che cambiano con la larghezza, così pillola
-    e voci leggono tutte gli stessi valori. Gli spazi sono in clamp():
-    stretti sui telefoni piccoli, appena più larghi su quelli grandi, mai
-    sparpagliati. Il testo invece scende solo dove gli spazi hanno già toccato
-    il minimo, cioè sotto i 360px, e si ferma a 13px: 0.3125rem + 2.5vw fa
-    14px a 360 e 13px a 320.
+    Qui stanno anche le misure che cambiano con la larghezza, così pillola,
+    voci e "Scrivimi" leggono tutte gli stessi valori. Gli spazi sono in
+    clamp(): stretti sui telefoni piccoli, appena più larghi su quelli grandi,
+    mai sparpagliati. Con quattro voci più il marchio la riga è piena già a
+    360px, quindi sotto i 400px lo spazio scende in fretta: da 3,5px a 320 a
+    7px a 390 (5vw - 12,5px). Il testo si ferma a 13px, e 0.3125rem + 2.5vw
+    fa 14px a 360 e 13px a 320. "Scrivimi" tiene un po' più d'aria delle voci
+    (--nav-pad-cta) e, sotto i 340px, dove non c'è posto, perde il bordo
+    (--nav-bordo-cta) e resta una voce in grassetto.
   */
   .site-nav {
     --nav-gap: clamp(0.1875rem, 0.9vw, 0.25rem);
-    --nav-pad-voce: clamp(0.375rem, 1.9vw, 0.625rem);
+    --nav-pad-voce: clamp(0.21875rem, 5vw - 12.5px, 0.625rem);
+    --nav-pad-cta: calc(var(--nav-pad-voce) + 1.5px);
+    --nav-bordo-cta: 0px;
     --nav-testo-voce: clamp(0.8125rem, 0.3125rem + 2.5vw, 0.875rem);
 
     position: sticky;
@@ -89,10 +102,17 @@ const pathname = Astro.url.pathname;
     pointer-events: none;
   }
 
+  @media (min-width: 340px) {
+    .site-nav {
+      --nav-bordo-cta: 2px;
+    }
+  }
+
   @media (min-width: 768px) {
     .site-nav {
       --nav-gap: 0.5rem;
       --nav-pad-voce: 0.875rem;
+      --nav-pad-cta: 1.125rem;
       --nav-testo-voce: 0.9375rem;
     }
   }
@@ -234,7 +254,7 @@ const pathname = Astro.url.pathname;
     padding-inline: var(--nav-pad-voce);
     font-size: var(--nav-testo-voce);
     font-weight: 500;
-    /* le tre voci restano su una riga sola a qualsiasi larghezza */
+    /* le voci restano su una riga sola a qualsiasi larghezza */
     white-space: nowrap;
     text-decoration: none;
     transition: color 0.15s var(--ease-brand);
@@ -247,34 +267,40 @@ const pathname = Astro.url.pathname;
     transition-delay: 0.18s;
   }
 
-  /* Solo da 768: sotto, la riga serve tutta alle tre voci. Bordo ink e non
-     arancio — l'arancio è della CTA primaria, una sola per schermata. */
+  /* Bordo ink e non arancio — l'arancio è della CTA primaria, una sola per
+     schermata. Nella pagina dei contatti si riempie di ink, come una voce
+     attiva. */
   .site-nav__cta {
-    display: none;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: var(--nav-pad-cta);
+    border: var(--nav-bordo-cta) solid var(--color-ink);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-ink);
+    font-size: var(--nav-testo-voce);
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+      background-color 0.25s var(--ease-brand),
+      color 0.25s var(--ease-brand);
   }
 
   @media (min-width: 768px) {
     .site-nav__cta {
-      display: inline-flex;
-      align-items: center;
-      min-height: 44px;
       margin-left: 0.25rem;
-      padding-inline: 1.125rem;
-      border: 2px solid var(--color-ink);
-      border-radius: var(--radius-pill);
-      background: transparent;
-      color: var(--color-ink);
-      font-size: 0.9375rem;
-      font-weight: 600;
-      white-space: nowrap;
-      text-decoration: none;
-      transition:
-        background-color 0.25s var(--ease-brand),
-        color 0.25s var(--ease-brand);
     }
   }
 
-  @media (min-width: 768px) and (hover: hover) {
+  .site-nav__cta[aria-current] {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  @media (hover: hover) {
     .site-nav__cta:hover {
       background: var(--color-ink);
       color: var(--color-cream);
@@ -305,7 +331,8 @@ const pathname = Astro.url.pathname;
   /*
     Tre cose, tutte rifatte a ogni navigazione perché l'header è persistito e
     il suo markup non viene rimpiazzato dallo swap:
-    1. aria-current="page" della pagina corrente (server-side non basta più);
+    1. aria-current="page" della pagina corrente, anche su "Scrivimi"
+       (server-side non basta più);
     2. scroll-spy delle sezioni presenti nella pagina (aria-current="true");
     3. posizione della pillola che evidenzia la voce attiva.
   */
@@ -329,6 +356,7 @@ const pathname = Astro.url.pathname;
     const thumb = nav.querySelector<HTMLElement>(".site-nav__thumb");
     const cornice = nav.querySelector<HTMLElement>(".site-nav__nav");
     const links = [...nav.querySelectorAll<HTMLAnchorElement>(".site-nav__link")];
+    const cta = nav.querySelector<HTMLAnchorElement>(".site-nav__cta");
 
     // 1. Pagina attiva: con transition:persist resta quella di partenza.
     // Le voci di sezione ripartono spente: se la sezione è in questa pagina
@@ -343,6 +371,12 @@ const pathname = Astro.url.pathname;
       const suo = new URL(link.href).pathname.replace(/\/$/, "") || "/";
       if (suo === qui) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
+    }
+
+    if (cta) {
+      const suo = new URL(cta.href).pathname.replace(/\/$/, "") || "/";
+      if (suo === qui) cta.setAttribute("aria-current", "page");
+      else cta.removeAttribute("aria-current");
     }
 
     function posiziona() {
