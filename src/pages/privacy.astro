@@ -1,0 +1,112 @@
+---
+/**
+ * Informativa sulla privacy: breve, in parole semplici. Copre solo quello che
+ * il sito fa davvero: i moduli di /contatti (inviati a Formspree) e la scelta
+ * del percorso salvata nel browser. Il testo va fatto controllare prima della
+ * pubblicazione (vedi docs/STATO.md).
+ */
+import Base from "../layouts/Base.astro";
+import { EMAIL } from "../dati-sito";
+---
+
+<Base
+  title="Privacy"
+  description="Quali dati raccolgo dai moduli del sito, perché e come puoi chiedermi di vederli, correggerli o cancellarli."
+>
+  <section class="privacy section-pad">
+    <div class="container-site">
+      <div class="privacy__testo">
+        <p class="eyebrow text-ink-2">Privacy</p>
+        <h1 class="mt-4">Come uso i tuoi dati.</h1>
+        <p class="privacy__intro">
+          Questa pagina spiega in poche righe cosa succede ai dati che mi lasci
+          dai moduli di questo sito.
+        </p>
+
+        <h2>Chi è il titolare</h2>
+        <p>
+          Il titolare dei dati è Luigi Romano. Puoi scrivermi a{" "}
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+        </p>
+
+        <h2>Quali dati raccolgo</h2>
+        <p>
+          Solo quelli che scrivi nel modulo. Nome, email o telefono (a seconda
+          di come preferisci essere ricontattato), le risposte alle domande e,
+          nel modulo corto, il tuo messaggio.
+        </p>
+
+        <h2>Perché li uso</h2>
+        <p>
+          Per rispondere alla tua richiesta. Non li uso per altro, non ti
+          iscrivo a newsletter e non li passo a nessuno per fini di pubblicità.
+        </p>
+
+        <h2>Dove finiscono</h2>
+        <p>
+          I moduli passano da Formspree, un servizio che riceve i dati e me li
+          gira per email. Formspree li conserva sui suoi server. Li conservo
+          anche io, nella mia casella di posta, solo per il tempo che serve a
+          rispondere e a portare avanti il lavoro.
+        </p>
+        <p>
+          Il sito è ospitato su Vercel, che come ogni servizio di hosting può
+          registrare dati tecnici di navigazione, per esempio l'indirizzo IP,
+          per far funzionare il sito e tenerlo al sicuro.
+        </p>
+
+        <h2>Cosa salva il sito nel tuo browser</h2>
+        <p>
+          Solo la scelta che fai in alto nella home, "Cerchi uno sviluppatore"
+          o "Vuoi vendere online", per ricordarla alla visita dopo. Non contiene
+          dati personali. Non uso cookie di tracciamento.
+        </p>
+
+        <h2>I tuoi diritti</h2>
+        <p>
+          Puoi chiedermi di vedere i dati che ho su di te, di correggerli o di
+          cancellarli. Basta scrivermi a{" "}
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>{" "}
+          e ti rispondo io.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .privacy {
+    padding-top: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .privacy {
+      padding-top: 4.5rem;
+    }
+  }
+
+  /* Colonna di lettura: 62 caratteri circa, allineata a sinistra */
+  .privacy__testo {
+    max-width: 62ch;
+  }
+
+  .privacy__intro {
+    margin-top: 1.25rem;
+    color: var(--color-ink-2);
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+  }
+
+  .privacy__testo h2 {
+    margin-top: 2.5rem;
+    font-size: var(--text-h3);
+    font-weight: 500;
+  }
+
+  .privacy__testo h2 + p {
+    margin-top: 0.75rem;
+  }
+
+  .privacy__testo p + p {
+    margin-top: 0.75rem;
+  }
+</style>
