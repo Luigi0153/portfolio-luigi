@@ -12,7 +12,10 @@
   6. "Luigi Romano" resta nel titolo, nei meta e nel footer di ogni pagina;
   7. su ogni pagina, aperta direttamente o raggiunta dalla nav, la voce col
      testo cream ha sotto il riempimento con fondo ink (il colore letto dal
-     token, non scritto qui), e l'header resta lo stesso nodo tra le pagine.
+     token, non scritto qui), e l'header resta lo stesso nodo tra le pagine;
+  8. il quarto di cerchio del marchio ruota e torna in non più di 500ms al
+     passaggio del mouse, col focus da tastiera e al tocco (su pointerdown, e
+     la home si apre comunque); con prefers-reduced-motion sta fermo.
   Uso: node scripts/test-nav.mjs   (server attivo su BASE_URL o :4321)
 */
 import { chromium } from "playwright";
@@ -204,6 +207,76 @@ for (const w of [320, 1280]) {
     `${w}px: il marchio prende il focus con l'anello ink (${f.outline})`,
   );
   await page.close();
+}
+
+/* Animazione del marchio */
+{
+  const quarto = ".site-nav__quarto";
+  const anim = (page) =>
+    page.evaluate((sel) => {
+      const cs = getComputedStyle(document.querySelector(sel));
+      return { nome: cs.animationName, durata: parseFloat(cs.animationDuration) * 1000, matrice: cs.transform };
+    }, quarto);
+  const fermo = (m) => m === "none" || m === "matrix(1, 0, 0, 1, 0, 0)";
+
+  // Mouse: al passaggio ruota e torna, dentro i 500ms
+  {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    await page.goto(BASE + "/come-lavoro", { waitUntil: "networkidle" });
+    atteso(fermo((await anim(page)).matrice) && (await anim(page)).nome === "none", "marchio: a riposo è fermo");
+    await page.hover(".site-nav__logo");
+    await page.waitForTimeout(225);
+    const meta = await anim(page);
+    atteso(
+      meta.nome !== "none" && meta.durata <= 500 && !fermo(meta.matrice),
+      `marchio: al passaggio del mouse il quarto ruota (${meta.durata}ms, ${meta.matrice})`,
+    );
+    await page.waitForTimeout(450);
+    atteso(fermo((await anim(page)).matrice), "marchio: a fine animazione il quarto è tornato com'era");
+    await page.close();
+  }
+
+  // Tastiera: il focus fa partire l'animazione
+  {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    await page.goto(BASE + "/come-lavoro", { waitUntil: "networkidle" });
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.waitForTimeout(225);
+    const f = await anim(page);
+    atteso(f.nome !== "none" && f.durata <= 500 && !fermo(f.matrice), "marchio: col focus da tastiera il quarto ruota");
+    await page.close();
+  }
+
+  // Tocco: parte su pointerdown e la home si apre comunque
+  {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+    const page = await context.newPage();
+    await page.goto(BASE + "/come-lavoro", { waitUntil: "networkidle" });
+    await page.evaluate((sel) => {
+      document.querySelector(sel).addEventListener("animationstart", () => (window.__girato = true));
+    }, quarto);
+    await page.locator(".site-nav__logo").tap();
+    await page.waitForURL((u) => u.pathname === "/", { timeout: 5000 });
+    await page.waitForTimeout(700);
+    atteso(await page.evaluate(() => window.__girato === true), "marchio: al tocco l'animazione parte");
+    atteso(
+      await page.evaluate(() => !document.querySelector(".site-nav__logo").classList.contains("is-gira")),
+      "marchio: finita l'animazione la classe di avvio si toglie",
+    );
+    await context.close();
+  }
+
+  // prefers-reduced-motion: niente movimento né col mouse né al tocco
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto(BASE + "/come-lavoro", { waitUntil: "networkidle" });
+    await page.hover(".site-nav__logo");
+    await page.waitForTimeout(225);
+    atteso((await anim(page)).nome === "none", "marchio: con prefers-reduced-motion resta fermo");
+    await context.close();
+  }
 }
 
 /* Il nome per intero non è più nella nav: deve restare nel resto della pagina */

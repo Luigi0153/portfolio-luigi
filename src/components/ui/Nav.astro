@@ -29,7 +29,7 @@ const pathname = Astro.url.pathname;
     <a class="site-nav__logo" href="/" aria-label="Luigi Romano, torna alla home">
       <svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true" focusable="false">
         <rect x="17" y="10" width="26" height="80" fill="var(--color-ink)" />
-        <path d="M43 90V50A40 40 0 0 1 83 90Z" fill="var(--color-arancio)" />
+        <path class="site-nav__quarto" d="M43 90V50A40 40 0 0 1 83 90Z" fill="var(--color-arancio)" />
       </svg>
     </a>
     <span class="site-nav__sep" aria-hidden="true"></span>
@@ -136,6 +136,41 @@ const pathname = Astro.url.pathname;
 
   .site-nav__logo svg {
     display: block;
+  }
+
+  /*
+    Il quarto di cerchio arancio ruota di 90 gradi e torna, in 450ms, al
+    passaggio del mouse e col focus da tastiera. Gira attorno al centro del
+    suo riquadro (63, 70 nel viewBox), così resta dentro il marchio. Al tocco
+    lo avvia lo script su pointerdown con la classe is-gira, perché :active
+    finisce al rilascio e taglierebbe l'animazione.
+  */
+  .site-nav__quarto {
+    transform-box: view-box;
+    transform-origin: 63px 70px;
+  }
+
+  @keyframes gira-quarto {
+    50% {
+      transform: rotate(90deg);
+    }
+
+    to {
+      transform: rotate(0deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .site-nav__logo:focus-visible .site-nav__quarto,
+    .site-nav__logo:global(.is-gira) .site-nav__quarto {
+      animation: gira-quarto 450ms var(--ease-brand);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .site-nav__logo:hover .site-nav__quarto {
+      animation: gira-quarto 450ms var(--ease-brand);
+    }
   }
 
   /* Solo da 768: sotto, il marchio si stacca da solo dalle voci e la riga
@@ -382,4 +417,17 @@ const pathname = Astro.url.pathname;
 
   document.addEventListener("astro:page-load", avvia);
   document.addEventListener("astro:before-swap", spegni);
+
+  // Marchio al tocco: l'animazione parte subito, su pointerdown, e la
+  // navigazione verso la home avviene comunque al clic. Il mouse non passa da
+  // qui: lo gestisce :hover. L'header è persistito, quindi un solo listener
+  // sul documento basta per tutta la sessione.
+  document.addEventListener("pointerdown", (evento) => {
+    if (evento.pointerType === "mouse") return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const logo = (evento.target as Element).closest(".site-nav__logo");
+    if (!logo) return;
+    logo.classList.add("is-gira");
+    logo.addEventListener("animationend", () => logo.classList.remove("is-gira"), { once: true });
+  });
 </script>
