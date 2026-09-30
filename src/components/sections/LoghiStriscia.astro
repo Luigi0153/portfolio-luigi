@@ -10,7 +10,7 @@ import { getLoghi } from "../../loghi";
 const loghi = await getLoghi();
 ---
 
-<section class="striscia" aria-labelledby="loghi-striscia-titolo" data-fondo="loghi">
+<section class="striscia" aria-labelledby="loghi-striscia-titolo">
   <div class="container-site">
     <SectionHeader
       id="loghi-striscia-titolo"
@@ -27,9 +27,39 @@ const loghi = await getLoghi();
 </section>
 
 <style>
-  /* Sopra c'è già il padding di fondo della griglia progetti. */
+  /* Fondo ink a tutta larghezza. Sopra c'è il padding di fondo della sezione
+     precedente; sotto lo stacco dall'invito lo dà il margine. */
   .striscia {
-    padding-bottom: var(--section-y);
+    --shadow-hard: 4px 4px 0 var(--color-cream);
+    --shadow-hard-sm: 2px 2px 0 var(--color-cream);
+
+    margin-bottom: var(--section-y);
+    padding-block: var(--section-y);
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    /* Barra di scorrimento del carosello quando è fermo (movimento ridotto,
+       senza JavaScript): cream-2 su ink. */
+    scrollbar-color: var(--color-cream-2) transparent;
+  }
+
+  .striscia :global(.section-header__intro),
+  .striscia :global(.logo__nota) {
+    color: var(--color-cream-2);
+  }
+
+  /* Dentro le card il testo resta ink su cream-2: cambiano solo il bordo e
+     l'anello del focus, che in ink sparirebbero sul fondo. */
+  .striscia :global(.card) {
+    border-color: var(--color-cream);
+  }
+
+  .striscia :global(:focus-visible),
+  .striscia :global(.card:focus-visible) {
+    outline-color: var(--color-cream);
+  }
+
+  .striscia :global(.carosello__vista) {
+    scrollbar-color: var(--color-cream-2) transparent;
   }
 
   .striscia :global(.striscia__carosello) {
@@ -44,5 +74,12 @@ const loghi = await getLoghi();
     display: inline-block;
     padding-block: 0.2rem;
     font-weight: 600;
+  }
+
+  /* L'arancio all'hover su ink fa 3,4:1, sotto il 4,5 del testo: il link resta
+     cream e cambia il colore della sottolineatura. */
+  .striscia__link a:hover {
+    color: var(--color-cream);
+    text-decoration-color: var(--color-cream);
   }
 </style>
