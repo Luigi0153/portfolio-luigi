@@ -255,8 +255,8 @@ for (const vp of [390, 1280]) {
   await page.goto(BASE + "/privacy", { waitUntil: "networkidle" });
   const testo = await page.evaluate(() => document.querySelector("main").textContent);
   atteso(
-    ["Luigi Romano", "Formspree", "cancellarli", "luigi4375@gmail.com"].every((t) => testo.includes(t)),
-    `${vp}px privacy: titolare, Formspree, diritti e email di contatto`,
+    ["Luigi Romano", "Formspree", "cancellarli", "luigi4375@gmail.com", "fuori dall'Unione Europea", "non oltre 12 mesi. Dopo li cancello."].every((t) => testo.includes(t)),
+    `${vp}px privacy: titolare, Formspree fuori dall'UE, 12 mesi di conservazione, diritti e email`,
   );
   atteso(
     (await page.locator('footer a[href="/privacy"]').count()) === 1,
