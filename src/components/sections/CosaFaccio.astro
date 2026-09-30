@@ -6,38 +6,38 @@
  * capiva cosa poteva chiedere. data-only="business" la toglie a schermo e
  * agli screen reader nel percorso dev e senza JavaScript (che vale dev).
  *
- * Apertura grande in Fraunces, quattro righe numerate tra linee sottili ink,
- * ognuna con una forma Bauhaus diversa (cerchio, quarto di cerchio, quadrato,
- * triangolo) nello stesso linguaggio del marchio: ink con un dettaglio
- * arancio. In fondo un blocco ink con il bottone di contatto. Nessuna
- * animazione: la sezione non ne aveva e nel resto della home non ce ne sono
- * di simili.
+ * Apertura grande in Fraunces, righe numerate tra linee sottili ink. Accanto
+ * a ogni numero c'è la stessa piastrella Bauhaus (src/piastrella.ts) che si
+ * costruisce: la riga 1 ne mostra un pezzo, la riga 2 due, l'ultima la figura
+ * completa. Il pezzo appena aggiunto è arancio, i precedenti ink. La figura ha
+ * sempre la stessa dimensione e posizione, con qualsiasi numero di righe. In
+ * fondo un blocco ink con il bottone di contatto. Nessuna animazione: la
+ * sezione non ne aveva e nel resto della home non ce ne sono di simili.
  */
 import Button from "../ui/Button.astro";
+import { piastrella } from "../../piastrella";
 
 const SERVIZI = [
   {
     titolo: "Negozio online su Shopify",
     testo: "Dalla scelta del tema alle prime vendite.",
-    forma: "cerchio",
   },
   {
     titolo: "Landing page",
     testo: "Una pagina sola, pensata per un prodotto, un evento o una promozione.",
-    forma: "quarto",
   },
   {
     titolo: "Siti su WordPress e altri strumenti",
     testo: "Scelgo lo strumento più adatto alla tua attività e al tuo budget.",
-    forma: "quadrato",
   },
   {
     titolo: "Logo e immagine del negozio",
     testo:
       "Colori, font e logo che si riconoscono, dal sito alle buste per le spedizioni.",
-    forma: "triangolo",
   },
 ] as const;
+
+const PEZZI = piastrella(SERVIZI.length);
 ---
 
 <section class="servizi" aria-labelledby="servizi-titolo" data-only="business">
@@ -50,7 +50,7 @@ const SERVIZI = [
 
     <ol class="servizi__lista" role="list">
       {
-        SERVIZI.map(({ titolo, testo, forma }, i) => (
+        SERVIZI.map(({ titolo, testo }, i) => (
           <li class="servizi__voce">
             <span class="servizi__numero eyebrow" aria-hidden="true">
               {String(i + 1).padStart(2, "0")}
@@ -64,30 +64,9 @@ const SERVIZI = [
               aria-hidden="true"
               focusable="false"
             >
-              {forma === "cerchio" && (
-                <>
-                  <circle cx="50" cy="50" r="42" fill="var(--color-ink)" />
-                  <circle cx="50" cy="50" r="15" fill="var(--color-arancio)" />
-                </>
-              )}
-              {forma === "quarto" && (
-                <>
-                  <path d="M12 88V18A70 70 0 0 1 82 88Z" fill="var(--color-ink)" />
-                  <path d="M12 88V58A30 30 0 0 1 42 88Z" fill="var(--color-arancio)" />
-                </>
-              )}
-              {forma === "quadrato" && (
-                <>
-                  <rect x="14" y="14" width="72" height="72" fill="var(--color-ink)" />
-                  <rect x="54" y="54" width="32" height="32" fill="var(--color-arancio)" />
-                </>
-              )}
-              {forma === "triangolo" && (
-                <>
-                  <path d="M50 10L92 78H8Z" fill="var(--color-ink)" />
-                  <rect x="8" y="78" width="84" height="12" fill="var(--color-arancio)" />
-                </>
-              )}
+              {PEZZI.slice(0, i + 1).map((d, k) => (
+                <path d={d} fill={k === i ? "var(--color-arancio)" : "var(--color-ink)"} />
+              ))}
             </svg>
 
             <h3 class="servizi__titolo">{titolo}</h3>
@@ -144,8 +123,8 @@ const SERVIZI = [
     grid-column: 2;
     grid-row: 1;
     justify-self: end;
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
   }
 
   .servizi__titolo,
@@ -172,7 +151,7 @@ const SERVIZI = [
 
     /* Da 768: numero, forma, titolo e testo affiancati su una riga. */
     .servizi__voce {
-      grid-template-columns: 2.5rem 72px minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: 2.5rem 88px minmax(0, 1fr) minmax(0, 1fr);
       column-gap: 1.5rem;
       row-gap: 0;
       padding-block: 1.75rem;
@@ -181,8 +160,8 @@ const SERVIZI = [
     .servizi__forma {
       grid-column: 2;
       justify-self: start;
-      width: 72px;
-      height: 72px;
+      width: 88px;
+      height: 88px;
     }
 
     .servizi__titolo {

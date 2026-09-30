@@ -5,7 +5,8 @@
     nel percorso business "Vedi i risultati" porta alla griglia;
   - "Cosa faccio per te": solo nel percorso business, dopo la griglia
     progetti: apertura in Fraunces, quattro righe numerate tra linee sottili
-    ink con una forma Bauhaus diversa ciascuna (SVG), righe impilate a 390 e
+    ink con la piastrella Bauhaus che cresce (SVG: un pezzo alla riga 1, tutta alla
+    riga 4, l'ultimo pezzo arancio), righe impilate a 390 e
     affiancate a 1280, blocco di chiusura ink con testo cream e bottone
     arancio verso i contatti;
   - senza JavaScript vale il percorso dev;
@@ -80,14 +81,23 @@ const leggiHome = (page) =>
         numeri: [...(servizi?.querySelectorAll(".servizi__numero") ?? [])].map((n) =>
           n.textContent.trim(),
         ),
-        // Una forma SVG per riga, tutte diverse, decorative, con un dettaglio arancio
-        forme: [...(servizi?.querySelectorAll("li svg") ?? [])].map((svg) => ({
-          nascosta: svg.getAttribute("aria-hidden") === "true",
-          visibile: visibile(svg),
-          contenuto: svg.innerHTML,
-          arancio: svg.querySelectorAll('[fill="var(--color-arancio)"]').length,
-          ink: svg.querySelectorAll('[fill="var(--color-ink)"]').length,
-        })),
+        // Una figura SVG per riga: la stessa piastrella, un pezzo in più alla volta
+        forme: [...(servizi?.querySelectorAll("li svg") ?? [])].map((svg) => {
+          const box = svg.getBoundingClientRect();
+          const li = svg.closest("li").getBoundingClientRect();
+          const pezzi = [...svg.querySelectorAll("path")];
+          return {
+            nascosta: svg.getAttribute("aria-hidden") === "true",
+            visibile: visibile(svg),
+            larghezza: box.width,
+            altezza: box.height,
+            // Posizione rispetto alla riga: uguale in tutte le righe
+            sinistra: box.left - li.left,
+            // Il pezzo appena aggiunto è l'ultimo, arancio; i precedenti ink
+            fill: pezzi.map((pz) => pz.getAttribute("fill")),
+            d: pezzi.map((pz) => pz.getAttribute("d")),
+          };
+        }),
         immagini: servizi?.querySelectorAll("li img").length ?? 0,
         // Righe divise da una linea sottile ink (1px), più quella in fondo
         linee: [...(servizi?.querySelectorAll("li") ?? [])].map((li) => {
@@ -202,9 +212,33 @@ for (const vp of [390, 1280]) {
       atteso(
         h.servizi.forme.length === 4 &&
           h.servizi.immagini === 0 &&
-          h.servizi.forme.every((f) => f.nascosta && f.visibile && f.arancio === 1 && f.ink >= 1) &&
-          new Set(h.servizi.forme.map((f) => f.contenuto)).size === 4,
-        `${etichetta}: quattro forme SVG diverse, decorative, ink con un dettaglio arancio`,
+          h.servizi.forme.every((f) => f.nascosta && f.visibile),
+        `${etichetta}: quattro figure SVG decorative, senza immagini`,
+      );
+      atteso(
+        h.servizi.forme.every(
+          (f, i) =>
+            f.d.length === i + 1 &&
+            f.fill.at(-1) === "var(--color-arancio)" &&
+            f.fill.slice(0, -1).every((c) => c === "var(--color-ink)"),
+        ),
+        `${etichetta}: la riga n ha n pezzi, l'ultimo arancio e i precedenti ink`,
+      );
+      atteso(
+        h.servizi.forme.every(
+          (f, i, tutte) =>
+            i === 0 || tutte[i - 1].d.every((d, k) => d === f.d[k]),
+        ),
+        `${etichetta}: ogni figura contiene i pezzi della precedente, negli stessi punti`,
+      );
+      atteso(
+        h.servizi.forme.every(
+          (f, i, tutte) =>
+            f.larghezza === tutte[0].larghezza &&
+            f.altezza === tutte[0].altezza &&
+            Math.abs(f.sinistra - tutte[0].sinistra) < 0.5,
+        ),
+        `${etichetta}: stessa dimensione e posizione della figura in ogni riga`,
       );
       atteso(
         h.servizi.linee.every((l) => l === `1px solid ${INK}`) &&
