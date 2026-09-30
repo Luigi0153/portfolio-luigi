@@ -1,21 +1,31 @@
 # Stato del progetto
 
-**Fase corrente:** blocco testi e carosello fatto (2026-09-30), dopo la passata prestazioni, blocco A (2026-09-29). Fase 4 annullata.
+**Fase corrente:** blocco modifiche fatto (2026-09-30: piastrella, processo creativo, prova fondi, marchio, nav, loghi), dopo il blocco testi e carosello e la passata prestazioni, blocco A (2026-09-29). Fase 4 annullata.
 
 La storia delle fasi finite (cosa è stato fatto, come e perché, misure e decisioni di dettaglio)
 è in `docs/STORIA.md`. Qui restano solo lo stato attuale e i lavori da fare.
 
 ## Sito oggi
-- **Home:** hero con switch tra i due percorsi (scelta in `localStorage`, `html[data-target]`) e scena scrivania, griglia progetti con ordine per percorso, "Cosa faccio per te" (solo percorso business), carosello dei loghi, invito al contatto.
+- **Home:** hero con switch tra i due percorsi (scelta in `localStorage`, `html[data-target]`) e scena scrivania, griglia progetti con ordine per percorso, "Cosa faccio per te" (solo percorso business, con una piastrella Bauhaus che cresce riga dopo riga), carosello dei loghi, invito al contatto.
 - **Progetti:** caso reale (sette capitoli, slider prima/dopo) e i concept Fornace Vietri e pizzeria Vico Stretto, etichettati "Branding concept", con foto generate con l'AI. Dettaglio in `/progetti/[slug]`.
-- **Loghi:** `/loghi` con filtri e `/loghi/[slug]`, quattro loghi con testi provvisori.
-- **Altre pagine:** `/come-lavoro` (processo, stack, progetto n°5, "Come uso l'intelligenza artificiale"), `/contatti` (canali e form Formspree), 404, sitemap, robots, og-image, `vercel.json`.
-- **Design:** palette a tre colori (cream, ink, arancio), token in `src/styles/tokens.css` e `docs/design-tokens.md`.
+- **Loghi:** `/loghi` con filtri e `/loghi/[slug]`, quattro loghi con testi provvisori. Nessuna etichetta "Progetto" visibile: il campo `tipo` resta nei dati per l'etichetta "Esercizio di stile".
+- **Nav:** Progetti, Come lavoro, Loghi e "Scrivimi" (unico accesso ai contatti, in pillola anche su telefono; sotto i 340px senza bordo). Il quarto di cerchio del marchio ruota al passaggio, col focus e al tocco.
+- **Altre pagine:** `/come-lavoro` (processo, stack, progetto n°5, "Il mio processo creativo"), `/contatti` (canali e form Formspree), 404, sitemap, robots, og-image, `vercel.json`.
+- **Design:** palette a tre colori (cream, ink, arancio), token in `src/styles/tokens.css` e `docs/design-tokens.md`, più la sabbia `--color-sabbia`, provvisoria (prova dei fondi).
 - **Prestazioni:** Lighthouse mobile home 96 (mediana di 3 run, 2026-09-30), CLS 0 in mediana; passata prestazioni con il blocco A fatto.
 
 - Test permanenti: `test-switch`, `test-scena`, `test-etichette`, `test-progetti`, `test-pagine` (390 e 1280), `test-nav` (320, 360, 390, 430, 768, 1280 più le rotazioni), `test-forme` (320, 390, 768, 1024, 1280), `test-loghi` (390 touch e 1280), `test-percorsi` (390 e 1280, due percorsi), `test-carosello` (390 touch e 1280, reduced-motion, senza JavaScript), tutti verdi.
 
 ## Da fare
+- **Scegliere i fondi di sezione (prova `?fondi=a|b|c`, 2026-09-30).** Tre varianti per Progetti
+  e Loghi (home) e per `Il mio processo creativo` (`/come-lavoro`, letta come "Come lavoro").
+  Da guardare sulla preview con `/?fondi=a`, `/?fondi=b`, `/?fondi=c` e
+  `/come-lavoro?fondi=b`: il parametro vale solo nell'URL e si perde con un clic sulla nav.
+  Contrasti AA misurati, tutti passati (rapporti in `docs/STORIA.md`). Dopo la scelta: portare
+  la variante nel CSS vero (Card, sezioni), poi togliere il blocco "PROVA FONDI" da
+  `src/styles/global.css`, lo script `?fondi` in `src/layouts/Base.astro`, gli attributi
+  `data-fondo` (ProjectGrid, LoghiStriscia, come-lavoro) e, se non vince la C, il token
+  `--color-sabbia` (in `tokens.css` e `docs/design-tokens.md`).
 - **Passata prestazioni.** Blocco B: interventi 4 (dimensioni delle immagini) e 5 (CSS dentro l'HTML), con
   misura prima e dopo. Prova C: intervento 6 (entrata del titolo dell'hero su telefono), da
   valutare guardando l'animazione, **insieme al CLS intermittente dell'hero** da sistemare
@@ -48,7 +58,8 @@ La storia delle fasi finite (cosa è stato fatto, come e perché, misure e decis
 
 ## Decisioni aperte
 - **Lighthouse mobile home**: era 85 (sotto il ≥ 90 della regola 7), il 2026-09-29 è 94 nella passata prestazioni (mediana di 3 run, percorso sviluppatore, LCP 2,71 s). Nella stessa passata Fornace e pizzeria sono a 96; caso reale (93) e /loghi (99) sono misurati dopo il blocco A. L'LCP della home è il titolo dell'hero, che parte invisibile: vedi la prova C. Dopo il blocco testi e carosello (2026-09-30): 96 di mediana (89 / 96 / 96), CLS 0, LCP 2,63 s.
-- Servono da Luigi: gli appunti per riscrivere i testi dei quattro loghi (vedi "Da fare").
+- Servono da Luigi: gli appunti per riscrivere i testi dei quattro loghi (vedi "Da fare"), e la scelta dei fondi A, B o C.
+- **Nav a 320px.** Con quattro voci, il marchio e "Scrivimi" la riga è piena: 3,5px di spazio per lato alle voci e "Scrivimi" senza bordo. Da 360 in su respira. Se a 320 pesa, l'alternativa è un menu a scomparsa sotto i 400px.
 - **[DA VERIFICARE] Il nome "Vico Stretto"** (dal documento dei contenuti): prima di pubblicare
   controllare che non esista una pizzeria reale con questo nome. In caso, cambiarlo. Il nome
   compare nel titolo e nei testi di `src/content/progetti/pizzeria.md`, ma anche dentro tutte

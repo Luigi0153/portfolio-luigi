@@ -300,6 +300,93 @@ lavori da fare stanno in `docs/STATO.md`.
     3 su 12), sempre tra i 120 e i 270 ms, prima che il carosello esista. Non toccato: va
     guardato se il CLS della home conta.
 
+- **Blocco modifiche (2026-09-30).** Sei punti dettati da Luigi, un commit ciascuno, nessun
+  push. Testi cambiati in `docs/inventario-testi.md`.
+  - **1. Piastrella che si costruisce** (`0345b01`). In "Cosa faccio per te" (percorso
+    business) le forme diverse per riga sono diventate un'unica figura: la riga n mostra i primi
+    n pezzi di una piastrella quadrata, l'ultimo arancio e i precedenti ink. `src/piastrella.ts`
+    calcola i pezzi per qualsiasi numero di righe: divide il quadrato 100x100 in modo ricorsivo
+    lungo il lato più lungo, in proporzione ai pezzi di ciascuna parte, così le celle hanno la
+    stessa area; le celle si numerano in ordine di lettura e ricevono le forme nell'ordine
+    quarto di cerchio, cerchio, quadrato, triangolo, barra, poi da capo. Il quarto ha il centro
+    nell'angolo più lontano dal centro della piastrella (l'arco guarda dentro la figura).
+    Restituisce solo stringhe `d` per `<path>`: stessa dimensione e posizione in ogni riga,
+    64px a 390 e 88px da 768. Con 4 righe la piastrella è 2x2. `test-percorsi` controlla n pezzi
+    alla riga n, ultimo arancio e precedenti ink, pezzi già presenti nello stesso punto, stessa
+    misura e posizione.
+  - **2. `/come-lavoro`** (`f4c7a68`). Titolo `Il mio processo creativo` e terzo paragrafo
+    verbatim. `test-pagine` aggiornato.
+  - **3. Prova dei fondi** (`5b7669a`). `?fondi=a|b|c`, letto solo dall'URL da uno script in
+    `Base.astro` che scrive `html[data-fondi]` (anche dopo lo swap delle View Transitions).
+    Senza parametro non cambia niente. Le regole stanno in un solo blocco "PROVA FONDI" di
+    `src/styles/global.css`, fuori da `@layer` per battere utility e stili scoped; le tre
+    sezioni portano `data-fondo` ("progetti" in `ProjectGrid`, "loghi" in `LoghiStriscia`,
+    "come-lavoro" sull'ultima sezione di `/come-lavoro`). **"Come lavoro" l'ho letto come la
+    sezione `Il mio processo creativo` di `/come-lavoro`**, perché in home non c'è una sezione
+    con quel nome. Aggiunti padding in alto a loghi, "Cosa faccio per te" e invito, che prima
+    poggiavano sul padding in basso della sezione sopra. Sui fondi ink: testi cream, intro
+    cream-2, bordo e ombra dura delle card cream, focus cream, link senza arancio all'hover
+    (arancio su ink fa 3,4:1). Sull'arancio: testi cream, primary ink con riempimento cream
+    all'hover, secondary con bordo cream. Sulle card dei fondi cream-2: cream invece di cream-2.
+    Il parametro non sopravvive a un clic sulla nav (l'URL cambia): per vedere /come-lavoro
+    in una variante serve `/come-lavoro?fondi=b`.
+    Nuovo token **provvisorio** `--color-sabbia: #e7d7bb` (tinta 38°, stessa famiglia del cream;
+    1,18:1 sul cream-2, quindi si stacca): ink 12,3:1, ink-2 6,7:1, arancio 3,6:1.
+    **Contrasti** (WCAG, misurati sulle pagine vere a 390 e 1280, ogni testo visibile con il suo
+    sfondo; i due viewport danno gli stessi numeri; soglia AA 4,5:1, 3:1 per il testo grande):
+
+    | Variante | Sezione | Coppie (testo su fondo) | Minimo |
+    |---|---|---|---|
+    | oggi | Progetti | ink su cream 15,94; ink-2 su cream 8,68; ink e ink-2 su cream-2 (card) 14,51 e 7,90 | 7,90 |
+    | oggi | Loghi | ink su cream 15,94; ink-2 su cream 8,68; ink su cream-2 14,51 | 8,68 |
+    | oggi | Come lavoro | ink su cream-2 14,51; ink-2 su cream-2 7,90; bottone primary cream su arancio 4,66 | 4,66 |
+    | A | Progetti su cream-2 | ink su cream-2 14,51; ink-2 su cream-2 7,90; card cream: ink 15,94, ink-2 8,68 | 7,90 |
+    | A | Loghi su ink | cream su ink 15,94; cream-2 su ink 14,51; nome dei riquadri ink su cream-2 14,51 | 14,51 |
+    | A | Come lavoro su cream | ink 15,94; ink-2 8,68; bottone primary cream su arancio 4,66 | 4,66 |
+    | B | Progetti su ink | cream su ink 15,94; cream-2 su ink 14,51; dentro le card ink 14,51, ink-2 7,90 | 7,90 |
+    | B | Loghi su cream-2 | ink 14,51; ink-2 7,90 | 7,90 |
+    | B | Come lavoro su arancio | cream su arancio 4,66 (titolo, tre paragrafi, bottone secondary); bottone primary cream su ink 15,94; all'hover ink su cream 15,94 | 4,66 |
+    | C | Progetti su sabbia | ink su sabbia 12,30; ink-2 su sabbia 6,69; dentro le card 14,51 e 7,90 | 6,69 |
+    | C | Loghi, Come lavoro | come A | 14,51 / 4,66 |
+
+    Tutto supera AA. Il valore stretto è cream su arancio (4,66:1, soglia 4,5): tiene per i testi
+    della pagina (16 e 18px) e per i bottoni, ma non ha margine. Niente test permanenti su
+    questo punto, come richiesto; lo script di misura non è nel repo.
+  - **4. Marchio che ruota** (`99c3553`). Il quarto di cerchio arancio (`.site-nav__quarto`)
+    ruota di 90° e torna in 450ms (`@keyframes gira-quarto`, `var(--ease-brand)`) al passaggio
+    del mouse (`@media (hover: hover)`) e con `:focus-visible`. Gira attorno al centro del suo
+    riquadro (63, 70 nel viewBox, `transform-box: view-box`), così resta dentro il marchio:
+    ruotando attorno all'angolo finiva fuori dal viewBox e spariva per metà animazione. Al tocco
+    parte su `pointerdown` (non mouse) con la classe `is-gira`, tolta a `animationend`: `:active`
+    finisce al rilascio e taglierebbe l'animazione. La navigazione alla home avviene comunque al
+    clic. Con `prefers-reduced-motion` niente né da CSS né da script. Solo il tocco usa JS, con
+    un solo listener sul documento (l'header è persistito). Uscendo dall'hover a metà corsa
+    l'animazione si interrompe e il quarto scatta al suo posto: a 450ms non si nota. `test-nav`
+    copre mouse, tastiera, tocco (con navigazione) e movimento ridotto.
+  - **5. Nav** (`d811e5b`). Voci: Progetti, Come lavoro, **Loghi**, poi `Scrivimi`. `Loghi` è
+    attiva solo su `/loghi` (come le altre voci di pagina: nelle pagine `/loghi/[slug]` nessuna
+    voce è attiva, come già per `/progetti/[slug]`). Sul telefono non c'era un menu: la pillola
+    mostrava le tre voci in riga e `Scrivimi` compariva solo da 768px. Ho messo `Scrivimi` in
+    pillola a ogni larghezza. Il margine è poco: a 320px la riga con marchio (44px), quattro
+    voci a 13px e `Scrivimi` avanza 3px. Per farcele stare lo spazio interno delle voci scende
+    più in fretta sotto i 400px (`clamp(0.21875rem, 5vw - 12.5px, 0.625rem)`: 3,5px per lato a
+    320, 5,5 a 360, 7 a 390, 10 da 526) e `Scrivimi` perde il bordo sotto i 340px. Nessuna
+    larghezza da 320 a 1280 va in overflow o a capo; spazi tra le voci contenuti e non
+    decrescenti. `Scrivimi` ha `aria-current="page"` su `/contatti` (aggiornato anche dallo
+    script dopo una navigazione) e si riempie di ink, come una voce attiva. `test-nav`: voci,
+    `Loghi` attivo, `Scrivimi` unico accesso ai contatti a tutte le larghezze, il suo stato su
+    `/contatti`. `test-loghi`: la nav ha `Loghi`.
+  - **6. Etichetta `Progetto`** (`72fcfa7`). `etichettaTipo()` in `src/loghi.ts` restituisce
+    `null` per il tipo `progetto` e l'etichetta per gli altri. Card, striscia e dettaglio non
+    scrivono il tag se è `null`. Il logo nella card ha la stessa misura con o senza etichetta
+    (il posto in alto resta), così le card con l'etichetta `Esercizio di stile` non avranno il
+    logo di un'altra misura. L'alt dell'immagine dice ancora `(Progetto)`: il campo nei dati
+    e l'alt sono rimasti, come chiesto. Nessun logo ha oggi un altro tipo, quindi la
+    parte "altri tipi mostrano l'etichetta" non è coperta da un test con dati veri.
+  - **Test.** Dieci test permanenti sulla build di preview, tutti verdi (test-switch,
+    test-scena, test-etichette, test-progetti, test-pagine, test-nav, test-forme, test-loghi,
+    test-percorsi, test-carosello).
+
 ## Correzioni dall'audit (2026-09-21)
 
 Fonte: `docs/AUDIT.md`. Di quella lista sono stati chiusi quattro punti, tutti verificati a 390

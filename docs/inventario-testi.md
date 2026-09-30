@@ -31,7 +31,7 @@ tutte insieme il sito suona scritto da una macchina brava.
 | Testo | Dove | Giudizio | Perché |
 |---|---|---|---|
 | `Luigi` (logo) | `src/components/ui/Nav.astro:19` | neutra | È il tuo nome. |
-| `Progetti` · `Come lavoro` · `Contatti` | `Nav.astro:8-12`, `Base.astro:107-109` | neutra | Etichette. `Come lavoro` in prima persona è giusto. |
+| `Progetti` · `Come lavoro` · `Loghi` · `Scrivimi` (nav); `Progetti` · `Loghi` · `Come lavoro` · `Contatti` (footer) | `Nav.astro`, `Base.astro` | neutra | Etichette. `Come lavoro` in prima persona è giusto. Dal 2026-09-30 `Contatti` non è più nella nav: l'unico accesso è `Scrivimi`. |
 | `Salta al contenuto` | `src/layouts/Base.astro:91` | neutra | Formula standard di accessibilità. |
 | `Shopify Web Developer e AI Web Designer.` | `Base.astro:103` | sua | Viene da `CLAUDE.md`, è come ti definisci. |
 | `© 2026 Luigi. Fatto a mano, con qualche prompt.` | `Base.astro:112` | **da AI** | Battuta con strizzatina d'occhio, frase nominale. Nel tuo campione: zero battute in 324 parole. La coppia "a mano / con qualche prompt" è un'antitesi costruita. |
@@ -323,6 +323,20 @@ parola; quelli di 5 sono di Claude e **provvisori**, da riscrivere con i suoi ap
 | — | `/come-lavoro` | Nuova sezione `Come uso l'intelligenza artificiale`, tre paragrafi dettati da Luigi. Il bottone finale (`Parliamo di codice` / `Parliamo del tuo negozio`, `Vedi i progetti`) passa in fondo a questa sezione. |
 | `Cosa faccio per te` (titolo h2) e i cinque servizi (`Apro il tuo negozio su Shopify…`, `Carico e sistemo il catalogo…`, `Creo siti e landing page…`, `Leggo i numeri…`, `Resto al tuo fianco dopo il lancio…`) | Home, percorso business, `CosaFaccio.astro` | `Cosa faccio per te` diventa l'etichetta sopra l'apertura. Nuovi: apertura `Creo negozi online e siti per le attività: su Shopify, su WordPress o con altri strumenti, in base a quello che ti serve.`, quattro servizi (titolo + riga), chiusura `Il sito è tuo, e io resto al tuo fianco.` con `Contattami`. |
 | `testo` dei quattro loghi | `src/content/loghi/*.md` | Da tre a quattro frasi ciascuno, **provvisorie**. Le frasi scritte da Luigi il 2026-09-28 sono rimaste, con in più forma, colori e ispirazione presi solo dal repo. Il logo di Boutique è `ispirato ai brand di moda campani`. |
+
+## Blocco modifiche (2026-09-30)
+
+Sei punti dettati da Luigi. I testi nuovi sono suoi, parola per parola.
+
+| Voce | Dov'era | Cosa è successo |
+|---|---|---|
+| `Come uso l'intelligenza artificiale` (titolo h2) | `/come-lavoro`, ultima sezione | → `Il mio processo creativo`. |
+| `Così il lavoro va più veloce, e il tempo che risparmio lo dedico a capire chi compra e a rendere il negozio semplice da usare. Oggi saper usare bene questi strumenti fa parte del mestiere.` | `/come-lavoro`, terzo paragrafo della stessa sezione | → `Così il lavoro va più veloce, e il tempo che risparmio lo dedico a rendere il negozio semplice da usare. Oggi saper usare bene questi strumenti fa parte del mestiere.` (tolto `capire chi compra e a`). |
+| `Contatti` (voce della nav) | `Nav.astro` | → `Loghi` (porta a `/loghi`). `Scrivimi` resta l'unico accesso ai contatti e ora c'è anche sul telefono. Nessun testo nuovo oltre ai nomi delle voci. |
+| `Progetto` (etichetta del tipo di logo) | Card di `/loghi`, striscia della home, pagine `/loghi/[slug]` | Tolta a vista. Il campo `tipo` resta nei dati e nell'alt dell'immagine (`Logo di X (Progetto)`). Gli altri tipi (per esempio `Esercizio di stile`) mostrano la loro etichetta. |
+
+Gli altri tre punti del blocco (piastrella in "Cosa faccio per te", fondi di sezione, animazione
+del marchio) non cambiano nessun testo.
 
 ## Cosa non ho potuto giudicare
 
