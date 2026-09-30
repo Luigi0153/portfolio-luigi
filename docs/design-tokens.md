@@ -11,6 +11,7 @@ Un solo accento: niente verde, blu, giallo o rosso nell'interfaccia.
 |---|---|---|
 | --color-cream | #fdf4e4 | sfondo pagina (60%) |
 | --color-cream-2 | #f6e9d2 | card, superfici secondarie (60%) |
+| --color-sabbia | #e7d7bb | **provvisoria** (prova ?fondi=c, 2026-09-30): sabbia più scura del cream-2, stessa famiglia (tinta 38°). Sfondo di sezione. Contrasto: ink 12,3:1, ink-2 6,7:1, arancio 3,6:1 (l'arancio non va usato per testo piccolo). Da tenere o togliere dopo la scelta dei fondi |
 | --color-ink | #1a1a1a | testo principale, bordi forti, forme Bauhaus, nav attiva (30%) |
 | --color-ink-2 | #4a4540 | testo secondario (30%) |
 | --color-arancio | #c93c00 | accento 10%: CTA primaria, link, hover, sottolineature, una sola forma Bauhaus |

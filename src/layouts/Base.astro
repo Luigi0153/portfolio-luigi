@@ -42,6 +42,11 @@ const year = new Date().getFullYear();
       // prima del paint per evitare il flash del contenuto sbagliato.
       (function () {
         function applica() {
+          // Prova dei fondi di sezione (?fondi=a|b|c): solo dall'URL, senza
+          // parametro non cambia niente. Regole in global.css ("Prova fondi").
+          var f = new URLSearchParams(location.search).get("fondi");
+          if (f === "a" || f === "b" || f === "c") document.documentElement.dataset.fondi = f;
+          else delete document.documentElement.dataset.fondi;
           var t = "dev";
           try {
             var salvato = localStorage.getItem("target");
