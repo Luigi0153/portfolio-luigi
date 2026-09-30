@@ -43,11 +43,19 @@ const year = new Date().getFullYear();
       (function () {
         function applica() {
           var t = "dev";
+          var scelto = false;
           try {
             var salvato = localStorage.getItem("target");
-            if (salvato === "dev" || salvato === "business") t = salvato;
+            if (salvato === "dev" || salvato === "business") {
+              t = salvato;
+              scelto = true;
+            }
           } catch (e) {}
           document.documentElement.dataset.target = t;
+          // data-scelto distingue "ha scelto dev" da "non ha ancora scelto":
+          // /contatti chiede la scelta solo nel secondo caso.
+          if (scelto) document.documentElement.dataset.scelto = "si";
+          else delete document.documentElement.dataset.scelto;
         }
         applica();
         // Lo swap delle View Transitions azzera gli attributi di <html> e li

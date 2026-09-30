@@ -12,6 +12,7 @@ import Base from "../layouts/Base.astro";
 import SectionHeader from "../components/ui/SectionHeader.astro";
 import Button from "../components/ui/Button.astro";
 import Card from "../components/ui/Card.astro";
+import TargetSwitch from "../components/ui/TargetSwitch";
 import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../dati-sito";
 
 const descrizione = FORM_ATTIVO
@@ -36,6 +37,21 @@ const descrizione = FORM_ATTIVO
     </div>
   </section>
 
+  {/* Stesso switch dell'hero, stessa scelta salvata (localStorage "target").
+      Senza una scelta la pagina la chiede e non mostra nessun percorso. */}
+  <section class="scelta" aria-label="Cosa cerchi">
+    <div class="container-site">
+      <p class="eyebrow text-ink-2">Cosa cerchi?</p>
+      <div class="scelta__switch">
+        <TargetSwitch client:load chiediScelta />
+      </div>
+      <p class="scelta__invito">
+        Scegli una voce: il modulo cambia in base a quello che cerchi.
+      </p>
+    </div>
+  </section>
+
+  <div data-percorso="dev">
   <section class="section-pad" aria-labelledby="canali-titolo">
     <div
       class:list={[
@@ -156,6 +172,19 @@ const descrizione = FORM_ATTIVO
       )}
     </div>
   </section>
+  </div>
+
+  <div data-percorso="business">
+    <section class="section-pad" aria-labelledby="business-titolo">
+      <div class="container-site">
+        <h2 id="business-titolo">Scrivimi</h2>
+        <a class="canale canale--mail" href={`mailto:${EMAIL}`}>
+          <span class="eyebrow canale__etichetta">Email</span>
+          <span class="canale__valore">{EMAIL}</span>
+        </a>
+      </div>
+    </section>
+  </div>
 </Base>
 
 <style>
@@ -241,6 +270,46 @@ const descrizione = FORM_ATTIVO
       width: 170px;
       height: 170px;
     }
+  }
+
+  /* --- Scelta del percorso --- */
+  .scelta {
+    padding-block: 1.5rem 0.5rem;
+  }
+
+  .scelta__switch {
+    margin-top: 0.75rem;
+  }
+
+  /* Il messaggio c'è solo quando nessuna scelta è salvata: senza JavaScript
+     (html senza data-target) non serve, perché i due percorsi sono in vista. */
+  .scelta__invito {
+    display: none;
+    margin-top: 0.75rem;
+    color: var(--color-ink-2);
+  }
+
+  html[data-target]:not([data-scelto]) .scelta__invito {
+    display: block;
+  }
+
+  /*
+    Quale percorso si vede. Con JavaScript acceso (lo script in Base.astro
+    scrive sempre html[data-target]) si vede solo quello scelto, e nessuno se
+    non c'è una scelta. Senza JavaScript non c'è nessun attributo: si vedono
+    tutti e due, il selettore sparisce e i moduli funzionano come moduli normali.
+  */
+  html[data-target] [data-percorso] {
+    display: none;
+  }
+
+  html[data-target][data-scelto="si"]:not([data-target="business"]) [data-percorso="dev"],
+  html[data-target][data-scelto="si"][data-target="business"] [data-percorso="business"] {
+    display: block;
+  }
+
+  html:not([data-target]) .scelta {
+    display: none;
   }
 
   /* --- Griglia --- */
