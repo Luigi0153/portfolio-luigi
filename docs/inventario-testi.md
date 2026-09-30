@@ -338,6 +338,20 @@ Sei punti dettati da Luigi. I testi nuovi sono suoi, parola per parola.
 Gli altri tre punti del blocco (piastrella in "Cosa faccio per te", fondi di sezione, animazione
 del marchio) non cambiano nessun testo.
 
+## "Cosa faccio per te" (2026-09-30)
+
+Testi dettati da Luigi, parola per parola, al posto di quelli del blocco testi. Struttura e figura
+della L invariate.
+
+| Voce | Dov'era | Cosa è successo |
+|---|---|---|
+| `Creo negozi online e siti per le attività: su Shopify, su WordPress o con altri strumenti, in base a quello che ti serve.` | Apertura, `CosaFaccio.astro` | → `Realizzo siti e negozi online per le attività. Lavoro con Shopify, WordPress e altri strumenti, in base alle tue esigenze.` |
+| `Negozio online su Shopify` / `Dalla scelta del tema alle prime vendite.` | 01 | → `Negozio online` / `Creo il tuo negozio su Shopify, pronto per vendere.` |
+| `Landing page` / `Una pagina sola, pensata per un prodotto, un evento o una promozione.` | 02 | → `Landing page` / `Una pagina dedicata a un prodotto, un servizio o una promozione.` |
+| `Siti su WordPress e altri strumenti` / `Scelgo lo strumento più adatto alla tua attività e al tuo budget.` | 03 | → `Sito web` / `Un sito su WordPress o con altri strumenti, per presentare la tua attività.` |
+| `Logo e immagine del negozio` / `Colori, font e logo che si riconoscono, dal sito alle buste per le spedizioni.` | 04 | → `Identità visiva` / `Logo, colori e font che rendono la tua attività riconoscibile.` |
+| `Il sito è tuo, e io resto al tuo fianco.` | Chiusura | Invariata. |
+
 ## Cosa non ho potuto giudicare
 
 Il campione ha un solo genere: risposta lunga e parlata. Di microcopy, titoli e sommari — cioè

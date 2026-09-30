@@ -19,12 +19,12 @@ import { chromium } from "playwright";
 const BASE = process.env.BASE_URL ?? "http://localhost:4321";
 const REPO = "https://github.com/Luigi0153/portfolio-luigi";
 const APERTURA =
-  "Creo negozi online e siti per le attività: su Shopify, su WordPress o con altri strumenti, in base a quello che ti serve.";
+  "Realizzo siti e negozi online per le attività. Lavoro con Shopify, WordPress e altri strumenti, in base alle tue esigenze.";
 const SERVIZI = [
-  ["Negozio online su Shopify", "Dalla scelta del tema alle prime vendite."],
-  ["Landing page", "Una pagina sola, pensata per un prodotto, un evento o una promozione."],
-  ["Siti su WordPress e altri strumenti", "Scelgo lo strumento più adatto alla tua attività e al tuo budget."],
-  ["Logo e immagine del negozio", "Colori, font e logo che si riconoscono, dal sito alle buste per le spedizioni."],
+  ["Negozio online", "Creo il tuo negozio su Shopify, pronto per vendere."],
+  ["Landing page", "Una pagina dedicata a un prodotto, un servizio o una promozione."],
+  ["Sito web", "Un sito su WordPress o con altri strumenti, per presentare la tua attività."],
+  ["Identità visiva", "Logo, colori e font che rendono la tua attività riconoscibile."],
 ];
 const CHIUSURA = "Il sito è tuo, e io resto al tuo fianco.";
 /* Colori dei token in rgb, come li restituisce getComputedStyle. */

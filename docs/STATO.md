@@ -1,6 +1,6 @@
 # Stato del progetto
 
-**Fase corrente:** chiusura della prova sfondi e nuova figura di "Cosa faccio per te" fatte (2026-09-30), dopo il blocco modifiche dello stesso giorno, il blocco testi e carosello e la passata prestazioni, blocco A (2026-09-29). Fase 4 annullata.
+**Fase corrente:** chiusura della prova sfondi, nuova figura e nuovi testi di "Cosa faccio per te" fatti (2026-09-30), dopo il blocco modifiche dello stesso giorno, il blocco testi e carosello e la passata prestazioni, blocco A (2026-09-29). Fase 4 annullata.
 
 La storia delle fasi finite (cosa è stato fatto, come e perché, misure e decisioni di dettaglio)
 è in `docs/STORIA.md`. Qui restano solo lo stato attuale e i lavori da fare.
