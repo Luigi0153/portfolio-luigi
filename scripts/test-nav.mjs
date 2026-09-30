@@ -302,7 +302,7 @@ for (const w of [320, 1280]) {
 }
 
 /* Il nome per intero non è più nella nav: deve restare nel resto della pagina */
-const conNome = ["/", "/come-lavoro", "/contatti", "/progetti/caso-reale", "/404"];
+const conNome = ["/", "/come-lavoro", "/contatti", "/privacy", "/progetti/caso-reale", "/404"];
 for (const url of conNome) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   await page.goto(BASE + url, { waitUntil: "domcontentloaded" });
@@ -392,6 +392,7 @@ const tuttePagine = [
   { url: "/", voce: "Progetti", sezione: "progetti" },
   { url: "/come-lavoro", voce: "Come lavoro" },
   { url: "/contatti", voce: null },
+  { url: "/privacy", voce: null },
   { url: "/loghi", voce: "Loghi" },
   { url: "/loghi/boutique", voce: null },
   { url: "/progetti/caso-reale", voce: null },

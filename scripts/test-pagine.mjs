@@ -2,8 +2,10 @@
   Verifica delle pagine di Fase 5 a 390 e 1280:
   - /come-lavoro: i 4 passi nell'ordine, i gruppi dello stack, il copy che
     cambia col percorso scelto;
-  - /contatti: form accessibile, validazione con focus sul primo errore,
-    live region dell'esito, link esterni con rel e avviso;
+  - /contatti (percorso sviluppatore): modulo corto accessibile, validazione con
+    focus sul primo errore, live region dell'esito, link esterni con rel e avviso
+    (il modulo a passi e il selettore sono in test-contatti);
+  - /privacy: titolo, titolare, diritti, link nel footer;
   - /404: titolo e vie d'uscita;
   - SEO: robots.txt, sitemap, canonical e og:image di ogni pagina.
   Uso: node scripts/test-pagine.mjs   (server su BASE_URL o :4321)
@@ -149,34 +151,34 @@ for (const target of ["dev", "business"]) {
 
 /* ---------- /contatti ---------- */
 for (const vp of [390, 1280]) {
-  const { page, errori } = await nuovaPagina(vp);
+  const { page, errori } = await nuovaPagina(vp, "dev");
   await page.goto(BASE + "/contatti", { waitUntil: "networkidle" });
   await page.addStyleTag({ content: "html { scroll-behavior: auto !important; }" });
   await page.waitForTimeout(900);
 
   // Ogni campo ha un'etichetta vera, collegata
   const campiEtichettati = await page.evaluate(() =>
-    ["nome", "email", "messaggio"].every((n) => {
-      const el = document.querySelector(`[name="${n}"]`);
+    ["nome", "email", "messaggio", "consenso_privacy"].every((n) => {
+      const el = document.querySelector(`[data-corto] [name="${n}"]`);
       const label = el && document.querySelector(`label[for="${el.id}"]`);
       return Boolean(label && label.textContent.trim());
     }),
   );
-  atteso(campiEtichettati, `${vp}px contatti: i tre campi hanno un'etichetta collegata`);
+  atteso(campiEtichettati, `${vp}px contatti: i quattro campi hanno un'etichetta collegata`);
 
   atteso(
-    (await page.locator("[data-esito][aria-live]").count()) === 1,
+    (await page.locator("[data-corto] [data-esito][aria-live]").count()) === 1,
     `${vp}px contatti: l'esito è una live region`,
   );
 
   // Il form senza JS avrebbe la validazione nativa: con JS passa alla nostra
   atteso(
-    await page.evaluate(() => document.querySelector(".modulo__form")?.noValidate === true),
+    await page.evaluate(() => document.querySelector("[data-corto]")?.noValidate === true),
     `${vp}px contatti: novalidate messo dallo script, non nell'HTML`,
   );
 
   // Invio a vuoto: errori inline e focus sul primo campo sbagliato
-  await page.locator('.modulo__form button[type="submit"]').click();
+  await page.locator('[data-corto] button[type="submit"]').click();
   await page.waitForTimeout(300);
 
   const erroriMostrati = await page.evaluate(
@@ -185,7 +187,7 @@ for (const vp of [390, 1280]) {
         (el) => el.textContent.trim() !== "",
       ).length,
   );
-  atteso(erroriMostrati === 3, `${vp}px contatti: tre errori inline a form vuoto`);
+  atteso(erroriMostrati === 4, `${vp}px contatti: quattro errori inline a modulo vuoto`);
 
   atteso(
     await page.evaluate(() => document.activeElement?.getAttribute("name") === "nome"),
@@ -200,7 +202,7 @@ for (const vp of [390, 1280]) {
   );
 
   // L'errore se ne va mentre correggi, non al prossimo invio
-  await page.locator('[name="nome"]').fill("Luigi");
+  await page.locator('[data-corto] [name="nome"]').fill("Luigi");
   await page.waitForTimeout(200);
   atteso(
     await page.evaluate(
@@ -210,9 +212,9 @@ for (const vp of [390, 1280]) {
   );
 
   // Email non valida: resta segnalata
-  await page.locator('[name="email"]').fill("non-una-email");
-  await page.locator('[name="messaggio"]').fill("Due righe di prova.");
-  await page.locator('.modulo__form button[type="submit"]').click();
+  await page.locator('[data-corto] [name="email"]').fill("non-una-email");
+  await page.locator('[data-corto] [name="messaggio"]').fill("Due righe di prova.");
+  await page.locator('[data-corto] button[type="submit"]').click();
   await page.waitForTimeout(300);
   atteso(
     await page.evaluate(
@@ -223,7 +225,7 @@ for (const vp of [390, 1280]) {
 
   // I link esterni si aprono in scheda nuova, con rel e avviso per chi non vede
   const esterni = await page.evaluate(() =>
-    [...document.querySelectorAll('.canali__social a[target="_blank"]')].map((a) => ({
+    [...document.querySelectorAll('.canali a[target="_blank"]')].map((a) => ({
       rel: a.getAttribute("rel") ?? "",
       avviso: a.textContent.includes("nuova scheda"),
     })),
@@ -244,6 +246,25 @@ for (const vp of [390, 1280]) {
 
   atteso(errori.length === 0, `${vp}px contatti: nessun errore in console`);
   if (errori.length) console.error("   ", errori.slice(0, 3));
+  await page.close();
+}
+
+/* ---------- /privacy ---------- */
+for (const vp of [390, 1280]) {
+  const { page, errori } = await nuovaPagina(vp);
+  await page.goto(BASE + "/privacy", { waitUntil: "networkidle" });
+  const testo = await page.evaluate(() => document.querySelector("main").textContent);
+  atteso(
+    ["Luigi Romano", "Formspree", "cancellarli", "luigi4375@gmail.com"].every((t) => testo.includes(t)),
+    `${vp}px privacy: titolare, Formspree, diritti e email di contatto`,
+  );
+  atteso(
+    (await page.locator('footer a[href="/privacy"]').count()) === 1,
+    `${vp}px privacy: il footer ha il link all'informativa`,
+  );
+  atteso(await gerarchiaTitoli(page), `${vp}px privacy: gerarchia dei titoli senza salti`);
+  atteso(await senzaOverflow(page), `${vp}px privacy: nessun overflow orizzontale`);
+  atteso(errori.length === 0, `${vp}px privacy: nessun errore in console`);
   await page.close();
 }
 
@@ -411,10 +432,10 @@ for (const [vp, visibile] of [
   // Le pagine dei singoli loghi crescono con la collection: si contano a parte.
   const dettagliLoghi = conta("/loghi/[a-z0-9-]+/");
   atteso(
-    conta("<loc>") - dettagliLoghi === 7 &&
+    conta("<loc>") - dettagliLoghi === 8 &&
       dettagliLoghi >= 4 &&
       !testoSitemap.includes("styleguide"),
-    `seo: la sitemap elenca le 7 pagine pubbliche, ${dettagliLoghi} loghi e non la styleguide (${conta("<loc>")})`,
+    `seo: la sitemap elenca le 8 pagine pubbliche, ${dettagliLoghi} loghi e non la styleguide (${conta("<loc>")})`,
   );
 
   // Ogni pagina ha canonical e og:image propria
@@ -422,6 +443,7 @@ for (const [vp, visibile] of [
     "/",
     "/come-lavoro",
     "/contatti",
+    "/privacy",
     "/progetti/caso-reale",
     "/loghi",
     "/loghi/fornace-vietri",
