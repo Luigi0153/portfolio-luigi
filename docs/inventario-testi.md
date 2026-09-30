@@ -352,6 +352,31 @@ della L invariate.
 | `Logo e immagine del negozio` / `Colori, font e logo che si riconoscono, dal sito alle buste per le spedizioni.` | 04 | → `Identità visiva` / `Logo, colori e font che rendono la tua attività riconoscibile.` |
 | `Il sito è tuo, e io resto al tuo fianco.` | Chiusura | Invariata. |
 
+## `/contatti` a due percorsi e `/privacy` (2026-09-30)
+
+Testi nuovi o cambiati col selettore, il modulo a passi, il modulo corto e la pagina privacy.
+Regola 5 rispettata: niente tempi di risposta promessi, niente due punti a effetto, niente
+ironia. Le frasi "sue" (etichette del modulo corto, messaggi di errore di nome ed email) sono
+quelle dell'inventario del 2026-09-21, rimaste uguali.
+
+| Voce | Dove | Cosa è successo |
+|---|---|---|
+| Cosa cerchi? · Scegli una voce: il modulo cambia in base a quello che cerchi. | contatti.astro, selettore | Nuove. La seconda si vede solo se nessuna scelta è salvata. |
+| Raccontami cosa ti serve · Tre domande, ci metti un minuto. | ContattiBusiness.astro | Nuove (titolo e intro del modulo a passi). |
+| Cosa ti serve? con Negozio online · Sito o landing page · Logo e immagine · Altro (campo «Altro: scrivi cosa ti serve») | passo 1 | Nuove, testi dettati. |
+| Hai già un sito o un negozio online? con Sì, va migliorato · No, parto da zero · Ho solo un negozio fisico | passo 2 | Nuove, testi dettati. |
+| Come ti chiamo e come ti ricontatto? · Il tuo nome · Come preferisci essere ricontattato? (Telefono · Email) · Il tuo numero di telefono · La tua email | passo 3 | Nuove. |
+| Ho letto l'informativa sulla privacy e accetto che usi questi dati per rispondermi. | casella del consenso, in tutti e due i moduli | Nuova. Il link porta a /privacy. |
+| Avanti · Indietro · Invia · 1 di 3 | modulo a passi | Nuove. «Invia» è anche il bottone senza JavaScript. |
+| Errori: Scegli una delle voci. · Scrivi in poche parole cosa ti serve. · Scegli se preferisci essere ricontattato al telefono o via email. · Scrivi il tuo numero di telefono. · Il numero non sembra giusto. Usa solo cifre e spazi, con il prefisso se serve. · Per inviare la richiesta serve spuntare questa casella. | modulo a passi | Nuovi. Gli errori di nome ed email sono quelli già in uso. |
+| Ho ricevuto la tua richiesta. + Ti contatto io al numero che mi hai lasciato. / Ti scrivo io all'indirizzo che mi hai lasciato. | conferma del modulo a passi | Nuove. Nessun tempo promesso. |
+| Preferisci scrivermi direttamente? + email | sotto il modulo a passi | Nuova. |
+| Per inviare il messaggio serve spuntare questa casella. | modulo corto | Nuovo errore. |
+| Preferisci il telefono? Scrivimi prima due righe: ti mando io il numero e un orario. | /contatti, canali | **Tolta.** Il telefono ora si sceglie nel modulo a passi. |
+| Tre campi, ci metti un minuto. Niente chiamata obbligatoria. · Invia il messaggio | vecchio modulo, variante business | **Tolte** con il modulo unico. «Mandamelo» resta nel modulo corto. |
+| meta di /contatti | contatti.astro | «o il form qui sotto» → «o il modulo qui sotto». |
+| Privacy (footer) · intera pagina /privacy | Base.astro, privacy.astro | Nuove. **Bozza scritta da Claude da far controllare** (vedi docs/STATO.md). |
+
 ## Cosa non ho potuto giudicare
 
 Il campione ha un solo genere: risposta lunga e parlata. Di microcopy, titoli e sommari — cioè

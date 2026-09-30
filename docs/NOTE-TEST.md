@@ -20,3 +20,4 @@ preview (regola 7 di `CLAUDE.md`), mai sul dev server.
   `data-astro-transition-scope` dalla copia.
 - **Pausa al focus.** Usa `:has(:focus-visible)`, non `:focus-within`: un clic col mouse su un
   link darebbe il focus e lascerebbe l'elemento in pausa per sempre.
+- **Pagine senza JavaScript.** Con `javaScriptEnabled: false`, `page.addStyleTag` manda la pagina in crash ("Target crashed"). Per fermare lo scroll animato usa `reducedMotion: "reduce"` nel contesto. I moduli di `/contatti` si provano così (`scripts/test-contatti.mjs`), con Formspree intercettato da `context.route`: il POST nativo arriva urlencoded, quello di `fetch` multipart.

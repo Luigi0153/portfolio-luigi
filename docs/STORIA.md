@@ -659,3 +659,27 @@ visibili a riposo) non è stato toccato.
   scopre l'altra variante, che è il rischio principale dell'opzione rimandata qui sotto in
   "Manca". Verificata con i cinque test permanenti (tutti verdi) e screenshot della home a
   390/768/1280 nei due percorsi.
+
+- **Contatti a due percorsi e privacy (2026-09-30).** Quattro commit: selettore, modulo a passi,
+  percorso sviluppatore, `/privacy`. Scelte di dettaglio:
+  - **Scelta salvata o no.** Lo script in `Base.astro` scriveva `html[data-target]` sempre, con
+    "dev" come valore di partenza: non bastava a distinguere "ha scelto dev" da "non ha ancora
+    scelto". Ora scrive anche `html[data-scelto="si"]` solo se `localStorage` ha un valore valido.
+    `TargetSwitch` ha la prop `chiediScelta` (solo in `/contatti`): senza scelta nessuna voce è
+    premuta e il cursore sparisce. Il CSS dello switch è passato da `Hero.astro` a
+    `TargetSwitch.css`, altrimenti `/contatti` non lo caricava.
+  - **JavaScript acceso o spento.** Il marcatore è `html[data-target]`: lo scrive lo script inline
+    in `<head>` prima del primo paint, quindi la sua assenza vuol dire JavaScript spento. Il CSS
+    (`modulo.css`, `contatti.astro`) nasconde i passi, l'indicatore e i campi condizionali solo con
+    il marcatore presente, senza lampi prima che parta lo script dei moduli. Senza marcatore si
+    vedono tutti e due i percorsi, tutti e tre i passi e i campi "Altro", telefono ed email.
+  - **Un solo bottone di invio.** "Avanti" (passi 1 e 2) e "Invia" (passo 3) sono lo stesso
+    `type="submit"`: il tasto Invio nei campi porta avanti senza gestirlo a parte, e senza
+    JavaScript il bottone dice "Invia".
+  - **Focus.** A ogni passo va sulla `<legend>` con `tabindex="-1"` (la domanda). Con errori va
+    sul primo campo sbagliato; per le voci a scelta singola, sulla prima.
+  - **Tolto.** La riga "Preferisci il telefono? Scrivimi prima due righe: ti mando io il numero e
+    un orario" (ora il telefono si sceglie nel modulo a passi) e le varianti `data-only` del
+    vecchio modulo unico.
+  - **Test.** `test-contatti` nuovo; `test-pagine` ora guarda il modulo corto con consenso,
+    `/privacy` e otto pagine in sitemap; `test-nav` include `/privacy`.
