@@ -1,0 +1,310 @@
+---
+/**
+ * Percorso "Cerchi uno sviluppatore": i canali diretti in evidenza (email,
+ * LinkedIn, GitHub) e sotto un modulo corto, classico. Stesso Formspree del
+ * modulo a passi, con il campo percorso a dire da dove arriva la richiesta.
+ *
+ * Il modulo funziona anche senza JavaScript (POST nativo verso Formspree, che
+ * mostra la sua pagina di conferma). Con JavaScript lo intercettiamo e lo
+ * mandiamo in fetch, per restare sulla pagina e dare l'esito in un aria-live.
+ * Finché FORMSPREE_ID è il segnaposto (FORM_ATTIVO falso) il modulo non viene
+ * proprio renderizzato: restano i canali diretti, che funzionano sempre.
+ */
+import "../../styles/modulo.css";
+import SectionHeader from "../ui/SectionHeader.astro";
+import Button from "../ui/Button.astro";
+import Card from "../ui/Card.astro";
+import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../../dati-sito";
+---
+
+<section class="section-pad" aria-labelledby="canali-titolo">
+  <div class="container-site">
+    <SectionHeader id="canali-titolo" level="h2" title="I modi diretti" />
+
+    <div class="canali">
+      <a class="canale canale--mail" href={`mailto:${EMAIL}`}>
+        <span class="eyebrow canale__etichetta">Email</span>
+        <span class="canale__valore">{EMAIL}</span>
+      </a>
+
+      {
+        SOCIAL.map(({ nome, href, handle }) => (
+          <a class="canale" href={href} rel="me noopener noreferrer" target="_blank">
+            <span class="eyebrow canale__etichetta">{nome}</span>
+            <span class="canale__valore canale__valore--piccolo">
+              {handle}
+              <span class="canale__esterno" aria-hidden="true">↗</span>
+            </span>
+            <span class="sr-only">(si apre in una nuova scheda)</span>
+          </a>
+        ))
+      }
+    </div>
+
+    {/* Senza un id Formspree vero il modulo non viene renderizzato: un modulo
+        che non spedisce vale meno di un indirizzo email che funziona. */}
+    {
+      FORM_ATTIVO && (
+        <Card class="modulo dev-modulo" as="section" padding="lg" aria-labelledby="dev-modulo-titolo">
+          <h2 id="dev-modulo-titolo">Oppure scrivi qui</h2>
+          <p class="modulo__intro">Nome, email e messaggio. Ti rispondo io.</p>
+
+          <form class="modulo__form" action={FORMSPREE_ENDPOINT} method="POST" data-corto>
+            <div class="campo">
+              <label class="campo__label" for="d-nome">Come ti chiami</label>
+              <input
+                class="campo__input"
+                id="d-nome"
+                name="nome"
+                type="text"
+                autocomplete="name"
+                required
+                aria-describedby="d-nome-errore"
+              />
+              <p class="campo__errore" id="d-nome-errore" data-errore-per="nome" />
+            </div>
+
+            <div class="campo">
+              <label class="campo__label" for="d-email">La tua email</label>
+              <input
+                class="campo__input"
+                id="d-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                aria-describedby="d-email-errore"
+              />
+              <p class="campo__errore" id="d-email-errore" data-errore-per="email" />
+            </div>
+
+            <div class="campo">
+              <label class="campo__label" for="d-messaggio">Cosa ti serve</label>
+              <textarea
+                class="campo__input campo__input--area"
+                id="d-messaggio"
+                name="messaggio"
+                rows="5"
+                required
+                aria-describedby="d-messaggio-aiuto d-messaggio-errore"></textarea>
+              <p class="campo__aiuto" id="d-messaggio-aiuto">
+                Due righe bastano. Link e dettagli tecnici benvenuti.
+              </p>
+              <p class="campo__errore" id="d-messaggio-errore" data-errore-per="messaggio" />
+            </div>
+
+            <div class="campo">
+              <div class="consenso">
+                <input
+                  class="consenso__casella"
+                  type="checkbox"
+                  id="d-consenso"
+                  name="consenso_privacy"
+                  value="sì"
+                  required
+                  aria-describedby="d-consenso-errore"
+                />
+                <label class="consenso__testo" for="d-consenso">
+                  Ho letto l'
+                  <a href="/privacy" target="_blank" rel="noopener">
+                    informativa sulla privacy<span class="sr-only">
+                      (si apre in una nuova scheda)
+                    </span>
+                  </a>{" "}
+                  e accetto che usi questi dati per rispondermi.
+                </label>
+              </div>
+              <p class="campo__errore" id="d-consenso-errore" data-errore-per="consenso_privacy" />
+            </div>
+
+            {/* Trappola anti-spam di Formspree: invisibile e fuori dal tab order */}
+            <div class="modulo__gotcha" aria-hidden="true">
+              <label for="d-gotcha">Lascia vuoto questo campo</label>
+              <input id="d-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <input type="hidden" name="percorso" value="Cerchi uno sviluppatore" />
+            <input
+              type="hidden"
+              name="_subject"
+              value="Nuovo messaggio dal portfolio (cerca uno sviluppatore)"
+            />
+
+            <Button variant="primary" size="lg" type="submit" class="modulo__invia">
+              Mandamelo
+            </Button>
+
+            {/* L'esito dell'invio: annunciato dagli screen reader, non un alert */}
+            <p class="modulo__esito" data-esito role="status" aria-live="polite" />
+          </form>
+        </Card>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  /* Tre canali: sotto i 480 uno per riga, poi l'email larga e i due social
+     affiancati, da 1024 tutti e tre sulla stessa riga. */
+  .canali {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 480px) {
+    .canali {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .canale--mail {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .canali {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .canale--mail {
+      grid-column: auto;
+    }
+  }
+
+  .canale {
+    display: block;
+    padding: 1rem 1.25rem;
+    border: var(--border-retro);
+    border-radius: var(--radius-card);
+    background: var(--color-cream-2);
+    text-decoration: none;
+    transition:
+      box-shadow 0.2s var(--ease-brand),
+      background-color 0.2s var(--ease-brand);
+  }
+
+  @media (hover: hover) {
+    .canale:hover {
+      background: var(--color-cream);
+      box-shadow: var(--shadow-hard);
+    }
+  }
+
+  .canale__etichetta {
+    display: block;
+    color: var(--color-ink-2);
+  }
+
+  .canale__valore {
+    display: block;
+    margin-top: 0.35rem;
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-axes);
+    font-size: clamp(1.125rem, 3.2vw, 1.5rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    /* l'indirizzo lungo non deve sfondare la card a 390px */
+    overflow-wrap: anywhere;
+  }
+
+  .canale__valore--piccolo {
+    font-size: 1.125rem;
+  }
+
+  .canale__esterno {
+    display: inline-block;
+    margin-left: 0.35em;
+    color: var(--color-arancio);
+  }
+
+  /* Il modulo sta sotto i canali, nella stessa colonna di lettura del modulo
+     a passi. */
+  .dev-modulo {
+    max-width: 44rem;
+    margin-top: 3rem;
+  }
+</style>
+
+<script>
+  import {
+    controlli,
+    segnala,
+    pulisci,
+    pulisciCorreggendo,
+    scrivi,
+    invia,
+    MESSAGGI_ERRORE_INVIO,
+  } from "../../scripts/modulo";
+
+  /*
+    Validazione e invio in fetch. Senza JS il modulo fa il POST nativo e
+    Formspree mostra la sua pagina: questo script serve solo a migliorare
+    l'esperienza, mai a renderla possibile.
+  */
+  const CAMPI = ["nome", "email", "messaggio", "consenso_privacy"];
+  const MESSAGGI: Record<string, string> = {
+    nome: "Scrivi come ti chiami.",
+    email: "Serve un'email valida, altrimenti non posso risponderti.",
+    messaggio: "Due righe su cosa ti serve.",
+    consenso_privacy: "Per inviare il messaggio serve spuntare questa casella.",
+  };
+
+  function avvia() {
+    const form = document.querySelector<HTMLFormElement>("[data-corto]");
+    if (!form || form.dataset.montato === "si") return;
+    form.dataset.montato = "si";
+
+    /* novalidate da qui e non nell'HTML: senza JS restano i controlli nativi
+       di required e type="email". Con JS li sostituiamo con messaggi nostri. */
+    form.noValidate = true;
+
+    const esito = form.querySelector<HTMLElement>("[data-esito]");
+
+    function valida(): string[] {
+      const rotti: string[] = [];
+      for (const nome of CAMPI) {
+        const el = controlli(form!, nome)[0] as HTMLInputElement | undefined;
+        if (!el) continue;
+        const vuoto = el.type === "checkbox" ? !el.checked : el.value.trim() === "";
+        // checkValidity usa type="email": niente regex fatte in casa
+        if (vuoto || !el.checkValidity()) {
+          segnala(form!, nome, MESSAGGI[nome]);
+          rotti.push(nome);
+        } else {
+          pulisci(form!, nome);
+        }
+      }
+      return rotti;
+    }
+
+    // L'errore sparisce mentre correggi, non al prossimo invio
+    pulisciCorreggendo(form, CAMPI);
+
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const rotti = valida();
+      if (rotti.length > 0) {
+        scrivi(esito, "ko", "Controlla i campi segnati qui sopra.");
+        controlli(form, rotti[0])[0]?.focus();
+        return;
+      }
+
+      const invio = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (invio) invio.disabled = true;
+      scrivi(esito, "", "Invio in corso...");
+
+      const risultato = await invia(form, new FormData(form));
+
+      if (risultato === "ok") {
+        form.reset();
+        scrivi(esito, "ok", "Ricevuto. Ti rispondo io.");
+      } else {
+        scrivi(esito, "ko", MESSAGGI_ERRORE_INVIO[risultato]);
+      }
+      if (invio) invio.disabled = false;
+    });
+  }
+
+  document.addEventListener("astro:page-load", avvia);
+</script>
