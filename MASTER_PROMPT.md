@@ -100,7 +100,7 @@ Poi FERMATI.
 2. Crea `caso-reale.md` nella collection usando SOLO `docs/content/caso-reale.md`. Aggiungi due placeholder: `fornace-vietri.md` e `pizzeria.md` con frontmatter completo e corpo "in arrivo".
 3. `ProjectGrid.astro`: card con bordo retro, ombra dura all'hover, ordinamento che cambia in base a `data-target` (dev: prima i progetti tecnici; business: prima risultati). Card "in arrivo" con tag giallo.
 4. Pagina dinamica `src/pages/progetti/[slug].astro`: layout a due colonne su desktop con colonna sinistra pinnata da GSAP ScrollTrigger (titolo, lente, tags), a destra le sezioni Contesto / Decisione / Risultato / Cosa ho imparato. Su mobile tutto in colonna, senza pin.
-5. Per il caso reale, componenti dati: grafico ramp ordini (SVG inline, 4 barre), funnel a 4 step, StatTile per +63% / +86% / 94% mobile. Nessuna libreria di grafici.
+5. Per il caso reale, componenti dati: grafico della conversione mensile da giugno a settembre 2026 (SVG inline, 4 barre), funnel a 4 step con i totali del periodo, tre StatTile: conversione 2,6 volte, +37% valore medio ordine, 93% da mobile. Niente fatturato in euro. Nessuna libreria di grafici.
 6. Slider Before/After (isola React, accessibile da tastiera) con due immagini placeholder 390x844.
 7. Playwright 390/1280 sulla lista e sul dettaglio. Build, commit `feat(progetti): collection e caso reale`.
 FERMATI e aspetta "FASE 4".

@@ -14,10 +14,12 @@ const BASE = process.env.BASE_URL ?? "http://localhost:4321";
    pizzeria, Fornace. */
 const ATTESI = {
   dev: {
+    // la riga della prova è solo del percorso business: in dev non si vede
+    heroProva: [],
     invitoRiga: "Cerchi uno sviluppatore per il tuo team o per un progetto? Scrivimi, ti rispondo io.",
     invitoBottone: "Scrivimi",
     sommari: [
-      "Boutique di borse e accessori. Prima due mesi di dati, poi quattro interventi su Shopify, con il redesign in pausa.",
+      "Boutique di borse e accessori. Prima i dati, poi quattro interventi su Shopify, con il redesign in pausa.",
       "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
       "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
     ],
@@ -25,9 +27,10 @@ const ATTESI = {
   business: {
     invitoRiga:
       "Dimmi cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.",
+    heroProva: ["Su un negozio reale: 2,6 volte più acquisti ogni 100 visite, da giugno a settembre."],
     invitoBottone: "Parliamone",
     sommari: [
-      "Boutique di borse e accessori. Da giugno a luglio il fatturato è cresciuto dell'86%, senza rifare la grafica.",
+      "Boutique di borse e accessori. Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%, con il redesign in pausa.",
       "Branding concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni.",
       "Branding concept per un laboratorio di ceramica. Ogni pezzo è unico, e chi arriva tardi può chiederne uno simile.",
     ],
@@ -52,6 +55,7 @@ const leggiVarianti = () =>
         .filter((el) => el.getClientRects().length > 0)
         .map((el) => el.textContent.replace(/\s+/g, " ").trim());
     return {
+      heroProva: visibili(".hero__prova"),
       invitoTitoli: visibili(".invito h2"),
       invitoRiga: visibili(".invito__riga"),
       invitoBottone: visibili(".invito .btn"),
@@ -63,6 +67,7 @@ const leggiVarianti = () =>
 const confronta = (letto, target) => {
   const a = ATTESI[target];
   return (
+    letto.heroProva.join("|") === a.heroProva.join("|") &&
     letto.invitoTitoli.length === 1 &&
     letto.invitoTitoli[0] === "Raccontami il progetto" &&
     letto.invitoRiga.length === 1 &&

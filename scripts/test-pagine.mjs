@@ -296,7 +296,7 @@ for (const vp of [390, 1280]) {
 
 /* ---------- Pagine progetto per percorso ---------- */
 const SINTESI =
-  "Da giugno a luglio gli ordini sono passati da 19 a 31 e il fatturato è cresciuto dell'86%.";
+  "Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%, circa 2,6 volte, mentre le visite sono calate.";
 const INVITO = {
   dev: {
     riga: "Cerchi uno sviluppatore per il tuo team o per un progetto? Scrivimi, ti rispondo io.",
@@ -395,7 +395,7 @@ for (const [vp, visibile] of [
   const { page } = await nuovaPagina(1280);
   const DESCRIPTION = {
     "/progetti/caso-reale":
-      "Boutique di borse e accessori. Prima due mesi di dati, poi quattro interventi su Shopify, con il redesign in pausa.",
+      "Boutique di borse e accessori. Prima i dati, poi quattro interventi su Shopify, con il redesign in pausa.",
     "/progetti/fornace-vietri":
       "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
     "/progetti/pizzeria":

@@ -4,29 +4,46 @@ Nome pubblico: "Boutique di borse e accessori, Campania" (mai il nome vero, logo
 Ruolo: gestione continuativa dello store Shopify — catalogo, tema, analisi dati, decisioni di priorità.
 Lente del portfolio: "una decisione che posso difendere".
 
-## Contesto (dati reali, periodo maggio-luglio 2026)
-- Store nato ad aprile 2026, ordini significativi da giugno.
-- Giugno → luglio: ordini +63% (19 → 31), fatturato +86%, scontrino medio +14% (€56 → €64).
-- Borse = 68% del fatturato: in pratica è un negozio di borse, non "borse + abbigliamento + accessori".
-- 94% del traffico da mobile. 30% degli ordini dal canale TikTok Shop (invisibili nel funnel web).
+Regole sui dati: niente fatturato in euro, niente nome dello store, dominio o marchi dello store.
+Si mostra la crescita della conversione, non il valore assoluto. Le visite sono calate e va detto.
+Mai scrivere che gli interventi hanno causato la crescita: si dice cosa è successo nei mesi in cui
+sono stati fatti.
+
+## Contesto (dati reali, periodo giugno–settembre 2026, aggiornati il 2026-10-03)
+- Store nato ad aprile 2026, ordini significativi da giugno. Il periodo dei dati è da giugno a settembre 2026: quattro mesi.
+- Conversione del sito: da 0,19% a 0,50%, circa 2,6 volte. Per mese: giugno 0,19%, luglio 0,35%, agosto 0,36%, settembre 0,50%.
+- Visite mensili: circa dimezzate, da circa 3.650 a circa 1.800. Gli acquisti per visita sono aumentati su un traffico più piccolo.
+- Valore medio dell'ordine: +37%.
+- Mobile: 93% delle visite e 93% degli acquisti.
+- Canali: 66% sito, 30% TikTok, 4% app Shop. (Il dato non dice se sono ordini o fatturato: nel sito si scrive "vendite".)
+- Categorie: borse e zaini insieme fanno oltre l'80% del fatturato. In pratica è un negozio di borse e zaini, non "borse + abbigliamento + accessori".
 - Pubblico: donne, il 59% tra i 35 e i 54 anni (statistiche Instagram del negozio, luglio 2026: sono i follower, non le clienti verificate).
-- Funnel luglio, solo sito: 4.233 sessioni → 4,04% aggiunge al carrello → 82,5% arriva al checkout → 10,6% completa.
-- 15,8% del fatturato aveva `product_type` vuoto: rompeva report e collezioni smart.
+- Funnel, totali giugno–settembre 2026, solo sito: 12.025 visite → 511 aggiungono al carrello (4,25% delle visite) → 391 arrivano al checkout (76,5% di chi ha aggiunto) → 39 completano l'ordine (10,0% di chi è arrivato al checkout).
+- 15,8% del fatturato aveva `product_type` vuoto: rompeva report e collezioni smart. Dato di luglio, già sistemato.
+
+## Cosa non c'è più (superato il 2026-10-03)
+Il confronto giugno → luglio (ordini 19 → 31, +63%; fatturato +86%; scontrino medio €56 → €64, +14%), il 94% di traffico da mobile, il 68% di borse sul fatturato e il funnel di luglio (4.233 sessioni, 4,04%, 82,5%, 10,6%). Il sito non li usa più.
+
+## Cosa mostrare
+1. Grafico della conversione mensile, giugno–settembre (4 barre).
+2. Funnel a 4 passi con i totali del periodo.
+3. Tre numeri: conversione 2,6 volte, valore medio ordine +37%, 93% da mobile.
+4. Prima/dopo della scheda prodotto mobile (wireframe → mockup).
+5. Le immagini `caso-riepilogo` (desktop e mobile) sono fuori dalla pagina finché non vengono rifatte coi dati nuovi: i file restano in `src/assets/progetti/caso-reale/`.
 
 ## La decisione
 Tentazione: rifare palette, font, homepage ("il sito è brutto").
-Dati: il problema non è estetico. Solo 4 persone su 100 mettono qualcosa nel carrello (scheda prodotto mobile), e chi arriva al checkout lo abbandona 9 volte su 10 (problema dentro il checkout, non prima).
+Dati: il problema non è estetico. Solo 4 persone su 100 mettono qualcosa nel carrello (scheda prodotto mobile), e di chi arriva al checkout ne completa 1 su 10 (il collo di bottiglia è dentro il checkout, non prima).
 Scelta: congelare il redesign estetico, lavorare in ordine su (1) scheda prodotto mobile, (2) checkout testato con ordini reali da telefono, (3) igiene del catalogo. La palette viene dopo.
 
-## Cosa mostrare (immagini)
-1. Grafico ramp ordini apr-lug (4 barre).
-2. Funnel a 4 step con i tassi.
-3. Torta categorie (borse 68%).
-4. Prima/dopo della scheda prodotto mobile (wireframe → mockup).
-5. Screenshot admin Shopify con product_type corretti (anonimizzato).
+## Risultato (come va scritto)
+Nei mesi in cui ho fatto questi interventi, la conversione del sito è passata da 0,19% a 0,50%, circa 2,6 volte. Le visite sono calate, da circa 3.650 a circa 1.800 al mese: gli acquisti sono cresciuti su un traffico più piccolo. Il valore medio dell'ordine è salito del 37%. Non posso dire quanto sia merito degli interventi: lo store è giovane e nello stesso periodo è cambiato anche il traffico.
+
+## Il passo successivo
+Il collo di bottiglia è il checkout: molti ci arrivano, pochi completano. Da qui la proposta, in due fasi (Fase 1 correzioni alla scheda prodotto, Fase 2 nuova identità), che resta una proposta e non un lavoro consegnato.
 
 ## Cosa ho imparato (max 3 righe nel sito)
-- Non confrontare uno store di due mesi con la media Shopify: confrontalo con il suo mese precedente.
+- Per uno store di quattro mesi il termine di paragone è il mese precedente, non la media Shopify.
 - Mai concludere da un segmento con meno di 30 conversioni.
 - Il traffico social in-app non viene tracciato bene: i tassi sono un pavimento, non una misura.
 

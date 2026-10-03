@@ -10,10 +10,10 @@ tags:
   - Mobile
 cover: ../../assets/progetti/caso-reale/caso-copertina.jpg
 coverAlt: "Il titolo Non ho rifatto il sito. Ho letto i numeri. e la riga Boutique di borse e accessori, il negozio com'è oggi e dove può arrivare. Accanto due telefoni. Oggi, la scheda di una borsa a tracolla cognac su fondo bianco, con il bottone Aggiungi solo bordato e sotto il bottone viola Acquista con Shop Pay. Fase 2, la home proposta, con una donna che cammina in un vicolo con la borsa a tracolla, il titolo Capsule Cognac e due borse sotto."
-sommario: "Boutique di borse e accessori. Prima due mesi di dati, poi quattro interventi su Shopify, con il redesign in pausa."
-sommario_business: "Boutique di borse e accessori. Da giugno a luglio il fatturato è cresciuto dell'86%, senza rifare la grafica."
+sommario: "Boutique di borse e accessori. Prima i dati, poi quattro interventi su Shopify, con il redesign in pausa."
+sommario_business: "Boutique di borse e accessori. Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%, con il redesign in pausa."
 sintesi_business:
-  testo: "Da giugno a luglio gli ordini sono passati da 19 a 31 e il fatturato è cresciuto dell'86%."
+  testo: "Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%, circa 2,6 volte, mentre le visite sono calate."
   capitolo: risultato
   link: "Vai al risultato"
 ordine_dev: 1
@@ -22,9 +22,9 @@ capitoli:
   - id: contesto
     titolo: Contesto
     righe:
-      - "Store aperto ad aprile 2026, ordini veri da giugno: in tutto due mesi di dati."
-      - "Il 94% del traffico arriva da mobile, e il 30% degli ordini da TikTok Shop, che nel funnel del sito non si vede."
-      - "Il 68% del fatturato viene dalle borse: un negozio di borse, con abbigliamento e accessori intorno."
+      - "Store aperto ad aprile 2026, ordini veri da giugno. I dati vanno da giugno a settembre 2026."
+      - "Il 93% delle visite e il 93% degli acquisti arrivano dal telefono. Le vendite vengono per il 66% dal sito, per il 30% da TikTok e per il 4% dall'app Shop."
+      - "Borse e zaini insieme fanno oltre l'80% del fatturato: un negozio di borse e zaini, con abbigliamento e accessori intorno."
     dati:
       - statistiche
       - ramp
@@ -32,7 +32,7 @@ capitoli:
     titolo: Decisione
     righe:
       - "La tentazione era rifare palette, font e homepage, perché il sito non convinceva a livello estetico."
-      - "I dati dicevano altro: solo 4 persone su 100 aggiungono al carrello, e chi arriva al checkout lo abbandona 9 volte su 10."
+      - "I dati dicevano altro: solo 4 persone su 100 aggiungono al carrello, e di chi arriva al checkout ne completa 1 su 10."
       - "Redesign in pausa, e tre priorità in ordine: scheda prodotto mobile, checkout provato con ordini veri dal telefono, catalogo pulito."
     dati:
       - funnel
@@ -46,16 +46,15 @@ capitoli:
         - "Il badge ESAURITO. I pezzi finiti restano visibili e il bottone si disattiva."
         - "I testi su spedizioni e resi, che mancavano. Oggi stanno nel footer."
         - "Le categorie del catalogo sistemate, perché rompevano report e collezioni."
-    figura:
-      src: ../../assets/progetti/caso-reale/caso-riepilogo.jpg
-      mobile: ../../assets/progetti/caso-reale/caso-riepilogo-mobile.jpg
-      alt: "Riepilogo del lavoro sul negozio anonimo. In alto il titolo Cosa ho fatto sul negozio e il dato 4,04% delle visite aggiunge qualcosa al carrello, su 4.233 sessioni. Quattro riquadri. Aggiunta rapida, nelle card delle novità si aggiunge al carrello senza aprire la scheda, scritta in codice con Claude Code, con uno zaino e il suo bottone Aggiungi al carrello. Badge esaurito, i pezzi finiti restano visibili con il badge rosso e il bottone disattivato. Spedizioni e resi, i testi che mancavano, oggi nel footer, lontano da chi sta decidendo. Catalogo in ordine, il 15,8% del fatturato era su prodotti senza categoria, ora divisi in Borse a tracolla, Zaini e Portafogli. Sotto, Quello che ho notato dopo: nella scheda il bottone Aggiungi è solo bordato, mentre il pagamento rapido è pieno e viola. È un'ipotesi da verificare ed è il punto di partenza della proposta."
+    # La figura caso-riepilogo (src ../../assets/progetti/caso-reale/caso-riepilogo.jpg, mobile caso-riepilogo-mobile.jpg)
+    # è fuori dalla pagina dal 2026-10-03: contiene i dati di luglio (4,04%, 4.233 sessioni).
+    # I file restano in src/assets. Da rimettere come `figura` (src, mobile, alt) quando saranno rifatti.
   - id: risultato
     titolo: Risultato
     righe:
-      - "Da giugno a luglio gli ordini passano da 19 a 31, il fatturato cresce dell'86%, lo scontrino medio da 56 a 64 euro."
-      - "Il 15,8% del fatturato aveva il product_type vuoto e rompeva report e collezioni smart. Ora è a posto."
-      - "La palette resta quella di sempre."
+      - "Nei mesi in cui ho fatto questi interventi, la conversione del sito è passata da 0,19% a 0,50%, circa 2,6 volte, e il valore medio dell'ordine è salito del 37%."
+      - "Le visite sono calate, da circa 3.650 a circa 1.800 al mese: gli acquisti sono cresciuti su un traffico più piccolo. Non posso dire quanto sia merito degli interventi: lo store è giovane e nello stesso periodo è cambiato anche il traffico."
+      - "Il 15,8% del fatturato aveva il product_type vuoto e rompeva report e collezioni smart. Ora è a posto, e la palette resta quella di sempre."
   - id: oggi
     titolo: Il negozio oggi
     righe:
@@ -70,7 +69,7 @@ capitoli:
   - id: passo
     titolo: Il passo successivo
     righe:
-      - "Quello che segue è una proposta per il negozio, non un lavoro consegnato. Ha due fasi."
+      - "Il collo di bottiglia è il checkout: molti ci arrivano, pochi completano. Per questo propongo due fasi, che sono una proposta e non un lavoro consegnato."
     sottosezioni:
       - titolo: Fase 1, correzioni
         etichetta: Proposta
@@ -90,9 +89,9 @@ capitoli:
           - "Una direzione ispirata ai brand di moda campani e adattata al pubblico del negozio su Instagram, in maggioranza donne tra i 35 e i 54 anni, quasi sempre dal telefono."
           - "Avorio, nero e cuoio, un carattere serif per i nomi dei prodotti e le foto delle borse indossate."
         immagini:
-          - src: ../../assets/progetti/caso-reale/caso-fase2-identita.jpg
-            mobile: ../../assets/progetti/caso-reale/caso-fase2-identita-mobile.jpg
-            alt: "Prima e dopo dell'identità, su fondo avorio, riga per riga. Logo, oggi una scritta a mano sottile che sul telefono si legge a fatica, nella proposta il nome Boutique in maiuscolo spaziato e una B per icona, etichette e packaging. Palette, oggi i colori di serie del tema con il blu di fabbrica e il viola del pagamento, nella proposta avorio, nero e cuoio, che richiama le borse, il 68% del fatturato. Caratteri, oggi un testo sottile che sul telefono affatica, nella proposta un serif per i nomi dei prodotti e un bastoni a peso pieno per i testi. Foto, oggi solo il prodotto su bianco, nella proposta il prodotto su avorio e la borsa indossata. Racconto, oggi una griglia di prodotti tutti uguali, nella proposta le borse raccontate in capsule, con una foto indossata e sotto il look da comprare. Bottoni, oggi il bottone principale è il meno visibile dei due, nella proposta un solo bottone pieno con le garanzie subito sotto."
+          # La figura caso-fase2-identita (src ../../assets/progetti/caso-reale/caso-fase2-identita.jpg, mobile caso-fase2-identita-mobile.jpg)
+          # è fuori dalla pagina dal 2026-10-03: nella riga della palette c'è scritto "il 68% del fatturato".
+          # I file restano in src/assets. Da rimettere come elemento di `immagini` (src, mobile, alt) quando sarà rifatta.
           - galleria:
               - etichetta: La home
                 src: ../../assets/progetti/caso-reale/caso-fase2-home.jpg
@@ -105,7 +104,7 @@ capitoli:
   - id: imparato
     titolo: Cosa ho imparato
     righe:
-      - "Per uno store di due mesi il termine di paragone è il mese precedente, non la media Shopify."
+      - "Per uno store di quattro mesi il termine di paragone è il mese precedente, non la media Shopify."
       - "Mai concludere niente da un segmento con meno di 30 conversioni."
       - "Il traffico social in-app sfugge in parte al tracciamento: i numeri qui sono minimi, non definitivi."
 ---

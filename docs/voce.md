@@ -62,7 +62,7 @@ senza termini tecnici inutili. Ironia lieve solo nei punti marginali
 9. Ti lascio il sito e le istruzioni per gestirlo da solo.
 
 ### Risultati
-10. In due mesi gli ordini sono passati da 19 a 31, senza toccare la grafica.
+10. Da giugno a settembre la conversione del sito è passata da 0,19% a 0,50%, e le visite sono calate.
 
 ### Contatto
 11. Raccontami il tuo negozio e dimmi cosa non funziona.

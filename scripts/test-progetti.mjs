@@ -131,7 +131,6 @@ for (const vp of [390, 1280]) {
     const sotto = [...document.querySelectorAll(".caso__sezione:has(#sez-passo) .caso__sotto")];
     return {
       cover: document.querySelector(".caso__cover")?.getAttribute("src")?.includes("caso-copertina"),
-      riepilogo: dove(document.querySelector('.caso__figura img[src*="caso-riepilogo"]')),
       oggi: [...document.querySelectorAll(".caso__sezione:has(#sez-oggi) .caso__schermata img")].map(file),
       parti: sotto.map((s) => ({
         etichetta: s.querySelector(".caso__sotto-etichetta")?.textContent.trim(),
@@ -142,7 +141,6 @@ for (const vp of [390, 1280]) {
     };
   });
   atteso(posto.cover, `${vp}px dettaglio: la copertina in cima alla pagina`);
-  atteso(posto.riepilogo === "sez-fatto", `${vp}px dettaglio: caso-riepilogo dentro Cosa ho fatto`);
   atteso(
     posto.oggi.join(" ") === "caso-oggi-home caso-oggi-scheda",
     `${vp}px dettaglio: il negozio oggi in galleria (${posto.oggi.join(" ")})`,
@@ -158,8 +156,8 @@ for (const vp of [390, 1280]) {
   );
   atteso(
     fase2?.titolo === "Fase 2, nuova identità" &&
-      fase2.immagini.join(" ") === "caso-fase2-identita caso-fase2-home caso-fase2-scheda caso-fase2-packaging",
-    `${vp}px dettaglio: Fase 2 con identità, galleria e packaging in ordine (${fase2?.immagini.join(" ")})`,
+      fase2.immagini.join(" ") === "caso-fase2-home caso-fase2-scheda caso-fase2-packaging",
+    `${vp}px dettaglio: Fase 2 con galleria e packaging in ordine, senza l'identità (${fase2?.immagini.join(" ")})`,
   );
 
   // tutte le immagini hanno un alt vero e, scorrendo, si caricano
@@ -181,16 +179,16 @@ for (const vp of [390, 1280]) {
     `${vp}px dettaglio: tutte le immagini si caricano ${immagini.nonCaricate.join(" ")}`,
   );
 
-  // sotto i 768 la versione mobile, da 768 quella larga
+  // Le figure con dati vecchi sono fuori dalla pagina (dal 2026-10-03), in tutte e due
+  // le versioni: caso-riepilogo (luglio) e caso-fase2-identita ("68%" scritto dentro).
+  // La versione mobile/larga delle figure è già provata sui concept, più sotto.
   for (const figura of ["caso-riepilogo", "caso-fase2-identita"]) {
-    const img = await page.$eval(`.caso__figura picture img[src*="${figura}"]`, (i) => ({
-      corrente: i.currentSrc,
-      larga: i.parentElement.querySelector('source[media="(min-width: 768px)"]')?.srcset ?? "",
-    }));
-    const mobile = img.corrente.includes(`${figura}-mobile`);
     atteso(
-      (vp < 768 ? mobile : !mobile && img.corrente.includes(figura)) && img.larga.includes(figura) && !img.larga.includes("-mobile"),
-      `${vp}px dettaglio: ${figura} nella versione ${vp < 768 ? "mobile" : "larga"}`,
+      await page.evaluate(
+        (f) => document.querySelector(`img[src*="${f}"], source[srcset*="${f}"]`) === null,
+        figura,
+      ),
+      `${vp}px dettaglio: ${figura} non è nella pagina`,
     );
   }
   atteso(
@@ -223,8 +221,8 @@ for (const vp of [390, 1280]) {
   await page.waitForTimeout(1600);
   const valori = await page.locator(".stat__value").allTextContents();
   atteso(
-    valori.map((v) => v.replace(/\s/g, "")).join(" ") === "+63% +86% 94%",
-    `${vp}px dettaglio: i numeri contati arrivano a +63% +86% 94%`,
+    valori.map((v) => v.replace(/\s/g, "")).join(" ") === "2,6volte +37% 93%",
+    `${vp}px dettaglio: i numeri contati arrivano a 2,6 volte +37% 93% (letti: ${valori.join(" | ")})`,
   );
 
   atteso(errori.length === 0, `${vp}px dettaglio: nessun errore in console`);

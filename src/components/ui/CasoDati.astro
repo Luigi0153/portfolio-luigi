@@ -22,15 +22,25 @@ const { blocchi } = Astro.props;
     <div class="caso__dato">
       {blocco === "statistiche" && (
         <div class="caso__stat">
-          <StatTile value="+63%" label="Ordini" note="Da 19 a 31, giugno contro luglio." conta />
           <StatTile
-            value="+86%"
-            label="Fatturato"
-            note="Stesso periodo, stesso store."
+            value="2,6 volte"
+            label="Conversione del sito"
+            note="Da 0,19% a 0,50%, da giugno a settembre. Le visite sono calate."
             tone="arancio"
             conta
           />
-          <StatTile value="94%" label="Traffico da mobile" note="Il desktop qui non esiste." conta />
+          <StatTile
+            value="+37%"
+            label="Valore medio ordine"
+            note="Nello stesso periodo."
+            conta
+          />
+          <StatTile
+            value="93%"
+            label="Visite da mobile"
+            note="E il 93% degli acquisti."
+            conta
+          />
         </div>
       )}
       {blocco === "ramp" && <RampChart />}

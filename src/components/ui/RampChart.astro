@@ -1,9 +1,7 @@
 ---
 /**
- * Ramp degli ordini, SVG inline (nessuna libreria di grafici).
- * Aprile e maggio restano barre vuote senza numero: docs/content/caso-reale.md
- * dice solo che gli ordini diventano significativi a giugno, e i valori di quei
- * due mesi non esistono. Meglio una barra dichiarata vuota che un dato inventato.
+ * Conversione del sito mese per mese, SVG inline (nessuna libreria di grafici).
+ * I valori sono quelli di docs/content/caso-reale.md: giugno-settembre 2026.
  * I numeri sono anche testo leggibile, non solo forme: lo screen reader legge
  * la tabella nel figcaption, non l'SVG (aria-hidden).
  */
@@ -13,16 +11,17 @@ interface Props {
 
 const { class: className } = Astro.props;
 
+// `valore` serve alla scala, `testo` è quello che si legge (virgola italiana).
 const mesi = [
-  { mese: "Aprile", ordini: null },
-  { mese: "Maggio", ordini: null },
-  { mese: "Giugno", ordini: 19 },
-  { mese: "Luglio", ordini: 31 },
+  { mese: "Giugno", valore: 0.19, testo: "0,19%" },
+  { mese: "Luglio", valore: 0.35, testo: "0,35%" },
+  { mese: "Agosto", valore: 0.36, testo: "0,36%" },
+  { mese: "Settembre", valore: 0.5, testo: "0,50%" },
 ];
 
-// Geometria: viewBox fisso, larghezza fluida. La scala parte da 0 e arriva a 36
-// (il massimo reale è 31) per lasciare aria ai numeri sopra le barre.
-const MAX = 36;
+// Geometria: viewBox fisso, larghezza fluida. La scala parte da 0 e arriva a
+// 0,6% (il massimo reale è 0,50%) per lasciare aria ai numeri sopra le barre.
+const MAX = 0.6;
 const BASE = 232; // y della linea di base
 const ALTEZZA_UTILE = 168;
 const LARGHEZZA_BARRA = 62;
@@ -30,19 +29,14 @@ const PASSO = 92;
 const X0 = 34;
 
 const barre = mesi.map((m, i) => {
-  const altezza = m.ordini === null ? 26 : (m.ordini / MAX) * ALTEZZA_UTILE;
+  const altezza = (m.valore / MAX) * ALTEZZA_UTILE;
   return {
     ...m,
     x: X0 + i * PASSO,
     y: BASE - altezza,
     altezza,
     // l'ultimo mese è quello che porta la decisione: unico arancio
-    colore:
-      m.ordini === null
-        ? "var(--color-cream)"
-        : i === mesi.length - 1
-          ? "var(--color-arancio)"
-          : "var(--color-ink)",
+    colore: i === mesi.length - 1 ? "var(--color-arancio)" : "var(--color-ink)",
   };
 });
 ---
@@ -66,17 +60,9 @@ const barre = mesi.map((m, i) => {
             fill={b.colore}
             style={`--altezza: ${b.altezza}px; --base: ${BASE}px`}
           />
-          {b.ordini !== null ? (
-            <text class="ramp__valore" x={b.x + LARGHEZZA_BARRA / 2} y={b.y - 12}>
-              {b.ordini}
-            </text>
-          ) : (
-            // un trattino, non "avvio": si legge come "qui il numero non c'è"
-            // invece di rubare il posto all'etichetta del mese
-            <text class="ramp__vuoto" x={b.x + LARGHEZZA_BARRA / 2} y={b.y - 12}>
-              –
-            </text>
-          )}
+          <text class="ramp__valore" x={b.x + LARGHEZZA_BARRA / 2} y={b.y - 12}>
+            {b.testo}
+          </text>
           <text class="ramp__mese" x={b.x + LARGHEZZA_BARRA / 2} y={BASE + 26}>
             {b.mese}
           </text>
@@ -87,8 +73,8 @@ const barre = mesi.map((m, i) => {
   </svg>
 
   <figcaption class="ramp__caption">
-    Ordini per mese: giugno 19, luglio 31. Ad aprile e maggio lo store era appena
-    aperto e i volumi non sono significativi, quindi restano senza numero.
+    Conversione del sito, mese per mese: giugno 0,19%, luglio 0,35%, agosto
+    0,36%, settembre 0,50%. Sono acquisti ogni 100 visite.
   </figcaption>
 </figure>
 
@@ -115,23 +101,18 @@ const barre = mesi.map((m, i) => {
   }
 
   .ramp__valore,
-  .ramp__vuoto,
   .ramp__mese {
     text-anchor: middle;
     fill: var(--color-ink);
   }
 
-  .ramp__valore,
-  .ramp__vuoto {
+  .ramp__valore {
     font-family: var(--font-display);
     font-variation-settings: var(--display-axes);
-    font-size: 30px;
+    /* "0,50%" è più largo di "31": a 30px due numeri vicini si toccano */
+    font-size: 22px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-  }
-
-  .ramp__vuoto {
-    fill: var(--color-ink-2);
   }
 
   .ramp__mese {

@@ -1,13 +1,12 @@
 ---
 /**
- * Funnel a 4 step del caso reale (luglio, solo sito).
+ * Funnel a 4 step del caso reale (totali da giugno a settembre 2026, solo sito).
  *
  * Le barre misurano il tasso DEL SINGOLO PASSO, non il volume assoluto: un
- * funnel in scala reale renderebbe invisibili gli ultimi due step (4.233
- * sessioni contro una manciata di ordini) e sarebbe illeggibile. Ogni riga
- * dichiara il proprio denominatore, così la percentuale non si può fraintendere.
- * I valori assoluti dei passi intermedi non sono nella fonte e non vengono
- * ricavati per moltiplicazione: sarebbero numeri inventati (regola 8).
+ * funnel in scala reale renderebbe invisibili gli ultimi due step (12.025
+ * visite contro 39 ordini) e sarebbe illeggibile. Ogni riga dichiara il
+ * proprio denominatore, così la percentuale non si può fraintendere. I numeri
+ * sono quelli di docs/content/caso-reale.md: 12.025, 511, 391, 39.
  */
 interface Props {
   class?: string;
@@ -17,31 +16,31 @@ const { class: className } = Astro.props;
 
 const passi = [
   {
-    nome: "Sessioni",
-    valore: "4.233",
+    nome: "Visite",
+    valore: "12.025",
     quota: 100,
-    denominatore: "luglio, solo traffico del sito",
+    denominatore: "da giugno a settembre 2026, solo il sito",
     tono: "ink",
   },
   {
     nome: "Aggiunge al carrello",
-    valore: "4,04%",
-    quota: 4.04,
-    denominatore: "delle sessioni",
+    valore: "4,25%",
+    quota: 4.25,
+    denominatore: "delle visite (511)",
     tono: "ink",
   },
   {
     nome: "Arriva al checkout",
-    valore: "82,5%",
-    quota: 82.5,
-    denominatore: "di chi ha aggiunto al carrello",
+    valore: "76,5%",
+    quota: 76.5,
+    denominatore: "di chi ha aggiunto al carrello (391)",
     tono: "ink",
   },
   {
     nome: "Completa l'ordine",
-    valore: "10,6%",
-    quota: 10.6,
-    denominatore: "di chi è arrivato al checkout",
+    valore: "10,0%",
+    quota: 10.0,
+    denominatore: "di chi è arrivato al checkout (39)",
     tono: "arancio",
   },
 ];
@@ -70,8 +69,8 @@ const passi = [
   </ol>
 
   <figcaption class="funnel__caption">
-    Il 30% degli ordini arriva da TikTok Shop e qui dentro non si vede: questi
-    tassi sono minimi, non definitivi.
+    Qui c'è solo il sito: il 30% delle vendite arriva da TikTok e il 4% dall'app
+    Shop, e non si vede in questi passi. I tassi sono minimi, non definitivi.
   </figcaption>
 </figure>
 
