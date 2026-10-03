@@ -34,11 +34,16 @@ Deploy Vercel. Nessuna altra libreria UI/animazione senza il mio ok esplicito.
 15. Script: gli script non banali si scrivono in un file `.cjs` e poi si lanciano. Niente heredoc, niente `node -e` con regex o backtick. Python non è installato.
 16. Leggi `docs/NOTE-TEST.md` solo quando scrivi o modifichi test.
 
-## Skill disponibili in .claude/skills
-Mie: design-taste-frontend, ui-ux-pro-max, web-design-guidelines, cro, shopify-expert, sisters-store-brand.
-Esterne: gsap-skills (ufficiali GSAP), astro-agent-skills (incluud), threejs-fundamentals / threejs-loaders / threejs-lighting (CloudAI-X).
+## Skill disponibili
+Nel progetto (`.claude/skills`):
+- GSAP ufficiali: gsap-core, gsap-scrolltrigger, gsap-plugins, gsap-react, gsap-timeline, gsap-performance, gsap-utils.
+- Astro (incluud): astro-best-practices, content-collection, create-component, add-integration, migrate, docs-lookup.
+- Testi: copywriting, unslop.
+
+A livello utente (`~/.claude/skills`, valgono in ogni progetto): design-taste-frontend, ui-ux-pro-max, web-design-guidelines, cro, shopify-expert, sisters-store-brand.
+
 Usa `design-taste-frontend` e `ui-ux-pro-max` per ogni scelta visiva; `web-design-guidelines` per la review finale; `cro` per la landing pizzeria; `shopify-expert` per il concept Fornace Vietri; `sisters-store-brand` solo per estrarre dati (anonimizzando).
-Per qualsiasi animazione usa PRIMA le skill GSAP ufficiali (ScrollTrigger, matchMedia, SplitText: tutti i plugin sono gratuiti). Per componenti, layout e content collection usa le skill Astro. Per l'hero 3D (Fase 4) usa le tre skill threejs. Se due skill si contraddicono, vince `docs/design-tokens.md` e poi la skill ufficiale.
+Per qualsiasi animazione usa PRIMA le skill GSAP ufficiali (ScrollTrigger, matchMedia, SplitText: tutti i plugin sono gratuiti). Per componenti, layout e content collection usa le skill Astro. Per l'hero 3D (Fase 4) non ci sono skill dedicate: verifica le API di Three.js nella documentazione ufficiale. Se due skill si contraddicono, vince `docs/design-tokens.md` e poi la skill ufficiale.
 
 ## Struttura cartelle
 src/pages, src/layouts, src/components (ui/, sections/, three/), src/content (case study in markdown), src/styles/tokens.css, public/models (glb), docs/.
