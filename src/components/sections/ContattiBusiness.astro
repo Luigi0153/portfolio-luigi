@@ -237,7 +237,7 @@ const CANALI = ["Telefono", "Email"];
 
             <div class="conferma" data-conferma tabindex="-1" hidden>
               <p class="conferma__titolo">Ho ricevuto la tua richiesta.</p>
-              <p data-conferma-testo />
+              <p>Ti ricontatterò a breve.</p>
             </div>
           </Card>
 
@@ -436,13 +436,6 @@ const CANALI = ["Telefono", "Email"];
 
       if (risultato === "ok") {
         scrivi(esito, "", "");
-        const testo = conferma?.querySelector<HTMLElement>("[data-conferma-testo]");
-        if (testo) {
-          testo.textContent =
-            canale === "Telefono"
-              ? "Ti contatto io al numero che mi hai lasciato."
-              : "Ti scrivo io all'indirizzo che mi hai lasciato.";
-        }
         form.hidden = true;
         if (intro) intro.hidden = true;
         if (conferma) {

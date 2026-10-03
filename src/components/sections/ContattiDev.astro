@@ -298,7 +298,7 @@ import { EMAIL, SOCIAL, FORMSPREE_ENDPOINT, FORM_ATTIVO } from "../../dati-sito"
 
       if (risultato === "ok") {
         form.reset();
-        scrivi(esito, "ok", "Ricevuto. Ti rispondo io.");
+        scrivi(esito, "ok", "Ho ricevuto la tua richiesta. Ti ricontatterò a breve.");
       } else {
         scrivi(esito, "ko", MESSAGGI_ERRORE_INVIO[risultato]);
       }

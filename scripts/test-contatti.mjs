@@ -14,6 +14,7 @@ import { chromium } from "playwright";
 
 const BASE = process.env.BASE_URL ?? "http://localhost:4321";
 const FORMSPREE = "https://formspree.io/f/xkjgoowv";
+const TESTO_CONFERMA = "Ho ricevuto la tua richiesta. Ti ricontatterò a breve.";
 const browser = await chromium.launch();
 let fallimenti = 0;
 
@@ -400,13 +401,14 @@ for (const vp of [390, 1280]) {
 
   // Conferma: semplice, col focus, senza promettere tempi
   const conferma = await page.locator("[data-conferma]");
-  const testoConferma = (await conferma.textContent()).replace(/\s+/g, " ").trim();
+  const testoConferma = (await conferma.innerText()).replace(/\s+/g, " ").trim();
   atteso(
     (await conferma.isVisible()) &&
       !(await f.isVisible()) &&
       (await page.evaluate(() => document.activeElement?.hasAttribute("data-conferma"))),
     `${et}: dopo l'invio si vede la conferma, col focus, al posto del modulo`,
   );
+  atteso(testoConferma === TESTO_CONFERMA, `${et}: la conferma dice "${TESTO_CONFERMA}" (letto: "${testoConferma}")`);
   atteso(
     !/entro|ore\b|giorn|minut|subito|presto|24/i.test(testoConferma),
     `${et}: la conferma non promette tempi ("${testoConferma}")`,
@@ -444,8 +446,8 @@ for (const vp of [390, 1280]) {
     `390px passi: con "Telefono" parte il telefono, senza email né _replyto (${Object.keys(dati).join(", ")})`,
   );
   atteso(
-    (await page.locator("[data-conferma-testo]").textContent()).includes("numero"),
-    "390px passi: la conferma parla del numero lasciato",
+    (await page.locator("[data-conferma]").innerText()).replace(/\s+/g, " ").trim() === TESTO_CONFERMA,
+    "390px passi: la conferma è la stessa anche con il telefono",
   );
   await context.close();
 }
@@ -549,7 +551,7 @@ for (const vp of [390, 1280]) {
     `${et}: invio a Formspree con il campo percorso (${Object.keys(dati).join(", ")})`,
   );
   atteso(
-    (await c.locator("[data-esito]").textContent()) === "Ricevuto. Ti rispondo io.",
+    (await c.locator("[data-esito]").textContent()) === TESTO_CONFERMA,
     `${et}: esito semplice, senza tempi di risposta`,
   );
   atteso(await gerarchiaTitoli(page), `${et}: gerarchia dei titoli senza salti`);
