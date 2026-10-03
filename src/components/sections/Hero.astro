@@ -420,6 +420,24 @@ import DeskScene from "./DeskScene.astro";
     });
   }
 
+  // Il CSS (global.css) nasconde già le righe del percorso non attivo; qui si
+  // aggiunge `hidden` perché l'intento stia anche nel markup. Lo switch scrive
+  // data-target su <html> e non emette eventi: come in ProjectGrid, un
+  // osservatore se ne accorge senza toccare React. Cerca nel DOM al momento
+  // della chiamata, quindi regge anche lo swap delle View Transitions.
+  function sincronizzaPercorso() {
+    const attivo = document.documentElement.dataset.target === "business" ? "business" : "dev";
+    document.querySelectorAll<HTMLElement>(".hero [data-only]").forEach((el) => {
+      el.hidden = el.dataset.only !== attivo;
+    });
+  }
+
+  new MutationObserver(sincronizzaPercorso).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-target"],
+  });
+
+  document.addEventListener("astro:page-load", sincronizzaPercorso);
   document.addEventListener("astro:page-load", avvia);
   document.addEventListener("astro:before-swap", spegni);
 </script>

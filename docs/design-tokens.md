@@ -19,7 +19,7 @@ Dark mode: NON prevista al lancio.
 
 ## Tipografia (Google Fonts, self-hosted via @fontsource)
 - Display / titoli: **Fraunces** variable, opsz 72, wght 500-700, asse SOFT 50. Tracking -0.02em.
-- Testo / UI: **Hanken Grotesk** 400/500/600. Line-height 1.55 corpo, 1.2 titoli.
+- Testo / UI: **Hanken Grotesk** 400/500/600. Line-height 1.55 corpo, 1.2 titoli, 1.3 titoli lunghi.
 - Mono / etichette tech: **JetBrains Mono** 400, uppercase, tracking 0.08em, size 12-13px.
 
 Scala (mobile → desktop, usa clamp):
@@ -28,6 +28,7 @@ Scala (mobile → desktop, usa clamp):
 - h3: clamp(1.375rem, 2.5vw, 1.75rem)
 - body: 1rem / 1.125rem desktop
 - label: 0.8125rem mono
+- titolo lungo: stessa famiglia e misura del titolo a cui appartiene, line-height 1.3 (`--leading-titolo-lungo`). Si usa per titoli e aperture che vanno oltre 3 righe su mobile: a quella lunghezza 1.2 stringe le righe. Oggi vale solo per `.servizi__apertura`. Le righe dell'hero restano a 1.2.
 
 ## Spaziatura e forme
 - Griglia: container max 1200px, gutter 20px mobile / 40px desktop.
