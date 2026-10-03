@@ -27,7 +27,7 @@ const ATTESI = {
   business: {
     invitoRiga:
       "Dimmi cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.",
-    heroProva: ["Su un negozio reale: 2,6 volte più acquisti ogni 100 visite, da giugno a settembre."],
+    heroProva: ["Su un negozio reale, da giugno a settembre, 2,6 volte più acquisti ogni 100 visite."],
     invitoBottone: "Parliamone",
     sommari: [
       "Boutique di borse e accessori. Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%, con il redesign in pausa.",

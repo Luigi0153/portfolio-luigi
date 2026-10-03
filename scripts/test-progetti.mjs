@@ -225,6 +225,18 @@ for (const vp of [390, 1280]) {
     `${vp}px dettaglio: i numeri contati arrivano a 2,6 volte +37% 93% (letti: ${valori.join(" | ")})`,
   );
 
+  // grafico della conversione e funnel: i valori scritti sono quelli di docs/content/caso-reale.md
+  const ramp = await page.$$eval(".ramp__valore", (els) => els.map((e) => e.textContent.trim()));
+  atteso(
+    ramp.join(" ") === "0,19% 0,35% 0,36% 0,50%",
+    `${vp}px dettaglio: la conversione mensile è 0,19% 0,35% 0,36% 0,50% (letti: ${ramp.join(" ")})`,
+  );
+  const funnel = await page.$$eval(".funnel__valore", (els) => els.map((e) => e.textContent.trim()));
+  atteso(
+    funnel.join(" ") === "12.025 4,25% 76,5% 10,0%",
+    `${vp}px dettaglio: il funnel è 12.025 4,25% 76,5% 10,0% (letti: ${funnel.join(" ")})`,
+  );
+
   atteso(errori.length === 0, `${vp}px dettaglio: nessun errore in console`);
   if (errori.length) console.error("   ", errori.slice(0, 3));
   await page.close();

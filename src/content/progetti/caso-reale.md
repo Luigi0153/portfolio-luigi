@@ -54,7 +54,7 @@ capitoli:
     righe:
       - "Nei mesi in cui ho fatto questi interventi, la conversione del sito è passata da 0,19% a 0,50%, circa 2,6 volte, e il valore medio dell'ordine è salito del 37%."
       - "Le visite sono calate, da circa 3.650 a circa 1.800 al mese: gli acquisti sono cresciuti su un traffico più piccolo. Non posso dire quanto sia merito degli interventi: lo store è giovane e nello stesso periodo è cambiato anche il traffico."
-      - "Il 15,8% del fatturato aveva il product_type vuoto e rompeva report e collezioni smart. Ora è a posto, e la palette resta quella di sempre."
+      - "A luglio il 15,8% del fatturato aveva il product_type vuoto e rompeva report e collezioni smart. Ora è a posto, e la palette resta quella di sempre."
   - id: oggi
     titolo: Il negozio oggi
     righe:
@@ -69,7 +69,7 @@ capitoli:
   - id: passo
     titolo: Il passo successivo
     righe:
-      - "Il collo di bottiglia è il checkout: molti ci arrivano, pochi completano. Per questo propongo due fasi, che sono una proposta e non un lavoro consegnato."
+      - "Molti arrivano al checkout, ma pochi completano l'acquisto. Per questo propongo due fasi, che sono una proposta e non un lavoro consegnato."
     sottosezioni:
       - titolo: Fase 1, correzioni
         etichetta: Proposta
