@@ -430,7 +430,7 @@ for (const [vp, visibile] of [
   const testoSitemap = await sitemap.text();
   const conta = (s) => (testoSitemap.match(new RegExp(s, "g")) ?? []).length;
   // Le pagine dei singoli loghi crescono con la collection: si contano a parte.
-  const dettagliLoghi = conta("/loghi/[a-z0-9-]+/");
+  const dettagliLoghi = conta("/loghi/[a-z0-9-]+</loc>");
   atteso(
     conta("<loc>") - dettagliLoghi === 8 &&
       dettagliLoghi >= 4 &&
@@ -457,6 +457,33 @@ for (const [vp, visibile] of [
     atteso(
       meta.canonical.startsWith("http") && meta.og.startsWith("http") && meta.titolo !== "",
       `seo: ${percorso} ha canonical, og:image e title (${meta.og.split("/").pop()})`,
+    );
+  }
+
+  // Una sola forma degli URL: per ogni voce della sitemap, il canonical e l'og:url
+  // sono la voce stessa, e la pagina si apre a quell'indirizzo, senza barra finale
+  // (tranne la home) e senza reindirizzamenti verso un'altra forma.
+  const voci = [...testoSitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  atteso(voci.length > 0, `seo: la sitemap ha voci da controllare (${voci.length})`);
+  for (const voce of voci) {
+    const { pathname } = new URL(voce);
+    atteso(
+      pathname === "/" || !pathname.endsWith("/"),
+      `seo: ${pathname} nella sitemap è senza barra finale`,
+    );
+    await page.goto(BASE + pathname, { waitUntil: "domcontentloaded" });
+    const meta = await page.evaluate(() => ({
+      canonical: document.querySelector("link[rel=canonical]")?.getAttribute("href") ?? "",
+      ogUrl: document.querySelector('meta[property="og:url"]')?.getAttribute("content") ?? "",
+    }));
+    const apertaA = new URL(page.url()).pathname;
+    atteso(
+      apertaA === pathname,
+      `seo: ${pathname} si apre senza reindirizzamenti (${apertaA})`,
+    );
+    atteso(
+      meta.canonical === voce && meta.ogUrl === voce,
+      `seo: ${pathname} ha canonical e og:url uguali alla voce della sitemap (${meta.canonical}, ${meta.ogUrl})`,
     );
   }
 

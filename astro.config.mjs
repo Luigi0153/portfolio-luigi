@@ -13,6 +13,11 @@ const site = 'https://luigiromano.cloud';
 export default defineConfig({
   site,
 
+  // Una sola forma degli URL, senza barra finale: è quella dei link interni e
+  // quella che Google ha scelto. Canonical, og:url e sitemap la seguono; la
+  // forma con la barra la reindirizza Vercel (vedi `trailingSlash` in vercel.json).
+  trailingSlash: 'never',
+
   vite: {
     plugins: [tailwindcss()]
   },
