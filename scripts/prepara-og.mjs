@@ -70,8 +70,8 @@ const PAGINE = [
   },
   {
     // Nessun template: la copertina ha già titolo e sottotitolo del progetto
-    file: "og/caso-reale.png",
-    copertina: "src/assets/progetti/caso-reale/caso-copertina.jpg",
+    file: "og/sisters-store.png",
+    copertina: "src/assets/progetti/sisters-store/sisters-copertina.jpg",
   },
   {
     // Nessun template: la copertina ha già nome e sottotitolo del progetto
