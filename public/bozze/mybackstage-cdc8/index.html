@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mybackstage · bozza sito</title>
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:title" content="Mybackstage · bozza del sito">
+<meta property="og:description" content="Bozza del sito di Mybackstage, preparata da Luigi Romano. Logo, colori, foto e testi si decidono insieme.">
+<meta property="og:image" content="https://luigiromano.cloud/bozze/mybackstage-cdc8/og.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+/* IDEA (da Nova Arts Salon, Los Angeles, e Avanti Boston): solo bianco e nero, così il colore dei capelli nelle foto è l'unico colore
+   della pagina; etichette piccole in maiuscolo spaziato; pulsanti rettangolari a contorno; due azioni in alto (prenota + consulenza
+   colore gratuita); un manifesto breve; listino come tabella tipografica, non card; il team con nome e specialità.
+   PUBBLICO: donne 25-55 al Vomero, abituate a saloni curati; scelgono per fiducia e precisione, non per sconti. */
+:root{
+  --bg:#FFFFFF;
+  --ink:#111111;
+  --mid:#6A6A6A;
+  --line:#111111;
+  --soft:#F2F2F2;
+  --display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --body:"DM Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3{margin:0;font-weight:400}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+.lab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+.serif{font-family:var(--display);font-weight:400;letter-spacing:-.01em;line-height:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;border:1.5px solid var(--ink);padding:1rem 1.6rem;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;background:#fff;color:var(--ink);transition:background .15s,color .15s}
+.btn:hover,.btn.fill{background:var(--ink);color:#fff}
+.btn:focus-visible{outline:3px solid #000;outline-offset:3px}
+.demo{background:var(--ink);color:#fff;font-size:.72rem;text-align:center;padding:.45rem 1rem;letter-spacing:.14em;text-transform:uppercase}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px}
+nav .burger{display:flex;flex-direction:column;gap:5px;width:22px}
+nav .burger i{height:1.5px;background:var(--ink)}
+nav .brand{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;text-align:center}
+nav .right{justify-self:end;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
+nav .right a{text-decoration:none}
+@media(max-width:600px){nav .wrap{grid-template-columns:auto 1fr;gap:1rem}nav .brand{font-size:1.05rem;letter-spacing:.05em;text-align:left}nav .right{display:none}}
+
+/* HERO */
+.hero .ph{width:100%;height:min(56.25vw,72vh);background:
+  linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.25)),
+  radial-gradient(70% 90% at 30% 40%,#4a4a4a,#1c1c1c 70%);position:relative}
+.hero .ph span{position:absolute;left:1.2rem;bottom:1rem;color:#fff;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
+.hero .ph .accent{position:absolute;right:12%;top:18%;width:22%;aspect-ratio:3/4;background:linear-gradient(160deg,#c78a4a,#7a3f1a);filter:grayscale(0);opacity:.9;border:1px solid rgba(255,255,255,.3)}
+.hero .txt{text-align:center;padding:clamp(2rem,5vw,3.5rem) 0 clamp(2rem,4vw,3rem)}
+.hero h1{font-family:var(--body);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.6rem);line-height:1.2;max-width:28ch;margin-inline:auto;text-wrap:balance}
+.hero .ctas{display:flex;flex-direction:column;gap:.7rem;max-width:380px;margin:1.6rem auto 0}
+
+/* MANIFESTO */
+.mani{text-align:center;padding:clamp(2rem,5vw,4rem) 0;border-top:1px solid var(--line)}
+.mani h2{font-size:.95rem;letter-spacing:.2em;text-transform:uppercase;line-height:1.8;max-width:46ch;margin:0 auto 1.2rem;font-weight:500}
+.mani p{max-width:52ch;margin:0 auto 1.6rem;color:var(--mid)}
+
+/* FOTO LARGA */
+.wide{aspect-ratio:21/9;background:linear-gradient(90deg,#2b2b2b,#5a5a5a 40%,#3a3a3a 70%,#242424);position:relative}
+.wide span{position:absolute;left:1.2rem;bottom:1rem;color:#fff;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
+
+/* LISTINO */
+.list{padding:clamp(2.5rem,6vw,5rem) 0}
+.list .head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:2rem}
+.list .head h2{font-size:clamp(2.6rem,6vw,4.6rem)}
+.list .head p{color:var(--mid);max-width:40ch;justify-self:end}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;padding:.6rem 0;border-bottom:1.5px solid var(--line)}
+td{padding:.9rem 0;border-bottom:1px solid #d9d9d9;vertical-align:top}
+td:first-child{font-family:var(--display);font-size:1.4rem;width:40%}
+td.d{color:var(--mid);font-size:.92rem}
+td.p{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;width:12%}
+td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width:10%}
+@media(max-width:700px){.list .head{grid-template-columns:1fr}.list .head p{justify-self:start}td.t{display:none}}
+
+/* TEAM */
+.team{background:var(--soft);padding:clamp(2.5rem,6vw,5rem) 0}
+.team .g{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:1.6rem}
+.team .m .ph{aspect-ratio:3/4;background:linear-gradient(180deg,#9a9a9a,#4a4a4a);filter:grayscale(1)}
+.team .m:nth-child(2) .ph{background:linear-gradient(180deg,#c9c9c9,#6a6a6a)}
+.team .m:nth-child(3) .ph{background:linear-gradient(180deg,#8a8a8a,#3a3a3a)}
+.team .m:nth-child(4) .ph{background:linear-gradient(180deg,#b1b1b1,#555)}
+.team .m h3{font-family:var(--display);font-size:1.5rem;margin-top:.8rem}
+.team .m p{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
+@media(max-width:700px){.team .g{grid-template-columns:repeat(2,1fr)}}
+
+/* METODO */
+.ethos{padding:clamp(2.5rem,6vw,5rem) 0;border-bottom:1px solid var(--line)}
+.ethos .g{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;text-align:center}
+.ethos .e::before{content:"✺";display:block;font-size:1.2rem;margin-bottom:.8rem}
+.ethos .e h3{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.5rem}
+.ethos .e b{font-family:var(--display);font-weight:400;font-size:1.6rem;display:block;margin-bottom:.5rem}
+.ethos .e p{color:var(--mid);font-size:.92rem;max-width:30ch;margin-inline:auto}
+@media(max-width:700px){.ethos .g{grid-template-columns:1fr}}
+
+/* RECENSIONI */
+.rev{padding:clamp(2.5rem,6vw,5rem) 0;text-align:center}
+.rev blockquote{font-family:var(--display);font-size:clamp(1.5rem,3.2vw,2.4rem);line-height:1.2;max-width:28ch;margin:1rem auto;font-style:italic}
+.rev .g{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:1.4rem;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid)}
+
+/* INFO */
+.info{border-top:1px solid var(--line);padding:clamp(2.5rem,6vw,5rem) 0}
+.info .wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
+.info h3{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.8rem}
+.info dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0;font-variant-numeric:tabular-nums}
+.info dd{margin:0}
+.info .big{font-family:var(--display);font-size:1.7rem;text-decoration:none;display:block;line-height:1.2}
+@media(max-width:760px){.info .wrap{grid-template-columns:1fr}}
+
+.foot{border-top:1px solid var(--line);padding:1.2rem 0 5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
+.wa-fixed{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex}
+.wa-fixed a{flex:1;text-align:center;padding:1rem;background:var(--ink);color:#fff;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase}
+.wa-fixed a+a{background:#fff;color:var(--ink);border-top:1.5px solid var(--ink)}
+@media(min-width:900px){.wa-fixed{display:none}}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}}
+
+/* foto e logo reali */
+.hero .ph{background:url(/bozze/mybackstage-cdc8/img/hero.jpg) center/cover no-repeat !important;filter:none !important}
+.hero .ph > span,.hero .ph > em,.hero .ph .accent,.hero .ph .photo-note{display:none !important}
+.wide{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/mybackstage-cdc8/img/salone.jpg) center/cover no-repeat !important;filter:none !important}
+.wide > span,.wide > em,.wide .accent,.wide .photo-note{display:none !important}
+</style>
+</head>
+<body>
+<div class="demo">Bozza per Mybackstage · logo, colori, foto, testi e prezzi si decidono insieme</div>
+
+<nav>
+  <div class="wrap">
+    <div class="burger" aria-hidden="true"><i></i><i></i><i></i></div>
+    <a class="brand" href="#top" data-k="name">Nera Studio</a>
+    <div class="right"><a href="#" data-wa>Prenota</a></div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="ph" role="img" aria-label="Foto grande di una cliente in salone (segnaposto, bianco e nero; solo i capelli restano a colore)">
+    <div class="accent" aria-hidden="true"></div>
+    <span>foto: cliente, luce naturale, sfondo del quartiere</span>
+  </div>
+  <div class="txt wrap">
+    <h1>Capelli, extension ed estetica al <span data-k="quartiere">Vomero</span></h1>
+    <div class="ctas">
+      <a class="btn fill" href="#" data-wa>Prenota un appuntamento</a>
+      <a class="btn" href="#" data-wa>Consulenza colore gratuita</a>
+    </div>
+  </div>
+</header>
+
+<section class="mani">
+  <div class="wrap">
+    <h2><span data-k="name">Nera Studio</span> è un salone hair &amp; beauty al Vomero, in Via Scarlatti. Si lavora su appuntamento, un cliente per volta, con il tempo che serve.</h2>
+    <p>Prima di toccare le forbici parliamo: come porti i capelli nei giorni normali, quanto tempo hai la mattina, cosa non ti è piaciuto l'ultima volta. Poi si lavora. Il colore si prepara in consulenza, con una prova ciocca, non sulla fiducia.</p>
+    <a class="btn" href="#listino">I servizi</a>
+  </div>
+</section>
+
+<div class="wide" role="img" aria-label="Foto larga del salone (segnaposto)"><span>foto: il salone</span></div>
+
+<section class="list" id="listino">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="serif">Listino</h2>
+      <p>Prezzi di partenza, IVA inclusa. Per colore e trattamenti il preventivo esatto si fa in consulenza, gratuita e senza impegno.</p>
+    </div>
+    <table>
+      <thead><tr><th>Servizio</th><th>Cosa comprende</th><th style="text-align:right">Tempo</th><th style="text-align:right">Da</th></tr></thead>
+      <tbody>
+        <tr><td>Taglio</td><td class="d">Consulenza, lavaggio con massaggio, taglio, piega</td><td class="t">50 min</td><td class="p">38 €</td></tr>
+        <tr><td>Piega</td><td class="d">Lavaggio e piega liscia o mossa</td><td class="t">35 min</td><td class="p">20 €</td></tr>
+        <tr><td>Colore</td><td class="d">Ritocco radice o colore pieno, prova ciocca inclusa</td><td class="t">90 min</td><td class="p">55 €</td></tr>
+        <tr><td>Balayage</td><td class="d">Schiaritura a mano libera, tonalizzante, trattamento</td><td class="t">3 h</td><td class="p">130 €</td></tr>
+        <tr><td>Extension</td><td class="d">Ciocche leggere applicate a mano, consulenza inclusa</td><td class="t">2 h</td><td class="p">150 €</td></tr>
+        <tr><td>Ricostruzione</td><td class="d">Trattamento per capelli decolorati o sfibrati, 3 sedute consigliate</td><td class="t">45 min</td><td class="p">40 €</td></tr>
+        <tr><td>Sposa</td><td class="d">Prova + acconciatura il giorno, anche a domicilio</td><td class="t">su misura</td><td class="p">180 €</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="team">
+  <div class="wrap">
+    <div class="lab">Il team</div>
+    <div class="g">
+      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Titolare · specialità</p></div>
+      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="ethos">
+  <div class="wrap g">
+    <div class="e"><h3>Uno</h3><b>Puntualità</b><p>Appuntamenti distanziati: ti sedi all'ora che hai prenotato.</p></div>
+    <div class="e"><h3>Due</h3><b>Prova ciocca</b><p>Nessun colore senza test: si vede il risultato prima, non dopo.</p></div>
+    <div class="e"><h3>Tre</h3><b>Tempo giusto</b><p>Un cliente per poltrona. Nessuno con la tinta in testa aspetta che finisca un altro.</p></div>
+  </div>
+</section>
+
+<section class="rev">
+  <div class="wrap">
+    <div class="lab"><span data-k="recensioni">128</span> recensioni su Google · media <span data-k="rating">4,9</span></div>
+    <blockquote>"Finalmente un posto dove rispettano l'orario. Colore perfetto e nessuno che ti spinge a comprare prodotti."</blockquote>
+    <div class="g"><span>Giulia M.</span><span>Anna P.</span><span>Rosaria C.</span></div>
+  </div>
+</section>
+
+<section class="info" id="info">
+  <div class="wrap">
+    <div>
+      <h3>Orari</h3>
+      <dl><dt>Lun – Sab</dt><dd>09:00 – 19:00</dd><dt>Dom</dt><dd>chiuso</dd></dl>
+    </div>
+    <div>
+      <h3>Dove</h3>
+      <p><span data-k="indirizzo">Via Domenico Cimarosa 81/a</span><br><span data-k="quartiere">Vomero</span>, Napoli · Via Scarlatti, Vomero</p>
+      <a class="big" href="#">Indicazioni →</a>
+    </div>
+    <div>
+      <h3>Prenota</h3>
+      <a class="big" data-k="tel" href="#">081 000 0000</a>
+      <a class="big" href="#" data-wa>Chiama →</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap foot">
+  <span>© <span data-k="name">Nera Studio</span> · P.IVA 00000000000</span>
+  <span>Instagram · Privacy · Cookie</span>
+</div>
+
+<div class="wa-fixed"><a href="#" data-wa>Prenota</a><a data-k="tel" href="#">081 000 0000</a></div>
+
+<script>
+/* CONFIG: cambia qui i dati del cliente e la pagina si aggiorna. */
+const SITE = {
+  "name": "Mybackstage",
+  "quartiere": "Vomero",
+  "indirizzo": "Via Alessandro Scarlatti 126",
+  "tel": "081 558 2547",
+  "whatsapp": "",
+  "rating": "4,9",
+  "recensioni": "59"
+};
+for (const el of document.querySelectorAll("[data-k]")) {
+  const k = el.getAttribute("data-k");
+  if (SITE[k] !== undefined) el.textContent = SITE[k];
+}
+const waMsg = encodeURIComponent("Ciao! Vorrei prenotare da " + SITE.name);
+for (const a of document.querySelectorAll("[data-wa]")) a.href = "tel:" + SITE.tel.replace(/\s/g, "");
+</script>
+</body>
+</html>

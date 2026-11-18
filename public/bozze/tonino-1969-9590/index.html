@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pizzeria Tonino 1969 · bozza sito</title>
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:title" content="Pizzeria Tonino 1969 · bozza del sito">
+<meta property="og:description" content="Bozza del sito di Pizzeria Tonino 1969, preparata da Luigi Romano. Logo, colori, foto e testi si decidono insieme.">
+<meta property="og:image" content="https://luigiromano.cloud/bozze/tonino-1969-9590/og.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,500..700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* IDEA (da Tripletta, SOTD Awwwards 2025): due soli colori, carta + un inchiostro; wordmark enorme con mascotte disegnata a mano;
+   tre modi di mangiare come tre grandi tasselli (AL TAVOLO / DA ASPORTO / A CASA); nastro scorrevole con i quartieri serviti;
+   testi brevi tutti in maiuscolo con carattere, dialetto dove serve; "muro dell'amore" con le recensioni.
+   PUBBLICO: famiglie e ragazzi del quartiere, 8-12 € a persona. */
+:root{
+  --paper:#F7F1E5;
+  --ink:#6E1A1A;
+  --ink-soft:#2F5233;
+  --tint:#ECE1CD;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --basil:#2F5233;
+  --pomodoro:#B3261E;
+  --body:"Karla","Segoe UI",Helvetica,Arial,sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.45}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.9;margin:0;letter-spacing:-.01em}
+p{margin:0}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+.caps{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+.demo{background:var(--ink);color:var(--paper);font-size:.78rem;text-align:center;padding:.45rem 1rem;letter-spacing:.08em;text-transform:uppercase}
+
+/* TOP BAR */
+.top{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;font-size:.85rem}
+.top a{text-decoration:none}
+.top .l{display:flex;gap:1.5rem}
+.top .l a::after{content:" →"}
+.top .r{display:flex;gap:.9rem}
+.top .r span{width:22px;height:22px;border:1.5px solid var(--ink);border-radius:5px;display:inline-block}
+
+/* HERO WORDMARK */
+.hero{position:relative;text-align:center;padding:2rem 0 1rem;overflow:hidden}
+.hero h1{font-size:clamp(4.5rem,17vw,15rem);color:var(--tint);line-height:.8;user-select:none;letter-spacing:-.03em}
+.hero .mascot{position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:clamp(140px,26vw,300px)}
+.hero .claim{position:absolute;right:max(16px,6vw);bottom:12%;font-family:var(--display);font-weight:800;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);padding:.3rem .6rem;rotate:-6deg;background:var(--paper)}
+@media(max-width:600px){.hero{padding:1.2rem 0 1.4rem}.hero .mascot{width:110px;top:46%}.hero .claim{position:relative;right:auto;bottom:auto;display:inline-block;margin-top:.8rem;rotate:-3deg;font-size:.8rem}}
+
+/* MODI */
+.modes{display:grid;grid-template-columns:repeat(3,1fr);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)}
+.mode{position:relative;aspect-ratio:4/5;text-decoration:none;border-right:3px solid var(--ink);overflow:hidden;display:flex;flex-direction:column}
+.mode:last-child{border-right:0}
+.mode .lbl{display:flex;justify-content:space-between;align-items:center;padding:.6rem .9rem;font-family:var(--display);font-weight:900;font-size:clamp(1.3rem,3vw,2.2rem);text-transform:uppercase;border-bottom:3px solid var(--ink);background:var(--paper)}
+.mode .ph{flex:1;position:relative;background:
+  linear-gradient(0deg,rgba(110,26,26,.75),rgba(110,26,26,.15)),
+  repeating-linear-gradient(45deg,#b98a6a 0 6px,#8f5a44 6px 12px)}
+.mode:nth-child(2) .ph{background:linear-gradient(0deg,rgba(110,26,26,.75),rgba(110,26,26,.1)),repeating-linear-gradient(-30deg,#c49a76 0 10px,#9a6a4f 10px 20px)}
+.mode:nth-child(3) .ph{background:linear-gradient(0deg,rgba(110,26,26,.8),rgba(110,26,26,.2)),radial-gradient(circle at 40% 40%,#d0a882,#7a3b2c)}
+.mode .ph span{position:absolute;left:.9rem;bottom:.8rem;color:var(--paper);font-size:.85rem;max-width:80%}
+.mode .ph em{position:absolute;right:.7rem;top:.6rem;font-style:normal;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);opacity:.8}
+@media(max-width:700px){.modes{grid-template-columns:1fr}.mode{aspect-ratio:auto;border-right:0;border-bottom:3px solid var(--ink)}.mode .ph{min-height:150px}}
+
+/* MARQUEE */
+.marquee{background:var(--ink);color:var(--paper);overflow:hidden;padding:1.1rem 0;font-family:var(--display);font-weight:900;font-size:clamp(2.4rem,7vw,5.5rem);text-transform:uppercase;line-height:1;white-space:nowrap}
+.marquee .track{display:inline-block;animation:mq 28s linear infinite}
+.marquee .track span{margin:0 .6em}
+.marquee .track i{display:inline-block;width:.7em;height:.7em;border-radius:50%;background:var(--paper);vertical-align:middle;margin:0 .2em}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.marquee .track{animation:none}}
+
+/* MANIFESTO */
+.manifesto{background:var(--ink);color:var(--paper);padding:clamp(2.5rem,6vw,5rem) 0}
+.manifesto .wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:2rem;align-items:center}
+.manifesto p{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(1.2rem,2.4vw,1.8rem);line-height:1.15;max-width:34ch}
+.manifesto p b{display:block;margin-top:1rem;font-size:1.1em}
+.sun{justify-self:end;width:min(260px,60%)}
+@media(max-width:760px){.manifesto .wrap{grid-template-columns:1fr}.sun{justify-self:start;width:160px}}
+
+/* MENU */
+.menu{padding:clamp(2.5rem,6vw,5rem) 0}
+.menu-head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.menu-head h2{font-size:clamp(3rem,9vw,7rem)}
+.menu-head p{max-width:30ch;font-size:.95rem}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 3rem;border-top:3px solid var(--ink)}
+.cols > div{padding-top:1rem}
+.cols > div:first-child{border-right:3px solid var(--ink);padding-right:3rem}
+.cols h3{font-size:1.6rem;margin-bottom:.6rem}
+.cols ul{list-style:none;margin:0 0 1.5rem;padding:0}
+.cols li{display:grid;grid-template-columns:1fr auto;gap:0 1rem;padding:.55rem 0;border-bottom:1.5px dotted var(--ink)}
+.cols li b{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:1.15rem;letter-spacing:.01em}
+.cols li small{grid-column:1;font-size:.85rem;color:var(--ink-soft)}
+.cols li .p{font-family:var(--display);font-weight:800;font-size:1.15rem;font-variant-numeric:tabular-nums}
+@media(max-width:700px){.cols{grid-template-columns:1fr}.cols > div:first-child{border-right:0;padding-right:0}}
+
+/* FOTO + BOTTEGA */
+.feat{background:var(--tint);padding:clamp(2.5rem,6vw,5rem) 0}
+.feat .wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+.feat .ph{aspect-ratio:4/3;background:linear-gradient(20deg,rgba(110,26,26,.9),rgba(110,26,26,.35)),repeating-linear-gradient(90deg,#8f5a44 0 14px,#a8775c 14px 28px);position:relative}
+.feat .ph span{position:absolute;left:1rem;bottom:.9rem;color:var(--paper);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+.feat h2{font-size:clamp(2.2rem,5vw,4rem);margin-bottom:1rem}
+.feat p{max-width:40ch;margin-bottom:1.2rem}
+.btn{display:inline-block;padding:.75rem 1.2rem;background:var(--ink);color:var(--paper);text-decoration:none;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:1rem}
+.btn.o{background:transparent;color:var(--ink);border:2.5px solid var(--ink)}
+.btn:focus-visible{outline:3px solid var(--ink-soft);outline-offset:3px}
+@media(max-width:760px){.feat .wrap{grid-template-columns:1fr}}
+
+/* WALL OF LOVE */
+.wall{padding:clamp(2.5rem,6vw,5rem) 0;position:relative;overflow:hidden}
+.wall h2{font-size:clamp(4rem,16vw,13rem);color:var(--tint);line-height:.85;text-align:center;position:relative;z-index:0}
+.wall .notes{position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;margin-top:-3rem}
+.note{background:#fff;color:#2a1414;padding:1.1rem 1.2rem;box-shadow:0 10px 30px rgba(110,26,26,.15);font-size:.95rem;border-left:6px solid var(--ink)}
+.note:nth-child(odd){rotate:-1.5deg}.note:nth-child(even){rotate:1.2deg}
+.note footer{margin-top:.6rem;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:.85rem;letter-spacing:.06em;color:var(--ink)}
+.wall .legend{text-align:center;font-size:.8rem;margin-top:1.5rem;color:var(--ink-soft)}
+
+/* ORARI */
+.orari{border-top:3px solid var(--ink);padding:clamp(2rem,5vw,4rem) 0 6rem}
+.orari .wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
+.orari h3{font-size:1.4rem;margin-bottom:.6rem}
+.orari dl{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1rem;margin:0;font-variant-numeric:tabular-nums}
+.orari dd{margin:0;font-weight:600}
+.orari .big{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,3vw,2.4rem);text-transform:uppercase;line-height:1;text-decoration:none;display:block;margin-top:.4rem}
+@media(max-width:760px){.orari .wrap{grid-template-columns:1fr}}
+
+.foot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem;padding:1rem 0 1.5rem;border-top:3px solid var(--ink)}
+.wa-fixed{position:fixed;right:14px;bottom:14px;z-index:30;background:#6E1A1A;color:var(--paper);text-decoration:none;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:.8rem 1.1rem;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+@media(min-width:900px){.wa-fixed{display:none}}
+
+/* PALETTE ITALIANA ELEGANTE: crema, bordeaux, basilico; Bodoni (Parma, 1798) per i titoli */
+h1,h2,h3{font-weight:600;letter-spacing:.005em}
+.hero h1{font-weight:500;letter-spacing:-.01em}
+.caps,.mode .lbl,.marquee,.manifesto p,.cols li b,.cols li .p,.btn,.note footer,.orari .big,.hero .claim,.wa-fixed{font-weight:600}
+.mode .lbl{font-style:italic;text-transform:none;letter-spacing:0}
+.marquee{font-style:italic;text-transform:none;font-weight:500}
+.marquee .track i{background:var(--basil)}
+.manifesto p{text-transform:none;font-weight:500;line-height:1.25}
+.manifesto p b{font-style:italic}
+.demo::after{content:"";display:block;height:3px;margin:.45rem -1rem -.45rem;background:linear-gradient(90deg,var(--basil) 0 33.3%,var(--paper) 0 66.6%,var(--pomodoro) 0)}
+.hero .claim{border-width:1px;border-radius:999px;padding:.35rem .9rem;font-style:italic;text-transform:none;letter-spacing:.02em;font-size:1rem}
+.modes,.mode,.mode .lbl,.cols,.cols > div:first-child,.orari,.foot{border-width:1.5px}
+.cols li{border-bottom:1px solid rgba(110,26,26,.25)}
+.cols li small{color:var(--basil)}
+.cols h3{font-style:italic;text-transform:none}
+.btn{letter-spacing:.12em;font-size:.85rem;padding:.85rem 1.4rem}
+.btn.o{border-width:1.5px}
+.note{border-left:3px solid var(--basil)}
+.wall h2,.menu-head h2{font-weight:500}
+.wa-fixed{background:var(--ink)}
+
+/* foto e logo reali */
+.mode:nth-child(1) .ph{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/tonino-1969-9590/img/tavolo.jpg) center/cover no-repeat !important;filter:none !important}
+.mode:nth-child(1) .ph > span,.mode:nth-child(1) .ph > em,.mode:nth-child(1) .ph .accent,.mode:nth-child(1) .ph .photo-note{display:none !important}
+.mode:nth-child(2) .ph{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/tonino-1969-9590/img/asporto.jpg) center/cover no-repeat !important;filter:none !important}
+.mode:nth-child(2) .ph > span,.mode:nth-child(2) .ph > em,.mode:nth-child(2) .ph .accent,.mode:nth-child(2) .ph .photo-note{display:none !important}
+.mode:nth-child(3) .ph{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/tonino-1969-9590/img/casa.jpg) center/cover no-repeat !important;filter:none !important}
+.mode:nth-child(3) .ph > span,.mode:nth-child(3) .ph > em,.mode:nth-child(3) .ph .accent,.mode:nth-child(3) .ph .photo-note{display:none !important}
+.feat .ph{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/tonino-1969-9590/img/cucina.jpg) center/cover no-repeat !important;filter:none !important}
+.feat .ph > span,.feat .ph > em,.feat .ph .accent,.feat .ph .photo-note{display:none !important}
+</style>
+</head>
+<body>
+<div class="demo">Bozza per Pizzeria Tonino 1969 · logo, colori, foto, testi e prezzi si decidono insieme</div>
+
+<div class="wrap top">
+  <div class="l"><a href="#menu">Menu</a><a href="#orari">Dove siamo</a></div>
+  <div class="r" aria-label="Social (segnaposto)"><span></span><span></span></div>
+</div>
+
+<header class="hero">
+  <h1 data-k="name">Carbone</h1>
+  <svg class="mascot" viewBox="0 0 200 220" fill="none" stroke="#6E1A1A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-label="Mascotte: forno a legna disegnato a mano">
+    <path d="M30 150 Q100 40 170 150 Z"/>
+    <path d="M44 150 Q100 70 156 150"/>
+    <path d="M22 150h156M26 162h148M30 174h140"/>
+    <path d="M30 150v30M170 150v30M60 174v12M100 174v14M140 174v12"/>
+    <path d="M100 128c-6-8-10-16-6-26 2 8 6 10 8 12 2-10 8-14 10-22 4 10 10 16 8 28-2 10-10 14-20 8z"/>
+    <path d="M86 122c-4-4-6-10-3-16 1 5 4 6 5 8 2-6 5-8 7-13 2 6 5 10 4 17-1 5-6 7-13 4z"/>
+    <path d="M120 60c0-8 6-10 8-18M136 70c2-8 8-10 12-16M104 52c0-8 4-10 4-18"/>
+    <path d="M58 200h84" stroke-dasharray="6 6"/>
+  </svg>
+  <div class="claim">Dal <span data-k="anno">1969</span> · <span data-k="quartiere">Casalnuovo</span></div>
+</header>
+
+<nav class="modes" aria-label="Come vuoi mangiare">
+  <a class="mode" href="#orari"><div class="lbl">Al tavolo <span>→</span></div><div class="ph"><em>foto sala</em><span>Prenotazione su WhatsApp o al telefono</span></div></a>
+  <a class="mode" href="#menu"><div class="lbl">Da asporto <span>→</span></div><div class="ph"><em>foto bancone</em><span>Ordini pronti in 15 minuti, paghi al ritiro</span></div></a>
+  <a class="mode" href="#" data-wa><div class="lbl">A casa <span>→</span></div><div class="ph"><em>foto rider</em><span>Consegna 30 minuti nel raggio di 3 km, 1,50 €</span></div></a>
+</nav>
+
+<div class="marquee" aria-hidden="true"><div class="track">
+  <span>Casalnuovo</span><i></i><span>Afragola</span><i></i><span>Volla</span><i></i><span>Pomigliano</span><i></i><span>Casoria</span><i></i><span>Licignano</span><i></i>
+  <span>Casalnuovo</span><i></i><span>Afragola</span><i></i><span>Volla</span><i></i><span>Pomigliano</span><i></i><span>Casoria</span><i></i><span>Licignano</span><i></i>
+</div></div>
+
+<section class="manifesto">
+  <div class="wrap">
+    <p>Pizzeria e friggitoria napoletana classica dal 1969, in Via Benevento a Casalnuovo. Stessa ricetta, stessa famiglia, fritti fatti al momento. Si mangia al tavolo o si porta a casa.<b>'A pizza è 'na cosa seria.</b></p>
+    <svg class="sun" viewBox="0 0 200 200" fill="none" stroke="#F7F1E5" stroke-width="2.5" aria-hidden="true">
+      <circle cx="100" cy="100" r="34"/>
+      <g stroke-linecap="round"><path d="M100 20v26M100 154v26M20 100h26M154 100h26M43 43l18 18M139 139l18 18M43 157l18-18M139 61l18-18M66 27l10 24M124 149l10 24M27 134l24-10M149 66l24-10M27 66l24 10M149 134l24 10M66 173l10-24M124 51l10-24"/></g>
+      <text x="100" y="106" text-anchor="middle" font-family="Bodoni Moda,Didot,Georgia,serif" font-weight="600" font-size="18" fill="#F7F1E5" stroke="none">450°</text>
+    </svg>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="menu-head">
+      <h2>Il menu</h2>
+      <p>Prezzi di esempio. Quando cambia qualcosa si aggiorna in 5 minuti, senza chiamare nessuno.</p>
+    </div>
+    <div class="cols">
+      <div>
+        <h3>Pizze</h3>
+        <ul>
+          <li><b>Marinara</b><span class="p">4,50</span><small>pomodoro, aglio, origano, olio evo</small></li>
+          <li><b>Margherita</b><span class="p">5,00</span><small>pomodoro, fior di latte di Agerola, basilico</small></li>
+          <li><b>Bufala</b><span class="p">7,50</span><small>pomodoro, mozzarella di bufala campana DOP</small></li>
+          <li><b>Salsiccia e friarielli</b><span class="p">7,50</span><small>provola affumicata, salsiccia a punta di coltello</small></li>
+          <li><b>Diavola</b><span class="p">6,50</span><small>pomodoro, fior di latte, salame piccante</small></li>
+          <li><b>Tonino</b><span class="p">8,00</span><small>la pizza della casa</small></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Fritti</h3>
+        <ul>
+          <li><b>Frittatina</b><span class="p">2,00</span><small>bucatini, besciamella, piselli, prosciutto cotto</small></li>
+          <li><b>Crocchè</b><span class="p">1,50</span><small>patate e provola</small></li>
+          <li><b>Montanara</b><span class="p">3,00</span><small>impasto fritto, pomodoro, parmigiano, basilico</small></li>
+          <li><b>Pizza fritta</b><span class="p">6,00</span><small>ricotta, cicoli, provola, pomodoro</small></li>
+        </ul>
+        <h3>Da bere</h3>
+        <ul>
+          <li><b>Birra artigianale 33 cl</b><span class="p">4,00</span><small>birrificio di Pomigliano, due tipi a rotazione</small></li>
+          <li><b>Acqua 1 l</b><span class="p">1,50</span><small>naturale o frizzante</small></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feat">
+  <div class="wrap">
+    <div class="ph" role="img" aria-label="Foto del pizzaiolo al forno (segnaposto)"><span>foto: il forno, le mani, la sala</span></div>
+    <div>
+      <h2>Vieni a vedere come si fa</h2>
+      <p>Il forno sta davanti, non dietro. Guardi la pizza entrare e uscire, i bambini pure. Tavolate su prenotazione.</p>
+      <a class="btn" href="#" data-wa>Prenota un tavolo</a>
+    </div>
+  </div>
+</section>
+
+<section class="wall" id="recensioni">
+  <div class="wrap">
+    <h2>Muro dell'amore</h2>
+    <div class="notes"><div class="note">"Cornicione alto e leggero, il giorno dopo non hai sete. Frittatina da manuale."<footer>Gennaro R. · Google ★★★★★</footer></div><div class="note">"Ordinato per 8 persone un sabato sera, tutto arrivato caldo e in orario."<footer>Maria Teresa S. · Google ★★★★★</footer></div><div class="note">"Posto semplice, personale velocissimo, prezzi onesti."<footer>Luca D. · Google ★★★★☆</footer></div><div class="note">"Ci veniamo da anni con i bambini. Sempre la stessa qualità."<footer>Antonio P. · Google ★★★★★</footer></div></div>
+    <p class="legend"><span data-k="recensioni">322</span> recensioni su Google, media <span data-k="rating">4,5</span>. Testi di esempio: nel sito definitivo si importano quelle vere.</p>
+  </div>
+</section>
+
+<section class="orari" id="orari">
+  <div class="wrap">
+    <div>
+      <h3>Orari</h3>
+      <dl><dt>Lun</dt><dd>12:00 – 14:30 · 19:00 – 23:00</dd><dt>Mar</dt><dd>chiuso</dd><dt>Mer – Ven</dt><dd>12:00 – 14:30 · 18:00 – 23:00</dd><dt>Sab</dt><dd>12:00 – 14:30 · 18:00 – 00:00</dd><dt>Dom</dt><dd>18:00 – 00:00</dd></dl>
+    </div>
+    <div>
+      <h3>Dove</h3>
+      <p><span data-k="indirizzo">Via Benevento 63</span><br><span data-k="quartiere">Casalnuovo di Napoli</span></p>
+      <a class="big" href="#">Indicazioni →</a>
+    </div>
+    <div>
+      <h3>Chiama o scrivi</h3>
+      <a class="big" data-k="tel" href="#">081 000 0000</a>
+      <a class="big" href="#" data-wa>Chiama →</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap foot">
+  <span>© Pizzeria <span data-k="name">Carbone</span> · P.IVA 00000000000</span>
+  <span>Privacy · Cookie · Lavora con noi</span>
+</div>
+
+<a class="wa-fixed" href="#" data-wa>Chiama per ordinare</a>
+
+<script>
+/* CONFIG: cambia qui i dati del cliente e la pagina si aggiorna. */
+const SITE = {
+  "name": "Tonino",
+  "quartiere": "Casalnuovo di Napoli",
+  "indirizzo": "Via Benevento 63/65",
+  "tel": "081 842 1878",
+  "whatsapp": "",
+  "anno": "1969",
+  "rating": "4,5",
+  "recensioni": "322"
+};
+for (const el of document.querySelectorAll("[data-k]")) {
+  const k = el.getAttribute("data-k");
+  if (SITE[k] !== undefined) el.textContent = SITE[k];
+}
+const hw=document.querySelector('.hero h1'); hw.style.whiteSpace='nowrap'; hw.style.fontSize='min(15rem,'+Math.min(24,112/hw.textContent.trim().length).toFixed(1)+'vw)';
+const waMsg = encodeURIComponent("Ciao! Vorrei ordinare / prenotare da " + SITE.name);
+for (const a of document.querySelectorAll("[data-wa]")) a.href = "tel:" + SITE.tel.replace(/\s/g, "");
+</script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Los Angeles Fitness · bozza sito</title>
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:title" content="Los Angeles Fitness · bozza del sito">
+<meta property="og:description" content="Bozza del sito di Los Angeles Fitness, preparata da Luigi Romano. Logo, colori, foto e testi si decidono insieme.">
+<meta property="og:image" content="https://luigiromano.cloud/bozze/los-angeles-fitness-0637/og.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&display=swap" rel="stylesheet">
+<style>
+/* IDEA (da The Grind NL, HM Awwwards 2026, e La Huella Workout Club): rosso e nero, video/foto che attraversa tutta la pagina,
+   "prima le persone" come messaggio, un quiz di pochi passi che porta all'abbonamento giusto, tariffe come "listino club",
+   muro dei risultati veri dei soci, cultura del club. Un solo carattere (Archivo) in due larghezze: stretto e pesante per i titoli.
+   PUBBLICO: 18-40 anni di Fuorigrotta/Soccavo che scelgono la palestra sotto casa e vogliono sentirsi parte di un gruppo. */
+:root{
+  --black:#0B0B0B;
+  --red:#E3261C;
+  --white:#F5F3EE;
+  --grey:#8C8A85;
+  --line:#2A2A2A;
+  --font:"Archivo","Helvetica Neue",Arial,sans-serif;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--black);color:var(--white);font-family:var(--font);font-size:17px;line-height:1.45}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3{margin:0;font-weight:900;font-stretch:62%;text-transform:uppercase;line-height:.9;letter-spacing:-.01em}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+.lab{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--red)}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 1.5rem;text-decoration:none;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;background:var(--red);color:#fff;border:2px solid var(--red)}
+.btn.o{background:transparent;color:var(--white);border-color:var(--white)}
+.btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.demo{background:var(--red);color:#fff;font-size:.72rem;text-align:center;padding:.45rem 1rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:20;background:rgba(11,11,11,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+nav .brand{font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:1.4rem;text-decoration:none;letter-spacing:.02em}
+nav .brand b{color:var(--red)}
+nav ul{display:flex;gap:1.4rem;list-style:none;margin:0;padding:0;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+nav ul a{text-decoration:none;color:var(--grey)}
+nav ul a:hover{color:var(--white)}
+@media(max-width:760px){nav ul{display:none}}
+
+/* HERO: video/foto a tutta pagina */
+.hero{position:relative;min-height:68vh;display:flex;align-items:flex-end;background:
+  linear-gradient(180deg,rgba(11,11,11,.15),rgba(11,11,11,.85) 85%),
+  repeating-linear-gradient(115deg,#1a1a1a 0 14px,#262626 14px 30px,#141414 30px 38px)}
+.hero .vid{position:absolute;right:1.2rem;top:1.2rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);display:flex;gap:.5rem;align-items:center}
+.hero .vid i{width:8px;height:8px;background:var(--red);border-radius:50%;display:inline-block}
+.hero .wrap{padding:0 0 clamp(2rem,5vw,4rem);position:relative}
+.hero h1{font-size:clamp(3.6rem,13vw,11rem)}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero .sub{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;margin-top:1.2rem}
+.hero .sub p{max-width:44ch;color:#d8d5ce}
+.hero .ctas{display:flex;gap:.7rem;flex-wrap:wrap}
+@media(max-width:760px){.hero .sub{grid-template-columns:1fr}.hero{min-height:70vh}}
+
+/* TICKER */
+.ticker{border-top:2px solid var(--red);border-bottom:2px solid var(--red);padding:.7rem 0;overflow:hidden;white-space:nowrap;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:.85rem}
+.ticker .t{display:inline-block;animation:mq 30s linear infinite}
+.ticker .t span{margin:0 1.4rem}
+.ticker .t span::before{content:"●";color:var(--red);margin-right:1.4rem;font-size:.6rem;vertical-align:middle}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.ticker .t{animation:none}}
+
+/* QUIZ */
+.quiz{padding:clamp(3rem,7vw,6rem) 0;border-bottom:1px solid var(--line)}
+.quiz .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:3rem}
+.quiz h2{font-size:clamp(2.6rem,6vw,5rem);margin:.5rem 0 1rem}
+.quiz .lead{color:var(--grey);max-width:34ch}
+.q{border:1px solid var(--line);padding:1.4rem;margin-bottom:1rem}
+.q h3{font-size:1.05rem;font-stretch:100%;letter-spacing:.02em;margin-bottom:.9rem;display:flex;gap:.8rem;align-items:baseline}
+.q h3 span{color:var(--red);font-size:.8rem}
+.opts{display:flex;flex-wrap:wrap;gap:.6rem}
+.opt{border:1.5px solid var(--white);padding:.6rem 1rem;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;background:transparent;color:var(--white);font-family:inherit}
+.opt[aria-pressed="true"]{background:var(--white);color:var(--black)}
+.opt:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.result{background:var(--red);color:#fff;padding:1.4rem;margin-top:1rem}
+.result .lab{color:#fff;opacity:.85}
+.result h3{font-size:2rem;margin:.3rem 0 .4rem}
+.result p{font-size:.95rem;max-width:48ch}
+.result .btn{background:#fff;color:var(--red);border-color:#fff;margin-top:1rem}
+@media(max-width:860px){.quiz .wrap{grid-template-columns:1fr}}
+
+/* FOTO STRIP */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:4px 0}
+.strip div{aspect-ratio:4/5;position:relative;background:repeating-linear-gradient(60deg,#1d1d1d 0 10px,#2b2b2b 10px 22px)}
+.strip div:nth-child(2){background:linear-gradient(180deg,#3a1512,#1a0a09)}
+.strip div:nth-child(3){background:repeating-linear-gradient(-40deg,#222 0 16px,#171717 16px 30px)}
+.strip div:nth-child(4){background:linear-gradient(200deg,#2c2c2c,#111)}
+.strip span{position:absolute;left:.8rem;bottom:.7rem;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+@media(max-width:700px){.strip{grid-template-columns:repeat(2,1fr)}}
+
+/* TARIFFE */
+.rates{padding:clamp(3rem,7vw,6rem) 0}
+.rates h2{font-size:clamp(2.6rem,7vw,5.5rem);margin:.5rem 0 1.5rem}
+.rate{display:grid;grid-template-columns:1.2fr 2fr auto;gap:1.5rem;align-items:center;padding:1.3rem 0;border-top:1px solid var(--line)}
+.rate:last-child{border-bottom:1px solid var(--line)}
+.rate .n{font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:1.8rem;line-height:1}
+.rate .n small{display:block;font-weight:700;font-stretch:100%;font-size:.72rem;letter-spacing:.18em;color:var(--red);margin-top:.3rem}
+.rate .d{color:#cfccc4;font-size:.95rem}
+.rate .p{font-weight:900;font-stretch:62%;font-size:2.6rem;line-height:1;text-align:right;font-variant-numeric:tabular-nums}
+.rate .p small{display:block;font-size:.75rem;font-weight:700;font-stretch:100%;letter-spacing:.12em;color:var(--grey)}
+.rates .note{color:var(--grey);font-size:.85rem;margin-top:1rem}
+@media(max-width:700px){.rate{grid-template-columns:1fr;gap:.5rem}.rate .p{text-align:left}}
+
+/* WALL OF FAME */
+.fame{background:var(--white);color:var(--black);padding:clamp(3rem,7vw,6rem) 0}
+.fame .lab{color:var(--red)}
+.fame h2{font-size:clamp(2.6rem,7vw,5.5rem);margin:.5rem 0 1.5rem}
+.fame .g{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.card{border:2px solid var(--black);padding:1.3rem}
+.card .big{font-weight:900;font-stretch:62%;font-size:3.2rem;line-height:1;color:var(--red)}
+.card .big small{font-size:1rem;color:var(--black);font-stretch:100%;font-weight:700;margin-left:.3rem}
+.card p{margin-top:.6rem;font-size:.95rem}
+.card footer{margin-top:.8rem;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+.fame .legend{font-size:.8rem;color:#555;margin-top:1rem}
+@media(max-width:700px){.fame .g{grid-template-columns:1fr}}
+
+/* ORARI CORSI */
+.sched{padding:clamp(3rem,7vw,6rem) 0;border-bottom:1px solid var(--line)}
+.sched h2{font-size:clamp(2.2rem,6vw,4.5rem);margin:.5rem 0 1.2rem}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:680px}
+th,td{padding:.75rem .9rem;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;font-size:.92rem}
+th{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+td:first-child{font-weight:900;font-stretch:62%;font-size:1.2rem;color:var(--red)}
+.chip{border:1px solid var(--white);padding:.2rem .5rem;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+
+/* INFO */
+.info{padding:clamp(2.5rem,6vw,5rem) 0 6rem}
+.info .wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
+.info h3{font-size:.72rem;font-stretch:100%;letter-spacing:.2em;color:var(--red);margin-bottom:.8rem}
+.info dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0;font-variant-numeric:tabular-nums}
+.info dd{margin:0;font-weight:700}
+.info .big{font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:2rem;line-height:1;text-decoration:none;display:block;margin-top:.3rem}
+@media(max-width:760px){.info .wrap{grid-template-columns:1fr}}
+
+.foot{border-top:1px solid var(--line);padding:1.2rem 0 1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.wa-fixed{position:fixed;right:14px;bottom:14px;z-index:30}
+@media(min-width:900px){.wa-fixed{display:none}}
+
+/* ANIMAZIONI PESI (solo CSS, legate allo scorrimento; senza supporto restano ferme e cariche) */
+@property --kg{syntax:'<integer>';inherits:true;initial-value:140}
+.hero{overflow:hidden}
+.hero .wrap{z-index:1}
+.plate20{position:absolute;right:max(-70px,-6vw);top:18%;width:clamp(170px,24vw,320px);opacity:.92;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6))}
+nav{position:sticky}
+.prog{position:absolute;left:0;right:0;bottom:-1px;height:3px;background:transparent}
+.prog i{display:block;height:100%;width:100%;background:var(--red);transform-origin:0 50%;transform:scaleX(1)}
+.load{padding:clamp(3rem,7vw,5rem) 0 clamp(2rem,5vw,4rem);border-bottom:1px solid var(--line);view-timeline:--load block;overflow:hidden}
+.load .kg{font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:clamp(3rem,9vw,7rem);line-height:.9;margin:.4rem 0 1rem}
+.load .kg span{color:var(--grey);font-size:.32em;letter-spacing:.06em;font-stretch:100%;font-weight:700;margin-left:.4rem}
+.load .kgn{counter-reset:kg var(--kg);color:var(--red)}
+.load .kgn::after{content:counter(kg)}
+.barbell{display:block;width:min(1180px,100% - 20px);margin-inline:auto;overflow:visible}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .plate20{animation:spin linear both;animation-timeline:scroll(root)}
+    @keyframes spin{to{rotate:540deg}}
+    .prog i{animation:grow linear both;animation-timeline:scroll(root)}
+    @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .load .kgn{animation:kg linear both;animation-timeline:--load;animation-range:entry 30% cover 55%}
+    @keyframes kg{from{--kg:20}to{--kg:140}}
+    .pl{animation:linear both;animation-timeline:--load}
+    .pl.l{animation-name:inL}.pl.r{animation-name:inR}
+    .pl.p1{animation-range:entry 30% cover 38%}
+    .pl.p2{animation-range:entry 50% cover 43%}
+    .pl.p3{animation-range:entry 70% cover 49%}
+    .pl.p4{animation-range:entry 90% cover 55%}
+    @keyframes inL{from{transform:translateX(-340px);opacity:0}60%{opacity:1}to{transform:none;opacity:1}}
+    @keyframes inR{from{transform:translateX(340px);opacity:0}60%{opacity:1}to{transform:none;opacity:1}}
+    .strip div{animation:lift linear both;animation-timeline:view();animation-range:entry 0% cover 30%}
+    .strip div:nth-child(2){animation-range:entry 10% cover 35%}.strip div:nth-child(3){animation-range:entry 20% cover 40%}.strip div:nth-child(4){animation-range:entry 30% cover 45%}
+    @keyframes lift{from{transform:translateY(60px);opacity:.2}to{transform:none;opacity:1}}
+  }
+}
+@media(max-width:700px){.plate20{top:8%;right:-60px;width:150px;opacity:.6}}
+
+/* foto e logo reali */
+.hero{background:linear-gradient(180deg,rgba(11,11,11,.35),rgba(11,11,11,.92) 85%),url(/bozze/los-angeles-fitness-0637/img/hero.jpg) center/cover no-repeat !important;filter:none !important}
+.hero > span,.hero > em,.hero .accent,.hero .photo-note{display:none !important}
+.strip div:nth-child(1){background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/los-angeles-fitness-0637/img/foto-1.jpg) center/cover no-repeat !important;filter:none !important}
+.strip div:nth-child(1) > span,.strip div:nth-child(1) > em,.strip div:nth-child(1) .accent,.strip div:nth-child(1) .photo-note{display:none !important}
+.strip div:nth-child(2){background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/los-angeles-fitness-0637/img/foto-2.jpg) center/cover no-repeat !important;filter:none !important}
+.strip div:nth-child(2) > span,.strip div:nth-child(2) > em,.strip div:nth-child(2) .accent,.strip div:nth-child(2) .photo-note{display:none !important}
+.strip div:nth-child(3){background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/los-angeles-fitness-0637/img/foto-3.jpg) center/cover no-repeat !important;filter:none !important}
+.strip div:nth-child(3) > span,.strip div:nth-child(3) > em,.strip div:nth-child(3) .accent,.strip div:nth-child(3) .photo-note{display:none !important}
+.strip div:nth-child(4){background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/los-angeles-fitness-0637/img/foto-4.jpg) center/cover no-repeat !important;filter:none !important}
+.strip div:nth-child(4) > span,.strip div:nth-child(4) > em,.strip div:nth-child(4) .accent,.strip div:nth-child(4) .photo-note{display:none !important}
+.logo-img{height:40px;width:auto;display:block}
+</style>
+</head>
+<body>
+<div class="demo">Bozza per Los Angeles Fitness · logo, colori, foto, testi e prezzi si decidono insieme</div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><img class="logo-img" src="/bozze/los-angeles-fitness-0637/img/logo.png" alt="Los Angeles Fitness"></a>
+    <ul>
+      <li><a href="#quiz">Inizia</a></li>
+      <li><a href="#tariffe">Tariffe</a></li>
+      <li><a href="#corsi">Corsi</a></li>
+      <li><a href="#info">Orari</a></li>
+    </ul>
+  </div>
+  <div class="prog" aria-hidden="true"><i></i></div>
+</nav>
+
+<header class="hero" id="top" role="img" aria-label="Video di sfondo: soci che si salutano all'ingresso, sala pesi alle 7 di mattina (segnaposto)">
+  <svg class="plate20" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="98" fill="#141414" stroke="#2f2f2f" stroke-width="3"/>
+    <circle cx="100" cy="100" r="82" fill="none" stroke="#2a2a2a" stroke-width="10"/>
+    <ellipse cx="100" cy="46" rx="22" ry="9" fill="#0b0b0b"/><ellipse cx="53" cy="127" rx="22" ry="9" fill="#0b0b0b" transform="rotate(60 53 127)"/><ellipse cx="147" cy="127" rx="22" ry="9" fill="#0b0b0b" transform="rotate(-60 147 127)"/>
+    <circle cx="100" cy="100" r="22" fill="#cfccc4"/><circle cx="100" cy="100" r="14" fill="#0b0b0b"/>
+    <text x="100" y="80" text-anchor="middle" font-family="Archivo,Arial,sans-serif" font-weight="900" font-size="15" fill="#E3261C" letter-spacing="2">20 KG</text>
+    <text x="100" y="168" text-anchor="middle" font-family="Archivo,Arial,sans-serif" font-weight="700" font-size="9" fill="#8C8A85" letter-spacing="3">45 LB</text>
+  </svg>
+  <div class="vid"><i></i> video: la palestra alle 7:00, 30 sec in loop</div>
+  <div class="wrap">
+    <h1>Prima la gente,<br><em>poi i pesi.</em></h1>
+    <div class="sub">
+      <p>Palestra di quartiere a Soccavo, aperta dalle 6:30 alle 23. Sala pesi, cardio e corsi, abbonamento mensile senza vincolo.</p>
+      <div class="ctas"><a class="btn" href="#quiz">Trova il tuo abbonamento</a><a class="btn o" href="#" data-wa>Prova gratis 7 giorni</a></div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true"><div class="t">
+  <span>Sala pesi</span><span>Cardio</span><span>Corsi</span><span>Dalle 6:30 alle 23</span><span>Nessun vincolo</span><span>Soccavo</span>
+  <span>Sala pesi</span><span>Cardio</span><span>Corsi</span><span>Dalle 6:30 alle 23</span><span>Nessun vincolo</span><span>Soccavo</span>
+</div></div>
+
+<section class="quiz" id="quiz">
+  <div class="wrap">
+    <div>
+      <div class="lab">Inizia da qui</div>
+      <h2>Tre domande, un abbonamento.</h2>
+      <p class="lead">Niente listino da decifrare. Rispondi e ti diciamo cosa ti conviene davvero, anche se è l'opzione più economica.</p>
+    </div>
+    <div>
+      <div class="q"><h3><span>01</span> Cosa vuoi ottenere?</h3><div class="opts" data-q="goal">
+        <button class="opt" aria-pressed="true">Dimagrire</button><button class="opt" aria-pressed="false">Massa</button><button class="opt" aria-pressed="false">Muovermi</button><button class="opt" aria-pressed="false">Boxe</button></div></div>
+      <div class="q"><h3><span>02</span> Quanti giorni a settimana?</h3><div class="opts" data-q="days">
+        <button class="opt" aria-pressed="false">1–2</button><button class="opt" aria-pressed="true">3</button><button class="opt" aria-pressed="false">4+</button></div></div>
+      <div class="q"><h3><span>03</span> Quando?</h3><div class="opts" data-q="when">
+        <button class="opt" aria-pressed="true">Mattina presto</button><button class="opt" aria-pressed="false">Pausa pranzo</button><button class="opt" aria-pressed="false">Sera</button></div></div>
+      <div class="result" aria-live="polite">
+        <div class="lab">Ti consigliamo</div>
+        <h3 id="r-title">Trimestrale + functional</h3>
+        <p id="r-text">Tre giorni a settimana con un obiettivo preciso: il trimestrale costa meno di tre mensili e include la scheda con il trainer. I corsi functional delle 7:30 sono il modo più veloce per dimagrire senza annoiarti.</p>
+        <a class="btn" href="#" data-wa>Prenota la prova gratuita</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strip" aria-label="Foto del club (segnaposto)">
+  <div><span>sala pesi, 7:10</span></div>
+  <div><span>boxe, giovedì sera</span></div>
+  <div><span>functional in cortile</span></div>
+  <div><span>bar, dopo</span></div>
+</div>
+
+<section class="load" aria-label="Animazione: bilanciere che si carica scorrendo la pagina">
+  <div class="wrap"><div class="lab">Scorri e carica</div><p class="kg"><b class="kgn"></b><span> kg sul bilanciere</span></p></div>
+  <svg class="barbell" viewBox="0 0 1200 220" aria-hidden="true">
+    <rect x="40" y="104" width="1120" height="12" rx="6" fill="#bdbab3"/>
+    <rect x="300" y="96" width="12" height="28" rx="3" fill="#d8d5ce"/><rect x="888" y="96" width="12" height="28" rx="3" fill="#d8d5ce"/>
+    <rect x="312" y="106" width="576" height="8" fill="#9c9992"/>
+    <g class="pl l p1"><rect x="274" y="10" width="26" height="200" rx="5" fill="#E3261C" stroke="#ff5a4f" stroke-width="1.5"/></g><g class="pl l p2"><rect x="248" y="18" width="24" height="184" rx="5" fill="#F5F3EE" stroke="#ffffff" stroke-width="1.5"/></g><g class="pl l p3"><rect x="228" y="46" width="18" height="128" rx="5" fill="#2A2A2A" stroke="#5a5a5a" stroke-width="1.5"/></g><g class="pl l p4"><rect x="212" y="64" width="14" height="92" rx="5" fill="#8C8A85" stroke="#b5b2ab" stroke-width="1.5"/></g><g class="pl r p1"><rect x="900" y="10" width="26" height="200" rx="5" fill="#E3261C" stroke="#ff5a4f" stroke-width="1.5"/></g><g class="pl r p2"><rect x="928" y="18" width="24" height="184" rx="5" fill="#F5F3EE" stroke="#ffffff" stroke-width="1.5"/></g><g class="pl r p3"><rect x="954" y="46" width="18" height="128" rx="5" fill="#2A2A2A" stroke="#5a5a5a" stroke-width="1.5"/></g><g class="pl r p4"><rect x="974" y="64" width="14" height="92" rx="5" fill="#8C8A85" stroke="#b5b2ab" stroke-width="1.5"/></g>
+  </svg>
+</section>
+
+<section class="rates" id="tariffe">
+  <div class="wrap">
+    <div class="lab">Listino club</div>
+    <h2>Tariffe</h2>
+    <div class="rate"><div class="n">Mensile<small>Nessun vincolo</small></div><div class="d">Sala pesi, cardio e tutti i corsi. Disdici quando vuoi, senza penali e senza lettere raccomandate.</div><div class="p">39 €<small>al mese</small></div></div>
+    <div class="rate"><div class="n">Trimestrale<small>Il più scelto</small></div><div class="d">Tutto il mensile, più scheda personalizzata e una seduta con il trainer ogni mese.</div><div class="p">99 €<small>3 mesi</small></div></div>
+    <div class="rate"><div class="n">Annuale<small>Un mese in regalo</small></div><div class="d">Tutto il trimestrale, sospensione fino a 30 giorni per ferie o infortuni, armadietto riservato.</div><div class="p">349 €<small>12 mesi</small></div></div>
+    <div class="rate"><div class="n">Studenti<small>Under 26</small></div><div class="d">Mensile con tesserino universitario o scolastico. Stessi corsi, stessi orari.</div><div class="p">29 €<small>al mese</small></div></div>
+    <p class="note">Iscrizione 20 € una tantum, certificato medico non agonistico obbligatorio. Prezzi di esempio.</p>
+  </div>
+</section>
+
+<section class="fame">
+  <div class="wrap">
+    <div class="lab">Muro dei risultati</div>
+    <h2>Gente vera, numeri veri</h2>
+    <div class="g">
+      <div class="card"><div class="big">-14<small>kg</small></div><p>In 8 mesi, tre volte a settimana, functional delle 7:30 e sala pesi. Niente diete da rivista.</p><footer>Marco, 34 · socio dal 2024</footer></div>
+      <div class="card"><div class="big">100<small>kg</small></div><p>Prima panca piana a tre cifre dopo un anno di scheda seguita con Ciro.</p><footer>Giovanni, 27 · socio dal 2023</footer></div>
+      <div class="card"><div class="big">0<small>giorni saltati</small></div><p>Turni in ospedale, pilates alle 10 o boxe alle 18: una delle due ci sta sempre.</p><footer>Serena, 41 · socia dal 2022</footer></div>
+    </div>
+    <p class="legend">Esempi: nel sito definitivo vanno i risultati reali dei soci, con il loro consenso.</p>
+  </div>
+</section>
+
+<section class="sched" id="corsi">
+  <div class="wrap">
+    <div class="lab">Corsi</div>
+    <h2>La settimana</h2>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Ora</th><th>Lun</th><th>Mar</th><th>Mer</th><th>Gio</th><th>Ven</th><th>Sab</th></tr></thead>
+        <tbody>
+          <tr><td>07:30</td><td><span class="chip">Functional</span></td><td></td><td><span class="chip">Functional</span></td><td></td><td><span class="chip">Functional</span></td><td></td></tr>
+          <tr><td>10:00</td><td><span class="chip">Pilates</span></td><td><span class="chip">Total body</span></td><td><span class="chip">Pilates</span></td><td><span class="chip">Total body</span></td><td><span class="chip">Pilates</span></td><td><span class="chip">Open gym</span></td></tr>
+          <tr><td>13:15</td><td><span class="chip">Express 30'</span></td><td><span class="chip">Express 30'</span></td><td><span class="chip">Express 30'</span></td><td><span class="chip">Express 30'</span></td><td><span class="chip">Express 30'</span></td><td></td></tr>
+          <tr><td>18:00</td><td><span class="chip">Boxe</span></td><td><span class="chip">Functional</span></td><td><span class="chip">Boxe</span></td><td><span class="chip">Functional</span></td><td><span class="chip">Boxe</span></td><td></td></tr>
+          <tr><td>19:30</td><td><span class="chip">Total body</span></td><td><span class="chip">Pilates</span></td><td><span class="chip">Total body</span></td><td><span class="chip">Pilates</span></td><td><span class="chip">Total body</span></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="info" id="info">
+  <div class="wrap">
+    <div>
+      <h3>Orari</h3>
+      <dl><dt>Lun – Ven</dt><dd>06:30 – 23:00</dd><dt>Sab</dt><dd>07:00 – 20:00</dd><dt>Dom</dt><dd>09:00 – 13:00</dd></dl>
+    </div>
+    <div>
+      <h3>Dove</h3>
+      <p><span data-k="indirizzo">Via Lepanto 87</span><br><span data-k="quartiere">Fuorigrotta</span>, Napoli · Soccavo</p>
+      <a class="big" href="#">Indicazioni →</a>
+    </div>
+    <div>
+      <h3>Vieni a provare</h3>
+      <a class="big" data-k="tel" href="#">081 000 0000</a>
+      <a class="big" href="#" data-wa>Chiama →</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap foot">
+  <span>© <span data-k="name">Los Angeles Fitness</span> · P.IVA 00000000000</span>
+  <span>Instagram · Privacy · Cookie</span>
+</div>
+
+<a class="btn wa-fixed" href="#" data-wa>Prova gratis</a>
+
+<script>
+/* CONFIG: cambia qui i dati del cliente e la pagina si aggiorna. */
+const SITE = {
+  "name": "Los Angeles Fitness",
+  "quartiere": "Soccavo",
+  "indirizzo": "Via Mario Gigante 128",
+  "tel": "081 012 0696",
+  "whatsapp": "",
+  "rating": "4,6",
+  "recensioni": "108"
+};
+for (const el of document.querySelectorAll("[data-k]")) {
+  const k = el.getAttribute("data-k");
+  if (SITE[k] !== undefined) el.textContent = SITE[k];
+}
+const waMsg = encodeURIComponent("Ciao! Vorrei prenotare la prova gratuita da " + SITE.name);
+for (const a of document.querySelectorAll("[data-wa]")) a.href = "tel:" + SITE.tel.replace(/\s/g, "");
+
+/* QUIZ: tre risposte -> un consiglio. Logica semplice e dichiarata, niente "AI". */
+const state = {goal:"Dimagrire", days:"3", when:"Mattina presto"};
+const advice = () => {
+  const d = state.days, g = state.goal, w = state.when;
+  const slot = w==="Mattina presto" ? "delle 7:30" : w==="Pausa pranzo" ? "Express delle 13:15" : "delle 18:00";
+  if (d==="1–2") return ["Mensile", `Con uno o due giorni a settimana il mensile a 39 € è la scelta onesta: paghi solo i mesi che usi. Punta sui corsi ${slot}, in 45 minuti fai tutto.`];
+  if (d==="4+") return ["Annuale", `Quattro o più giorni a settimana: l'annuale ti costa 29 € al mese e include armadietto e sospensione ferie. ${g==="Massa" ? "Scheda forza con il trainer dal primo giorno." : "Alterna sala e corsi " + slot + "."}`];
+  const extra = g==="Boxe" ? "boxe" : g==="Massa" ? "scheda forza" : g==="Muovermi" ? "pilates e total body" : "functional";
+  return [`Trimestrale + ${extra}`, `Tre giorni a settimana con un obiettivo preciso: il trimestrale costa meno di tre mensili e include la scheda con il trainer. ${extra.charAt(0).toUpperCase()+extra.slice(1)} ${slot} è il modo più veloce per ${g.toLowerCase() === "muovermi" ? "rimetterti in moto" : g.toLowerCase()} senza annoiarti.`];
+};
+const render = () => { const [t,x] = advice(); document.getElementById("r-title").textContent = t; document.getElementById("r-text").textContent = x; };
+for (const grp of document.querySelectorAll("[data-q]")) {
+  grp.addEventListener("click", e => {
+    const b = e.target.closest(".opt"); if (!b) return;
+    for (const o of grp.querySelectorAll(".opt")) o.setAttribute("aria-pressed", o===b ? "true" : "false");
+    state[grp.dataset.q] = b.textContent.trim(); render();
+  });
+}
+render();
+</script>
+</body>
+</html>
