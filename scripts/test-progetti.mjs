@@ -3,13 +3,13 @@
   - lista: tre card, ordine che segue il percorso scelto, nessun "in arrivo",
     copertine fotografiche per tutti e tre i progetti;
   - dettaglio: due colonne con colonna pinnata a 1280, una colonna a 390;
-  - caso reale: sette sezioni, ogni immagine al suo posto, la proposta in due
-    parti segnate come tali;
+  - caso reale (Sisters Store): sei sezioni, link al sito vero, il sito nuovo
+    in quattro parti con slider e gallerie al loro posto;
   - concept (Fornace Vietri, pizzeria): riga concept, capitoli in ordine,
     immagini al loro posto, galleria affiancata a 1280 e scorrevole una alla
     volta a 390, og-image;
-  - slider prima/dopo guidabile da tastiera, con etichette "Oggi" e "Fase 1"
-    e due immagini della stessa misura (390x844 a doppia risoluzione);
+  - due slider prima/dopo (home da desktop a tutta colonna, scheda da telefono
+    393x852 a doppia risoluzione), guidabili da tastiera, etichette Prima e Dopo;
   - View Transitions: la navigazione interna non perde il percorso scelto;
   - conteggio dei numeri: il valore finale è quello giusto anche dopo l'animazione.
   Uso: node scripts/test-progetti.mjs   (server su BASE_URL o :4321)
@@ -77,7 +77,7 @@ for (const vp of [390, 1280]) {
     atteso(
       tipi["/progetti/fornace-vietri"].startsWith("Branding concept · ") &&
         tipi["/progetti/pizzeria"].startsWith("Branding concept · ") &&
-        !/concept/i.test(tipi["/progetti/caso-reale"]),
+        !/concept/i.test(tipi["/progetti/sisters-store"]),
       `${vp}px ${target}: etichetta "Branding concept" sulle due card dei concept`,
     );
 
@@ -89,7 +89,7 @@ for (const vp of [390, 1280]) {
 
     // tutti i progetti hanno la copertina fotografica, caricata davvero
     for (const [slug, file] of [
-      ["caso-reale", "caso-copertina"],
+      ["sisters-store", "sisters-copertina"],
       ["fornace-vietri", "fornace-copertina"],
       ["pizzeria", "pizzeria-copertina"],
     ]) {
@@ -112,52 +112,69 @@ for (const vp of [390, 1280]) {
 /* ---------- Dettaglio ---------- */
 for (const vp of [390, 1280]) {
   const { page, errori } = await nuovaPagina(vp);
-  await page.goto(BASE + "/progetti/caso-reale", { waitUntil: "networkidle" });
+  await page.goto(BASE + "/progetti/sisters-store", { waitUntil: "networkidle" });
   await page.addStyleTag({ content: "html { scroll-behavior: auto !important; }" });
   await page.waitForTimeout(1200);
 
   const sezioni = await page.locator(".caso__sezione-titolo").allTextContents();
   atteso(
     sezioni.map((s) => s.trim()).join(" | ") ===
-      "Contesto | Decisione | Cosa ho fatto | Risultato | Il negozio oggi | Il passo successivo | Cosa ho imparato",
-    `${vp}px dettaglio: le sette sezioni nell'ordine giusto`,
+      "Contesto | Decisione | Cosa ho fatto nella fase 1 | Il risultato della fase 1 | Il sito nuovo | Cosa ho imparato",
+    `${vp}px dettaglio: le sei sezioni nell'ordine giusto`,
   );
 
-  // ogni immagine nel capitolo giusto, e nella proposta nell'ordine giusto
+  // il link al sito vero, sotto il titolo, in una scheda nuova
+  const sito = await page.evaluate(() => {
+    const a = document.querySelector(".caso__sito a");
+    return a && { href: a.getAttribute("href"), target: a.target, rel: a.rel, testo: a.textContent.replace(/\s+/g, " ").trim() };
+  });
+  atteso(
+    sito?.href === "https://sistersstore.it" && sito.target === "_blank" && sito.rel.includes("noopener") &&
+      sito.testo.startsWith("sistersstore.it"),
+    `${vp}px dettaglio: link a sistersstore.it in una scheda nuova (${JSON.stringify(sito)})`,
+  );
+
+  // il sito nuovo: quattro parti, ogni slider e immagine al suo posto
   const posto = await page.evaluate(() => {
-    const dove = (el) => el?.closest(".caso__sezione")?.querySelector("h2")?.id;
-    const file = (img) =>
-      (img.getAttribute("src") ?? "").match(/caso-[a-z0-9-]+?(?=[._])/)?.[0]?.replace(/-mobile$/, "");
-    const sotto = [...document.querySelectorAll(".caso__sezione:has(#sez-passo) .caso__sotto")];
+    const file = (img) => (img.getAttribute("src") ?? "").match(/sisters-[a-z0-9-]+?(?=[._])/)?.[0];
+    const sotto = [...document.querySelectorAll(".caso__sezione:has(#sez-sito-nuovo) .caso__sotto")];
     return {
-      cover: document.querySelector(".caso__cover")?.getAttribute("src")?.includes("caso-copertina"),
-      oggi: [...document.querySelectorAll(".caso__sezione:has(#sez-oggi) .caso__schermata img")].map(file),
+      cover: document.querySelector(".caso__cover")?.getAttribute("src")?.includes("sisters-copertina"),
+      vecchie: [...document.querySelectorAll("img")].filter((i) => /\/caso-|boutique/i.test(i.getAttribute("src") ?? "")).length,
       parti: sotto.map((s) => ({
-        etichetta: s.querySelector(".caso__sotto-etichetta")?.textContent.trim(),
         titolo: s.querySelector(".caso__sotto-titolo")?.textContent.trim(),
-        slider: !!s.querySelector(".ba__range"),
-        immagini: [...s.querySelectorAll(".caso__figura img, .caso__schermata img")].map(file),
+        slider: s.querySelectorAll(".ba__range").length,
+        largo: !!s.querySelector(".ba__host--largo"),
+        immagini: [...s.querySelectorAll(".caso__schermata img")].map(file),
+        etichette: [...s.querySelectorAll(".caso__schermata-etichetta")].map((e) => e.textContent.trim()),
       })),
     };
   });
   atteso(posto.cover, `${vp}px dettaglio: la copertina in cima alla pagina`);
+  atteso(posto.vecchie === 0, `${vp}px dettaglio: nessuna immagine vecchia (caso-*, boutique)`);
+  const [home, scheda, collezioni, identita] = posto.parti;
   atteso(
-    posto.oggi.join(" ") === "caso-oggi-home caso-oggi-scheda",
-    `${vp}px dettaglio: il negozio oggi in galleria (${posto.oggi.join(" ")})`,
-  );
-  const [fase1, fase2] = posto.parti;
-  atteso(
-    posto.parti.length === 2 && posto.parti.every((p) => p.etichetta === "Proposta"),
-    `${vp}px dettaglio: il passo successivo ha due parti segnate come proposta`,
+    posto.parti.map((p) => p.titolo).join(" | ") === "La home | La scheda prodotto | Le collezioni | L'identità",
+    `${vp}px dettaglio: il sito nuovo in quattro parti (${posto.parti.map((p) => p.titolo).join(" | ")})`,
   );
   atteso(
-    fase1?.titolo === "Fase 1, correzioni" && fase1.slider && fase1.immagini.length === 0,
-    `${vp}px dettaglio: lo slider sta nella Fase 1`,
+    home?.slider === 1 && home.largo && home.immagini.join(" ") === "sisters-prima-home sisters-dopo-home",
+    `${vp}px dettaglio: la home ha lo slider largo e le due home da telefono (${home?.immagini.join(" ")})`,
   );
   atteso(
-    fase2?.titolo === "Fase 2, nuova identità" &&
-      fase2.immagini.join(" ") === "caso-fase2-home caso-fase2-scheda caso-fase2-packaging",
-    `${vp}px dettaglio: Fase 2 con galleria e packaging in ordine, senza l'identità (${fase2?.immagini.join(" ")})`,
+    scheda?.slider === 1 && !scheda.largo && scheda.immagini.length === 0,
+    `${vp}px dettaglio: la scheda prodotto ha lo slider da telefono`,
+  );
+  atteso(
+    collezioni?.slider === 0 &&
+      collezioni.immagini.join(" ") ===
+        "sisters-prima-collezione sisters-prima-filtri sisters-dopo-collezione sisters-dopo-filtri" &&
+      collezioni.etichette.join(" | ") === "Prima | Prima, i filtri | Dopo | Dopo, i filtri",
+    `${vp}px dettaglio: le collezioni in galleria, prima e dopo (${collezioni?.immagini.join(" ")})`,
+  );
+  atteso(
+    identita?.slider === 0 && identita.immagini.length === 0,
+    `${vp}px dettaglio: l'identità è solo testo`,
   );
 
   // tutte le immagini hanno un alt vero e, scorrendo, si caricano
@@ -179,18 +196,6 @@ for (const vp of [390, 1280]) {
     `${vp}px dettaglio: tutte le immagini si caricano ${immagini.nonCaricate.join(" ")}`,
   );
 
-  // Le figure con dati vecchi sono fuori dalla pagina (dal 2026-10-03), in tutte e due
-  // le versioni: caso-riepilogo (luglio) e caso-fase2-identita ("68%" scritto dentro).
-  // La versione mobile/larga delle figure è già provata sui concept, più sotto.
-  for (const figura of ["caso-riepilogo", "caso-fase2-identita"]) {
-    atteso(
-      await page.evaluate(
-        (f) => document.querySelector(`img[src*="${f}"], source[srcset*="${f}"]`) === null,
-        figura,
-      ),
-      `${vp}px dettaglio: ${figura} non è nella pagina`,
-    );
-  }
   atteso(
     await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),
     `${vp}px dettaglio: nessun overflow orizzontale della pagina`,
@@ -444,9 +449,11 @@ for (const concetto of CONCEPT) {
 /* ---------- Slider prima/dopo da tastiera ---------- */
 {
   const { page } = await nuovaPagina(1280);
-  await page.goto(BASE + "/progetti/caso-reale", { waitUntil: "networkidle" });
+  await page.goto(BASE + "/progetti/sisters-store", { waitUntil: "networkidle" });
   await page.addStyleTag({ content: "html { scroll-behavior: auto !important; }" });
-  const slider = page.locator(".ba__range");
+  // due slider: la home da desktop (largo) e la scheda da telefono. Da tastiera si prova il secondo.
+  atteso((await page.locator(".ba__host").count()) === 2, "slider: due slider nella pagina");
+  const slider = page.locator(".ba__range").nth(1);
   await slider.scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);
 
@@ -464,24 +471,40 @@ for (const concetto of CONCEPT) {
 
   // il taglio dell'immagine segue davvero il valore
   const clip = await page.evaluate(
-    () => getComputedStyle(document.querySelector(".ba__img--dopo")).clipPath,
+    () => getComputedStyle(document.querySelectorAll(".ba__img--dopo")[1]).clipPath,
   );
   atteso(clip.includes("%"), `slider: l'immagine "dopo" è tagliata alla posizione (${clip})`);
 
   const tag = await page.locator(".ba__tag").allTextContents();
-  atteso(tag.join(" | ") === "Oggi | Fase 1", `slider: etichette Oggi e Fase 1 (${tag.join(" | ")})`);
+  atteso(
+    tag.join(" | ") === "Prima | Dopo | Prima | Dopo",
+    `slider: etichette Prima e Dopo (${tag.join(" | ")})`,
+  );
 
-  // le due schermate: stessa misura, prima schermata di un telefono a 2x
+  // le schermate: stessa misura dentro ogni slider, nell'ordine prima e dopo
+  await page.locator(".ba__host").first().scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
   const misure = await page.$$eval(".ba__img", (imgs) =>
     imgs.map((i) => ({ w: i.naturalWidth, h: i.naturalHeight, src: i.currentSrc })),
   );
+  const [hp, hd, sp, sd] = misure;
   atteso(
-    misure.length === 2 && misure.every((m) => m.w === 780 && m.h === 1688),
-    `slider: due immagini 780x1688 (${misure.map((m) => `${m.w}x${m.h}`).join(", ")})`,
+    misure.length === 4 && [hp, hd].every((m) => m.w === 1440 && m.h === 900) &&
+      [sp, sd].every((m) => m.w === 786 && m.h === 1704),
+    `slider: home 1440x900 e scheda 786x1704 (${misure.map((m) => `${m.w}x${m.h}`).join(", ")})`,
   );
   atteso(
-    misure[0]?.src.includes("caso-oggi-scheda-schermo") && misure[1]?.src.includes("caso-fase1-scheda-schermo"),
-    "slider: oggi a sinistra, Fase 1 a destra",
+    hp?.src.includes("sisters-prima-home-desktop") && hd?.src.includes("sisters-dopo-home-desktop") &&
+      sp?.src.includes("sisters-prima-scheda") && sd?.src.includes("sisters-dopo-scheda"),
+    "slider: prima a sinistra, dopo a destra, in tutti e due",
+  );
+
+  // lo slider della home occupa tutta la colonna, quello della scheda resta stretto
+  const larghezze = await page.$$eval(".ba__quadro", (q) => q.map((el) => Math.round(el.getBoundingClientRect().width)));
+  const colonna = await page.$eval(".caso__corpo", (el) => Math.round(el.getBoundingClientRect().width));
+  atteso(
+    larghezze[0] >= colonna - 2 && larghezze[1] <= 320,
+    `slider: home a tutta colonna, scheda stretta (${larghezze.join(", ")} su ${colonna})`,
   );
   await page.close();
 }
@@ -531,11 +554,11 @@ for (const concetto of CONCEPT) {
   };
 
   const lista = await nomi("/", ".progetti__cover, .progetti__titolo");
-  const dettaglio = await nomi("/progetti/caso-reale", ".caso__cover, .caso__titolo");
+  const dettaglio = await nomi("/progetti/sisters-store", ".caso__cover, .caso__titolo");
   const comuni = lista.filter((n) => dettaglio.includes(n));
 
   atteso(
-    comuni.includes("cover-caso-reale") && comuni.includes("titolo-caso-reale"),
+    comuni.includes("cover-sisters-store") && comuni.includes("titolo-sisters-store"),
     `card che si espande: cover e titolo condividono il nome di transizione (${comuni.join(", ")})`,
   );
 }
@@ -552,8 +575,8 @@ for (const concetto of CONCEPT) {
     "view transitions: si parte dal percorso business",
   );
 
-  await page.locator('.progetti__cella a[href="/progetti/caso-reale"]').click();
-  await page.waitForURL("**/progetti/caso-reale");
+  await page.locator('.progetti__cella a[href="/progetti/sisters-store"]').click();
+  await page.waitForURL("**/progetti/sisters-store");
   await page.waitForTimeout(900);
 
   atteso(

@@ -420,6 +420,39 @@ lavori da fare stanno in `docs/STATO.md`.
   - **3. Alt dei loghi** (`25ff88f`). `altLogo()` non scrive più `(Progetto)`:
     `Logo di X`. Gli altri tipi mantengono l'etichetta, come a vista.
   - **Test.** Dieci test permanenti sulla build di preview, tutti verdi.
+- **Sisters Store con il nome vero (2026-11-18).** Ramo `progetti-nuovi`, punto 1 del blocco
+  "progetti nuovi". Il caso reale non è più anonimo: è Sisters Store, il negozio di Luigi.
+  Quattro commit.
+  - **Schermate** (`72f94b4`). `scripts/cattura-sisters.mjs` fotografa con Playwright
+    sistersstore.it: "dopo" col tema pubblicato, "prima" col tema vecchio "Sito Ufficiale"
+    (#203060707671) in anteprima (`?preview_theme_id=`, si apre senza login), banner dei cookie
+    chiuso con "Declina", barra dell'anteprima nascosta. Il tema è quello vecchio, i prodotti sono
+    quelli di oggi, e la pagina lo dice. Home a 1440 (prima schermata) e a 393 (2x, tagliata a
+    1900px CSS), scheda della borsa Saint Barth Colette Wax dark leopard (prima schermata, per lo
+    slider), collezione Borse e pannello dei filtri. `scripts/prepara-sisters.mjs` fa i due loghi
+    in PNG (Chromium, perché maschere e gradienti degli SVG) e la copertina 2400x1600 con le due home
+    da telefono; `og/sisters-store.png` viene dalla copertina.
+  - **Contenuti** (`917e66f`). `/progetti/caso-reale` → `/progetti/sisters-store` e
+    `/loghi/boutique` → `/loghi/sisters-store`: redirect permanenti in `vercel.json` (308) e in
+    `redirects` di `astro.config.mjs`, che nella build statica scrive una pagina con meta refresh,
+    noindex e canonical sul nuovo indirizzo (vale per la preview). La documentazione di Astro non
+    dice se la sitemap li elenca: il `filter` della sitemap li esclude comunque. Campo nuovo `sito`
+    nello schema (link sotto la sintesi, scheda nuova). Numeri invariati, presentati come fase 1
+    con il periodo scritto, e commento `[DA CONFRONTARE A DICEMBRE]` su ognuno. "Il negozio oggi"
+    e "Il passo successivo" (proposte Fase 1 e Fase 2) sostituiti da "Il sito nuovo" in quattro
+    parti: home (blocco nuovo `before-after-home`, slider a tutta colonna con la classe
+    `ba__host--largo`, e galleria da telefono), scheda prodotto (slider), collezioni (galleria di
+    quattro), identità (solo testo). Cancellate le ricostruzioni con la scritta BOUTIQUE, le
+    immagini delle proposte, `caso-riepilogo`, `caso-fase2-identita` e `scripts/prepara-slider.mjs`.
+  - **Logo** (`07592f7`). Monogramma SS (`sisters-logo-verticale-senza-tagline.svg`) e, nel prima
+    e dopo, il logo corsivo con i due profili (`logosss.svg`). Tipo "progetto" e non "rebranding":
+    nel portfolio il rebranding è l'esercizio di stile su un marchio altrui e stampa "Non affiliato
+    ai marchi citati". Fondo `#FBF4F1`, il cipria chiaro del brand kit.
+  - **Test e documenti.** Il link al sito stava tra titolo e sintesi: `test-pagine` vuole la
+    sintesi subito sotto il titolo, quindi il link è passato dopo la sintesi. `test-progetti`
+    controlla sei capitoli, il link, le quattro parti del sito nuovo, i due slider (misure,
+    ordine, larghezza) e nessuna immagine vecchia; `test-pagine` i due redirect. Regola 8 del
+    `CLAUDE.md` aggiornata, `docs/content/caso-reale.md` riscritto senza anonimato.
 
 ## Correzioni dall'audit (2026-09-21)
 

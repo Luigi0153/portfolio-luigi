@@ -19,7 +19,7 @@ const ATTESI = {
     invitoRiga: "Cerchi uno sviluppatore per il tuo team o per un progetto? Scrivimi, ti rispondo io.",
     invitoBottone: "Scrivimi",
     sommari: [
-      "Boutique di borse e accessori. Prima i dati, poi quattro interventi su Shopify, con il redesign in pausa.",
+      "Sisters Store, borse, zaini e abbigliamento di marca. Prima i dati e quattro interventi su Shopify, poi il sito nuovo, online dall'11 novembre 2026.",
       "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
       "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
     ],
@@ -27,10 +27,10 @@ const ATTESI = {
   business: {
     invitoRiga:
       "Dimmi cosa vendi e a chi. Lo costruiamo insieme, e dopo il lancio resto al tuo fianco.",
-    heroProva: ["Su un negozio reale, da giugno a settembre, 2,6 volte più acquisti ogni 100 visite."],
+    heroProva: ["Su Sisters Store, da giugno a settembre, 2,6 volte più acquisti ogni 100 visite."],
     invitoBottone: "Parliamone",
     sommari: [
-      "Boutique di borse e accessori. Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%, con il redesign in pausa.",
+      "Sisters Store, borse e zaini. Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%. Poi il sito nuovo, online dall'11 novembre.",
       "Branding concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni.",
       "Branding concept per un laboratorio di ceramica. Ogni pezzo è unico, e chi arriva tardi può chiederne uno simile.",
     ],

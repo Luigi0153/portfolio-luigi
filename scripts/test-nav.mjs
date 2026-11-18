@@ -302,7 +302,7 @@ for (const w of [320, 1280]) {
 }
 
 /* Il nome per intero non è più nella nav: deve restare nel resto della pagina */
-const conNome = ["/", "/come-lavoro", "/contatti", "/privacy", "/progetti/caso-reale", "/404"];
+const conNome = ["/", "/come-lavoro", "/contatti", "/privacy", "/progetti/sisters-store", "/404"];
 for (const url of conNome) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   await page.goto(BASE + url, { waitUntil: "domcontentloaded" });
@@ -394,8 +394,8 @@ const tuttePagine = [
   { url: "/contatti", voce: null },
   { url: "/privacy", voce: null },
   { url: "/loghi", voce: "Loghi" },
-  { url: "/loghi/boutique", voce: null },
-  { url: "/progetti/caso-reale", voce: null },
+  { url: "/loghi/sisters-store", voce: null },
+  { url: "/progetti/sisters-store", voce: null },
   { url: "/progetti/fornace-vietri", voce: null },
   { url: "/progetti/pizzeria", voce: null },
   { url: "/404", voce: null },
@@ -424,7 +424,7 @@ const giro = [
   { da: "/come-lavoro", clic: "Loghi", voce: "Loghi" },
   { da: "/loghi", clic: "Progetti", voce: "Progetti" },
   { da: "/contatti", clic: "Loghi", voce: "Loghi" },
-  { da: "/progetti/caso-reale", clic: "Loghi", voce: "Loghi" },
+  { da: "/progetti/sisters-store", clic: "Loghi", voce: "Loghi" },
   { da: "/404", clic: "Come lavoro", voce: "Come lavoro" },
 ];
 for (const w of [390, 1280]) {

@@ -51,21 +51,22 @@ const { data } = progetto;
           {data.nota && <p class="caso__nota">{data.nota}</p>}
 
           {
+            data.sintesi_business && (
+              <p class="caso__sintesi" data-only="business">
+                {data.sintesi_business.testo}{" "}
+                <a href={`#sez-${data.sintesi_business.capitolo}`}>{data.sintesi_business.link}</a>
+              </p>
+            )
+          }
+
+          {/* Dopo la sintesi: nel percorso business sotto il titolo viene prima il risultato */}
+          {
             data.sito && (
               <p class="caso__sito">
                 <a href={data.sito.url} target="_blank" rel="noopener">
                   {data.sito.testo}
                   <span class="sr-only"> (si apre in una nuova scheda)</span>
                 </a>
-              </p>
-            )
-          }
-
-          {
-            data.sintesi_business && (
-              <p class="caso__sintesi" data-only="business">
-                {data.sintesi_business.testo}{" "}
-                <a href={`#sez-${data.sintesi_business.capitolo}`}>{data.sintesi_business.link}</a>
               </p>
             )
           }
