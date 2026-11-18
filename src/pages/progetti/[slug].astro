@@ -51,6 +51,17 @@ const { data } = progetto;
           {data.nota && <p class="caso__nota">{data.nota}</p>}
 
           {
+            data.sito && (
+              <p class="caso__sito">
+                <a href={data.sito.url} target="_blank" rel="noopener">
+                  {data.sito.testo}
+                  <span class="sr-only"> (si apre in una nuova scheda)</span>
+                </a>
+              </p>
+            )
+          }
+
+          {
             data.sintesi_business && (
               <p class="caso__sintesi" data-only="business">
                 {data.sintesi_business.testo}{" "}
@@ -169,6 +180,12 @@ const { data } = progetto;
     margin-top: 0.75rem;
     max-width: 44ch;
     color: var(--color-ink-2);
+  }
+
+  /* Il sito vero del progetto: un link normale, l'arancio è quello dei link */
+  .caso__sito {
+    margin-top: 0.75rem;
+    font-size: var(--text-body-lg);
   }
 
   /* Il risultato in breve, per il percorso business: in ink e non ink-2,

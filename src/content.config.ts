@@ -10,8 +10,12 @@ import { glob } from "astro/loaders";
  * dichiara i suoi capitoli, con titolo e ordine propri: il caso reale ne ha
  * sette, un concept altri. Il corpo dei file non viene usato.
  */
-/** I blocchi dati disponibili: componenti veri, non nomi liberi. */
-const BLOCCHI = z.enum(["ramp", "funnel", "statistiche", "before-after"]);
+/**
+ * I blocchi dati disponibili: componenti veri, non nomi liberi.
+ * "before-after" confronta le due schede prodotto da telefono,
+ * "before-after-home" le due home da desktop, a tutta colonna.
+ */
+const BLOCCHI = z.enum(["ramp", "funnel", "statistiche", "before-after", "before-after-home"]);
 
 /** Righe di testo di un capitolo: poche e brevi, al massimo 3. */
 const RIGHE = z.array(z.string()).max(3);
@@ -38,6 +42,8 @@ const progetti = defineCollection({
       tipo: z.string().optional(),
       /** Riga sotto il titolo della pagina (per esempio: progetto inventato, foto generate con l'AI). */
       nota: z.string().optional(),
+      /** Il sito vero del progetto, sotto il titolo: si apre in una scheda nuova. */
+      sito: z.object({ testo: z.string(), url: z.string().url() }).optional(),
       /** La lente con cui si legge il progetto: dà il taglio al racconto. */
       lente: z.enum(["flusso", "sistema", "vincolo", "decisione", "rimozione"]),
       /** A chi parla: filtra nulla, decide solo l'ordine e l'accento. */

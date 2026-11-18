@@ -1,17 +1,22 @@
 ---
 /**
- * I blocchi dati del caso reale: componenti veri, montati per nome.
- * I numeri sono quelli di docs/content/caso-reale.md, e nessun altro.
+ * I blocchi dati del caso Sisters Store: componenti veri, montati per nome.
+ * I numeri sono quelli di docs/content/caso-reale.md, e nessun altro: sono la
+ * fase 1, da giugno a settembre 2026, prima del sito nuovo.
+ * Le schermate degli slider vengono da scripts/cattura-sisters.mjs: "prima" è
+ * il tema vecchio aperto in anteprima, con i prodotti di oggi.
  */
 import StatTile from "./StatTile.astro";
 import RampChart from "./RampChart.astro";
 import Funnel from "./Funnel.astro";
 import BeforeAfter from "./BeforeAfter.astro";
-import schedaOggi from "../../assets/progetti/caso-reale/caso-oggi-scheda-schermo.jpg";
-import schedaFase1 from "../../assets/progetti/caso-reale/caso-fase1-scheda-schermo.jpg";
+import schedaPrima from "../../assets/progetti/sisters-store/sisters-prima-scheda.jpg";
+import schedaDopo from "../../assets/progetti/sisters-store/sisters-dopo-scheda.jpg";
+import homePrima from "../../assets/progetti/sisters-store/sisters-prima-home-desktop.jpg";
+import homeDopo from "../../assets/progetti/sisters-store/sisters-dopo-home-desktop.jpg";
 
 interface Props {
-  blocchi: ("ramp" | "funnel" | "statistiche" | "before-after")[];
+  blocchi: ("ramp" | "funnel" | "statistiche" | "before-after" | "before-after-home")[];
 }
 
 const { blocchi } = Astro.props;
@@ -20,25 +25,27 @@ const { blocchi } = Astro.props;
 {
   blocchi.map((blocco) => (
     <div class="caso__dato">
+      {/* [DA CONFRONTARE A DICEMBRE] le tre tessere sono la fase 1 (giugno-settembre 2026):
+          a metà dicembre si aggiungono i numeri del sito nuovo, senza sostituire questi. */}
       {blocco === "statistiche" && (
         <div class="caso__stat">
           <StatTile
             value="2,6 volte"
             label="Conversione del sito"
-            note="Da 0,19% a 0,50%, da giugno a settembre. Le visite sono calate."
+            note="Da 0,19% a 0,50%, da giugno a settembre 2026. Le visite sono calate."
             tone="arancio"
             conta
           />
           <StatTile
             value="+37%"
             label="Valore medio ordine"
-            note="Nello stesso periodo."
+            note="Da giugno a settembre 2026."
             conta
           />
           <StatTile
             value="93%"
             label="Visite da mobile"
-            note="E il 93% degli acquisti."
+            note="E il 93% degli acquisti, da giugno a settembre 2026."
             conta
           />
         </div>
@@ -47,13 +54,25 @@ const { blocchi } = Astro.props;
       {blocco === "funnel" && <Funnel />}
       {blocco === "before-after" && (
         <BeforeAfter
-          prima={schedaOggi}
-          primaAlt="La scheda prodotto di oggi, come appare aprendola dal telefono. In alto la scritta Invita un amico per maggiori sconti e il nome Boutique, poi la foto della borsa a tracolla in pelle cognac, il nome, il prezzo con l'etichetta In offerta, i colori Cognac e Nero e la quantità. Il bottone Aggiungi non si vede, sta più in basso."
-          dopo={schedaFase1}
-          dopoAlt="La scheda prodotto proposta per la Fase 1, come appare aprendola dal telefono. In alto una striscia nera con Spedizione tracciata, Reso facile e Pagamenti sicuri, poi la foto grande della borsa con tre miniature, la categoria Borse a tracolla, il nome, il prezzo e i colori. In fondo allo schermo il bottone nero pieno Aggiungi al carrello."
-          etichetta="Trascina per confrontare la scheda prodotto di oggi con quella della Fase 1"
-          etichettaPrima="Oggi"
-          etichettaDopo="Fase 1"
+          prima={schedaPrima}
+          primaAlt="La scheda prodotto di prima, come appare aprendola dal telefono. In alto la striscia Invita un amico per maggiori sconti, il menu, il logo corsivo e il carrello. Poi la foto della borsa Saint Barth Colette Wax dark leopard, il nome in grande su tre righe e il prezzo di 158,40 euro con l'etichetta In offerta. Il bottone per aggiungere al carrello non si vede, sta più in basso."
+          dopo={schedaDopo}
+          dopoAlt="La scheda prodotto di oggi, come appare aprendola dal telefono. In alto la striscia Spedizione in Italia 4,95 euro, gratis da 200 euro, e il monogramma SS. Poi la foto della stessa borsa con i pallini della galleria, il marchio Saint Barth sopra il nome, il prezzo di 158,40 euro con lo sconto del 20% e la taglia. In fondo allo schermo il bottone nero Aggiungi al carrello, fisso, con la chat accanto."
+          etichetta="Trascina per confrontare la scheda prodotto di prima con quella di oggi"
+          etichettaPrima="Prima"
+          etichettaDopo="Dopo"
+        />
+      )}
+      {blocco === "before-after-home" && (
+        <BeforeAfter
+          class="ba__host--largo"
+          prima={homePrima}
+          primaAlt="La home di prima, da computer. In alto la striscia Invita un amico per maggiori sconti, il logo corsivo al centro e sotto le voci Uomo, Donna, Calzature, Zaini, Borse e Promo. Poi una foto grande di una donna con una giacca nera e una borsa color cuoio, che occupa tutto il resto dello schermo."
+          dopo={homeDopo}
+          dopoAlt="La home di oggi, da computer. In alto la striscia Spedizione in Italia 4,95 euro, gratis da 200 euro, poi il logo con il monogramma SS e il nome Sisters Store, e il menu con Novità, Donna, Uomo, Borse, Zaini, Calzature, Marchi e Promo. Sotto la foto di una ragazza con gli occhiali da sole in una strada di notte, il titolo Autunno 2026 e i bottoni Novità donna e Novità uomo."
+          etichetta="Trascina per confrontare la home di prima con quella di oggi, da computer"
+          etichettaPrima="Prima"
+          etichettaDopo="Dopo"
         />
       )}
     </div>
