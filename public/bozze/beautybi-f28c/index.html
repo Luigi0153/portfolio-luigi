@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BeautyBi di Bianca Di Matteo · bozza sito</title>
 <meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/png" sizes="64x64" href="/bozze/beautybi-f28c/favicon.png">
 <meta property="og:title" content="BeautyBi di Bianca Di Matteo · bozza del sito">
 <meta property="og:description" content="Bozza del sito di BeautyBi di Bianca Di Matteo, preparata da Luigi Romano. Logo, colori, foto e testi si decidono insieme.">
 <meta property="og:image" content="https://luigiromano.cloud/bozze/beautybi-f28c/og.jpg">
@@ -36,20 +37,26 @@ h1,h2,h3{margin:0;font-weight:400}
 .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
 .lab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
 .serif{font-family:var(--display);font-weight:400;letter-spacing:-.01em;line-height:1}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;border:1.5px solid var(--ink);padding:1rem 1.6rem;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;background:#fff;color:var(--ink);transition:background .15s,color .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;text-align:center;border:1.5px solid var(--ink);padding:1rem 1.6rem;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;background:#fff;color:var(--ink);transition:background .15s,color .15s}
 .btn:hover,.btn.fill{background:var(--ink);color:#fff}
 .btn:focus-visible{outline:3px solid #000;outline-offset:3px}
 .demo{background:var(--ink);color:#fff;font-size:.72rem;text-align:center;padding:.45rem 1rem;letter-spacing:.14em;text-transform:uppercase}
 
 /* NAV */
+/* Barra in alto: bollino del logo (o iniziali) + nome a sinistra, pulsante principale a destra.
+   Su telefono alta 56 px, senza pulsante: le azioni stanno nella barra in basso. */
+html{scroll-padding-top:72px}
 nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
-nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px}
-nav .burger{display:flex;flex-direction:column;gap:5px;width:22px}
-nav .burger i{height:1.5px;background:var(--ink)}
-nav .brand{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;text-align:center}
-nav .right{justify-self:end;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
-nav .right a{text-decoration:none}
-@media(max-width:600px){nav .wrap{grid-template-columns:auto 1fr;gap:1rem}nav .brand{font-size:1.05rem;letter-spacing:.05em;text-align:left}nav .right{display:none}}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;height:68px}
+nav .brand{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:.75rem;min-height:44px;min-width:44px;line-height:1.1}
+nav .cta{min-height:44px;padding:.7rem 1.2rem}
+.badge{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--ink);color:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.12);font-family:var(--display);font-size:1.35rem;letter-spacing:.02em;text-transform:none}
+.badge.tondo{border-radius:50%}
+.badge.nudo{background:none;border-radius:0;box-shadow:none}
+.badge img{width:100%;height:100%;object-fit:cover;display:block}
+.wordmark{display:block;overflow:hidden}
+.wordmark img{display:block;mix-blend-mode:multiply}
+@media(max-width:899px){nav .wrap{height:calc(56px - 1px)}nav .right{display:none}.badge{width:44px;height:44px}nav .brand{font-size:1.1rem;letter-spacing:.05em;gap:.6rem}}
 
 /* HERO */
 .hero .ph{width:100%;height:min(56.25vw,72vh);background:
@@ -115,58 +122,155 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
 .info h3{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.8rem}
 .info dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0;font-variant-numeric:tabular-nums}
 .info dd{margin:0}
-.info .big{font-family:var(--display);font-size:1.7rem;text-decoration:none;display:block;line-height:1.2}
+.info .big{font-family:var(--display);font-size:1.7rem;text-decoration:none;display:flex;align-items:center;min-height:44px;line-height:1.2}
 @media(max-width:760px){.info .wrap{grid-template-columns:1fr}}
 
-.foot{border-top:1px solid var(--line);padding:1.2rem 0 5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
-.wa-fixed{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex}
-.wa-fixed a{flex:1;text-align:center;padding:1rem;background:var(--ink);color:#fff;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase}
-.wa-fixed a+a{background:#fff;color:var(--ink);border-top:1.5px solid var(--ink)}
-@media(min-width:900px){.wa-fixed{display:none}}
+.foot{border-top:1px solid var(--line);padding:1.2rem 0 1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
 @media(prefers-reduced-motion:reduce){.btn{transition:none}}
 
-/* foto e logo reali */
-.hero .ph{background:url(/bozze/beautybi-f28c/img/hero.jpg) center/cover no-repeat !important;filter:none !important}
+/* PULSANTI IN PAGINA: alla fine delle sezioni */
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;margin-top:2rem}
+.info .cta-row{grid-column:1/-1;margin-top:0}
+.wa-note{flex-basis:100%;font-size:.85rem;color:var(--mid)}
+.hero .wa-note{text-align:center}
+@media(max-width:600px){.cta-row .btn{flex:1 1 100%}}
+
+/* BARRA AZIONI IN BASSO (solo telefono): stesso componente nei tre modelli, colori dalle variabili --bar-* */
+:root{--bar-bg:#fff;--bar-fg:var(--ink);--bar-line:#d9d9d9;--bar-pri-bg:var(--ink);--bar-pri-fg:#fff;--bar-font:var(--body)}
+.bar{display:none}
+@media(max-width:899px){
+  body{padding-bottom:calc(65px + env(safe-area-inset-bottom))}   /* 64 px dei pulsanti + 1 px di bordo */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bar-bg);color:var(--bar-fg);border-top:1px solid var(--bar-line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -8px 24px rgba(0,0,0,.14)}
+  .bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:6px 4px;color:inherit;text-decoration:none;font-family:var(--bar-font);font-size:13px;font-weight:600;line-height:1.1;-webkit-tap-highlight-color:transparent}
+  .bar a+a{border-left:1px solid var(--bar-line)}
+  .bar .pri{flex-direction:row;gap:8px;background:var(--bar-pri-bg);color:var(--bar-pri-fg);font-size:16px}
+  .bar .ic{width:22px;height:22px;flex:none}
+  .bar a:focus-visible{outline:3px solid currentColor;outline-offset:-6px}
+}
+
+/* "APERTO ORA" sotto i pulsanti */
+.oggi{text-align:center;font-size:.95rem;color:var(--mid);margin-top:.3rem}
+.oggi::before{content:"";display:inline-block;width:.55em;height:.55em;border-radius:50%;background:currentColor;margin-right:.45em;vertical-align:.05em;opacity:.45}
+.oggi.si{color:#1F6B3A}.oggi.si::before{opacity:1}
+.oggi.no{color:#9B1C1C}.oggi.no::before{opacity:1}
+
+/* TELEFONO: intestazione più bassa, listino da leggere con il pollice (nome e prezzo sulla stessa riga) */
+@media(max-width:700px){
+  .hero .ph{height:min(52vw,240px)}
+  .hero .txt{padding:1.4rem 0 1.8rem}
+  .hero .ctas{margin-top:1.1rem;gap:.6rem}
+  .list thead{display:none}
+  .list tr{display:grid;grid-template-columns:1fr auto;column-gap:1rem;padding:.9rem 0;border-bottom:1px solid #d9d9d9}
+  .list td{border:0;padding:0;width:auto}
+  .list td:first-child{font-size:1.35rem;line-height:1.2}
+  .list td.p{grid-row:1;grid-column:2;align-self:center;font-size:1.05rem;font-weight:500}
+  .list td.d{grid-column:1/-1;font-size:1rem;margin-top:.25rem}
+  .ethos .e p{font-size:1rem}
+}
+
+/* foto reali (WebP) */
+[data-foto] > .foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+[data-foto] > .ombra{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero .ph{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .hero .ph > span,.hero .ph > em,.hero .ph .accent,.hero .ph .photo-note{display:none !important}
-.wide{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/beautybi-f28c/img/salone.jpg) center/cover no-repeat !important;filter:none !important}
+.wide{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .wide > span,.wide > em,.wide .accent,.wide .photo-note{display:none !important}
-.logo-img{height:40px;width:auto;display:block;margin:auto}
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BeautySalon",
+ "name": "BeautyBi di Bianca Di Matteo",
+ "address": {
+  "@type": "PostalAddress",
+  "streetAddress": "Vico Belledonne a Chiaia 6",
+  "addressCountry": "IT",
+  "postalCode": "80121",
+  "addressLocality": "Napoli",
+  "addressRegion": "NA"
+ },
+ "telephone": "+39 081 405451",
+ "geo": {
+  "@type": "GeoCoordinates",
+  "latitude": 40.8350307,
+  "longitude": 14.240032699999999
+ },
+ "openingHoursSpecification": [
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Monday",
+   "opens": "10:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Tuesday",
+   "opens": "10:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Wednesday",
+   "opens": "10:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Thursday",
+   "opens": "10:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Friday",
+   "opens": "10:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Saturday",
+   "opens": "10:00",
+   "closes": "19:00"
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <div class="demo">Bozza per BeautyBi di Bianca Di Matteo · logo, colori, foto, testi e prezzi si decidono insieme</div>
 
 <nav>
   <div class="wrap">
-    <div class="burger" aria-hidden="true"><i></i><i></i><i></i></div>
-    <a class="brand" href="#top"><img class="logo-img" src="/bozze/beautybi-f28c/img/logo.png" alt="BeautyBi di Bianca Di Matteo"></a>
-    <div class="right"><a href="#" data-wa>Prenota</a></div>
+    <a class="brand" href="#top"><span class="badge tondo" style="background:#f3e6de"><img src="/bozze/beautybi-f28c/img/logo.webp" width="48" height="48" alt=""></span><span class="nm" data-k="name">BeautyBi</span></a>
+    <div class="right"><a href="tel:+39081405451" class="btn fill cta">Chiama</a></div>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="ph" role="img" aria-label="Foto grande di una cliente in salone (segnaposto, bianco e nero; solo i capelli restano a colore)">
+  <div class="ph" data-foto="hero"><img class="foto" src="/bozze/beautybi-f28c/img/hero.webp" width="900" height="1200" alt="Foto del salone" decoding="async" fetchpriority="high">
     <div class="accent" aria-hidden="true"></div>
     <span>foto: la cabina, luce naturale</span>
   </div>
   <div class="txt wrap">
     <h1>Unghie, mani e piedi a <span data-k="quartiere">Chiaia</span></h1>
     <div class="ctas">
-      <a class="btn fill" href="#" data-wa>Prenota un trattamento</a>
-      <a class="btn" href="#" data-wa>Prima consulenza gratuita</a>
+      <a href="tel:+39081405451" class="btn fill">Chiama per prenotare</a>
+      <a href="#listino" class="btn">Il listino</a>
+      <p class="oggi" data-ore="[[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[]]">Mercoledì 10:00 – 19:00</p>
+      <p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p>
     </div>
   </div>
 </header>
 
 <section class="mani">
   <div class="wrap">
-    <h2><span data-k="name">Nera Studio</span> è un centro estetico a Chiaia, in Vico Belledonne a Chiaia. Si lavora su appuntamento, una cliente per volta, con il tempo che serve.</h2>
+    <h2><span data-k="name">BeautyBi</span> è un centro estetico a Chiaia, in Vico Belledonne a Chiaia. Si lavora su appuntamento, una cliente per volta, con il tempo che serve.</h2>
     <p>Prima di applicare qualsiasi colore si prepara l'unghia naturale, con il tempo che serve. Per questo il semipermanente regge settimane, anche dopo il giorno del matrimonio.</p>
     <a class="btn" href="#listino">I trattamenti</a>
   </div>
 </section>
 
-<div class="wide" role="img" aria-label="Foto larga del salone (segnaposto)"><span>foto: il centro</span></div>
+<div class="wide" data-foto="salone"><img class="foto" src="/bozze/beautybi-f28c/img/salone.webp" width="1145" height="1200" alt="Il salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: il centro</span></div>
 
 <section class="list" id="listino">
   <div class="wrap">
@@ -178,6 +282,7 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
       <thead><tr><th>Servizio</th><th>Cosa comprende</th><th style="text-align:right">Tempo</th><th style="text-align:right">Da</th></tr></thead>
       <tbody><tr><td>Manicure</td><td class="d">Cura dell'unghia e smalto tradizionale</td><td class="t">30 min</td><td class="p">15 €</td></tr><tr><td>Semipermanente mani</td><td class="d">Preparazione, applicazione, tenuta 3 settimane</td><td class="t">45 min</td><td class="p">25 €</td></tr><tr><td>Ricostruzione gel</td><td class="d">Allungamento e forma su misura</td><td class="t">90 min</td><td class="p">50 €</td></tr><tr><td>Nail art</td><td class="d">Decorazioni a mano libera, per unghia</td><td class="t">—</td><td class="p">da 2 €</td></tr><tr><td>Pedicure semipermanente</td><td class="d">Pedicure completo con colore</td><td class="t">60 min</td><td class="p">35 €</td></tr><tr><td>Rimozione</td><td class="d">Rimozione delicata di gel o semipermanente</td><td class="t">20 min</td><td class="p">10 €</td></tr><tr><td>Sposa</td><td class="d">Prova e mani perfette per il giorno</td><td class="t">su misura</td><td class="p">60 €</td></tr></tbody>
     </table>
+    <div class="cta-row"><a href="tel:+39081405451" class="btn fill">Chiama per prenotare</a></div>
   </div>
 </section>
 
@@ -185,10 +290,10 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
   <div class="wrap">
     <div class="lab">Il team</div>
     <div class="g">
-      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Titolare · specialità</p></div>
-      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" data-foto="team-1" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Titolare · specialità</p></div>
+      <div class="m"><div class="ph" data-foto="team-2" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" data-foto="team-3" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" data-foto="team-4" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
     </div>
   </div>
 </section>
@@ -203,7 +308,7 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
 
 <section class="rev">
   <div class="wrap">
-    <div class="lab"><span data-k="recensioni">128</span> recensioni su Google · media <span data-k="rating">4,9</span></div>
+    <div class="lab"><span data-k="recensioni">20</span> recensioni su Google · media <span data-k="rating">4,6</span></div>
     <blockquote>"Ambiente pulitissimo, ragazze gentili e precise. Finalmente un centro dove non ti spingono a comprare pacchetti."</blockquote>
     <div class="g"><span>Giulia M.</span><span>Anna P.</span><span>Rosaria C.</span></div>
   </div>
@@ -217,41 +322,49 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
     </div>
     <div>
       <h3>Dove</h3>
-      <p><span data-k="indirizzo">Via Domenico Cimarosa 81/a</span><br><span data-k="quartiere">Vomero</span>, Napoli · Chiaia</p>
-      <a class="big" href="#">Indicazioni →</a>
+      <p><span data-k="indirizzo">Vico Belledonne a Chiaia 6</span><br><span data-k="quartiere">Chiaia</span>, Napoli · Chiaia</p>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=BeautyBi+di+Bianca+Di+Matteo%2C+Vico+Belledonne+a+Chiaia%2C+n6%2C+80121+Napoli+NA%2C+Italy&amp;query_place_id=ChIJeZS59f8IOxMRqzpUxbBjyi4" target="_blank" rel="noopener" class="big">Indicazioni →</a>
     </div>
     <div>
       <h3>Prenota</h3>
-      <a class="big" data-k="tel" href="#">081 000 0000</a>
-      <a class="big" href="#" data-wa>Chiama →</a>
+      <a href="tel:+39081405451" class="big" data-k="tel">081 405451</a>
+      </div>
+    <div class="cta-row">
+      <a href="tel:+39081405451" class="btn fill">Chiama per prenotare</a>
+      <p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p>
     </div>
   </div>
 </section>
 
 <div class="wrap foot">
-  <span>© <span data-k="name">Nera Studio</span> · P.IVA 00000000000</span>
+  <span>© <span data-k="name">BeautyBi</span> · P.IVA 00000000000</span>
   <span>Instagram · Privacy · Cookie</span>
 </div>
 
-<div class="wa-fixed"><a href="#" data-wa>Prenota</a><a data-k="tel" href="#">081 000 0000</a></div>
-
+<!-- Link, testi WhatsApp e dati del cliente li scrive build.py nell'HTML (data-k, data-wa, data-call, data-maps, data-only). -->
+<div class="bar" role="navigation" aria-label="Azioni rapide">
+  <a href="tel:+39081405451" class="pri"><svg class="ic ic-tel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5h3.6l1.8 4.6-2.3 1.4a11 11 0 0 0 6.4 6.4l1.4-2.3 4.6 1.8V19a2 2 0 0 1-2 2A16.5 16.5 0 0 1 3 5.5a2 2 0 0 1 2-2z"/></svg><span class="l">Chiama</span></a>
+  <a href="https://www.google.com/maps/search/?api=1&amp;query=BeautyBi+di+Bianca+Di+Matteo%2C+Vico+Belledonne+a+Chiaia%2C+n6%2C+80121+Napoli+NA%2C+Italy&amp;query_place_id=ChIJeZS59f8IOxMRqzpUxbBjyi4" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="l">Indicazioni</span></a>
+  <a href="#listino"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg><span class="l">Listino</span></a>
+</div>
 <script>
-/* CONFIG: cambia qui i dati del cliente e la pagina si aggiorna. */
-const SITE = {
-  "name": "BeautyBi",
-  "quartiere": "Chiaia",
-  "indirizzo": "Vico Belledonne a Chiaia 6",
-  "tel": "081 405451",
-  "whatsapp": "",
-  "rating": "4,6",
-  "recensioni": "20"
-};
-for (const el of document.querySelectorAll("[data-k]")) {
-  const k = el.getAttribute("data-k");
-  if (SITE[k] !== undefined) el.textContent = SITE[k];
-}
-const waMsg = encodeURIComponent("Ciao! Vorrei prenotare da " + SITE.name);
-for (const a of document.querySelectorAll("[data-wa]")) a.href = "tel:" + SITE.tel.replace(/\s/g, "");
+/* "APERTO ORA": l'unico JS di questa parte. Orari della settimana in data-ore (da lunedì a domenica), ora di Napoli.
+   Senza JS resta il testo scritto da build.py (gli orari del giorno). */
+(() => {
+  const el = document.querySelector("[data-ore]"); if (!el || !el.dataset.ore) return;
+  const W = JSON.parse(el.dataset.ore), G = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
+  const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Rome"}));
+  const d = (now.getDay() + 6) % 7, m = now.getHours() * 60 + now.getMinutes();
+  const min = s => { const [h, x] = s.split(":"); return h * 60 + +x; };
+  const day = i => (W[(i + 7) % 7] || []).map(([a, b]) => { const A = min(a); let B = min(b); if (B <= A) B += 1440; return [A, B, a, b]; });
+  let chiude = null, txt = "";
+  for (const [A, B, , b] of day(d)) if (m >= A && m < B) chiude = b;
+  for (const [, B, , b] of day(d - 1)) if (B > 1440 && m < B - 1440) chiude = b;
+  if (chiude) txt = chiude === "24:00" ? "Aperto ora · 24 ore su 24" : "Aperto ora · chiude alle " + chiude;
+  else for (let k = 0; k < 7 && !txt; k++) for (const [A, , a] of day(d + k)) if (k > 0 || A > m) {
+    txt = "Chiuso ora · apre " + (k === 0 ? "alle " : k === 1 ? "domani alle " : G[(d + k) % 7] + " alle ") + a; break; }
+  if (txt) { el.textContent = txt; el.classList.add(chiude ? "si" : "no"); }
+})();
 </script>
 </body>
 </html>

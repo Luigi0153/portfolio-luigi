@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trattoria Addù Fofò · bozza sito</title>
 <meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/png" sizes="64x64" href="/bozze/addu-fofo-e90e/favicon.png">
 <meta property="og:title" content="Trattoria Addù Fofò · bozza del sito">
 <meta property="og:description" content="Bozza del sito di Trattoria Addù Fofò, preparata da Luigi Romano. Logo, colori, foto e testi si decidono insieme.">
 <meta property="og:image" content="https://luigiromano.cloud/bozze/addu-fofo-e90e/og.jpg">
@@ -38,20 +39,32 @@ p{margin:0}
 .caps{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.02em}
 .demo{background:var(--ink);color:var(--paper);font-size:.78rem;text-align:center;padding:.45rem 1rem;letter-spacing:.08em;text-transform:uppercase}
 
-/* TOP BAR */
-.top{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;font-size:.85rem}
+/* BARRA IN ALTO: bollino del logo (o iniziali) + nome a sinistra, link e pulsante principale a destra.
+   Su telefono alta 56 px, solo bollino e nome: le azioni stanno nella barra in basso. */
+html{scroll-padding-top:72px}
+.top{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1.5px solid var(--ink)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;height:68px;font-size:.85rem}
 .top a{text-decoration:none}
-.top .l{display:flex;gap:1.5rem}
-.top .l a::after{content:" →"}
-.top .r{display:flex;gap:.9rem}
-.top .r span{width:22px;height:22px;border:1.5px solid var(--ink);border-radius:5px;display:inline-block}
+.top .r{display:flex;align-items:center;gap:1.5rem}
+.top .r a:not(.btn){display:inline-flex;align-items:center;min-height:44px}
+.top .r a:not(.btn)::after{content:" →"}
+.top .cta{min-height:44px;padding:.6rem 1.1rem}
+.brand{display:inline-flex;align-items:center;gap:.65rem;min-height:44px;min-width:44px;font-family:var(--display);font-weight:600;font-size:1.35rem;line-height:1.1}
+.badge{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--ink);color:var(--paper);box-shadow:0 0 0 1px rgba(110,26,26,.18);font-family:var(--display);font-weight:600;font-size:1.3rem;letter-spacing:.02em}
+.badge.tondo{border-radius:50%}
+.badge.nudo{background:none;border-radius:0;box-shadow:none}
+.badge img{width:100%;height:100%;object-fit:cover;display:block}
+.wordmark{display:block;overflow:hidden}
+.wordmark img{display:block;mix-blend-mode:multiply}   /* il bianco del logo sparisce sul fondo carta */
+@media(max-width:899px){.top .wrap{height:calc(56px - 1.5px)}.top .r{display:none}.badge{width:44px;height:44px}.brand{font-size:1.2rem}}
 
 /* HERO WORDMARK */
-.hero{position:relative;text-align:center;padding:2rem 0 1rem;overflow:hidden}
-.hero h1{font-size:clamp(4.5rem,17vw,15rem);color:var(--tint);line-height:.8;user-select:none;letter-spacing:-.03em}
-.hero .mascot{position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:clamp(140px,26vw,300px)}
-.hero .claim{position:absolute;right:max(16px,6vw);bottom:12%;font-family:var(--display);font-weight:800;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);padding:.3rem .6rem;rotate:-6deg;background:var(--paper)}
-@media(max-width:600px){.hero{padding:1.2rem 0 1.4rem}.hero .mascot{width:110px;top:46%}.hero .claim{position:relative;right:auto;bottom:auto;display:inline-block;margin-top:.8rem;rotate:-3deg;font-size:.8rem}}
+/* Intestazione: disegno sopra, nome scritto pieno nel colore principale, etichetta sotto. Niente sovrapposizioni. */
+.hero{position:relative;text-align:center;padding:2rem 0 0;display:flex;flex-direction:column;align-items:center}
+.hero h1{font-size:clamp(4.5rem,17vw,15rem);color:var(--ink);line-height:.88;letter-spacing:-.03em}
+@media(min-width:701px){.hero h1{font-size:min(10rem,calc(var(--fs,18vw) * .8)) !important}}   /* --fs = dimensione del nome, la scrive build.py */
+.hero .mascot,.hero .logo-hd{order:-1;width:clamp(70px,calc(var(--fs,18vw) * .55),120px);margin:0 0 1rem}
+.hero .claim{display:inline-block;margin-top:1.2rem;font-family:var(--display);font-weight:800;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);padding:.3rem .6rem;rotate:-3deg;background:var(--paper)}
 
 /* MODI */
 .modes{display:grid;grid-template-columns:repeat(3,1fr);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)}
@@ -106,7 +119,7 @@ p{margin:0}
 .feat .ph span{position:absolute;left:1rem;bottom:.9rem;color:var(--paper);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
 .feat h2{font-size:clamp(2.2rem,5vw,4rem);margin-bottom:1rem}
 .feat p{max-width:40ch;margin-bottom:1.2rem}
-.btn{display:inline-block;padding:.75rem 1.2rem;background:var(--ink);color:var(--paper);text-decoration:none;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:1rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;text-align:center;padding:.75rem 1.2rem;background:var(--ink);color:var(--paper);text-decoration:none;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:1rem}
 .btn.o{background:transparent;color:var(--ink);border:2.5px solid var(--ink)}
 .btn:focus-visible{outline:3px solid var(--ink-soft);outline-offset:3px}
 @media(max-width:760px){.feat .wrap{grid-template-columns:1fr}}
@@ -121,22 +134,41 @@ p{margin:0}
 .wall .legend{text-align:center;font-size:.8rem;margin-top:1.5rem;color:var(--ink-soft)}
 
 /* ORARI */
-.orari{border-top:3px solid var(--ink);padding:clamp(2rem,5vw,4rem) 0 6rem}
+.orari{border-top:3px solid var(--ink);padding:clamp(2rem,5vw,4rem) 0 3rem}
 .orari .wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
 .orari h3{font-size:1.4rem;margin-bottom:.6rem}
 .orari dl{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1rem;margin:0;font-variant-numeric:tabular-nums}
 .orari dd{margin:0;font-weight:600}
-.orari .big{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,3vw,2.4rem);text-transform:uppercase;line-height:1;text-decoration:none;display:block;margin-top:.4rem}
+.orari .big{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,3vw,2.4rem);text-transform:uppercase;line-height:1;text-decoration:none;display:flex;align-items:center;min-height:44px;margin-top:.2rem}
 @media(max-width:760px){.orari .wrap{grid-template-columns:1fr}}
 
 .foot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem;padding:1rem 0 1.5rem;border-top:3px solid var(--ink)}
-.wa-fixed{position:fixed;right:14px;bottom:14px;z-index:30;background:#6E1A1A;color:var(--paper);text-decoration:none;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:.8rem 1.1rem;box-shadow:0 12px 30px rgba(0,0,0,.25)}
-@media(min-width:900px){.wa-fixed{display:none}}
+
+/* PULSANTI IN PAGINA: sotto l'intestazione e alla fine delle sezioni */
+.hero-cta{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;padding:0 0 1.8rem}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;margin-top:2rem}
+.orari .cta-row{grid-column:1/-1;margin-top:0}
+.wa-note{flex-basis:100%;font-size:.85rem;color:var(--ink-soft);text-align:center}
+.cta-row .wa-note{text-align:left}
+@media(max-width:600px){.hero-cta .btn,.cta-row .btn{flex:1 1 100%}}
+
+/* BARRA AZIONI IN BASSO (solo telefono): stesso componente nei tre modelli, colori dalle variabili --bar-* */
+:root{--bar-bg:var(--paper);--bar-fg:var(--ink);--bar-line:rgba(110,26,26,.22);--bar-pri-bg:var(--ink);--bar-pri-fg:var(--paper);--bar-font:var(--body)}
+.bar{display:none}
+@media(max-width:899px){
+  body{padding-bottom:calc(65px + env(safe-area-inset-bottom))}   /* 64 px dei pulsanti + 1 px di bordo */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bar-bg);color:var(--bar-fg);border-top:1px solid var(--bar-line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -8px 24px rgba(0,0,0,.14)}
+  .bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:6px 4px;color:inherit;text-decoration:none;font-family:var(--bar-font);font-size:13px;font-weight:600;line-height:1.1;-webkit-tap-highlight-color:transparent}
+  .bar a+a{border-left:1px solid var(--bar-line)}
+  .bar .pri{flex-direction:row;gap:8px;background:var(--bar-pri-bg);color:var(--bar-pri-fg);font-size:16px}
+  .bar .ic{width:22px;height:22px;flex:none}
+  .bar a:focus-visible{outline:3px solid currentColor;outline-offset:-6px}
+}
 
 /* PALETTE ITALIANA ELEGANTE: crema, bordeaux, basilico; Bodoni (Parma, 1798) per i titoli */
 h1,h2,h3{font-weight:600;letter-spacing:.005em}
 .hero h1{font-weight:500;letter-spacing:-.01em}
-.caps,.mode .lbl,.marquee,.manifesto p,.cols li b,.cols li .p,.btn,.note footer,.orari .big,.hero .claim,.wa-fixed{font-weight:600}
+.caps,.mode .lbl,.marquee,.manifesto p,.cols li b,.cols li .p,.btn,.note footer,.orari .big,.hero .claim{font-weight:600}
 .mode .lbl{font-style:italic;text-transform:none;letter-spacing:0}
 .marquee{font-style:italic;text-transform:none;font-weight:500}
 .marquee .track i{background:var(--basil)}
@@ -152,38 +184,164 @@ h1,h2,h3{font-weight:600;letter-spacing:.005em}
 .btn.o{border-width:1.5px}
 .note{border-left:3px solid var(--basil)}
 .wall h2,.menu-head h2{font-weight:500}
-.wa-fixed{background:var(--ink)}
 
-/* foto e logo reali */
-.mode:nth-child(1) .ph{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/addu-fofo-e90e/img/tavolo.jpg) center/cover no-repeat !important;filter:none !important}
+/* RIGA DI PRESENTAZIONE E "APERTO ORA" sotto il nome */
+.hero-cta{padding-top:24px}   /* almeno 24 px tra la scritta grande e i pulsanti */
+.riga{flex:0 0 100%;text-align:center;font-size:1.05rem;text-wrap:balance;margin:0 0 .4rem}
+.oggi{flex-basis:100%;text-align:center;font-size:.95rem;font-weight:600;color:var(--ink-soft);margin-top:.2rem}
+.oggi::before{content:"";display:inline-block;width:.55em;height:.55em;border-radius:50%;background:currentColor;margin-right:.45em;vertical-align:.05em;opacity:.45}
+.oggi.si{color:var(--basil)}.oggi.si::before{opacity:1}
+.oggi.no{color:var(--pomodoro)}.oggi.no::before{opacity:1}
+
+/* MENU DA SCORRERE CON IL POLLICE: categorie come pulsanti, fisse in alto mentre si scorre il menu */
+.cats{position:sticky;top:68px;z-index:5;display:flex;gap:.5rem;overflow-x:auto;scrollbar-width:none;padding:.6rem 0;margin-bottom:1rem;background:var(--paper)}
+.cats::-webkit-scrollbar{display:none}
+.cats a{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;border:1.5px solid var(--ink);border-radius:999px;text-decoration:none;font-family:var(--display);font-style:italic;font-weight:600;font-size:1.05rem}
+.cols h3{scroll-margin-top:140px}
+
+/* TELEFONO: nome pieno e leggibile subito, disegno piccolo sopra, etichetta sotto il nome */
+@media(max-width:700px){
+  .hero{display:flex;flex-direction:column;align-items:center;padding:1.1rem 0 0;overflow:visible}
+  .hero .mascot{width:60px;margin:0 0 .5rem}
+  .hero h1{color:var(--ink);white-space:normal !important;font-size:clamp(2.6rem,calc(var(--fs,18vw) * 1.7),4.6rem) !important;line-height:.92;text-wrap:balance;padding-inline:16px;user-select:auto}
+  .hero .claim{position:static;display:inline-block;margin-top:.9rem;rotate:-3deg;font-size:.9rem}
+  .hero-cta{padding-top:1rem;gap:.6rem}
+  .riga{font-size:1rem;margin-bottom:.2rem}
+  .cats{top:56px;margin-inline:-20px;padding-inline:20px}
+  .cols li small{font-size:.95rem}
+  .marquee{font-size:2rem;padding:.8rem 0}
+}
+
+/* foto reali (WebP) */
+[data-foto] > .foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+[data-foto] > .ombra{position:absolute;inset:0;z-index:0;pointer-events:none}
+.mode:nth-child(1) .ph{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .mode:nth-child(1) .ph > span,.mode:nth-child(1) .ph > em,.mode:nth-child(1) .ph .accent,.mode:nth-child(1) .ph .photo-note{display:none !important}
-.mode:nth-child(2) .ph{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/addu-fofo-e90e/img/asporto.jpg) center/cover no-repeat !important;filter:none !important}
+.mode:nth-child(2) .ph{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .mode:nth-child(2) .ph > span,.mode:nth-child(2) .ph > em,.mode:nth-child(2) .ph .accent,.mode:nth-child(2) .ph .photo-note{display:none !important}
-.mode:nth-child(3) .ph{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/addu-fofo-e90e/img/casa.jpg) center/cover no-repeat !important;filter:none !important}
+.mode:nth-child(3) .ph{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .mode:nth-child(3) .ph > span,.mode:nth-child(3) .ph > em,.mode:nth-child(3) .ph .accent,.mode:nth-child(3) .ph .photo-note{display:none !important}
-.feat .ph{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/addu-fofo-e90e/img/cucina.jpg) center/cover no-repeat !important;filter:none !important}
+.feat .ph{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .feat .ph > span,.feat .ph > em,.feat .ph .accent,.feat .ph .photo-note{display:none !important}
-.hero .logo-img{object-fit:contain;height:auto;max-height:70%}
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Restaurant",
+ "name": "Trattoria Addù Fofò",
+ "address": {
+  "@type": "PostalAddress",
+  "streetAddress": "Riviera di Chiaia 85",
+  "addressCountry": "IT",
+  "postalCode": "80122",
+  "addressLocality": "Napoli",
+  "addressRegion": "NA"
+ },
+ "telephone": "+39 081 213 9400",
+ "geo": {
+  "@type": "GeoCoordinates",
+  "latitude": 40.832800399999996,
+  "longitude": 14.2268145
+ },
+ "openingHoursSpecification": [
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Monday",
+   "opens": "19:30",
+   "closes": "00:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Wednesday",
+   "opens": "12:30",
+   "closes": "16:30"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Wednesday",
+   "opens": "19:30",
+   "closes": "00:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Thursday",
+   "opens": "12:30",
+   "closes": "16:30"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Thursday",
+   "opens": "19:30",
+   "closes": "00:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Friday",
+   "opens": "12:30",
+   "closes": "16:30"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Friday",
+   "opens": "19:30",
+   "closes": "00:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Saturday",
+   "opens": "12:30",
+   "closes": "16:30"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Saturday",
+   "opens": "19:30",
+   "closes": "00:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Sunday",
+   "opens": "12:30",
+   "closes": "16:30"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Sunday",
+   "opens": "19:30",
+   "closes": "00:00"
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <div class="demo">Bozza per Trattoria Addù Fofò · logo, colori, foto, testi e prezzi si decidono insieme</div>
 
-<div class="wrap top">
-  <div class="l"><a href="#menu">Menu</a><a href="#orari">Dove siamo</a></div>
-  <div class="r" aria-label="Social (segnaposto)"><span></span><span></span></div>
+<div class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="badge tondo" style="background:#e0dac4"><img src="/bozze/addu-fofo-e90e/img/logo.webp" width="48" height="48" alt=""></span><span class="nm" data-k="name">Addù Fofò</span></a>
+    <div class="r"><a href="#menu">Menu</a><a href="#orari">Dove siamo</a><a href="tel:+390812139400" class="btn cta">Chiama</a></div>
+  </div>
 </div>
 
-<header class="hero">
-  <h1 data-k="name">Carbone</h1>
-  <img class="mascot logo-img" src="/bozze/addu-fofo-e90e/img/logo.png" alt="Trattoria Addù Fofò">
+<header class="hero" style="--fs:12.4vw">
+  <h1 data-k="name" style="white-space:nowrap;font-size:min(15rem,12.4vw)">Addù Fofò</h1>
+  <svg class="mascot" viewBox="0 0 200 220" fill="none" stroke="#6E1A1A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-label="Mascotte: pentola disegnata a mano"><path d="M40 110h120v50a30 30 0 0 1-30 30H70a30 30 0 0 1-30-30z"/><path d="M30 110h140M40 110c0-10 4-14 10-14h100c6 0 10 4 10 14"/><path d="M28 126h12M160 126h12"/><path d="M80 80c-4-8 4-12 0-22M100 76c-4-8 4-12 0-24M120 80c-4-8 4-12 0-22"/><path d="M60 200h80" stroke-dasharray="6 6"/></svg>
   <div class="claim">Trattoria · Riviera di Chiaia</div>
 </header>
 
+<div class="wrap hero-cta">
+  <p class="riga">Cucina napoletana di tradizione a pranzo e a cena, sulla Riviera di Chiaia.</p>
+  <a href="tel:+390812139400" class="btn">Chiama per prenotare</a>
+  <a class="btn o" href="#menu">Il menu</a>
+  <p class="oggi" data-ore="[[[&quot;19:30&quot;,&quot;00:00&quot;]],[],[[&quot;12:30&quot;,&quot;16:30&quot;],[&quot;19:30&quot;,&quot;00:00&quot;]],[[&quot;12:30&quot;,&quot;16:30&quot;],[&quot;19:30&quot;,&quot;00:00&quot;]],[[&quot;12:30&quot;,&quot;16:30&quot;],[&quot;19:30&quot;,&quot;00:00&quot;]],[[&quot;12:30&quot;,&quot;16:30&quot;],[&quot;19:30&quot;,&quot;00:00&quot;]],[[&quot;12:30&quot;,&quot;16:30&quot;],[&quot;19:30&quot;,&quot;00:00&quot;]]]">Mercoledì 12:30 – 16:30 · 19:30 – 00:00</p>
+  <p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p>
+</div>
+
 <nav class="modes" aria-label="Come vuoi mangiare">
-  <a class="mode" href="#orari"><div class="lbl">Al tavolo <span>→</span></div><div class="ph"><em>foto sala</em><span>Prenotazione su WhatsApp o al telefono</span></div></a>
-  <a class="mode" href="#menu"><div class="lbl">Il menu del giorno <span>→</span></div><div class="ph"><em>foto piatti</em><span>Cambia ogni mattina: lo trovi qui e su WhatsApp</span></div></a>
-  <a class="mode" href="#" data-wa><div class="lbl">Tavolate <span>→</span></div><div class="ph"><em>foto sala piena</em><span>Compleanni, pranzi di lavoro, cene di gruppo</span></div></a>
+  <a href="tel:+390812139400" class="mode"><div class="lbl">Al tavolo <span>→</span></div><div class="ph" data-foto="tavolo"><img class="foto" src="/bozze/addu-fofo-e90e/img/tavolo.webp" width="675" height="1200" alt="" decoding="async" fetchpriority="high"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><em>foto sala</em><span>Prenotazione su WhatsApp o al telefono</span></div></a>
+  <a class="mode" href="#menu"><div class="lbl">Il menu del giorno <span>→</span></div><div class="ph" data-foto="asporto"><img class="foto" src="/bozze/addu-fofo-e90e/img/asporto.webp" width="675" height="1200" alt="" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><em>foto piatti</em><span>Cambia ogni mattina: lo trovi qui e su WhatsApp</span></div></a>
+  <a href="tel:+390812139400" class="mode"><div class="lbl">Tavolate <span>→</span></div><div class="ph" data-foto="casa"><img class="foto" src="/bozze/addu-fofo-e90e/img/casa.webp" width="675" height="1200" alt="" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><em>foto sala piena</em><span>Compleanni, pranzi di lavoro, cene di gruppo</span></div></a>
 </nav>
 
 <div class="marquee" aria-hidden="true"><div class="track">
@@ -208,28 +366,30 @@ h1,h2,h3{font-weight:600;letter-spacing:.005em}
       <h2>Il menu</h2>
       <p>Piatti e prezzi di esempio. Il menu del giorno si aggiorna dal telefono in 5 minuti.</p>
     </div>
+    <nav class="cats" aria-label="Categorie del menu"><a href="#m-primi">Primi</a><a href="#m-secondi">Secondi</a><a href="#m-da-bere">Da bere</a></nav>
     <div class="cols">
       <div>
-        <h3>Primi</h3>
+        <h3 id="m-primi">Primi</h3>
         <ul><li><b>Pasta e patate con la provola</b><span class="p">9,00</span><small>pasta mista, patate, provola affumicata</small></li><li><b>Genovese</b><span class="p">10,00</span><small>ziti spezzati, cipolla cotta 6 ore, carne</small></li><li><b>Ziti al ragù</b><span class="p">10,00</span><small>ragù napoletano della domenica</small></li><li><b>Spaghetti alle vongole</b><span class="p">13,00</span><small>vongole veraci, aglio, prezzemolo</small></li><li><b>Pasta e fagioli</b><span class="p">8,00</span><small>con le cotiche, a richiesta</small></li></ul>
       </div>
       <div>
-        <h3>Secondi</h3>
+        <h3 id="m-secondi">Secondi</h3>
         <ul><li><b>Polpette al sugo</b><span class="p">9,00</span><small>carne mista, pane, pecorino</small></li><li><b>Braciola al ragù</b><span class="p">11,00</span><small>involtino di manzo, pinoli, uvetta</small></li><li><b>Alici fritte</b><span class="p">9,00</span><small>con limone</small></li><li><b>Friarielli e salsiccia</b><span class="p">10,00</span><small>salsiccia a punta di coltello</small></li></ul>
-        <h3>Da bere</h3>
+        <h3 id="m-da-bere">Da bere</h3>
         <ul><li><b>Vino della casa ¼ l</b><span class="p">4,00</span><small>bianco o rosso, Campania</small></li><li><b>Acqua 1 l</b><span class="p">1,50</span><small>naturale o frizzante</small></li></ul>
       </div>
     </div>
+    <div class="cta-row"><a href="tel:+390812139400" class="btn">Chiama per prenotare</a></div>
   </div>
 </section>
 
 <section class="feat">
   <div class="wrap">
-    <div class="ph" role="img" aria-label="Foto della cucina (segnaposto)"><span>foto: la cucina, i piatti, la sala</span></div>
+    <div class="ph" data-foto="cucina"><img class="foto" src="/bozze/addu-fofo-e90e/img/cucina.webp" width="640" height="1136" alt="La cucina" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: la cucina, i piatti, la sala</span></div>
     <div>
       <h2>Prenota direttamente</h2>
       <p>Scrivi o chiama e il tavolo è tuo. Nessuna commissione, nessun intermediario: parli con noi.</p>
-      <a class="btn" href="#" data-wa>Prenota un tavolo</a>
+      <a href="tel:+390812139400" class="btn">Chiama per prenotare</a>
     </div>
   </div>
 </section>
@@ -238,7 +398,7 @@ h1,h2,h3{font-weight:600;letter-spacing:.005em}
   <div class="wrap">
     <h2>Muro dell'amore</h2>
     <div class="notes"><div class="note">"Pasta e patate con la provola come la faceva mia nonna. Porzioni abbondanti."<footer>Gennaro R. · Google ★★★★★</footer></div><div class="note">"Posto semplice, si mangia bene e si spende il giusto. Torneremo."<footer>Maria Teresa S. · Google ★★★★★</footer></div><div class="note">"Genovese da applausi, servizio veloce anche a pranzo."<footer>Luca D. · Google ★★★★☆</footer></div><div class="note">"Cucina vera, niente fronzoli. Prenotate perché si riempie."<footer>Antonio P. · Google ★★★★★</footer></div></div>
-    <p class="legend"><span data-k="recensioni">322</span> recensioni su Google, media <span data-k="rating">4,5</span>. Testi di esempio: nel sito definitivo si importano quelle vere.</p>
+    <p class="legend"><span data-k="recensioni">188</span> recensioni su Google, media <span data-k="rating">4,8</span>. Testi di esempio: nel sito definitivo si importano quelle vere.</p>
   </div>
 </section>
 
@@ -250,43 +410,49 @@ h1,h2,h3{font-weight:600;letter-spacing:.005em}
     </div>
     <div>
       <h3>Dove</h3>
-      <p><span data-k="indirizzo">Via Benevento 63</span><br><span data-k="quartiere">Casalnuovo di Napoli</span></p>
-      <a class="big" href="#">Indicazioni →</a>
+      <p><span data-k="indirizzo">Riviera di Chiaia 85</span><br><span data-k="quartiere">Chiaia</span></p>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Trattoria+Add%C3%B9+Fof%C3%B2%2C+Riviera+di+Chiaia%2C+85%2C+80122+Napoli+NA%2C+Italy&amp;query_place_id=ChIJvXVXPQAJOxMRfJ6URRyfJ5Q" target="_blank" rel="noopener" class="big">Indicazioni →</a>
     </div>
     <div>
       <h3>Chiama o scrivi</h3>
-      <a class="big" data-k="tel" href="#">081 000 0000</a>
-      <a class="big" href="#" data-wa>Chiama →</a>
+      <a href="tel:+390812139400" class="big" data-k="tel">081 213 9400</a>
+      </div>
+    <div class="cta-row">
+      <a href="tel:+390812139400" class="btn">Chiama per prenotare</a>
+      <p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p>
     </div>
   </div>
 </section>
 
 <div class="wrap foot">
-  <span>© <span data-k="name">Carbone</span> · P.IVA 00000000000</span>
+  <span>© <span data-k="name">Addù Fofò</span> · P.IVA 00000000000</span>
   <span>Privacy · Cookie · Lavora con noi</span>
 </div>
 
-<a class="wa-fixed" href="#" data-wa>Chiama per prenotare</a>
-
+<!-- Link, testi WhatsApp e dati del cliente li scrive build.py nell'HTML (data-k, data-wa, data-call, data-maps, data-only). -->
+<div class="bar" role="navigation" aria-label="Azioni rapide">
+  <a href="tel:+390812139400" class="pri"><svg class="ic ic-tel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5h3.6l1.8 4.6-2.3 1.4a11 11 0 0 0 6.4 6.4l1.4-2.3 4.6 1.8V19a2 2 0 0 1-2 2A16.5 16.5 0 0 1 3 5.5a2 2 0 0 1 2-2z"/></svg><span class="l">Chiama</span></a>
+  <a href="https://www.google.com/maps/search/?api=1&amp;query=Trattoria+Add%C3%B9+Fof%C3%B2%2C+Riviera+di+Chiaia%2C+85%2C+80122+Napoli+NA%2C+Italy&amp;query_place_id=ChIJvXVXPQAJOxMRfJ6URRyfJ5Q" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="l">Indicazioni</span></a>
+  <a href="#menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg><span class="l">Menu</span></a>
+</div>
 <script>
-/* CONFIG: cambia qui i dati del cliente e la pagina si aggiorna. */
-const SITE = {
-  "name": "Addù Fofò",
-  "quartiere": "Chiaia",
-  "indirizzo": "Riviera di Chiaia 85",
-  "tel": "081 213 9400",
-  "whatsapp": "",
-  "anno": "",
-  "rating": "4,8",
-  "recensioni": "188"
-};
-for (const el of document.querySelectorAll("[data-k]")) {
-  const k = el.getAttribute("data-k");
-  if (SITE[k] !== undefined) el.textContent = SITE[k];
-}
-const hw=document.querySelector('.hero h1'); hw.style.whiteSpace='nowrap'; hw.style.fontSize='min(15rem,'+Math.min(24,112/hw.textContent.trim().length).toFixed(1)+'vw)';
-const waMsg = encodeURIComponent("Ciao! Vorrei ordinare / prenotare da " + SITE.name);
-for (const a of document.querySelectorAll("[data-wa]")) a.href = "tel:" + SITE.tel.replace(/\s/g, "");
+/* "APERTO ORA": l'unico JS di questa parte. Orari della settimana in data-ore (da lunedì a domenica), ora di Napoli.
+   Senza JS resta il testo scritto da build.py (gli orari del giorno). */
+(() => {
+  const el = document.querySelector("[data-ore]"); if (!el || !el.dataset.ore) return;
+  const W = JSON.parse(el.dataset.ore), G = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
+  const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Rome"}));
+  const d = (now.getDay() + 6) % 7, m = now.getHours() * 60 + now.getMinutes();
+  const min = s => { const [h, x] = s.split(":"); return h * 60 + +x; };
+  const day = i => (W[(i + 7) % 7] || []).map(([a, b]) => { const A = min(a); let B = min(b); if (B <= A) B += 1440; return [A, B, a, b]; });
+  let chiude = null, txt = "";
+  for (const [A, B, , b] of day(d)) if (m >= A && m < B) chiude = b;
+  for (const [, B, , b] of day(d - 1)) if (B > 1440 && m < B - 1440) chiude = b;
+  if (chiude) txt = chiude === "24:00" ? "Aperto ora · 24 ore su 24" : "Aperto ora · chiude alle " + chiude;
+  else for (let k = 0; k < 7 && !txt; k++) for (const [A, , a] of day(d + k)) if (k > 0 || A > m) {
+    txt = "Chiuso ora · apre " + (k === 0 ? "alle " : k === 1 ? "domani alle " : G[(d + k) % 7] + " alle ") + a; break; }
+  if (txt) { el.textContent = txt; el.classList.add(chiude ? "si" : "no"); }
+})();
 </script>
 </body>
 </html>

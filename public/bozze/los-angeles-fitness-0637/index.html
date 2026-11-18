@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Los Angeles Fitness · bozza sito</title>
 <meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/png" sizes="64x64" href="/bozze/los-angeles-fitness-0637/favicon.png">
 <meta property="og:title" content="Los Angeles Fitness · bozza del sito">
 <meta property="og:description" content="Bozza del sito di Los Angeles Fitness, preparata da Luigi Romano. Logo, colori, foto e testi si decidono insieme.">
 <meta property="og:image" content="https://luigiromano.cloud/bozze/los-angeles-fitness-0637/og.jpg">
@@ -34,20 +35,29 @@ p{margin:0}
 h1,h2,h3{margin:0;font-weight:900;font-stretch:62%;text-transform:uppercase;line-height:.9;letter-spacing:-.01em}
 .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
 .lab{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--red)}
-.btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 1.5rem;text-decoration:none;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;background:var(--red);color:#fff;border:2px solid var(--red)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;text-align:center;padding:1rem 1.5rem;text-decoration:none;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;background:var(--red);color:#fff;border:2px solid var(--red)}
 .btn.o{background:transparent;color:var(--white);border-color:var(--white)}
 .btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .demo{background:var(--red);color:#fff;font-size:.72rem;text-align:center;padding:.45rem 1rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
 
 /* NAV */
 nav{position:sticky;top:0;z-index:20;background:rgba(11,11,11,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-nav .brand{font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:1.4rem;text-decoration:none;letter-spacing:.02em}
+/* Barra in alto: bollino del logo + nome a sinistra, link e pulsante principale a destra.
+   Su telefono alta 56 px, senza link né pulsante: le azioni stanno nella barra in basso. */
+html{scroll-padding-top:72px}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:68px}
+nav .brand{font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:1.4rem;text-decoration:none;letter-spacing:.02em;display:inline-flex;align-items:center;gap:.7rem;min-height:44px;min-width:44px;line-height:1}
 nav .brand b{color:var(--red)}
-nav ul{display:flex;gap:1.4rem;list-style:none;margin:0;padding:0;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
-nav ul a{text-decoration:none;color:var(--grey)}
+nav ul{display:flex;gap:1.4rem;list-style:none;margin:0 0 0 auto;padding:0;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+nav ul a{text-decoration:none;color:var(--grey);display:inline-flex;align-items:center;min-height:44px}
 nav ul a:hover{color:var(--white)}
-@media(max-width:760px){nav ul{display:none}}
+nav .cta{min-height:44px;padding:.6rem 1.1rem}
+.badge{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--red);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.14);font-weight:900;font-stretch:62%;font-size:1.4rem}
+.badge.tondo{border-radius:50%}
+.badge.nudo{background:none;border-radius:0;box-shadow:none}
+.badge.nudo img{filter:contrast(1.1)}   /* Monster Gym: il grigio 19 del fondo del logo va a ~8, come la barra */
+.badge img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:899px){nav .wrap{height:calc(56px - 1px)}nav ul,nav .cta{display:none}.badge{width:44px;height:44px}nav .brand{font-size:1.25rem}}
 
 /* HERO: video/foto a tutta pagina */
 .hero{position:relative;min-height:68vh;display:flex;align-items:flex-end;background:
@@ -61,6 +71,7 @@ nav ul a:hover{color:var(--white)}
 .hero .sub{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;margin-top:1.2rem}
 .hero .sub p{max-width:44ch;color:#d8d5ce}
 .hero .ctas{display:flex;gap:.7rem;flex-wrap:wrap}
+@media(min-width:761px){.hero .ctas{width:36rem}}   /* larghezza fissa: i due pulsanti sulla stessa riga, la nota sotto */
 @media(max-width:760px){.hero .sub{grid-template-columns:1fr}.hero{min-height:70vh}}
 
 /* TICKER */
@@ -80,7 +91,7 @@ nav ul a:hover{color:var(--white)}
 .q h3{font-size:1.05rem;font-stretch:100%;letter-spacing:.02em;margin-bottom:.9rem;display:flex;gap:.8rem;align-items:baseline}
 .q h3 span{color:var(--red);font-size:.8rem}
 .opts{display:flex;flex-wrap:wrap;gap:.6rem}
-.opt{border:1.5px solid var(--white);padding:.6rem 1rem;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;background:transparent;color:var(--white);font-family:inherit}
+.opt{border:1.5px solid var(--white);min-height:44px;min-width:44px;padding:.6rem 1rem;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;background:transparent;color:var(--white);font-family:inherit}
 .opt[aria-pressed="true"]{background:var(--white);color:var(--black)}
 .opt:focus-visible{outline:3px solid var(--red);outline-offset:2px}
 .result{background:var(--red);color:#fff;padding:1.4rem;margin-top:1rem}
@@ -136,23 +147,40 @@ td:first-child{font-weight:900;font-stretch:62%;font-size:1.2rem;color:var(--red
 .chip{border:1px solid var(--white);padding:.2rem .5rem;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 
 /* INFO */
-.info{padding:clamp(2.5rem,6vw,5rem) 0 6rem}
+.info{padding:clamp(2.5rem,6vw,5rem) 0 3rem}
 .info .wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
 .info h3{font-size:.72rem;font-stretch:100%;letter-spacing:.2em;color:var(--red);margin-bottom:.8rem}
 .info dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0;font-variant-numeric:tabular-nums}
 .info dd{margin:0;font-weight:700}
-.info .big{font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:2rem;line-height:1;text-decoration:none;display:block;margin-top:.3rem}
+.info .big{font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:2rem;line-height:1;text-decoration:none;display:flex;align-items:center;min-height:44px;margin-top:.2rem}
 @media(max-width:760px){.info .wrap{grid-template-columns:1fr}}
 
 .foot{border-top:1px solid var(--line);padding:1.2rem 0 1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
-.wa-fixed{position:fixed;right:14px;bottom:14px;z-index:30}
-@media(min-width:900px){.wa-fixed{display:none}}
+
+/* PULSANTI IN PAGINA: alla fine delle sezioni */
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;margin-top:2rem}
+.info .cta-row{grid-column:1/-1;margin-top:0}
+.wa-note{flex-basis:100%;font-size:.85rem;color:var(--grey)}
+@media(max-width:600px){.cta-row .btn,.hero .ctas .btn{flex:1 1 100%}}
+
+/* BARRA AZIONI IN BASSO (solo telefono): stesso componente nei tre modelli, colori dalle variabili --bar-* */
+:root{--bar-bg:var(--black);--bar-fg:var(--white);--bar-line:var(--line);--bar-pri-bg:var(--red);--bar-pri-fg:#fff;--bar-font:var(--font)}
+.bar{display:none}
+@media(max-width:899px){
+  body{padding-bottom:calc(65px + env(safe-area-inset-bottom))}   /* 64 px dei pulsanti + 1 px di bordo */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bar-bg);color:var(--bar-fg);border-top:1px solid var(--bar-line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -8px 24px rgba(0,0,0,.14)}
+  .bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:6px 4px;color:inherit;text-decoration:none;font-family:var(--bar-font);font-size:13px;font-weight:600;line-height:1.1;-webkit-tap-highlight-color:transparent}
+  .bar a+a{border-left:1px solid var(--bar-line)}
+  .bar .pri{flex-direction:row;gap:8px;background:var(--bar-pri-bg);color:var(--bar-pri-fg);font-size:16px}
+  .bar .ic{width:22px;height:22px;flex:none}
+  .bar a:focus-visible{outline:3px solid currentColor;outline-offset:-6px}
+}
 
 /* ANIMAZIONI PESI (solo CSS, legate allo scorrimento; senza supporto restano ferme e cariche) */
 @property --kg{syntax:'<integer>';inherits:true;initial-value:140}
 .hero{overflow:hidden}
 .hero .wrap{z-index:1}
-.plate20{position:absolute;right:max(-70px,-6vw);top:18%;width:clamp(170px,24vw,320px);opacity:.92;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6))}
+.plate20{position:absolute;right:max(-60px,-5vw);top:4%;width:clamp(150px,18vw,240px);opacity:.92;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6))}   /* in alto a destra: non passa dietro i pulsanti */
 nav{position:sticky}
 .prog{position:absolute;left:0;right:0;bottom:-1px;height:3px;background:transparent}
 .prog i{display:block;height:100%;width:100%;background:var(--red);transform-origin:0 50%;transform:scaleX(1)}
@@ -183,39 +211,139 @@ nav{position:sticky}
     @keyframes lift{from{transform:translateY(60px);opacity:.2}to{transform:none;opacity:1}}
   }
 }
-@media(max-width:700px){.plate20{top:8%;right:-60px;width:150px;opacity:.6}}
+@media(max-width:700px){.plate20{top:4%;right:-50px;width:130px;opacity:.6}}
+@media(max-width:599px){.plate20{display:none}}   /* sotto i 600 px il disco si nasconde */
 
-/* foto e logo reali */
-.hero{background:linear-gradient(180deg,rgba(11,11,11,.35),rgba(11,11,11,.92) 85%),url(/bozze/los-angeles-fitness-0637/img/hero.jpg) center/cover no-repeat !important;filter:none !important}
+/* "APERTO ORA" sotto i pulsanti */
+.oggi{flex-basis:100%;font-size:.95rem;font-weight:700;color:var(--grey);margin-top:.2rem}
+.oggi::before{content:"";display:inline-block;width:.55em;height:.55em;border-radius:50%;background:currentColor;margin-right:.45em;vertical-align:.05em;opacity:.5}
+.oggi.si,.hero .sub .oggi.si{color:#5BD07A}.oggi.si::before{opacity:1}
+.oggi.no,.hero .sub .oggi.no{color:#FF6B5E}.oggi.no::before{opacity:1}
+.sched .legend{color:var(--grey);font-size:.85rem;margin-top:1rem}
+
+/* CORSI DA SCORRERE CON IL POLLICE: su telefono i giorni come pulsanti, fissi in alto mentre si scorre la sezione */
+.cats,.days{display:none}
+.cats{position:sticky;top:56px;z-index:5;gap:.5rem;overflow-x:auto;scrollbar-width:none;padding:.6rem 20px;margin:0 -20px 1rem;background:var(--black)}
+.cats::-webkit-scrollbar{display:none}
+.cats a{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:56px;padding:0 1rem;border:1.5px solid var(--white);text-decoration:none;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:.85rem}
+.day{scroll-margin-top:130px;border-top:1px solid var(--line);padding:1rem 0}
+.day h3{font-size:1.6rem;color:var(--red);margin-bottom:.6rem}
+.day ul{list-style:none;margin:0;padding:0}
+.day li{display:grid;grid-template-columns:4.2rem 1fr;gap:1rem;padding:.45rem 0;font-size:1rem}
+.day li b{font-variant-numeric:tabular-nums}
+
+/* TELEFONO: intestazione più bassa, tariffe con nome e prezzo sulla stessa riga */
+@media(max-width:700px){
+  .hero{min-height:0;padding-top:2.2rem}
+  .hero h1{font-size:clamp(3rem,14vw,4.4rem)}
+  .hero .sub{margin-top:.9rem;gap:1.1rem}
+  .hero .ctas{gap:.6rem}
+  .tw{display:none}
+  .cats{display:flex}
+  .days{display:block}
+  .rate{grid-template-columns:1fr auto;gap:.5rem 1rem;align-items:start}
+  .rate .p{grid-row:1;grid-column:2;text-align:right;font-size:2.2rem}
+  .rate .d{grid-column:1/-1;font-size:1rem}
+}
+
+/* foto reali (WebP) */
+[data-foto] > .foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+[data-foto] > .ombra{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .hero > span,.hero > em,.hero .accent,.hero .photo-note{display:none !important}
-.strip div:nth-child(1){background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/los-angeles-fitness-0637/img/foto-1.jpg) center/cover no-repeat !important;filter:none !important}
+.strip div:nth-child(1){position:relative;overflow:hidden;background:none !important;filter:none !important}
 .strip div:nth-child(1) > span,.strip div:nth-child(1) > em,.strip div:nth-child(1) .accent,.strip div:nth-child(1) .photo-note{display:none !important}
-.strip div:nth-child(2){background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/los-angeles-fitness-0637/img/foto-2.jpg) center/cover no-repeat !important;filter:none !important}
+.strip div:nth-child(2){position:relative;overflow:hidden;background:none !important;filter:none !important}
 .strip div:nth-child(2) > span,.strip div:nth-child(2) > em,.strip div:nth-child(2) .accent,.strip div:nth-child(2) .photo-note{display:none !important}
-.strip div:nth-child(3){background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/los-angeles-fitness-0637/img/foto-3.jpg) center/cover no-repeat !important;filter:none !important}
+.strip div:nth-child(3){position:relative;overflow:hidden;background:none !important;filter:none !important}
 .strip div:nth-child(3) > span,.strip div:nth-child(3) > em,.strip div:nth-child(3) .accent,.strip div:nth-child(3) .photo-note{display:none !important}
-.strip div:nth-child(4){background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/los-angeles-fitness-0637/img/foto-4.jpg) center/cover no-repeat !important;filter:none !important}
+.strip div:nth-child(4){position:relative;overflow:hidden;background:none !important;filter:none !important}
 .strip div:nth-child(4) > span,.strip div:nth-child(4) > em,.strip div:nth-child(4) .accent,.strip div:nth-child(4) .photo-note{display:none !important}
-.logo-img{height:40px;width:auto;display:block}
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "HealthClub",
+ "name": "Los Angeles Fitness",
+ "address": {
+  "@type": "PostalAddress",
+  "streetAddress": "Via Mario Gigante 128",
+  "addressCountry": "IT",
+  "postalCode": "80126",
+  "addressLocality": "Napoli",
+  "addressRegion": "NA"
+ },
+ "telephone": "+39 081 012 0696",
+ "geo": {
+  "@type": "GeoCoordinates",
+  "latitude": 40.833157199999995,
+  "longitude": 14.192601499999999
+ },
+ "openingHoursSpecification": [
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Monday",
+   "opens": "06:30",
+   "closes": "23:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Tuesday",
+   "opens": "06:30",
+   "closes": "23:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Wednesday",
+   "opens": "06:30",
+   "closes": "23:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Thursday",
+   "opens": "06:30",
+   "closes": "23:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Friday",
+   "opens": "06:30",
+   "closes": "23:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Saturday",
+   "opens": "07:00",
+   "closes": "20:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Sunday",
+   "opens": "09:00",
+   "closes": "13:00"
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <div class="demo">Bozza per Los Angeles Fitness · logo, colori, foto, testi e prezzi si decidono insieme</div>
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#top"><img class="logo-img" src="/bozze/los-angeles-fitness-0637/img/logo.png" alt="Los Angeles Fitness"></a>
+    <a class="brand" href="#top"><span class="badge quadrato" style="background:#010204"><img src="/bozze/los-angeles-fitness-0637/img/logo.webp" width="48" height="48" alt=""></span><span class="nm">Los Angeles <b>Fitness</b></span></a>
     <ul>
       <li><a href="#quiz">Inizia</a></li>
       <li><a href="#tariffe">Tariffe</a></li>
       <li><a href="#corsi">Corsi</a></li>
       <li><a href="#info">Orari</a></li>
     </ul>
+    <a href="tel:+390810120696" class="btn cta">Chiama</a>
   </div>
   <div class="prog" aria-hidden="true"><i></i></div>
 </nav>
 
-<header class="hero" id="top" role="img" aria-label="Video di sfondo: soci che si salutano all'ingresso, sala pesi alle 7 di mattina (segnaposto)">
+<header class="hero" id="top" data-foto="hero"><img class="foto" src="/bozze/los-angeles-fitness-0637/img/hero.webp" width="1200" height="801" alt="La palestra" decoding="async" fetchpriority="high"><i class="ombra" style="background:linear-gradient(180deg,rgba(11,11,11,.35),rgba(11,11,11,.92) 85%)"></i>
   <svg class="plate20" viewBox="0 0 200 200" aria-hidden="true">
     <circle cx="100" cy="100" r="98" fill="#141414" stroke="#2f2f2f" stroke-width="3"/>
     <circle cx="100" cy="100" r="82" fill="none" stroke="#2a2a2a" stroke-width="10"/>
@@ -224,12 +352,11 @@ nav{position:sticky}
     <text x="100" y="80" text-anchor="middle" font-family="Archivo,Arial,sans-serif" font-weight="900" font-size="15" fill="#E3261C" letter-spacing="2">20 KG</text>
     <text x="100" y="168" text-anchor="middle" font-family="Archivo,Arial,sans-serif" font-weight="700" font-size="9" fill="#8C8A85" letter-spacing="3">45 LB</text>
   </svg>
-  <div class="vid"><i></i> video: la palestra alle 7:00, 30 sec in loop</div>
   <div class="wrap">
     <h1>Prima la gente,<br><em>poi i pesi.</em></h1>
     <div class="sub">
       <p>Palestra di quartiere a Soccavo, aperta dalle 6:30 alle 23. Sala pesi, cardio e corsi, abbonamento mensile senza vincolo.</p>
-      <div class="ctas"><a class="btn" href="#quiz">Trova il tuo abbonamento</a><a class="btn o" href="#" data-wa>Prova gratis 7 giorni</a></div>
+      <div class="ctas"><a href="tel:+390810120696" class="btn">Chiama per la prova</a><a class="btn o" href="#quiz">Trova il tuo abbonamento</a><p class="oggi" data-ore="[[[&quot;06:30&quot;,&quot;23:00&quot;]],[[&quot;06:30&quot;,&quot;23:00&quot;]],[[&quot;06:30&quot;,&quot;23:00&quot;]],[[&quot;06:30&quot;,&quot;23:00&quot;]],[[&quot;06:30&quot;,&quot;23:00&quot;]],[[&quot;07:00&quot;,&quot;20:00&quot;]],[[&quot;09:00&quot;,&quot;13:00&quot;]]]">Mercoledì 06:30 – 23:00</p><p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p></div>
     </div>
   </div>
 </header>
@@ -257,17 +384,17 @@ nav{position:sticky}
         <div class="lab">Ti consigliamo</div>
         <h3 id="r-title">Trimestrale + functional</h3>
         <p id="r-text">Tre giorni a settimana con un obiettivo preciso: il trimestrale costa meno di tre mensili e include la scheda con il trainer. I corsi functional delle 7:30 sono il modo più veloce per dimagrire senza annoiarti.</p>
-        <a class="btn" href="#" data-wa>Prenota la prova gratuita</a>
+        <a href="tel:+390810120696" class="btn">Chiama per la prova</a>
       </div>
     </div>
   </div>
 </section>
 
 <div class="strip" aria-label="Foto del club (segnaposto)">
-  <div><span>sala pesi, 7:10</span></div>
-  <div><span>boxe, giovedì sera</span></div>
-  <div><span>functional in cortile</span></div>
-  <div><span>bar, dopo</span></div>
+  <div data-foto="foto-1"><img class="foto" src="/bozze/los-angeles-fitness-0637/img/foto-1.webp" width="1200" height="880" alt="Foto della palestra" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>sala pesi, 7:10</span></div>
+  <div data-foto="foto-2"><img class="foto" src="/bozze/los-angeles-fitness-0637/img/foto-2.webp" width="1200" height="800" alt="Foto della palestra" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>boxe, giovedì sera</span></div>
+  <div data-foto="foto-3"><img class="foto" src="/bozze/los-angeles-fitness-0637/img/foto-3.webp" width="1200" height="800" alt="Foto della palestra" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>functional in cortile</span></div>
+  <div data-foto="foto-4"><img class="foto" src="/bozze/los-angeles-fitness-0637/img/foto-4.webp" width="1200" height="777" alt="Foto della palestra" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>bar, dopo</span></div>
 </div>
 
 <section class="load" aria-label="Animazione: bilanciere che si carica scorrendo la pagina">
@@ -289,6 +416,7 @@ nav{position:sticky}
     <div class="rate"><div class="n">Annuale<small>Un mese in regalo</small></div><div class="d">Tutto il trimestrale, sospensione fino a 30 giorni per ferie o infortuni, armadietto riservato.</div><div class="p">349 €<small>12 mesi</small></div></div>
     <div class="rate"><div class="n">Studenti<small>Under 26</small></div><div class="d">Mensile con tesserino universitario o scolastico. Stessi corsi, stessi orari.</div><div class="p">29 €<small>al mese</small></div></div>
     <p class="note">Iscrizione 20 € una tantum, certificato medico non agonistico obbligatorio. Prezzi di esempio.</p>
+    <div class="cta-row"><a href="tel:+390810120696" class="btn">Chiama per la prova</a></div>
   </div>
 </section>
 
@@ -321,6 +449,17 @@ nav{position:sticky}
         </tbody>
       </table>
     </div>
+    <nav class="cats" aria-label="Giorni dei corsi"><a href="#c-lun">Lun</a><a href="#c-mar">Mar</a><a href="#c-mer">Mer</a><a href="#c-gio">Gio</a><a href="#c-ven">Ven</a><a href="#c-sab">Sab</a></nav>
+    <div class="days">
+      <div class="day" id="c-lun"><h3>Lunedì</h3><ul><li><b>07:30</b>Functional</li><li><b>10:00</b>Pilates</li><li><b>13:15</b>Express 30'</li><li><b>18:00</b>Boxe</li><li><b>19:30</b>Total body</li></ul></div>
+      <div class="day" id="c-mar"><h3>Martedì</h3><ul><li><b>10:00</b>Total body</li><li><b>13:15</b>Express 30'</li><li><b>18:00</b>Functional</li><li><b>19:30</b>Pilates</li></ul></div>
+      <div class="day" id="c-mer"><h3>Mercoledì</h3><ul><li><b>07:30</b>Functional</li><li><b>10:00</b>Pilates</li><li><b>13:15</b>Express 30'</li><li><b>18:00</b>Boxe</li><li><b>19:30</b>Total body</li></ul></div>
+      <div class="day" id="c-gio"><h3>Giovedì</h3><ul><li><b>10:00</b>Total body</li><li><b>13:15</b>Express 30'</li><li><b>18:00</b>Functional</li><li><b>19:30</b>Pilates</li></ul></div>
+      <div class="day" id="c-ven"><h3>Venerdì</h3><ul><li><b>07:30</b>Functional</li><li><b>10:00</b>Pilates</li><li><b>13:15</b>Express 30'</li><li><b>18:00</b>Boxe</li><li><b>19:30</b>Total body</li></ul></div>
+      <div class="day" id="c-sab"><h3>Sabato</h3><ul><li><b>10:00</b>Open gym</li></ul></div>
+    </div>
+    <p class="legend">Corsi e orari di esempio: nel sito definitivo vanno quelli veri.</p>
+    <div class="cta-row"><a href="tel:+390810120696" class="btn">Chiama per provare un corso</a></div>
   </div>
 </section>
 
@@ -332,13 +471,16 @@ nav{position:sticky}
     </div>
     <div>
       <h3>Dove</h3>
-      <p><span data-k="indirizzo">Via Lepanto 87</span><br><span data-k="quartiere">Fuorigrotta</span>, Napoli · Soccavo</p>
-      <a class="big" href="#">Indicazioni →</a>
+      <p><span data-k="indirizzo">Via Mario Gigante 128</span><br><span data-k="quartiere">Soccavo</span>, Napoli</p>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Los+Angeles+Fitness%2C+Via+Mario+Gigante%2C+128%2C+80126+Napoli+NA%2C+Italy&amp;query_place_id=ChIJFbfJLtMOOxMRr7TcO6NXrtk" target="_blank" rel="noopener" class="big">Indicazioni →</a>
     </div>
     <div>
       <h3>Vieni a provare</h3>
-      <a class="big" data-k="tel" href="#">081 000 0000</a>
-      <a class="big" href="#" data-wa>Chiama →</a>
+      <a href="tel:+390810120696" class="big" data-k="tel">081 012 0696</a>
+      </div>
+    <div class="cta-row">
+      <a href="tel:+390810120696" class="btn">Chiama per la prova</a>
+      <p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p>
     </div>
   </div>
 </section>
@@ -348,26 +490,14 @@ nav{position:sticky}
   <span>Instagram · Privacy · Cookie</span>
 </div>
 
-<a class="btn wa-fixed" href="#" data-wa>Prova gratis</a>
+<!-- Link, testi WhatsApp e dati del cliente li scrive build.py nell'HTML (data-k, data-wa, data-call, data-maps, data-only). -->
+<div class="bar" role="navigation" aria-label="Azioni rapide">
+  <a href="tel:+390810120696" class="pri"><svg class="ic ic-tel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5h3.6l1.8 4.6-2.3 1.4a11 11 0 0 0 6.4 6.4l1.4-2.3 4.6 1.8V19a2 2 0 0 1-2 2A16.5 16.5 0 0 1 3 5.5a2 2 0 0 1 2-2z"/></svg><span class="l">Chiama</span></a>
+  <a href="https://www.google.com/maps/search/?api=1&amp;query=Los+Angeles+Fitness%2C+Via+Mario+Gigante%2C+128%2C+80126+Napoli+NA%2C+Italy&amp;query_place_id=ChIJFbfJLtMOOxMRr7TcO6NXrtk" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="l">Indicazioni</span></a>
+  <a href="#tariffe"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg><span class="l">Tariffe</span></a>
+</div>
 
 <script>
-/* CONFIG: cambia qui i dati del cliente e la pagina si aggiorna. */
-const SITE = {
-  "name": "Los Angeles Fitness",
-  "quartiere": "Soccavo",
-  "indirizzo": "Via Mario Gigante 128",
-  "tel": "081 012 0696",
-  "whatsapp": "",
-  "rating": "4,6",
-  "recensioni": "108"
-};
-for (const el of document.querySelectorAll("[data-k]")) {
-  const k = el.getAttribute("data-k");
-  if (SITE[k] !== undefined) el.textContent = SITE[k];
-}
-const waMsg = encodeURIComponent("Ciao! Vorrei prenotare la prova gratuita da " + SITE.name);
-for (const a of document.querySelectorAll("[data-wa]")) a.href = "tel:" + SITE.tel.replace(/\s/g, "");
-
 /* QUIZ: tre risposte -> un consiglio. Logica semplice e dichiarata, niente "AI". */
 const state = {goal:"Dimagrire", days:"3", when:"Mattina presto"};
 const advice = () => {
@@ -387,6 +517,25 @@ for (const grp of document.querySelectorAll("[data-q]")) {
   });
 }
 render();
+</script>
+<script>
+/* "APERTO ORA": l'unico JS di questa parte. Orari della settimana in data-ore (da lunedì a domenica), ora di Napoli.
+   Senza JS resta il testo scritto da build.py (gli orari del giorno). */
+(() => {
+  const el = document.querySelector("[data-ore]"); if (!el || !el.dataset.ore) return;
+  const W = JSON.parse(el.dataset.ore), G = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
+  const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Rome"}));
+  const d = (now.getDay() + 6) % 7, m = now.getHours() * 60 + now.getMinutes();
+  const min = s => { const [h, x] = s.split(":"); return h * 60 + +x; };
+  const day = i => (W[(i + 7) % 7] || []).map(([a, b]) => { const A = min(a); let B = min(b); if (B <= A) B += 1440; return [A, B, a, b]; });
+  let chiude = null, txt = "";
+  for (const [A, B, , b] of day(d)) if (m >= A && m < B) chiude = b;
+  for (const [, B, , b] of day(d - 1)) if (B > 1440 && m < B - 1440) chiude = b;
+  if (chiude) txt = chiude === "24:00" ? "Aperto ora · 24 ore su 24" : "Aperto ora · chiude alle " + chiude;
+  else for (let k = 0; k < 7 && !txt; k++) for (const [A, , a] of day(d + k)) if (k > 0 || A > m) {
+    txt = "Chiuso ora · apre " + (k === 0 ? "alle " : k === 1 ? "domani alle " : G[(d + k) % 7] + " alle ") + a; break; }
+  if (txt) { el.textContent = txt; el.classList.add(chiude ? "si" : "no"); }
+})();
 </script>
 </body>
 </html>

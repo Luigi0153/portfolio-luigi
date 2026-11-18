@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Therapy Beauty and Spa · bozza sito</title>
 <meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/png" sizes="64x64" href="/bozze/therapy-beauty-spa-9068/favicon.png">
 <meta property="og:title" content="Therapy Beauty and Spa · bozza del sito">
 <meta property="og:description" content="Bozza del sito di Therapy Beauty and Spa, preparata da Luigi Romano. Logo, colori, foto e testi si decidono insieme.">
 <meta property="og:image" content="https://luigiromano.cloud/bozze/therapy-beauty-spa-9068/og.jpg">
@@ -36,20 +37,26 @@ h1,h2,h3{margin:0;font-weight:400}
 .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
 .lab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
 .serif{font-family:var(--display);font-weight:400;letter-spacing:-.01em;line-height:1}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;border:1.5px solid var(--ink);padding:1rem 1.6rem;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;background:#fff;color:var(--ink);transition:background .15s,color .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;text-align:center;border:1.5px solid var(--ink);padding:1rem 1.6rem;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;background:#fff;color:var(--ink);transition:background .15s,color .15s}
 .btn:hover,.btn.fill{background:var(--ink);color:#fff}
 .btn:focus-visible{outline:3px solid #000;outline-offset:3px}
 .demo{background:var(--ink);color:#fff;font-size:.72rem;text-align:center;padding:.45rem 1rem;letter-spacing:.14em;text-transform:uppercase}
 
 /* NAV */
+/* Barra in alto: bollino del logo (o iniziali) + nome a sinistra, pulsante principale a destra.
+   Su telefono alta 56 px, senza pulsante: le azioni stanno nella barra in basso. */
+html{scroll-padding-top:72px}
 nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
-nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px}
-nav .burger{display:flex;flex-direction:column;gap:5px;width:22px}
-nav .burger i{height:1.5px;background:var(--ink)}
-nav .brand{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;text-align:center}
-nav .right{justify-self:end;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
-nav .right a{text-decoration:none}
-@media(max-width:600px){nav .wrap{grid-template-columns:auto 1fr;gap:1rem}nav .brand{font-size:1.05rem;letter-spacing:.05em;text-align:left}nav .right{display:none}}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;height:68px}
+nav .brand{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:.75rem;min-height:44px;min-width:44px;line-height:1.1}
+nav .cta{min-height:44px;padding:.7rem 1.2rem}
+.badge{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--ink);color:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.12);font-family:var(--display);font-size:1.35rem;letter-spacing:.02em;text-transform:none}
+.badge.tondo{border-radius:50%}
+.badge.nudo{background:none;border-radius:0;box-shadow:none}
+.badge img{width:100%;height:100%;object-fit:cover;display:block}
+.wordmark{display:block;overflow:hidden}
+.wordmark img{display:block;mix-blend-mode:multiply}
+@media(max-width:899px){nav .wrap{height:calc(56px - 1px)}nav .right{display:none}.badge{width:44px;height:44px}nav .brand{font-size:1.1rem;letter-spacing:.05em;gap:.6rem}}
 
 /* HERO */
 .hero .ph{width:100%;height:min(56.25vw,72vh);background:
@@ -115,58 +122,154 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
 .info h3{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.8rem}
 .info dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0;font-variant-numeric:tabular-nums}
 .info dd{margin:0}
-.info .big{font-family:var(--display);font-size:1.7rem;text-decoration:none;display:block;line-height:1.2}
+.info .big{font-family:var(--display);font-size:1.7rem;text-decoration:none;display:flex;align-items:center;min-height:44px;line-height:1.2}
 @media(max-width:760px){.info .wrap{grid-template-columns:1fr}}
 
-.foot{border-top:1px solid var(--line);padding:1.2rem 0 5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
-.wa-fixed{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex}
-.wa-fixed a{flex:1;text-align:center;padding:1rem;background:var(--ink);color:#fff;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase}
-.wa-fixed a+a{background:#fff;color:var(--ink);border-top:1.5px solid var(--ink)}
-@media(min-width:900px){.wa-fixed{display:none}}
+.foot{border-top:1px solid var(--line);padding:1.2rem 0 1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
 @media(prefers-reduced-motion:reduce){.btn{transition:none}}
 
-/* foto e logo reali */
-.hero .ph{background:url(/bozze/therapy-beauty-spa-9068/img/hero.jpg) center/cover no-repeat !important;filter:none !important}
+/* PULSANTI IN PAGINA: alla fine delle sezioni */
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;margin-top:2rem}
+.info .cta-row{grid-column:1/-1;margin-top:0}
+.wa-note{flex-basis:100%;font-size:.85rem;color:var(--mid)}
+.hero .wa-note{text-align:center}
+@media(max-width:600px){.cta-row .btn{flex:1 1 100%}}
+
+/* BARRA AZIONI IN BASSO (solo telefono): stesso componente nei tre modelli, colori dalle variabili --bar-* */
+:root{--bar-bg:#fff;--bar-fg:var(--ink);--bar-line:#d9d9d9;--bar-pri-bg:var(--ink);--bar-pri-fg:#fff;--bar-font:var(--body)}
+.bar{display:none}
+@media(max-width:899px){
+  body{padding-bottom:calc(65px + env(safe-area-inset-bottom))}   /* 64 px dei pulsanti + 1 px di bordo */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bar-bg);color:var(--bar-fg);border-top:1px solid var(--bar-line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -8px 24px rgba(0,0,0,.14)}
+  .bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:6px 4px;color:inherit;text-decoration:none;font-family:var(--bar-font);font-size:13px;font-weight:600;line-height:1.1;-webkit-tap-highlight-color:transparent}
+  .bar a+a{border-left:1px solid var(--bar-line)}
+  .bar .pri{flex-direction:row;gap:8px;background:var(--bar-pri-bg);color:var(--bar-pri-fg);font-size:16px}
+  .bar .ic{width:22px;height:22px;flex:none}
+  .bar a:focus-visible{outline:3px solid currentColor;outline-offset:-6px}
+}
+
+/* "APERTO ORA" sotto i pulsanti */
+.oggi{text-align:center;font-size:.95rem;color:var(--mid);margin-top:.3rem}
+.oggi::before{content:"";display:inline-block;width:.55em;height:.55em;border-radius:50%;background:currentColor;margin-right:.45em;vertical-align:.05em;opacity:.45}
+.oggi.si{color:#1F6B3A}.oggi.si::before{opacity:1}
+.oggi.no{color:#9B1C1C}.oggi.no::before{opacity:1}
+
+/* TELEFONO: intestazione più bassa, listino da leggere con il pollice (nome e prezzo sulla stessa riga) */
+@media(max-width:700px){
+  .hero .ph{height:min(52vw,240px)}
+  .hero .txt{padding:1.4rem 0 1.8rem}
+  .hero .ctas{margin-top:1.1rem;gap:.6rem}
+  .list thead{display:none}
+  .list tr{display:grid;grid-template-columns:1fr auto;column-gap:1rem;padding:.9rem 0;border-bottom:1px solid #d9d9d9}
+  .list td{border:0;padding:0;width:auto}
+  .list td:first-child{font-size:1.35rem;line-height:1.2}
+  .list td.p{grid-row:1;grid-column:2;align-self:center;font-size:1.05rem;font-weight:500}
+  .list td.d{grid-column:1/-1;font-size:1rem;margin-top:.25rem}
+  .ethos .e p{font-size:1rem}
+}
+
+/* foto reali (WebP) */
+[data-foto] > .foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+[data-foto] > .ombra{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero .ph{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .hero .ph > span,.hero .ph > em,.hero .ph .accent,.hero .ph .photo-note{display:none !important}
-.wide{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45)),url(/bozze/therapy-beauty-spa-9068/img/salone.jpg) center/cover no-repeat !important;filter:none !important}
+.wide{position:relative;overflow:hidden;background:none !important;filter:none !important}
 .wide > span,.wide > em,.wide .accent,.wide .photo-note{display:none !important}
-.logo-img{height:40px;width:auto;display:block;margin:auto}
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BeautySalon",
+ "name": "Therapy Beauty and Spa",
+ "address": {
+  "@type": "PostalAddress",
+  "streetAddress": "3ª Traversa Via Castagna 55",
+  "addressCountry": "IT",
+  "postalCode": "80026",
+  "addressLocality": "Casoria",
+  "addressRegion": "NA"
+ },
+ "telephone": "+39 376 269 4974",
+ "geo": {
+  "@type": "GeoCoordinates",
+  "latitude": 40.8985431,
+  "longitude": 14.307632700000001
+ },
+ "openingHoursSpecification": [
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Monday",
+   "opens": "09:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Tuesday",
+   "opens": "09:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Wednesday",
+   "opens": "09:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Thursday",
+   "opens": "09:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Friday",
+   "opens": "09:00",
+   "closes": "19:00"
+  },
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": "https://schema.org/Saturday",
+   "opens": "09:00",
+   "closes": "19:00"
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <div class="demo">Bozza per Therapy Beauty and Spa · logo, colori, foto, testi e prezzi si decidono insieme</div>
 
 <nav>
   <div class="wrap">
-    <div class="burger" aria-hidden="true"><i></i><i></i><i></i></div>
-    <a class="brand" href="#top"><img class="logo-img" src="/bozze/therapy-beauty-spa-9068/img/logo.png" alt="Therapy Beauty and Spa"></a>
-    <div class="right"><a href="#" data-wa>Prenota</a></div>
+    <a class="brand" href="#top"><span class="badge quadrato" style="background:#fbf6f0"><img src="/bozze/therapy-beauty-spa-9068/img/logo.webp" width="48" height="48" alt=""></span><span class="nm" data-k="name">Therapy Beauty &amp; Spa</span></a>
+    <div class="right"><a href="https://wa.me/393762694974?text=Ciao%2C%20vorrei%20prenotare%20%28trattamento%29%20il%20giorno%20__" target="_blank" rel="noopener" class="btn fill cta">Prenota</a></div>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="ph" role="img" aria-label="Foto grande di una cliente in salone (segnaposto, bianco e nero; solo i capelli restano a colore)">
+  <div class="ph" data-foto="hero"><img class="foto" src="/bozze/therapy-beauty-spa-9068/img/hero.webp" width="1200" height="800" alt="Foto del salone" decoding="async" fetchpriority="high">
     <div class="accent" aria-hidden="true"></div>
     <span>foto: la cabina, luce naturale</span>
   </div>
   <div class="txt wrap">
     <h1>Viso, corpo, mani e piedi a <span data-k="quartiere">Casoria</span></h1>
     <div class="ctas">
-      <a class="btn fill" href="#" data-wa>Prenota un trattamento</a>
-      <a class="btn" href="#" data-wa>Prima consulenza gratuita</a>
-    </div>
+      <a href="https://wa.me/393762694974?text=Ciao%2C%20vorrei%20prenotare%20%28trattamento%29%20il%20giorno%20__" target="_blank" rel="noopener" class="btn fill">Prenota un trattamento</a>
+      <a href="https://wa.me/393762694974?text=Ciao%2C%20vorrei%20prenotare%20la%20prima%20consulenza%20gratuita" target="_blank" rel="noopener" class="btn">Prima consulenza gratuita</a>
+      <p class="oggi" data-ore="[[[&quot;09:00&quot;,&quot;19:00&quot;]],[[&quot;09:00&quot;,&quot;19:00&quot;]],[[&quot;09:00&quot;,&quot;19:00&quot;]],[[&quot;09:00&quot;,&quot;19:00&quot;]],[[&quot;09:00&quot;,&quot;19:00&quot;]],[[&quot;09:00&quot;,&quot;19:00&quot;]],[]]">Mercoledì 09:00 – 19:00</p>
+      </div>
   </div>
 </header>
 
 <section class="mani">
   <div class="wrap">
-    <h2><span data-k="name">Nera Studio</span> è un centro estetico a Casoria, in 3ª Traversa Via Castagna. Si lavora su appuntamento, una cliente per volta, con il tempo che serve.</h2>
+    <h2><span data-k="name">Therapy Beauty &amp; Spa</span> è un centro estetico a Casoria, in 3ª Traversa Via Castagna. Si lavora su appuntamento, una cliente per volta, con il tempo che serve.</h2>
     <p>Al primo appuntamento si guarda la pelle e si parla: cosa usi a casa, cosa ti dà fastidio, quanto tempo hai. Poi si propone un trattamento, non un pacchetto da dieci sedute.</p>
     <a class="btn" href="#listino">I trattamenti</a>
   </div>
 </section>
 
-<div class="wide" role="img" aria-label="Foto larga del salone (segnaposto)"><span>foto: il centro</span></div>
+<div class="wide" data-foto="salone"><img class="foto" src="/bozze/therapy-beauty-spa-9068/img/salone.webp" width="933" height="1400" alt="Il salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: il centro</span></div>
 
 <section class="list" id="listino">
   <div class="wrap">
@@ -178,6 +281,7 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
       <thead><tr><th>Servizio</th><th>Cosa comprende</th><th style="text-align:right">Tempo</th><th style="text-align:right">Da</th></tr></thead>
       <tbody><tr><td>Pulizia viso</td><td class="d">Analisi della pelle, pulizia profonda, maschera</td><td class="t">60 min</td><td class="p">45 €</td></tr><tr><td>Semipermanente mani</td><td class="d">Preparazione unghia, applicazione, tenuta 3 settimane</td><td class="t">45 min</td><td class="p">25 €</td></tr><tr><td>Pedicure</td><td class="d">Estetico o curativo, con semipermanente a richiesta</td><td class="t">50 min</td><td class="p">30 €</td></tr><tr><td>Ceretta</td><td class="d">Gambe intere, inguine, ascelle</td><td class="t">40 min</td><td class="p">25 €</td></tr><tr><td>Laminazione ciglia</td><td class="d">Laminazione e tinta, risultato per 6 settimane</td><td class="t">50 min</td><td class="p">40 €</td></tr><tr><td>Massaggio</td><td class="d">Rilassante o decontratturante</td><td class="t">50 min</td><td class="p">45 €</td></tr><tr><td>Sposa</td><td class="d">Percorso viso nelle settimane prima, trucco il giorno</td><td class="t">su misura</td><td class="p">150 €</td></tr></tbody>
     </table>
+    <div class="cta-row"><a href="https://wa.me/393762694974?text=Ciao%2C%20vorrei%20prenotare%20%28trattamento%29%20il%20giorno%20__" target="_blank" rel="noopener" class="btn fill">Prenota un trattamento</a></div>
   </div>
 </section>
 
@@ -185,10 +289,10 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
   <div class="wrap">
     <div class="lab">Il team</div>
     <div class="g">
-      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Titolare · specialità</p></div>
-      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" data-foto="team-1" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Titolare · specialità</p></div>
+      <div class="m"><div class="ph" data-foto="team-2" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" data-foto="team-3" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" data-foto="team-4" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
     </div>
   </div>
 </section>
@@ -203,7 +307,7 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
 
 <section class="rev">
   <div class="wrap">
-    <div class="lab"><span data-k="recensioni">128</span> recensioni su Google · media <span data-k="rating">4,9</span></div>
+    <div class="lab"><span data-k="recensioni">35</span> recensioni su Google · media <span data-k="rating">4,9</span></div>
     <blockquote>"Ambiente pulitissimo, ragazze gentili e precise. Finalmente un centro dove non ti spingono a comprare pacchetti."</blockquote>
     <div class="g"><span>Giulia M.</span><span>Anna P.</span><span>Rosaria C.</span></div>
   </div>
@@ -217,41 +321,49 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
     </div>
     <div>
       <h3>Dove</h3>
-      <p><span data-k="indirizzo">Via Domenico Cimarosa 81/a</span><br><span data-k="quartiere">Vomero</span>, Napoli · Casoria</p>
-      <a class="big" href="#">Indicazioni →</a>
+      <p><span data-k="indirizzo">3ª Traversa Via Castagna 55</span><br><span data-k="quartiere">Casoria</span>, Napoli · Casoria</p>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Therapy+Beauty+and+Spa%2C+3%C2%AA+Traversa+Via+Castagna%2C+55%2C+80026+Casoria+NA%2C+Italy&amp;query_place_id=ChIJd-LRTgCpOxMRsfzw70F6zEw" target="_blank" rel="noopener" class="big">Indicazioni →</a>
     </div>
     <div>
       <h3>Prenota</h3>
-      <a class="big" data-k="tel" href="#">081 000 0000</a>
-      <a class="big" href="#" data-wa>WhatsApp →</a>
+      <a href="tel:+393762694974" class="big" data-k="tel">376 269 4974</a>
+      <a href="https://wa.me/393762694974?text=Ciao%2C%20vorrei%20prenotare%20%28trattamento%29%20il%20giorno%20__" target="_blank" rel="noopener" class="big">WhatsApp →</a>
     </div>
+    <div class="cta-row">
+      <a href="https://wa.me/393762694974?text=Ciao%2C%20vorrei%20prenotare%20%28trattamento%29%20il%20giorno%20__" target="_blank" rel="noopener" class="btn fill">Prenota un trattamento</a>
+      </div>
   </div>
 </section>
 
 <div class="wrap foot">
-  <span>© <span data-k="name">Nera Studio</span> · P.IVA 00000000000</span>
+  <span>© <span data-k="name">Therapy Beauty &amp; Spa</span> · P.IVA 00000000000</span>
   <span>Instagram · Privacy · Cookie</span>
 </div>
 
-<div class="wa-fixed"><a href="#" data-wa>Prenota</a><a data-k="tel" href="#">081 000 0000</a></div>
-
+<!-- Link, testi WhatsApp e dati del cliente li scrive build.py nell'HTML (data-k, data-wa, data-call, data-maps, data-only). -->
+<div class="bar" role="navigation" aria-label="Azioni rapide">
+  <a href="https://wa.me/393762694974?text=Ciao%2C%20vorrei%20prenotare%20%28trattamento%29%20il%20giorno%20__" target="_blank" rel="noopener" class="pri"><svg class="ic ic-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.6 8.6 0 0 1-12.7 7.6L3.5 20.5l1.3-4.1a8.6 8.6 0 1 1 15.7-4.8z"/><path d="M9 8.6c.2 3.4 2.9 6.1 6.3 6.3l1.1-1.5-2.1-1-.9.8a4.4 4.4 0 0 1-2.4-2.4l.8-.9-1-2.1z"/></svg><span class="l">Prenota</span></a>
+  <a href="https://www.google.com/maps/search/?api=1&amp;query=Therapy+Beauty+and+Spa%2C+3%C2%AA+Traversa+Via+Castagna%2C+55%2C+80026+Casoria+NA%2C+Italy&amp;query_place_id=ChIJd-LRTgCpOxMRsfzw70F6zEw" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="l">Indicazioni</span></a>
+  <a href="#listino"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg><span class="l">Listino</span></a>
+</div>
 <script>
-/* CONFIG: cambia qui i dati del cliente e la pagina si aggiorna. */
-const SITE = {
-  "name": "Therapy Beauty & Spa",
-  "quartiere": "Casoria",
-  "indirizzo": "3ª Traversa Via Castagna 55",
-  "tel": "376 269 4974",
-  "whatsapp": "393762694974",
-  "rating": "4,9",
-  "recensioni": "35"
-};
-for (const el of document.querySelectorAll("[data-k]")) {
-  const k = el.getAttribute("data-k");
-  if (SITE[k] !== undefined) el.textContent = SITE[k];
-}
-const waMsg = encodeURIComponent("Ciao! Vorrei prenotare da " + SITE.name);
-for (const a of document.querySelectorAll("[data-wa]")) a.href = "https://wa.me/" + SITE.whatsapp + "?text=" + waMsg;
+/* "APERTO ORA": l'unico JS di questa parte. Orari della settimana in data-ore (da lunedì a domenica), ora di Napoli.
+   Senza JS resta il testo scritto da build.py (gli orari del giorno). */
+(() => {
+  const el = document.querySelector("[data-ore]"); if (!el || !el.dataset.ore) return;
+  const W = JSON.parse(el.dataset.ore), G = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato", "domenica"];
+  const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Rome"}));
+  const d = (now.getDay() + 6) % 7, m = now.getHours() * 60 + now.getMinutes();
+  const min = s => { const [h, x] = s.split(":"); return h * 60 + +x; };
+  const day = i => (W[(i + 7) % 7] || []).map(([a, b]) => { const A = min(a); let B = min(b); if (B <= A) B += 1440; return [A, B, a, b]; });
+  let chiude = null, txt = "";
+  for (const [A, B, , b] of day(d)) if (m >= A && m < B) chiude = b;
+  for (const [, B, , b] of day(d - 1)) if (B > 1440 && m < B - 1440) chiude = b;
+  if (chiude) txt = chiude === "24:00" ? "Aperto ora · 24 ore su 24" : "Aperto ora · chiude alle " + chiude;
+  else for (let k = 0; k < 7 && !txt; k++) for (const [A, , a] of day(d + k)) if (k > 0 || A > m) {
+    txt = "Chiuso ora · apre " + (k === 0 ? "alle " : k === 1 ? "domani alle " : G[(d + k) % 7] + " alle ") + a; break; }
+  if (txt) { el.textContent = txt; el.classList.add(chiude ? "si" : "no"); }
+})();
 </script>
 </body>
 </html>
