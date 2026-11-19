@@ -68,5 +68,7 @@ resta nel nome del logo, nell'hero e nei numeri."
 - Il traffico social in-app non viene tracciato bene: i tassi sono un pavimento, non una misura.
 
 ## Microcopy
-Titolo: "I numeri prima, il sito dopo."
+Titolo: "Creazione e rebranding" (dal 2026-11-19; prima "I numeri prima, il sito dopo.").
+Sopra il titolo, in card e in pagina: "Sisters Store · decisione" (campo `tipo`).
+Copertina senza testi: il monogramma SS e i due telefoni prima e dopo.
 Tag: Shopify · Analytics · Catalogo · Mobile

@@ -453,6 +453,22 @@ lavori da fare stanno in `docs/STATO.md`.
     controlla sei capitoli, il link, le quattro parti del sito nuovo, i due slider (misure,
     ordine, larghezza) e nessuna immagine vecchia; `test-pagine` i due redirect. Regola 8 del
     `CLAUDE.md` aggiornata, `docs/content/caso-reale.md` riscritto senza anonimato.
+  - **Slider** (`2a2b2cc`, 2026-11-19). Il pallino stava in cima: la traccia del range era alta
+    100% e il pollice si allinea in alto nella traccia. Ora la traccia è alta quanto il pallino
+    (34px) e il browser la centra nel range. Parametro `posizione` in `BeforeAfter.astro`: la home
+    da desktop parte al 10% e non al 35% chiesto, perché "AUTUNNO 2026" comincia al 12% della
+    larghezza e al 35% si leggeva solo "NO 2026". Luigi ha confermato il 10%.
+- **Giro di testi e home (2026-11-19).** Ramo `progetti-nuovi`.
+  - **Progetti** (`1124b77`). Una frase sola sotto il titolo, per tutti e due i percorsi: "Ecco
+    una panoramica dei miei progetti."
+  - **Sisters Store.** Titolo "Creazione e rebranding" (card, h1, `<title>`, og:title). Il nome
+    del negozio sta nel campo `tipo`, che si stampa prima della lente: "Sisters Store · decisione",
+    come "Branding concept · sistema" sugli altri due. Copertina senza testi: monogramma SS
+    (`sisters-logo-monogramma.svg`, nei suoi colori) a sinistra e i due telefoni a destra, sul
+    crema. Telefoni spostati di 90px verso il centro: la card grande da desktop taglia i lati della
+    copertina e il telefono Dopo perdeva il bordo destro (succedeva anche con la copertina vecchia).
+    og rifatta dalla copertina. Il controllo "Non affiliato" assente sui loghi di tipo progetto
+    c'era già in `test-loghi`.
 
 ## Correzioni dall'audit (2026-09-21)
 

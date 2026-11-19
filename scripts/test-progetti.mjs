@@ -59,13 +59,13 @@ for (const vp of [390, 1280]) {
     );
 
     atteso(
-      ordine[0].startsWith("I numeri prima"),
+      ordine[0] === "Creazione e rebranding",
       `${vp}px ${target}: il progetto reale è il primo`,
     );
     const secondo = target === "dev" ? "Fornace Vietri" : "Pizzeria Vico Stretto";
     atteso(ordine[1] === secondo, `${vp}px ${target}: al secondo posto "${secondo}"`);
 
-    // i due concept portano l'etichetta del tipo, il caso reale no
+    // i due concept portano l'etichetta del tipo, il caso reale il nome del negozio
     const tipi = await page.$$eval(".progetti__cella", (celle) =>
       Object.fromEntries(
         celle.map((c) => [
@@ -77,8 +77,8 @@ for (const vp of [390, 1280]) {
     atteso(
       tipi["/progetti/fornace-vietri"].startsWith("Branding concept · ") &&
         tipi["/progetti/pizzeria"].startsWith("Branding concept · ") &&
-        !/concept/i.test(tipi["/progetti/sisters-store"]),
-      `${vp}px ${target}: etichetta "Branding concept" sulle due card dei concept`,
+        tipi["/progetti/sisters-store"] === "Sisters Store · decisione",
+      `${vp}px ${target}: "Branding concept" sui due concept, "Sisters Store · decisione" sul caso reale (${tipi["/progetti/sisters-store"]})`,
     );
 
     // nessun progetto è più "in arrivo"
@@ -121,6 +121,19 @@ for (const vp of [390, 1280]) {
     sezioni.map((s) => s.trim()).join(" | ") ===
       "Contesto | Decisione | Cosa ho fatto nella fase 1 | Il risultato della fase 1 | Il sito nuovo | Cosa ho imparato",
     `${vp}px dettaglio: le sei sezioni nell'ordine giusto`,
+  );
+
+  // titolo, nome del negozio sopra il titolo, <title> e og:title
+  const testa = await page.evaluate(() => ({
+    h1: document.querySelector(".caso__titolo")?.textContent.trim(),
+    sopra: document.querySelector(".caso__lente")?.textContent.trim(),
+    title: document.title,
+    og: document.querySelector('meta[property="og:title"]')?.getAttribute("content"),
+  }));
+  atteso(
+    testa.h1 === "Creazione e rebranding" && testa.sopra === "Sisters Store · decisione" &&
+      testa.title.startsWith("Creazione e rebranding |") && testa.og === testa.title,
+    `${vp}px dettaglio: titolo, nome sopra, title e og:title (${JSON.stringify(testa)})`,
   );
 
   // il link al sito vero, sotto il titolo, in una scheda nuova

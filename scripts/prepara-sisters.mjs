@@ -3,8 +3,8 @@
   - i due loghi per /loghi/sisters-store, in PNG trasparente:
       src/assets/loghi/sisters-store.png        monogramma SS e nome, senza tagline (in uso dal 22 ottobre 2026)
       src/assets/loghi/sisters-store-prima.png  la scritta corsiva con i due profili, il logo di prima
-  - la copertina del progetto, 2400x1600, con le due home da telefono (prima e dopo)
-    prese dalle catture di scripts/cattura-sisters.mjs:
+  - la copertina del progetto, 2400x1600, senza testi: il monogramma SS a sinistra e le due
+    home da telefono (prima e dopo) a destra, prese dalle catture di scripts/cattura-sisters.mjs:
       src/assets/progetti/sisters-store/sisters-copertina.jpg
   Gli SVG li disegna Chromium (Playwright), come in prepara-og.mjs: i tracciati del
   logo usano maschere e gradienti che librsvg rende male.
@@ -52,11 +52,10 @@ const DIR = "src/assets/progetti/sisters-store";
 const schermo = async (f) =>
   (await sharp(`${DIR}/${f}`).extract({ left: 0, top: 0, width: 786, height: 1704 }).jpeg({ quality: 92 }).toBuffer()).toString("base64");
 
-const font = {
-  display: await b64("src/assets/fonts/fraunces-latin-72-50.woff2"),
-  sans: await b64("node_modules/@fontsource/hanken-grotesk/files/hanken-grotesk-latin-500-normal.woff2"),
-  mono: await b64("node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2"),
-};
+// le etichette Prima e Dopo sono in mono, come nel portfolio
+const mono = await b64("node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2");
+// il monogramma SS nei suoi colori (nero e orchidea), sul crema del portfolio
+const monogramma = await b64("D:/dev/sisters-data/logo/Nuovo/out/sisters-logo-monogramma.svg");
 const prima = await schermo("sisters-prima-home.jpg");
 const dopo = await schermo("sisters-dopo-home.jpg");
 
@@ -68,16 +67,13 @@ const telefono = (img, etichetta, extra = "") => `
 
 await page.setViewportSize({ width: W, height: H });
 await page.setContent(`<!doctype html><html><head><meta charset="utf-8"><style>
-  @font-face { font-family: F; src: url(data:font/woff2;base64,${font.display}) format("woff2"); font-weight: 500 700; }
-  @font-face { font-family: H; src: url(data:font/woff2;base64,${font.sans}) format("woff2"); font-weight: 500; }
-  @font-face { font-family: M; src: url(data:font/woff2;base64,${font.mono}) format("woff2"); }
+  @font-face { font-family: M; src: url(data:font/woff2;base64,${mono}) format("woff2"); }
   html, body { margin: 0; width: ${W}px; height: ${H}px; background: ${T.cream}; overflow: hidden; }
-  .testo { position: absolute; left: 170px; top: 470px; width: 980px; }
-  .eyebrow { font: 34px/1.3 M, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: ${T.ink2}; }
-  h1 { margin: 34px 0 0; font: 700 132px/1.08 F, Georgia, serif; font-variation-settings: "opsz" 72, "SOFT" 50;
-       letter-spacing: -0.02em; color: ${T.ink}; text-wrap: balance; }
-  p { margin: 44px 0 0; font: 500 46px/1.4 H, sans-serif; color: ${T.ink2}; max-width: 900px; }
-  .barra { position: absolute; left: 170px; top: 1290px; width: 240px; height: 16px; border-radius: 8px; background: ${T.arancio}; }
+  /* il monogramma a sinistra, alla stessa altezza dei telefoni. Tutto sta tra x 280 e 2220:
+     nella card grande la copertina viene tagliata ai lati e il telefono Dopo perdeva il bordo */
+  .marchio { position: absolute; left: 100px; top: 0; width: 1000px; height: ${H}px;
+       display: grid; place-items: center; }
+  .marchio img { width: 640px; height: auto; display: block; }
   .tel { position: absolute; top: 230px; margin: 0; width: 500px; }
   .tel figcaption { display: inline-block; margin: 0 0 26px; padding: 8px 22px; border: 3px solid ${T.ink};
        border-radius: 999px; background: ${T.cream}; font: 30px/1.3 M, monospace; letter-spacing: 0.08em;
@@ -85,14 +81,9 @@ await page.setContent(`<!doctype html><html><head><meta charset="utf-8"><style>
   .tel__schermo { border: 6px solid ${T.ink}; border-radius: 48px; overflow: hidden; background: #fff; }
   .tel__schermo img { display: block; width: 100%; }
 </style></head><body>
-  <div class="testo">
-    <div class="eyebrow">Sisters Store · Shopify</div>
-    <h1>I numeri prima, il sito dopo.</h1>
-    <p>Il negozio di prima e quello online dall'11 novembre 2026.</p>
-  </div>
-  <div class="barra"></div>
-  ${telefono(prima, "Prima", "left: 1250px;")}
-  ${telefono(dopo, "Dopo", "left: 1810px;")}
+  <div class="marchio"><img src="data:image/svg+xml;base64,${monogramma}" alt=""></div>
+  ${telefono(prima, "Prima", "left: 1160px;")}
+  ${telefono(dopo, "Dopo", "left: 1720px;")}
 </body></html>`);
 await page.evaluate(() => document.fonts.ready);
 await page.waitForTimeout(300);

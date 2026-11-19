@@ -38,7 +38,10 @@ const progetti = defineCollection({
     return z.object({
       titolo: z.string(),
       slug: z.string(),
-      /** Il tipo di progetto (per esempio "Branding concept"): sta prima della lente, in card e in pagina. */
+      /**
+       * Il tipo di progetto (per esempio "Branding concept") o, per un negozio vero, il suo nome
+       * ("Sisters Store"): sta prima della lente, in card e in pagina.
+       */
       tipo: z.string().optional(),
       /** Riga sotto il titolo della pagina (per esempio: progetto inventato, foto generate con l'AI). */
       nota: z.string().optional(),

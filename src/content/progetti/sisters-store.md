@@ -3,8 +3,10 @@
 # prima del sito nuovo. Il periodo è sempre scritto accanto ai numeri.
 # [DA CONFRONTARE A DICEMBRE] a metà dicembre si aggiungono i numeri del sito nuovo (online dall'11
 # novembre 2026), senza sostituire quelli della fase 1: cerca questa sigla nel repo per trovarli tutti.
-titolo: "I numeri prima, il sito dopo."
+titolo: "Creazione e rebranding"
 slug: sisters-store
+# il nome del negozio sta nel campo tipo: si legge sopra il titolo, prima della lente
+tipo: "Sisters Store"
 sito:
   testo: sistersstore.it
   url: https://sistersstore.it
@@ -16,7 +18,7 @@ tags:
   - Catalogo
   - Mobile
 cover: ../../assets/progetti/sisters-store/sisters-copertina.jpg
-coverAlt: "Il titolo I numeri prima, il sito dopo. e la riga Il negozio di prima e quello online dall'11 novembre 2026. Accanto due telefoni con la home di Sisters Store. Prima, il logo corsivo e una foto con la scritta L'essenza delle tendenze e il bottone Vai al catalogo. Dopo, il monogramma SS e una foto di notte con il titolo Autunno 2026 e i bottoni Novità donna e Novità uomo."
+coverAlt: "Il monogramma SS di Sisters Store e due telefoni con la home del negozio. Prima, il logo corsivo e una foto con la scritta L'essenza delle tendenze e il bottone Vai al catalogo. Dopo, il monogramma SS e una foto di notte con il titolo Autunno 2026 e i bottoni Novità donna e Novità uomo."
 # [DA CONFRONTARE A DICEMBRE] sommario_business e sintesi_business
 sommario: "Sisters Store, borse, zaini e abbigliamento di marca. Prima i dati e quattro interventi su Shopify, poi il sito nuovo, online dall'11 novembre 2026."
 sommario_business: "Sisters Store, borse e zaini. Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%. Poi il sito nuovo, online dall'11 novembre."
