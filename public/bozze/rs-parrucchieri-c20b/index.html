@@ -12,169 +12,205 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* IDEA (da Nova Arts Salon, Los Angeles, e Avanti Boston): solo bianco e nero, così il colore dei capelli nelle foto è l'unico colore
-   della pagina; etichette piccole in maiuscolo spaziato; pulsanti rettangolari a contorno; due azioni in alto (prenota + consulenza
-   colore gratuita); un manifesto breve; listino come tabella tipografica, non card; il team con nome e specialità.
-   PUBBLICO: donne 25-55 al Vomero, abituate a saloni curati; scelgono per fiducia e precisione, non per sconti. */
+/* MODELLO "PARRUCCHIERE" (R&S, Demalis, Mybackstage). Struttura uguale per tutti, aspetto dal tema di ogni attività
+   (prospects.py -> "tema": caratteri e variabili qui sotto) e una firma diversa (mockups/firme/).
+   Ordine: nome grande e foto forte, Prenota + Listino, recensioni e "aperto ora" vicino al pulsante; poi firma, lavori,
+   listino per categorie con "Prenota" su ogni servizio, squadra, recensioni, orari. Su telefono si progetta a 390x844. */
 :root{
-  --bg:#FFFFFF;
-  --ink:#111111;
-  --mid:#6A6A6A;
-  --line:#111111;
-  --soft:#F2F2F2;
-  --display:"Instrument Serif",Georgia,"Times New Roman",serif;
-  --body:"DM Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-  color-scheme: light;
+  --bg:#FFFFFF; --ink:#151515; --mid:#5F5F5F; --line:#DDDDDD; --soft:#F3F3F3;
+  --acc:#9C4A22; --on-acc:#FFFFFF; --acc2:#D7A35E;
+  --display:Georgia,"Times New Roman",serif; --body:system-ui,-apple-system,"Segoe UI",sans-serif;
+  --dw:500; --dls:-.03em; --dtt:none; --r:6px;
+  color-scheme:light;
 }
+/* tema di questa attività (prospects.py) */
+:root{--bg:#FFFFFF;--ink:#0E0E0E;--mid:#5A5A5A;--line:#E2E2E2;--soft:#F4F2F0;--acc:#B5541C;--on-acc:#FFFFFF;--acc2:#E8A365;--display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--dw:800;--dls:-.045em;--r:0px;--cw:.62;--hmax:9rem;--hmax-d:13rem}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+html{scroll-padding-top:64px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
 a{color:inherit}
 p{margin:0}
-h1,h2,h3{margin:0;font-weight:400}
-.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
-.lab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
-.serif{font-family:var(--display);font-weight:400;letter-spacing:-.01em;line-height:1}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;text-align:center;border:1.5px solid var(--ink);padding:1rem 1.6rem;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;background:#fff;color:var(--ink);transition:background .15s,color .15s}
-.btn:hover,.btn.fill{background:var(--ink);color:#fff}
-.btn:focus-visible{outline:3px solid #000;outline-offset:3px}
-.demo{background:var(--ink);color:#fff;font-size:.72rem;text-align:center;padding:.45rem 1rem;letter-spacing:.14em;text-transform:uppercase}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:var(--dw);letter-spacing:var(--dls)}
+ul{margin:0;padding:0;list-style:none}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.kick{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--acc)}
+.sec{padding:clamp(3rem,7vw,5.5rem) 0}
+.sec-h{display:grid;gap:.6rem;margin-bottom:1.6rem}
+.sec-h h2{font-size:clamp(2.3rem,9vw,4.4rem);line-height:.98;text-transform:var(--dtt)}
+.sec-h .intro{color:var(--mid);max-width:56ch;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:52px;padding:.8rem 1.4rem;border-radius:var(--r);border:1.5px solid var(--ink);background:transparent;color:var(--ink);font:600 1rem/1.2 var(--body);text-decoration:none;text-align:center;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn.acc{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.btn.acc:hover{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.btn.mini{min-height:44px;padding:.45rem 1rem;font-size:.92rem}
+.btn .ic{width:20px;height:20px;flex:none}
+a:focus-visible,button:focus-visible,.btn:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.demo{background:var(--ink);color:var(--bg);font-size:.75rem;line-height:1.35;text-align:center;padding:.45rem 1rem}
+.wa-note{font-size:.9rem;color:var(--mid)}
 
-/* NAV */
-/* Barra in alto: bollino del logo (o iniziali) + nome a sinistra, pulsante principale a destra.
-   Su telefono alta 56 px, senza pulsante: le azioni stanno nella barra in basso. */
-html{scroll-padding-top:72px}
-nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;height:68px}
-nav .brand{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:.75rem;min-height:44px;min-width:44px;line-height:1.1}
-nav .cta{min-height:44px;padding:.7rem 1.2rem}
-.badge{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--ink);color:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.12);font-family:var(--display);font-size:1.35rem;letter-spacing:.02em;text-transform:none}
+/* BARRA IN ALTO: bollino + nome; su telefono alta 56 px e senza pulsanti (le azioni sono nella barra in basso) */
+.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;height:55px}
+.brand{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;text-decoration:none;font-family:var(--display);font-weight:var(--dw);font-size:1.3rem;letter-spacing:var(--dls);text-transform:var(--dtt)}
+.badge{flex:none;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;overflow:hidden;background:var(--ink);color:var(--bg);font-family:var(--display);font-size:1.2rem;box-shadow:0 0 0 1px rgba(0,0,0,.1)}
 .badge.tondo{border-radius:50%}
 .badge.nudo{background:none;border-radius:0;box-shadow:none}
 .badge img{width:100%;height:100%;object-fit:cover;display:block}
-.wordmark{display:block;overflow:hidden}
-.wordmark img{display:block;mix-blend-mode:multiply}
-@media(max-width:899px){nav .wrap{height:calc(56px - 1px)}nav .right{display:none}.badge{width:44px;height:44px}nav .brand{font-size:1.1rem;letter-spacing:.05em;gap:.6rem}}
+.top .right{display:none}
+@media(min-width:900px){
+  .top .wrap{height:68px}
+  .badge{width:48px;height:48px}
+  .top .right{display:flex;align-items:center;gap:.4rem}
+  .top .right .lnk{display:inline-flex;align-items:center;min-height:44px;padding:0 .8rem;text-decoration:none;font-weight:500}
+  .top .right .lnk:hover{color:var(--acc)}
+  .top .right .btn{min-height:44px;margin-left:.6rem}
+}
 
-/* HERO */
-.hero .ph{width:100%;height:min(56.25vw,72vh);background:
-  linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.25)),
-  radial-gradient(70% 90% at 30% 40%,#4a4a4a,#1c1c1c 70%);position:relative}
-.hero .ph span{position:absolute;left:1.2rem;bottom:1rem;color:#fff;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
-.hero .ph .accent{position:absolute;right:12%;top:18%;width:22%;aspect-ratio:3/4;background:linear-gradient(160deg,#c78a4a,#7a3f1a);filter:grayscale(0);opacity:.9;border:1px solid rgba(255,255,255,.3)}
-.hero .txt{text-align:center;padding:clamp(2rem,5vw,3.5rem) 0 clamp(2rem,4vw,3rem)}
-.hero h1{font-family:var(--body);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.6rem);line-height:1.2;max-width:28ch;margin-inline:auto;text-wrap:balance}
-.hero .ctas{display:flex;flex-direction:column;gap:.7rem;max-width:380px;margin:1.6rem auto 0}
+/* INTESTAZIONE: nome grande, frase, Prenota + Listino, recensioni Google e "aperto ora"; la foto subito sotto (a destra su desktop) */
+.hero{padding:1.5rem 0 0}
+.hero .g{display:grid;gap:1.6rem}
+.hero h1{font-size:min(var(--hmax,6.5rem),calc((100vw - 32px) / (var(--nl,7) * var(--cw,.52))));line-height:.88;text-transform:var(--dtt);margin-top:.9rem;overflow-wrap:break-word}
+.hero h1 .sub{display:block;font-size:.3em;line-height:1.1;letter-spacing:0;margin-top:.2em}
+.hero .lead{font-size:1.12rem;margin-top:.9rem;max-width:36ch}
+.hero-cta{display:grid;gap:.6rem;margin-top:1.2rem}
+.proof{margin-top:1rem;font-size:.98rem}
+.proof .st{color:var(--acc2);font-size:1.1rem;margin-right:.3rem}
+.proof b{font-weight:700}
+.oggi{font-size:.98rem;color:var(--mid);margin-top:.25rem}
+.oggi::before{content:"";display:inline-block;width:.55em;height:.55em;border-radius:50%;background:currentColor;margin-right:.45em;vertical-align:.05em;opacity:.45}
+.oggi.si{color:var(--ok,#1F6B3A)}.oggi.si::before{opacity:1}
+.oggi.no{color:var(--ko,#9B1C1C)}.oggi.no::before{opacity:1}
+.hero .wa-note{margin-top:.5rem}
+.fig{position:relative}
+.nota-foto{position:absolute;z-index:2;top:.7rem;left:.7rem;padding:.3rem .7rem;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:.8rem;font-weight:600;pointer-events:none}
+.hero-ph{position:relative;overflow:hidden;aspect-ratio:4/5;border-radius:var(--r);background:linear-gradient(160deg,var(--acc2),var(--acc) 60%,var(--ink))}
+.hero-ph span,.gal .ph span{position:absolute;left:1rem;bottom:1rem;color:#fff;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+@media(min-width:900px){
+  .hero{padding:3.5rem 0 0}
+  .hero .g{grid-template-columns:1.2fr .8fr;align-items:end;gap:3.5rem}
+  .hero-cta{grid-auto-flow:column;justify-content:start;margin-top:2rem}
+  .hero h1{font-size:min(var(--hmax-d,11.5rem),calc(min(1180px,100vw - 32px) * .52 / (var(--nl,7) * var(--cw,.52))))}
+  .hero-ph{max-height:76vh;aspect-ratio:4/5}
+}
 
-/* MANIFESTO */
-.mani{text-align:center;padding:clamp(2rem,5vw,4rem) 0;border-top:1px solid var(--line)}
-.mani h2{font-size:.95rem;letter-spacing:.2em;text-transform:uppercase;line-height:1.8;max-width:46ch;margin:0 auto 1.2rem;font-weight:500}
-.mani p{max-width:52ch;margin:0 auto 1.6rem;color:var(--mid)}
+/* LAVORI: galleria che si scorre col pollice (su desktop griglia) */
+.gal{display:grid;grid-auto-flow:column;grid-auto-columns:74%;gap:.8rem;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding-bottom:.6rem;scrollbar-width:thin}
+.gal figure{margin:0;scroll-snap-align:start}
+.gal .ph{position:relative;overflow:hidden;aspect-ratio:3/4;border-radius:var(--r);background:linear-gradient(170deg,var(--soft),var(--line))}
+.gal figcaption{font-size:.95rem;margin-top:.5rem}
+.fonte{font-size:.88rem;color:var(--mid);margin-top:.8rem}
+@media(min-width:900px){.gal{grid-auto-flow:row;grid-template-columns:repeat(4,1fr);overflow:visible}}
 
-/* FOTO LARGA */
-.wide{aspect-ratio:21/9;background:linear-gradient(90deg,#2b2b2b,#5a5a5a 40%,#3a3a3a 70%,#242424);position:relative}
-.wide span{position:absolute;left:1.2rem;bottom:1rem;color:#fff;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
+/* LISTINO per categorie: fila di categorie fissa in alto mentre si scorre, nome e prezzo sulla stessa riga, "Prenota" su ogni servizio */
+.list{background:var(--soft)}
+.cats{position:sticky;top:55px;z-index:5;display:flex;gap:.5rem;overflow-x:auto;padding:.6rem 0;margin:0 0 .4rem;background:var(--soft);scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cats a{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 1.15rem;border-radius:999px;border:1.5px solid var(--ink);background:var(--bg);text-decoration:none;font-weight:600;font-size:.95rem}
+.cats a:hover{background:var(--ink);color:var(--bg)}
+.cat{padding-top:1.2rem;scroll-margin-top:120px}
+.cat h3{font-size:1.9rem;line-height:1.1;margin-bottom:.2rem;text-transform:var(--dtt)}
+.srv li{display:grid;grid-template-columns:1fr auto;align-items:center;gap:.25rem 1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.srv .r1{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.srv b{font-family:var(--display);font-weight:var(--dw);font-size:1.4rem;line-height:1.2;letter-spacing:var(--dls)}
+.srv .p{font-weight:700;font-size:1.05rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.srv .d{color:var(--mid)}
+.srv .t{white-space:nowrap}
+.list .note{margin-top:1.4rem;display:grid;gap:.8rem;justify-items:start}
+@media(min-width:900px){
+  .list .cats{top:68px}
+  .list .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 3.5rem}
+}
 
-/* LISTINO */
-.list{padding:clamp(2.5rem,6vw,5rem) 0}
-.list .head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:2rem}
-.list .head h2{font-size:clamp(2.6rem,6vw,4.6rem)}
-.list .head p{color:var(--mid);max-width:40ch;justify-self:end}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;padding:.6rem 0;border-bottom:1.5px solid var(--line)}
-td{padding:.9rem 0;border-bottom:1px solid #d9d9d9;vertical-align:top}
-td:first-child{font-family:var(--display);font-size:1.4rem;width:40%}
-td.d{color:var(--mid);font-size:.92rem}
-td.p{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;width:12%}
-td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width:10%}
-@media(max-width:700px){.list .head{grid-template-columns:1fr}.list .head p{justify-self:start}td.t{display:none}}
+/* SQUADRA: segnaposto senza nomi */
+.team .g{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+@media(min-width:900px){.team .g{grid-template-columns:repeat(3,minmax(0,250px));gap:1.4rem}}
+.team .ph{aspect-ratio:3/4;border-radius:var(--r);background:var(--soft);display:grid;place-items:end center;overflow:hidden}
+.team .ph svg{width:70%;height:auto;color:var(--line)}
+.team h3{font-size:1.25rem;margin-top:.5rem}
+.team .m p{color:var(--mid);font-size:.92rem}
 
-/* TEAM */
-.team{background:var(--soft);padding:clamp(2.5rem,6vw,5rem) 0}
-.team .g{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:1.6rem}
-.team .m .ph{aspect-ratio:3/4;background:linear-gradient(180deg,#9a9a9a,#4a4a4a);filter:grayscale(1)}
-.team .m:nth-child(2) .ph{background:linear-gradient(180deg,#c9c9c9,#6a6a6a)}
-.team .m:nth-child(3) .ph{background:linear-gradient(180deg,#8a8a8a,#3a3a3a)}
-.team .m:nth-child(4) .ph{background:linear-gradient(180deg,#b1b1b1,#555)}
-.team .m h3{font-family:var(--display);font-size:1.5rem;margin-top:.8rem}
-.team .m p{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
-@media(max-width:700px){.team .g{grid-template-columns:repeat(2,1fr)}}
+/* RECENSIONI: numero e media reali da Google, citazioni di esempio senza nomi */
+.rev{background:var(--rev-bg,var(--ink));color:var(--rev-fg,var(--bg))}
+.rev .kick{color:var(--rev-kick,var(--acc2))}
+.rev .score{margin-top:.6rem;display:flex;align-items:baseline;flex-wrap:wrap;gap:.3rem 1rem}
+.rev .score b{font-family:var(--display);font-weight:var(--dw);font-size:clamp(4rem,18vw,7rem);line-height:1}
+.notes{display:grid;gap:0;margin-top:1.4rem}
+.notes blockquote{margin:0;padding:1.2rem 0;border-top:1px solid color-mix(in srgb,currentColor 22%,transparent);font-family:var(--display);font-size:1.35rem;line-height:1.3}
+.notes footer{font:500 .85rem/1.4 var(--body);opacity:.7;margin-top:.5rem}
+.rev .btn{border-color:currentColor;color:inherit;margin-top:1rem}
+.rev .btn:hover{background:var(--rev-fg,var(--bg));color:var(--rev-bg,var(--ink))}
+@media(min-width:900px){.notes{grid-template-columns:repeat(3,1fr);gap:2rem}}
 
-/* METODO */
-.ethos{padding:clamp(2.5rem,6vw,5rem) 0;border-bottom:1px solid var(--line)}
-.ethos .g{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;text-align:center}
-.ethos .e::before{content:"✺";display:block;font-size:1.2rem;margin-bottom:.8rem}
-.ethos .e h3{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.5rem}
-.ethos .e b{font-family:var(--display);font-weight:400;font-size:1.6rem;display:block;margin-bottom:.5rem}
-.ethos .e p{color:var(--mid);font-size:.92rem;max-width:30ch;margin-inline:auto}
-@media(max-width:700px){.ethos .g{grid-template-columns:1fr}}
-
-/* RECENSIONI */
-.rev{padding:clamp(2.5rem,6vw,5rem) 0;text-align:center}
-.rev blockquote{font-family:var(--display);font-size:clamp(1.5rem,3.2vw,2.4rem);line-height:1.2;max-width:28ch;margin:1rem auto;font-style:italic}
-.rev .g{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:1.4rem;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid)}
-
-/* INFO */
-.info{border-top:1px solid var(--line);padding:clamp(2.5rem,6vw,5rem) 0}
-.info .wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
-.info h3{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.8rem}
-.info dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0;font-variant-numeric:tabular-nums}
+/* ORARI E DOVE */
+.info .g{display:grid;gap:2rem}
+.info h3{font:600 .8rem/1.4 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin-bottom:.7rem}
+.info dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.4rem;margin:0;font-variant-numeric:tabular-nums}
 .info dd{margin:0}
-.info .big{font-family:var(--display);font-size:1.7rem;text-decoration:none;display:flex;align-items:center;min-height:44px;line-height:1.2}
-@media(max-width:760px){.info .wrap{grid-template-columns:1fr}}
+.info .big{display:flex;align-items:center;min-height:44px;font-family:var(--display);font-size:1.6rem;text-decoration:none;letter-spacing:var(--dls)}
+.info .cta-row{display:grid;gap:.6rem;justify-items:start}
+@media(min-width:900px){.info .g{grid-template-columns:repeat(3,1fr)}}
+.foot{border-top:1px solid var(--line);padding:1.2rem 0 1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem 1rem;font-size:.85rem;color:var(--mid)}
 
-.foot{border-top:1px solid var(--line);padding:1.2rem 0 1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
-@media(prefers-reduced-motion:reduce){.btn{transition:none}}
-
-/* PULSANTI IN PAGINA: alla fine delle sezioni */
-.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;margin-top:2rem}
-.info .cta-row{grid-column:1/-1;margin-top:0}
-.wa-note{flex-basis:100%;font-size:.85rem;color:var(--mid)}
-.hero .wa-note{text-align:center}
-@media(max-width:600px){.cta-row .btn{flex:1 1 100%}}
-
-/* BARRA AZIONI IN BASSO (solo telefono): stesso componente nei tre modelli, colori dalle variabili --bar-* */
-:root{--bar-bg:#fff;--bar-fg:var(--ink);--bar-line:#d9d9d9;--bar-pri-bg:var(--ink);--bar-pri-fg:#fff;--bar-font:var(--body)}
+/* BARRA AZIONI IN BASSO (solo telefono) */
 .bar{display:none}
 @media(max-width:899px){
-  body{padding-bottom:calc(65px + env(safe-area-inset-bottom))}   /* 64 px dei pulsanti + 1 px di bordo */
-  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bar-bg);color:var(--bar-fg);border-top:1px solid var(--bar-line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -8px 24px rgba(0,0,0,.14)}
-  .bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:6px 4px;color:inherit;text-decoration:none;font-family:var(--bar-font);font-size:13px;font-weight:600;line-height:1.1;-webkit-tap-highlight-color:transparent}
-  .bar a+a{border-left:1px solid var(--bar-line)}
-  .bar .pri{flex-direction:row;gap:8px;background:var(--bar-pri-bg);color:var(--bar-pri-fg);font-size:16px}
+  body{padding-bottom:calc(65px + env(safe-area-inset-bottom))}
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bg);color:var(--ink);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -8px 24px rgba(0,0,0,.12)}
+  .bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:6px 4px;color:inherit;text-decoration:none;font:600 13px/1.1 var(--body);-webkit-tap-highlight-color:transparent}
+  .bar a+a{border-left:1px solid var(--line)}
+  .bar .pri{flex-direction:row;gap:8px;background:var(--acc);color:var(--on-acc);font-size:16px}
   .bar .ic{width:22px;height:22px;flex:none}
   .bar a:focus-visible{outline:3px solid currentColor;outline-offset:-6px}
 }
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none !important;animation:none !important}}
 
-/* "APERTO ORA" sotto i pulsanti */
-.oggi{text-align:center;font-size:.95rem;color:var(--mid);margin-top:.3rem}
-.oggi::before{content:"";display:inline-block;width:.55em;height:.55em;border-radius:50%;background:currentColor;margin-right:.45em;vertical-align:.05em;opacity:.45}
-.oggi.si{color:#1F6B3A}.oggi.si::before{opacity:1}
-.oggi.no{color:#9B1C1C}.oggi.no::before{opacity:1}
-
-/* TELEFONO: intestazione più bassa, listino da leggere con il pollice (nome e prezzo sulla stessa riga) */
-@media(max-width:700px){
-  .hero .ph{height:min(52vw,240px)}
-  .hero .txt{padding:1.4rem 0 1.8rem}
-  .hero .ctas{margin-top:1.1rem;gap:.6rem}
-  .list thead{display:none}
-  .list tr{display:grid;grid-template-columns:1fr auto;column-gap:1rem;padding:.9rem 0;border-bottom:1px solid #d9d9d9}
-  .list td{border:0;padding:0;width:auto}
-  .list td:first-child{font-size:1.35rem;line-height:1.2}
-  .list td.p{grid-row:1;grid-column:2;align-self:center;font-size:1.05rem;font-weight:500}
-  .list td.d{grid-column:1/-1;font-size:1rem;margin-top:.25rem}
-  .ethos .e p{font-size:1rem}
+/* firme */
+/* FIRMA "MARQUEE" (R&S): fascia che scorre con recensioni Google reali (numero e media) e i servizi.
+   Solo CSS; con prefers-reduced-motion la fascia è ferma e va a capo. Passandoci sopra col mouse si ferma. */
+.marquee{background:var(--ink);color:var(--bg);overflow:hidden;padding:1.1rem 0}
+.marquee .track{display:flex;width:max-content;animation:scorre 40s linear infinite}
+.marquee .gr{display:flex;flex:none}
+.marquee .it{font-family:var(--display);font-weight:var(--dw);font-size:clamp(1.6rem,6.5vw,3rem);letter-spacing:var(--dls);line-height:1.15;white-space:nowrap;padding-right:1.4rem}
+.marquee .it::after{content:"✦";color:var(--acc2);margin-left:1.4rem;font-size:.55em;vertical-align:.3em}
+.marquee .st{color:var(--acc2)}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes scorre{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){
+  .marquee .track{animation:none;width:auto}
+  .marquee .gr{flex-wrap:wrap;padding:0 16px}
+  .marquee .gr[aria-hidden]{display:none}
+  .marquee .it{white-space:normal}
 }
+
+
+/* FIRMA "GRIGLIA DEI LAVORI" (R&S): la galleria diventa una griglia quadrata in stile Instagram, ordinata, 3 colonne anche su telefono.
+   Solo CSS: cambia l'aspetto della sezione "I lavori" del modello. */
+.lavori .gal{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(3,1fr);gap:3px;overflow:visible;scroll-snap-type:none;padding:0}
+.lavori .gal figure{position:relative}
+.lavori .gal .ph{aspect-ratio:1;border-radius:0}
+.lavori .gal figcaption{position:absolute;z-index:1;left:0;right:0;bottom:0;margin:0;padding:1.4rem .5rem .4rem;font-size:.78rem;font-weight:600;line-height:1.2;color:#fff;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.65));pointer-events:none}
+@media(min-width:900px){.lavori .gal{gap:6px}.lavori .gal figcaption{font-size:.95rem;padding:2.4rem .9rem .8rem}}
 
 /* foto reali (WebP) */
 [data-foto] > .foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 [data-foto] > .ombra{position:absolute;inset:0;z-index:0;pointer-events:none}
-.hero .ph{position:relative;overflow:hidden;background:none !important;filter:none !important}
-.hero .ph > span,.hero .ph > em,.hero .ph .accent,.hero .ph .photo-note{display:none !important}
-.wide{position:relative;overflow:hidden;background:none !important;filter:none !important}
-.wide > span,.wide > em,.wide .accent,.wide .photo-note{display:none !important}
+[data-foto="hero"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="hero"] > span,[data-foto="hero"] > em,[data-foto="hero"] .accent,[data-foto="hero"] .photo-note{display:none !important}
+[data-foto="lavoro-1"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="lavoro-1"] > span,[data-foto="lavoro-1"] > em,[data-foto="lavoro-1"] .accent,[data-foto="lavoro-1"] .photo-note{display:none !important}
+[data-foto="lavoro-2"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="lavoro-2"] > span,[data-foto="lavoro-2"] > em,[data-foto="lavoro-2"] .accent,[data-foto="lavoro-2"] .photo-note{display:none !important}
+[data-foto="lavoro-3"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="lavoro-3"] > span,[data-foto="lavoro-3"] > em,[data-foto="lavoro-3"] .accent,[data-foto="lavoro-3"] .photo-note{display:none !important}
+[data-foto="lavoro-4"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="lavoro-4"] > span,[data-foto="lavoro-4"] > em,[data-foto="lavoro-4"] .accent,[data-foto="lavoro-4"] .photo-note{display:none !important}
+[data-foto="lavoro-5"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="lavoro-5"] > span,[data-foto="lavoro-5"] > em,[data-foto="lavoro-5"] .accent,[data-foto="lavoro-5"] .photo-note{display:none !important}
+[data-foto="lavoro-6"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="lavoro-6"] > span,[data-foto="lavoro-6"] > em,[data-foto="lavoro-6"] .accent,[data-foto="lavoro-6"] .photo-note{display:none !important}
 </style>
 <script type="application/ld+json">
 {
@@ -239,107 +275,115 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
 <body>
 <div class="demo">Bozza per R&amp;S Parrucchieri · logo, colori, foto, testi e prezzi si decidono insieme</div>
 
-<nav>
+<nav class="top" aria-label="Menu">
   <div class="wrap">
     <a class="brand" href="#top"><span class="badge" aria-hidden="true">R&amp;S</span><span class="nm" data-k="name">R&amp;S Parrucchieri</span></a>
-    <div class="right"><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento%20per%20%28taglio%20/%20colore%20/%20piega%29%20il%20giorno%20__" target="_blank" rel="noopener" class="btn fill cta">Prenota</a></div>
+    <div class="right">
+      <a class="lnk" href="#lavori">Lavori</a>
+      <a class="lnk" href="#listino">Listino</a>
+      <a class="lnk" href="#info">Orari</a>
+      <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn acc">Prenota</a>
+    </div>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="ph" data-foto="hero"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/hero.webp" width="675" height="1200" alt="Foto del salone" decoding="async" fetchpriority="high">
-    <div class="accent" aria-hidden="true"></div>
-    <span>foto: cliente, luce naturale, sfondo del quartiere</span>
-  </div>
-  <div class="txt wrap">
-    <h1>Taglio, colore ed extension al <span data-k="quartiere">Vomero</span></h1>
-    <div class="ctas">
-      <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento%20per%20%28taglio%20/%20colore%20/%20piega%29%20il%20giorno%20__" target="_blank" rel="noopener" class="btn fill">Prenota un appuntamento</a>
-      <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20la%20consulenza%20colore%20gratuita" target="_blank" rel="noopener" class="btn">Consulenza colore gratuita</a>
+  <div class="wrap g">
+    <div class="txt">
+      <p class="kick"><span data-k="tipo">Parrucchieri</span> · <span data-k="quartiere">Vomero</span></p>
+      <h1 data-k="name" data-fisso style="--nl:3">R&amp;S<span class="sub">Parrucchieri</span></h1>
+      <p class="lead" data-k="lead">Taglio, colore ed extension al Vomero alto, in Via San Giacomo dei Capri. Su appuntamento.</p>
+      <div class="hero-cta">
+        <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn acc">Prenota un appuntamento</a>
+        <a class="btn" href="#listino">Listino e prezzi</a>
+      </div>
+      <p class="proof"><span class="st" aria-hidden="true">★</span><b data-k="rating">4,8</b> su Google · <span data-k="recensioni">644</span> recensioni</p>
       <p class="oggi" data-ore="[[[&quot;08:30&quot;,&quot;19:00&quot;]],[[&quot;08:30&quot;,&quot;19:00&quot;]],[[&quot;08:30&quot;,&quot;19:00&quot;]],[[&quot;08:30&quot;,&quot;19:00&quot;]],[[&quot;08:30&quot;,&quot;19:00&quot;]],[[&quot;08:30&quot;,&quot;19:00&quot;]],[]]">Giovedì 08:30 – 19:00</p>
       </div>
+    <div class="fig"><div class="hero-ph" data-foto="hero"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/hero.webp" width="675" height="1200" alt="Un lavoro del salone" decoding="async" fetchpriority="high"><span>foto: un lavoro finito</span></div></div>
   </div>
 </header>
 
-<section class="mani">
-  <div class="wrap">
-    <h2><span data-k="name">R&amp;S Parrucchieri</span> è un salone al Vomero alto, in Via San Giacomo dei Capri. Si lavora su appuntamento, un cliente per volta, con il tempo che serve.</h2>
-    <p>Prima di toccare le forbici parliamo: come porti i capelli nei giorni normali, quanto tempo hai la mattina, cosa non ti è piaciuto l'ultima volta. Poi si lavora. Il colore si prepara in consulenza, con una prova ciocca, non sulla fiducia.</p>
-    <a class="btn" href="#listino">I servizi</a>
-  </div>
+<!-- firma: marquee -->
+<section class="marquee" aria-label="In breve" data-shot>
+  <div class="track"><div class="gr"><span class="it"><span class="st">★</span> 4,8 su Google</span><span class="it">644 recensioni</span><span class="it">Taglio</span><span class="it">Colore</span><span class="it">Carré</span><span class="it">Extension</span><span class="it">Piega</span><span class="it">Vomero alto</span></div><div class="gr" aria-hidden="true"><span class="it"><span class="st">★</span> 4,8 su Google</span><span class="it">644 recensioni</span><span class="it">Taglio</span><span class="it">Colore</span><span class="it">Carré</span><span class="it">Extension</span><span class="it">Piega</span><span class="it">Vomero alto</span></div></div>
 </section>
 
-<div class="wide" data-foto="salone"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/salone.webp" width="676" height="1200" alt="Il salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: il salone</span></div>
+<!-- firma: griglia-lavori -->
 
-<section class="list" id="listino">
+
+<section class="sec lavori" id="lavori">
   <div class="wrap">
-    <div class="head">
-      <h2 class="serif">Listino</h2>
-      <p>Prezzi di partenza, IVA inclusa. Per colore e trattamenti il preventivo esatto si fa in consulenza, gratuita e senza impegno.</p>
+    <div class="sec-h">
+      <p class="kick">I lavori</p>
+      <h2 data-k="lavori_h">Fatti in salone</h2>
     </div>
-    <table>
-      <thead><tr><th>Servizio</th><th>Cosa comprende</th><th style="text-align:right">Tempo</th><th style="text-align:right">Da</th></tr></thead>
-      <tbody>
-        <tr><td>Taglio</td><td class="d">Consulenza, lavaggio con massaggio, taglio, piega</td><td class="t">50 min</td><td class="p">38 €</td></tr>
-        <tr><td>Piega</td><td class="d">Lavaggio e piega liscia o mossa</td><td class="t">35 min</td><td class="p">20 €</td></tr>
-        <tr><td>Colore</td><td class="d">Ritocco radice o colore pieno, prova ciocca inclusa</td><td class="t">90 min</td><td class="p">55 €</td></tr>
-        <tr><td>Balayage</td><td class="d">Schiaritura a mano libera, tonalizzante, trattamento</td><td class="t">3 h</td><td class="p">130 €</td></tr>
-        <tr><td>Extension</td><td class="d">Microcapsule, ciocche leggere, preventivo in base ai grammi</td><td class="t">2 h</td><td class="p">150 €</td></tr>
-        <tr><td>Ricostruzione</td><td class="d">Trattamento per capelli decolorati o sfibrati, 3 sedute consigliate</td><td class="t">45 min</td><td class="p">40 €</td></tr>
-        <tr><td>Sposa</td><td class="d">Prova + acconciatura il giorno, anche a domicilio</td><td class="t">su misura</td><td class="p">180 €</td></tr>
-      </tbody>
-    </table>
-    <div class="cta-row"><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento%20per%20%28taglio%20/%20colore%20/%20piega%29%20il%20giorno%20__" target="_blank" rel="noopener" class="btn fill">Prenota un appuntamento</a></div>
+    <div class="gal"><figure><div class="ph" data-foto="lavoro-1"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/lavoro-1.webp" width="676" height="1200" alt="Un lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: un lavoro</span></div><figcaption>Biondo lungo</figcaption></figure><figure><div class="ph" data-foto="lavoro-2"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/lavoro-2.webp" width="640" height="795" alt="Un lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: un lavoro</span></div><figcaption>Carré</figcaption></figure><figure><div class="ph" data-foto="lavoro-3"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/lavoro-3.webp" width="675" height="720" alt="Un lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: un lavoro</span></div><figcaption>Carré biondo</figcaption></figure><figure><div class="ph" data-foto="lavoro-4"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/lavoro-4.webp" width="675" height="792" alt="Un lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: un lavoro</span></div><figcaption>Carré scuro</figcaption></figure><figure><div class="ph" data-foto="lavoro-5"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/lavoro-5.webp" width="675" height="840" alt="Un lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: un lavoro</span></div><figcaption>Biondo chiaro</figcaption></figure><figure><div class="ph" data-foto="lavoro-6"><img class="foto" src="/bozze/rs-parrucchieri-c20b/img/lavoro-6.webp" width="675" height="540" alt="Un lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: un lavoro</span></div><figcaption>Castano lucido</figcaption></figure></div><p class="fonte">Foto dal profilo Instagram del salone. Nel sito vero si scelgono insieme.</p>
   </div>
 </section>
 
-<section class="team">
+<section class="sec list" id="listino" data-shot>
   <div class="wrap">
-    <div class="lab">Il team</div>
+    <div class="sec-h">
+      <p class="kick">Listino</p>
+      <h2>Servizi e prezzi</h2>
+      <p class="intro">Prezzi indicativi, da confermare insieme. Ogni servizio ha il suo pulsante per prenotare.</p>
+    </div>
+    <nav class="cats" aria-label="Categorie del listino"><a href="#l-taglio">Taglio</a><a href="#l-colore">Colore</a><a href="#l-extension">Extension</a><a href="#l-piega">Piega</a></nav>
+<div class="cols">
+<div class="cat" id="l-taglio"><h3>Taglio</h3><ul class="srv"><li><div class="r1"><b>Taglio donna</b><span class="p">da 35 €</span></div><p class="d">Consulenza, lavaggio, taglio e piega<span class="t"> · 50 min</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Taglio%20donna.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li><li><div class="r1"><b>Carré</b><span class="p">da 40 €</span></div><p class="d">Taglio netto, studiato sul viso<span class="t"> · 1 h</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Carr%C3%A9.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li><li><div class="r1"><b>Taglio uomo</b><span class="p">da 18 €</span></div><p class="d">Lavaggio e taglio<span class="t"> · 30 min</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Taglio%20uomo.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li></ul></div>
+<div class="cat" id="l-colore"><h3>Colore</h3><ul class="srv"><li><div class="r1"><b>Colore</b><span class="p">da 45 €</span></div><p class="d">Colore pieno o ritocco radice, con piega<span class="t"> · 1 h 30</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Colore.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li><li><div class="r1"><b>Schiariture</b><span class="p">da 120 €</span></div><p class="d">Balayage o colpi di sole, con tonalizzante<span class="t"> · 3 h</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Schiariture.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li><li><div class="r1"><b>Biondo platino</b><span class="p">da 150 €</span></div><p class="d">Schiaritura completa e tonalizzante, anche in più sedute<span class="t"> · su misura</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Biondo%20platino.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li></ul></div>
+<div class="cat" id="l-extension"><h3>Extension</h3><ul class="srv"><li><div class="r1"><b>Extension</b><span class="p">da 150 €</span></div><p class="d">Microcapsule o ciocche leggere, preventivo in base ai grammi<span class="t"> · 2 h</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Extension.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li><li><div class="r1"><b>Manutenzione extension</b><span class="p">da 80 €</span></div><p class="d">Riposizionamento delle ciocche<span class="t"> · 1 h 30</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Manutenzione%20extension.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li></ul></div>
+<div class="cat" id="l-piega"><h3>Piega</h3><ul class="srv"><li><div class="r1"><b>Piega</b><span class="p">da 18 €</span></div><p class="d">Lavaggio e piega liscia o mossa<span class="t"> · 35 min</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Piega.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li><li><div class="r1"><b>Piega con onde</b><span class="p">da 25 €</span></div><p class="d">Onde morbide con ferro o piastra<span class="t"> · 45 min</span></p><a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%3A%20Piega%20con%20onde.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn mini">Prenota</a></li></ul></div>
+</div>
+    <div class="note">
+      <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn acc">Prenota un appuntamento</a>
+      </div>
+  </div>
+</section>
+
+<section class="sec team">
+  <div class="wrap">
+    <div class="sec-h">
+      <p class="kick">Chi ti accoglie</p>
+      <h2>La squadra</h2>
+      <p class="intro">Qui le persone del salone, con foto e specialità.</p>
+    </div>
     <div class="g">
-      <div class="m"><div class="ph" data-foto="team-1" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Titolare · specialità</p></div>
-      <div class="m"><div class="ph" data-foto="team-2" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-      <div class="m"><div class="ph" data-foto="team-3" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-      <div class="m"><div class="ph" data-foto="team-4" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"><svg viewBox="0 0 100 110" fill="currentColor" aria-hidden="true"><circle cx="50" cy="38" r="22"/><path d="M8 110c4-26 22-40 42-40s38 14 42 40z"/></svg></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"><svg viewBox="0 0 100 110" fill="currentColor" aria-hidden="true"><circle cx="50" cy="38" r="22"/><path d="M8 110c4-26 22-40 42-40s38 14 42 40z"/></svg></div><h3>Nome</h3><p>Specialità</p></div>
+      <div class="m"><div class="ph" role="img" aria-label="Ritratto (segnaposto)"><svg viewBox="0 0 100 110" fill="currentColor" aria-hidden="true"><circle cx="50" cy="38" r="22"/><path d="M8 110c4-26 22-40 42-40s38 14 42 40z"/></svg></div><h3>Nome</h3><p>Specialità</p></div>
     </div>
   </div>
 </section>
 
-<section class="ethos">
+<section class="sec rev">
+  <div class="wrap">
+    <p class="kick">Recensioni Google</p>
+    <div class="score"><b data-k="rating">4,8</b><span>su 5 · <span data-k="recensioni">644</span> recensioni</span></div>
+    <div class="notes"><blockquote>“Ho portato una foto di un carré e me l&#x27;hanno fatto uguale, adattato al mio viso.”<footer>Recensione di esempio</footer></blockquote><blockquote>“Extension messe bene: non si vedono e non tirano.”<footer>Recensione di esempio</footer></blockquote><blockquote>“Prenotato su WhatsApp la sera, il giorno dopo ero in poltrona.”<footer>Recensione di esempio</footer></blockquote></div>
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=R%26S+Parrucchieri+-+Vomero%2C+Via+S.+Giacomo+dei+Capri%2C+n%2734%2Fb%2C+80128+Napoli+NA%2C+Italy&amp;query_place_id=ChIJ4TmlDsEJOxMRCjFr0pmijEU" target="_blank" rel="noopener" class="btn">Leggi le recensioni su Google</a>
+  </div>
+</section>
+
+<section class="sec info" id="info">
   <div class="wrap g">
-    <div class="e"><h3>Uno</h3><b>Puntualità</b><p>Appuntamenti distanziati: ti sedi all'ora che hai prenotato.</p></div>
-    <div class="e"><h3>Due</h3><b>Prova ciocca</b><p>Nessun colore senza test: si vede il risultato prima, non dopo.</p></div>
-    <div class="e"><h3>Tre</h3><b>Tempo giusto</b><p>Un cliente per poltrona. Nessuno con la tinta in testa aspetta che finisca un altro.</p></div>
-  </div>
-</section>
-
-<section class="rev">
-  <div class="wrap">
-    <div class="lab"><span data-k="recensioni">644</span> recensioni su Google · media <span data-k="rating">4,8</span></div>
-    <blockquote>"Finalmente un posto dove rispettano l'orario. Colore perfetto e nessuno che ti spinge a comprare prodotti."</blockquote>
-    <div class="g"><span>Giulia M.</span><span>Anna P.</span><span>Rosaria C.</span></div>
-  </div>
-</section>
-
-<section class="info" id="info">
-  <div class="wrap">
     <div>
       <h3>Orari</h3>
       <dl><dt>Lun – Sab</dt><dd>08:30 – 19:00</dd><dt>Dom</dt><dd>chiuso</dd></dl>
     </div>
     <div>
       <h3>Dove</h3>
-      <p><span data-k="indirizzo">Via S. Giacomo dei Capri 34/b</span><br><span data-k="quartiere">Vomero</span>, Napoli · Vomero alto</p>
+      <p><span data-k="indirizzo">Via S. Giacomo dei Capri 34/b</span><br><span data-k="quartiere">Vomero</span>, Napoli<span data-k="vicino"> · Vomero alto</span></p>
       <a href="https://www.google.com/maps/search/?api=1&amp;query=R%26S+Parrucchieri+-+Vomero%2C+Via+S.+Giacomo+dei+Capri%2C+n%2734%2Fb%2C+80128+Napoli+NA%2C+Italy&amp;query_place_id=ChIJ4TmlDsEJOxMRCjFr0pmijEU" target="_blank" rel="noopener" class="big">Indicazioni →</a>
     </div>
     <div>
       <h3>Prenota</h3>
       <a href="tel:+393313925945" class="big" data-k="tel">331 392 5945</a>
-      <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento%20per%20%28taglio%20/%20colore%20/%20piega%29%20il%20giorno%20__" target="_blank" rel="noopener" class="big">WhatsApp →</a>
+      <div class="cta-row">
+        <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="btn acc">Prenota un appuntamento</a>
+        </div>
     </div>
-    <div class="cta-row">
-      <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento%20per%20%28taglio%20/%20colore%20/%20piega%29%20il%20giorno%20__" target="_blank" rel="noopener" class="btn fill">Prenota un appuntamento</a>
-      </div>
   </div>
 </section>
 
@@ -350,12 +394,12 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
 
 <!-- Link, testi WhatsApp e dati del cliente li scrive build.py nell'HTML (data-k, data-wa, data-call, data-maps, data-only). -->
 <div class="bar" role="navigation" aria-label="Azioni rapide">
-  <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento%20per%20%28taglio%20/%20colore%20/%20piega%29%20il%20giorno%20__" target="_blank" rel="noopener" class="pri"><svg class="ic ic-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.6 8.6 0 0 1-12.7 7.6L3.5 20.5l1.3-4.1a8.6 8.6 0 1 1 15.7-4.8z"/><path d="M9 8.6c.2 3.4 2.9 6.1 6.3 6.3l1.1-1.5-2.1-1-.9.8a4.4 4.4 0 0 1-2.4-2.4l.8-.9-1-2.1z"/></svg><span class="l">Prenota</span></a>
+  <a href="https://wa.me/393313925945?text=Ciao%2C%20vorrei%20prenotare%20un%20appuntamento.%20Giorno%20__%20ora%20__" target="_blank" rel="noopener" class="pri"><svg class="ic ic-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.6 8.6 0 0 1-12.7 7.6L3.5 20.5l1.3-4.1a8.6 8.6 0 1 1 15.7-4.8z"/><path d="M9 8.6c.2 3.4 2.9 6.1 6.3 6.3l1.1-1.5-2.1-1-.9.8a4.4 4.4 0 0 1-2.4-2.4l.8-.9-1-2.1z"/></svg><span class="l">Prenota</span></a>
   <a href="https://www.google.com/maps/search/?api=1&amp;query=R%26S+Parrucchieri+-+Vomero%2C+Via+S.+Giacomo+dei+Capri%2C+n%2734%2Fb%2C+80128+Napoli+NA%2C+Italy&amp;query_place_id=ChIJ4TmlDsEJOxMRCjFr0pmijEU" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="l">Indicazioni</span></a>
   <a href="#listino"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg><span class="l">Listino</span></a>
 </div>
 <script>
-/* "APERTO ORA": l'unico JS di questa parte. Orari della settimana in data-ore (da lunedì a domenica), ora di Napoli.
+/* "APERTO ORA": orari della settimana in data-ore (da lunedì a domenica), ora di Napoli.
    Senza JS resta il testo scritto da build.py (gli orari del giorno). */
 (() => {
   const el = document.querySelector("[data-ore]"); if (!el || !el.dataset.ore) return;

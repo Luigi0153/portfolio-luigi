@@ -12,169 +12,225 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* IDEA (da Nova Arts Salon, Los Angeles, e Avanti Boston): solo bianco e nero, così il colore dei capelli nelle foto è l'unico colore
-   della pagina; etichette piccole in maiuscolo spaziato; pulsanti rettangolari a contorno; due azioni in alto (prenota + consulenza
-   colore gratuita); un manifesto breve; listino come tabella tipografica, non card; il team con nome e specialità.
-   PUBBLICO: donne 25-55 al Vomero, abituate a saloni curati; scelgono per fiducia e precisione, non per sconti. */
+/* MODELLO "ESTETICA" (Therapy, Laila, BeautyBi, Fatti Bella). Struttura uguale per tutti, aspetto dal tema di ogni attività
+   (prospects.py -> "tema") e una firma diversa (mockups/firme/).
+   Ordine: nome grande e foto, Prenota + Trattamenti, recensioni e "aperto ora" vicino al pulsante; poi firma, trattamenti
+   in blocchi (bento) con durata, prezzo "da" e "Prenota" su ognuno, perché sceglierci, recensioni, orari. Telefono 390x844 prima. */
 :root{
-  --bg:#FFFFFF;
-  --ink:#111111;
-  --mid:#6A6A6A;
-  --line:#111111;
-  --soft:#F2F2F2;
-  --display:"Instrument Serif",Georgia,"Times New Roman",serif;
-  --body:"DM Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-  color-scheme: light;
+  --bg:#FFFFFF; --ink:#2B2026; --mid:#6A5A62; --line:#EADDE2; --soft:#F8F0F3;
+  --acc:#B4235A; --on-acc:#FFFFFF; --acc2:#F6C9D6; --t1:#F6C9D6; --t2:#E6DBFA; --t3:#D5F0E3; --t4:#FFF0BF;
+  --display:Georgia,serif; --body:system-ui,-apple-system,"Segoe UI",sans-serif;
+  --dw:600; --dls:-.01em; --dtt:none; --r:22px;
+  color-scheme:light;
 }
+/* tema di questa attività (prospects.py) */
+:root{--bg:#FFF6F8;--ink:#3A1F2B;--mid:#6F5664;--line:#F2D9E2;--soft:#FDEAF0;--acc:#B4235A;--on-acc:#FFFFFF;--acc2:#F7C3D3;--t1:#F9CFDC;--t2:#E5D9FB;--t3:#D2F1E2;--t4:#FFEFB8;--display:"Fredoka",system-ui,sans-serif;--body:"Nunito",system-ui,sans-serif;--dw:600;--dls:-.01em;--r:24px;--cw:.54}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+html{scroll-padding-top:64px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
 a{color:inherit}
 p{margin:0}
-h1,h2,h3{margin:0;font-weight:400}
-.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
-.lab{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
-.serif{font-family:var(--display);font-weight:400;letter-spacing:-.01em;line-height:1}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;text-align:center;border:1.5px solid var(--ink);padding:1rem 1.6rem;text-decoration:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;background:#fff;color:var(--ink);transition:background .15s,color .15s}
-.btn:hover,.btn.fill{background:var(--ink);color:#fff}
-.btn:focus-visible{outline:3px solid #000;outline-offset:3px}
-.demo{background:var(--ink);color:#fff;font-size:.72rem;text-align:center;padding:.45rem 1rem;letter-spacing:.14em;text-transform:uppercase}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:var(--dw);letter-spacing:var(--dls)}
+ul{margin:0;padding:0;list-style:none}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.kick{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--acc)}
+.sec{padding:clamp(3rem,7vw,5.5rem) 0}
+.sec-h{display:grid;gap:.6rem;margin-bottom:1.6rem}
+.sec-h h2{font-size:clamp(2.2rem,9vw,4.2rem);line-height:1;text-transform:var(--dtt)}
+.sec-h .intro{color:var(--mid);max-width:56ch;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:52px;padding:.8rem 1.5rem;border-radius:999px;border:2px solid var(--ink);background:transparent;color:var(--ink);font:800 1rem/1.2 var(--body);text-decoration:none;text-align:center;cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .15s}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn.acc{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.btn.acc:hover{background:var(--ink);border-color:var(--ink)}
+.btn.mini{min-height:44px;padding:.45rem 1rem;font-size:.95rem}
+a:focus-visible,button:focus-visible,.btn:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.demo{background:var(--ink);color:var(--bg);font-size:.75rem;line-height:1.35;text-align:center;padding:.45rem 1rem}
+.wa-note{font-size:.9rem;color:var(--mid)}
 
-/* NAV */
-/* Barra in alto: bollino del logo (o iniziali) + nome a sinistra, pulsante principale a destra.
-   Su telefono alta 56 px, senza pulsante: le azioni stanno nella barra in basso. */
-html{scroll-padding-top:72px}
-nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
-nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;height:68px}
-nav .brand{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:.75rem;min-height:44px;min-width:44px;line-height:1.1}
-nav .cta{min-height:44px;padding:.7rem 1.2rem}
-.badge{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--ink);color:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.12);font-family:var(--display);font-size:1.35rem;letter-spacing:.02em;text-transform:none}
+/* BARRA IN ALTO */
+.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;height:55px}
+.brand{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;text-decoration:none;font-family:var(--display);font-weight:var(--dw);font-size:1.35rem;letter-spacing:var(--dls)}
+.badge{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;overflow:hidden;background:var(--ink);color:var(--bg);font-family:var(--display);font-size:1.2rem;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .badge.tondo{border-radius:50%}
 .badge.nudo{background:none;border-radius:0;box-shadow:none}
 .badge img{width:100%;height:100%;object-fit:cover;display:block}
-.wordmark{display:block;overflow:hidden}
-.wordmark img{display:block;mix-blend-mode:multiply}
-@media(max-width:899px){nav .wrap{height:calc(56px - 1px)}nav .right{display:none}.badge{width:44px;height:44px}nav .brand{font-size:1.1rem;letter-spacing:.05em;gap:.6rem}}
+.top .right{display:none}
+@media(min-width:900px){
+  .top .wrap{height:68px}
+  .badge{width:48px;height:48px}
+  .top .right{display:flex;align-items:center;gap:.4rem}
+  .top .right .lnk{display:inline-flex;align-items:center;min-height:44px;padding:0 .8rem;text-decoration:none;font-weight:700}
+  .top .right .lnk:hover{color:var(--acc)}
+  .top .right .btn{min-height:44px;margin-left:.6rem}
+}
 
-/* HERO */
-.hero .ph{width:100%;height:min(56.25vw,72vh);background:
-  linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.25)),
-  radial-gradient(70% 90% at 30% 40%,#4a4a4a,#1c1c1c 70%);position:relative}
-.hero .ph span{position:absolute;left:1.2rem;bottom:1rem;color:#fff;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
-.hero .ph .accent{position:absolute;right:12%;top:18%;width:22%;aspect-ratio:3/4;background:linear-gradient(160deg,#c78a4a,#7a3f1a);filter:grayscale(0);opacity:.9;border:1px solid rgba(255,255,255,.3)}
-.hero .txt{text-align:center;padding:clamp(2rem,5vw,3.5rem) 0 clamp(2rem,4vw,3rem)}
-.hero h1{font-family:var(--body);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.6rem);line-height:1.2;max-width:28ch;margin-inline:auto;text-wrap:balance}
-.hero .ctas{display:flex;flex-direction:column;gap:.7rem;max-width:380px;margin:1.6rem auto 0}
+/* INTESTAZIONE */
+.hero{padding:1.4rem 0 0;overflow:hidden}
+.hero .g{display:grid;gap:1.6rem}
+.hero h1{font-size:min(var(--hmax,6.5rem),calc((100vw - 32px) / (var(--nl,7) * var(--cw,.52))));line-height:.9;text-transform:var(--dtt);margin-top:.6rem;overflow-wrap:break-word}
+.hero h1 .sub{display:block;font-size:.32em;line-height:1.1;letter-spacing:0;margin-top:.15em}
+.hero .lead{font-size:1.12rem;margin-top:.9rem;max-width:36ch}
+.hero-cta{display:grid;gap:.6rem;margin-top:1.2rem}
+.proof{margin-top:1rem;font-size:.98rem}
+.proof .st{color:var(--acc);font-size:1.1rem;margin-right:.3rem}
+.proof b{font-weight:800}
+.oggi{font-size:.98rem;color:var(--mid);margin-top:.25rem}
+.oggi::before{content:"";display:inline-block;width:.55em;height:.55em;border-radius:50%;background:currentColor;margin-right:.45em;vertical-align:.05em;opacity:.45}
+.oggi.si{color:var(--ok,#1F6B3A)}.oggi.si::before{opacity:1}
+.oggi.no{color:var(--ko,#9B1C1C)}.oggi.no::before{opacity:1}
+.hero .wa-note{margin-top:.5rem}
+.hero .fig{position:relative}
+.hero .fig::before{content:"";position:absolute;width:62%;aspect-ratio:1;right:-14%;top:-8%;border-radius:50%;background:var(--t2);z-index:0}
+.hero .fig::after{content:"";position:absolute;width:38%;aspect-ratio:1;left:-8%;bottom:6%;border-radius:50%;background:var(--t3);z-index:0}
+.nota-foto{position:absolute;z-index:2;top:.8rem;left:50%;transform:translateX(-50%);padding:.3rem .7rem;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-size:.8rem;font-weight:700;white-space:nowrap;pointer-events:none}
+.hero-ph{position:relative;z-index:1;overflow:hidden;aspect-ratio:4/5;border-radius:999px 999px var(--r) var(--r);background:linear-gradient(170deg,var(--t1),var(--acc2) 50%,var(--t2))}
+.hero-ph span{position:absolute;left:50%;bottom:1.2rem;transform:translateX(-50%);color:var(--ink);font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+@media(max-width:899px){.hero .fig{width:86%;margin-left:auto}}
+@media(min-width:900px){
+  .hero{padding:3.5rem 0 1rem}
+  .hero .g{grid-template-columns:1.15fr .85fr;align-items:center;gap:3.5rem}
+  .hero-cta{grid-auto-flow:column;justify-content:start;margin-top:2rem}
+  .hero h1{font-size:min(var(--hmax-d,11.5rem),calc(min(1180px,100vw - 32px) * .5 / (var(--nl,7) * var(--cw,.52))))}
+  .hero-ph{max-height:74vh}
+}
 
-/* MANIFESTO */
-.mani{text-align:center;padding:clamp(2rem,5vw,4rem) 0;border-top:1px solid var(--line)}
-.mani h2{font-size:.95rem;letter-spacing:.2em;text-transform:uppercase;line-height:1.8;max-width:46ch;margin:0 auto 1.2rem;font-weight:500}
-.mani p{max-width:52ch;margin:0 auto 1.6rem;color:var(--mid)}
+/* TRATTAMENTI: blocchi (bento) con durata, prezzo "da" e "Prenota" su ognuno */
+.tratt{background:var(--soft)}
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.card{display:flex;flex-direction:column;gap:.4rem;padding:1rem;border-radius:var(--r);background:var(--bg)}
+.card:nth-child(4n+2){background:var(--t2)}
+.card:nth-child(4n+3){background:var(--t3)}
+.card:nth-child(4n+4){background:var(--t4)}
+.card:nth-child(4n+5){background:var(--bg)}
+.card.big{grid-column:1/-1;background:var(--t1);padding:1.3rem}
+.card h3{font-size:1.3rem;line-height:1.15}
+.card.big h3{font-size:clamp(1.8rem,7vw,2.6rem)}
+.card .d{color:var(--mid);flex:1}
+.card .meta{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.2rem .6rem;margin-top:.2rem}
+.card .t{color:var(--mid);font-size:.95rem}
+.card .p{font-weight:800;font-size:1.08rem;white-space:nowrap}
+.card .btn{margin-top:.4rem;background:var(--bg);border-color:var(--ink)}
+.card .btn:hover{background:var(--ink);color:var(--bg)}
+.card.big .btn{background:var(--acc);border-color:var(--acc);color:var(--on-acc);align-self:start}
+.tratt .note{margin-top:1.4rem;display:grid;gap:.8rem;justify-items:start}
+@media(min-width:900px){
+  .bento{grid-template-columns:repeat(4,1fr);gap:1rem}
+  .card.big{grid-column:span 2;padding:1.6rem 2rem}
+  .card{padding:1.3rem}
+}
 
-/* FOTO LARGA */
-.wide{aspect-ratio:21/9;background:linear-gradient(90deg,#2b2b2b,#5a5a5a 40%,#3a3a3a 70%,#242424);position:relative}
-.wide span{position:absolute;left:1.2rem;bottom:1rem;color:#fff;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
-
-/* LISTINO */
-.list{padding:clamp(2.5rem,6vw,5rem) 0}
-.list .head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:2rem}
-.list .head h2{font-size:clamp(2.6rem,6vw,4.6rem)}
-.list .head p{color:var(--mid);max-width:40ch;justify-self:end}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;padding:.6rem 0;border-bottom:1.5px solid var(--line)}
-td{padding:.9rem 0;border-bottom:1px solid #d9d9d9;vertical-align:top}
-td:first-child{font-family:var(--display);font-size:1.4rem;width:40%}
-td.d{color:var(--mid);font-size:.92rem}
-td.p{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;width:12%}
-td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width:10%}
-@media(max-width:700px){.list .head{grid-template-columns:1fr}.list .head p{justify-self:start}td.t{display:none}}
-
-/* TEAM */
-.team{background:var(--soft);padding:clamp(2.5rem,6vw,5rem) 0}
-.team .g{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:1.6rem}
-.team .m .ph{aspect-ratio:3/4;background:linear-gradient(180deg,#9a9a9a,#4a4a4a);filter:grayscale(1)}
-.team .m:nth-child(2) .ph{background:linear-gradient(180deg,#c9c9c9,#6a6a6a)}
-.team .m:nth-child(3) .ph{background:linear-gradient(180deg,#8a8a8a,#3a3a3a)}
-.team .m:nth-child(4) .ph{background:linear-gradient(180deg,#b1b1b1,#555)}
-.team .m h3{font-family:var(--display);font-size:1.5rem;margin-top:.8rem}
-.team .m p{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
-@media(max-width:700px){.team .g{grid-template-columns:repeat(2,1fr)}}
-
-/* METODO */
-.ethos{padding:clamp(2.5rem,6vw,5rem) 0;border-bottom:1px solid var(--line)}
-.ethos .g{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;text-align:center}
-.ethos .e::before{content:"✺";display:block;font-size:1.2rem;margin-bottom:.8rem}
-.ethos .e h3{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.5rem}
-.ethos .e b{font-family:var(--display);font-weight:400;font-size:1.6rem;display:block;margin-bottom:.5rem}
-.ethos .e p{color:var(--mid);font-size:.92rem;max-width:30ch;margin-inline:auto}
-@media(max-width:700px){.ethos .g{grid-template-columns:1fr}}
+/* PERCHÉ SCEGLIERCI */
+.why{display:grid;gap:.8rem}
+.why div{display:grid;grid-template-columns:auto 1fr;gap:.2rem 1rem;align-items:start;padding:1.1rem;border-radius:var(--r);border:2px solid var(--line)}
+.why div::before{content:"";grid-row:span 2;width:40px;height:40px;border-radius:50%;background:var(--t1)}
+.why div:nth-child(2)::before{background:var(--t2)}
+.why div:nth-child(3)::before{background:var(--t3)}
+.why b{font-family:var(--display);font-weight:var(--dw);font-size:1.3rem;line-height:1.2}
+.why p{color:var(--mid)}
+@media(min-width:900px){.why{grid-template-columns:repeat(3,1fr);gap:1rem}}
 
 /* RECENSIONI */
-.rev{padding:clamp(2.5rem,6vw,5rem) 0;text-align:center}
-.rev blockquote{font-family:var(--display);font-size:clamp(1.5rem,3.2vw,2.4rem);line-height:1.2;max-width:28ch;margin:1rem auto;font-style:italic}
-.rev .g{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:1.4rem;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid)}
+.rev{background:var(--rev-bg,var(--ink));color:var(--rev-fg,var(--bg))}
+.rev .kick{color:var(--rev-kick,var(--t1))}
+.rev .score{margin-top:.6rem;display:flex;align-items:baseline;flex-wrap:wrap;gap:.3rem 1rem}
+.rev .score b{font-family:var(--display);font-weight:var(--dw);font-size:clamp(4rem,18vw,7rem);line-height:1}
+.notes{display:grid;gap:.8rem;margin-top:1.4rem}
+.notes blockquote{margin:0;padding:1.2rem;border-radius:var(--r);background:color-mix(in srgb,currentColor 10%,transparent);font-size:1.15rem;line-height:1.4}
+.notes footer{font-size:.85rem;opacity:.75;margin-top:.5rem}
+.rev .btn{border-color:currentColor;color:inherit;margin-top:1.2rem}
+.rev .btn:hover{background:var(--rev-fg,var(--bg));color:var(--rev-bg,var(--ink))}
+@media(min-width:900px){.notes{grid-template-columns:repeat(3,1fr);gap:1rem}}
 
-/* INFO */
-.info{border-top:1px solid var(--line);padding:clamp(2.5rem,6vw,5rem) 0}
-.info .wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
-.info h3{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.8rem}
-.info dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0;font-variant-numeric:tabular-nums}
+/* ORARI E DOVE */
+.info .g{display:grid;gap:2rem}
+.info h3{font:800 .85rem/1.4 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:.7rem}
+.info dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.4rem;margin:0;font-variant-numeric:tabular-nums}
 .info dd{margin:0}
-.info .big{font-family:var(--display);font-size:1.7rem;text-decoration:none;display:flex;align-items:center;min-height:44px;line-height:1.2}
-@media(max-width:760px){.info .wrap{grid-template-columns:1fr}}
+.info .big{display:flex;align-items:center;min-height:44px;font-family:var(--display);font-weight:var(--dw);font-size:1.6rem;text-decoration:none}
+.info .cta-row{display:grid;gap:.6rem;justify-items:start}
+@media(min-width:900px){.info .g{grid-template-columns:repeat(3,1fr)}}
+.foot{border-top:1px solid var(--line);padding:1.2rem 0 1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem 1rem;font-size:.85rem;color:var(--mid)}
 
-.foot{border-top:1px solid var(--line);padding:1.2rem 0 1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid)}
-@media(prefers-reduced-motion:reduce){.btn{transition:none}}
-
-/* PULSANTI IN PAGINA: alla fine delle sezioni */
-.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;margin-top:2rem}
-.info .cta-row{grid-column:1/-1;margin-top:0}
-.wa-note{flex-basis:100%;font-size:.85rem;color:var(--mid)}
-.hero .wa-note{text-align:center}
-@media(max-width:600px){.cta-row .btn{flex:1 1 100%}}
-
-/* BARRA AZIONI IN BASSO (solo telefono): stesso componente nei tre modelli, colori dalle variabili --bar-* */
-:root{--bar-bg:#fff;--bar-fg:var(--ink);--bar-line:#d9d9d9;--bar-pri-bg:var(--ink);--bar-pri-fg:#fff;--bar-font:var(--body)}
+/* BARRA AZIONI IN BASSO (solo telefono) */
 .bar{display:none}
 @media(max-width:899px){
-  body{padding-bottom:calc(65px + env(safe-area-inset-bottom))}   /* 64 px dei pulsanti + 1 px di bordo */
-  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bar-bg);color:var(--bar-fg);border-top:1px solid var(--bar-line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -8px 24px rgba(0,0,0,.14)}
-  .bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:6px 4px;color:inherit;text-decoration:none;font-family:var(--bar-font);font-size:13px;font-weight:600;line-height:1.1;-webkit-tap-highlight-color:transparent}
-  .bar a+a{border-left:1px solid var(--bar-line)}
-  .bar .pri{flex-direction:row;gap:8px;background:var(--bar-pri-bg);color:var(--bar-pri-fg);font-size:16px}
+  body{padding-bottom:calc(65px + env(safe-area-inset-bottom))}
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bg);color:var(--ink);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -8px 24px rgba(0,0,0,.1)}
+  .bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;padding:6px 4px;color:inherit;text-decoration:none;font:700 13px/1.1 var(--body);-webkit-tap-highlight-color:transparent}
+  .bar a+a{border-left:1px solid var(--line)}
+  .bar .pri{flex-direction:row;gap:8px;background:var(--acc);color:var(--on-acc);font-size:16px}
   .bar .ic{width:22px;height:22px;flex:none}
   .bar a:focus-visible{outline:3px solid currentColor;outline-offset:-6px}
 }
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none !important;animation:none !important}}
 
-/* "APERTO ORA" sotto i pulsanti */
-.oggi{text-align:center;font-size:.95rem;color:var(--mid);margin-top:.3rem}
-.oggi::before{content:"";display:inline-block;width:.55em;height:.55em;border-radius:50%;background:currentColor;margin-right:.45em;vertical-align:.05em;opacity:.45}
-.oggi.si{color:#1F6B3A}.oggi.si::before{opacity:1}
-.oggi.no{color:#9B1C1C}.oggi.no::before{opacity:1}
-
-/* TELEFONO: intestazione più bassa, listino da leggere con il pollice (nome e prezzo sulla stessa riga) */
-@media(max-width:700px){
-  .hero .ph{height:min(52vw,240px)}
-  .hero .txt{padding:1.4rem 0 1.8rem}
-  .hero .ctas{margin-top:1.1rem;gap:.6rem}
-  .list thead{display:none}
-  .list tr{display:grid;grid-template-columns:1fr auto;column-gap:1rem;padding:.9rem 0;border-bottom:1px solid #d9d9d9}
-  .list td{border:0;padding:0;width:auto}
-  .list td:first-child{font-size:1.35rem;line-height:1.2}
-  .list td.p{grid-row:1;grid-column:2;align-self:center;font-size:1.05rem;font-weight:500}
-  .list td.d{grid-column:1/-1;font-size:1rem;margin-top:.25rem}
-  .ethos .e p{font-size:1rem}
+/* firme */
+/* FIRMA "SCAFFALE DEGLI SMALTI" (unghie): una boccetta per ogni colore preso dai lavori veri (prospects.py -> "smalti").
+   Scorrendo le boccette salgono una dopo l'altra e il titolo passa per i loro colori (solo CSS, dove il browser lo supporta).
+   Toccando una boccetta si vede la foto delle unghie di quel colore e "Prenota" prende il colore. Senza JS resta il primo. */
+.smalti .g{display:grid;gap:1.6rem}
+.smalti .tit{color:var(--ink)}
+.smalti.scelto .tit{animation:none !important;color:var(--sel)}
+.shelf{position:relative;font:700 .76rem/1.15 var(--body);display:grid;grid-template-columns:repeat(var(--n,6),minmax(0,1fr));gap:.25rem;align-items:end;padding:0;margin:1rem 0 0}
+.shelf::after{content:"";position:absolute;left:0;right:0;bottom:calc(2.4em - 2px);height:12px;border-radius:6px;background:linear-gradient(var(--t1),color-mix(in srgb,var(--t1) 70%,var(--ink)));box-shadow:0 8px 14px rgba(0,0,0,.12);z-index:0}
+.bottle{appearance:none;border:0;background:none;padding:0;margin:0;cursor:pointer;display:grid;justify-items:center;align-content:end;min-height:44px;color:var(--ink);font:inherit;position:relative;z-index:1}
+.bottle .cap,.bottle .glass{transition:translate .25s cubic-bezier(.3,1.5,.6,1)}
+.bottle .cap{width:42%;height:34px;border-radius:7px 7px 3px 3px;background:linear-gradient(90deg,#241820,#5b4652 40%,#241820)}
+.bottle .glass{width:86%;aspect-ratio:5/6;margin-top:-2px;border-radius:12px 12px 16px 16px;background:
+  radial-gradient(60% 40% at 30% 28%,rgba(255,255,255,.55),rgba(255,255,255,0) 70%),
+  linear-gradient(90deg,rgba(0,0,0,.12),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 70%,rgba(0,0,0,.18)),var(--c);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35),0 1px 0 rgba(0,0,0,.08)}
+.bottle .nm{display:flex;align-items:flex-start;justify-content:center;height:2.4em;margin-top:12px;text-align:center}
+.bottle[aria-pressed="true"] .cap,.bottle[aria-pressed="true"] .glass{translate:0 -14px}
+.bottle[aria-pressed="true"] .nm{color:var(--acc)}
+.bottle:hover .glass,.bottle:hover .cap{translate:0 -6px}
+.bottle[aria-pressed="true"]:hover .glass,.bottle[aria-pressed="true"]:hover .cap{translate:0 -14px}
+.vista{margin:0;display:grid;gap:.8rem}
+.vista .box{position:relative;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;background:var(--soft)}
+.vista .slide{position:absolute;inset:0;opacity:0;transition:opacity .35s;pointer-events:none}
+.vista .slide.on{opacity:1}
+.vista .ph{height:100%;background:linear-gradient(170deg,var(--t1),var(--t2))}
+.vista .ph > span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.vista figcaption{display:grid;gap:.6rem}
+.vista .cosa{font-size:1.05rem}
+.vista .cosa b{font-family:var(--display);font-weight:var(--dw);font-size:1.4rem;color:var(--sel,var(--ink))}
+.vista .fonte{font-size:.88rem;color:var(--mid)}
+@media(min-width:900px){
+  .smalti .g{grid-template-columns:1.1fr .9fr;align-items:center;gap:3.5rem}
+  .shelf{gap:.8rem;padding:0 1rem}
+  .shelf{font-size:.9rem}
+  .vista .box{max-height:72vh}
 }
+@media(prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    .bottle{animation:sale linear both;animation-timeline:view();animation-range:cover calc(4% + var(--i) * 3%) cover calc(24% + var(--i) * 3%)}
+    .smalti .tit{animation:tinte linear both;animation-timeline:view();animation-range:cover 15% cover 75%}
+  }
+}
+@keyframes sale{from{transform:translateY(46px);opacity:.25}to{transform:none;opacity:1}}
+@keyframes tinte{0%{color:#A5677B}20%{color:#B0697F}40%{color:#C3122F}60%{color:#6B0F1F}80%{color:#4A1A2A}100%{color:#17151B}}
 
 /* foto reali (WebP) */
 [data-foto] > .foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 [data-foto] > .ombra{position:absolute;inset:0;z-index:0;pointer-events:none}
-.hero .ph{position:relative;overflow:hidden;background:none !important;filter:none !important}
-.hero .ph > span,.hero .ph > em,.hero .ph .accent,.hero .ph .photo-note{display:none !important}
-.wide{position:relative;overflow:hidden;background:none !important;filter:none !important}
-.wide > span,.wide > em,.wide .accent,.wide .photo-note{display:none !important}
+[data-foto="hero"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="hero"] > span,[data-foto="hero"] > em,[data-foto="hero"] .accent,[data-foto="hero"] .photo-note{display:none !important}
+[data-foto="unghie-1"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="unghie-1"] > span,[data-foto="unghie-1"] > em,[data-foto="unghie-1"] .accent,[data-foto="unghie-1"] .photo-note{display:none !important}
+[data-foto="unghie-2"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="unghie-2"] > span,[data-foto="unghie-2"] > em,[data-foto="unghie-2"] .accent,[data-foto="unghie-2"] .photo-note{display:none !important}
+[data-foto="unghie-3"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="unghie-3"] > span,[data-foto="unghie-3"] > em,[data-foto="unghie-3"] .accent,[data-foto="unghie-3"] .photo-note{display:none !important}
+[data-foto="unghie-4"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="unghie-4"] > span,[data-foto="unghie-4"] > em,[data-foto="unghie-4"] .accent,[data-foto="unghie-4"] .photo-note{display:none !important}
+[data-foto="unghie-5"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="unghie-5"] > span,[data-foto="unghie-5"] > em,[data-foto="unghie-5"] .accent,[data-foto="unghie-5"] .photo-note{display:none !important}
+[data-foto="unghie-6"]{position:relative;overflow:hidden;background:none !important;filter:none !important}
+[data-foto="unghie-6"] > span,[data-foto="unghie-6"] > em,[data-foto="unghie-6"] .accent,[data-foto="unghie-6"] .photo-note{display:none !important}
 </style>
 <script type="application/ld+json">
 {
@@ -239,99 +295,131 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
 <body>
 <div class="demo">Bozza per BeautyBi di Bianca Di Matteo · logo, colori, foto, testi e prezzi si decidono insieme</div>
 
-<nav>
+<nav class="top" aria-label="Menu">
   <div class="wrap">
     <a class="brand" href="#top"><span class="badge tondo" style="background:#f3e6de"><img src="/bozze/beautybi-f28c/img/logo.webp" width="48" height="48" alt=""></span><span class="nm" data-k="name">BeautyBi</span></a>
-    <div class="right"><a href="tel:+39081405451" class="btn fill cta">Chiama</a></div>
+    <div class="right">
+      <a class="lnk" href="#trattamenti">Trattamenti</a>
+      <a class="lnk" href="#info">Orari</a>
+      <a href="tel:+39081405451" class="btn acc">Chiama</a>
+    </div>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="ph" data-foto="hero"><img class="foto" src="/bozze/beautybi-f28c/img/hero.webp" width="900" height="1200" alt="Foto del salone" decoding="async" fetchpriority="high">
-    <div class="accent" aria-hidden="true"></div>
-    <span>foto: la cabina, luce naturale</span>
-  </div>
-  <div class="txt wrap">
-    <h1>Unghie, mani e piedi a <span data-k="quartiere">Chiaia</span></h1>
-    <div class="ctas">
-      <a href="tel:+39081405451" class="btn fill">Chiama per prenotare</a>
-      <a href="#listino" class="btn">Il listino</a>
+  <div class="wrap g">
+    <div class="txt">
+      <p class="kick"><span data-k="tipo">Nail artist</span> · <span data-k="quartiere">Chiaia</span></p>
+      <h1 data-k="name" style="--nl:8">BeautyBi</h1>
+      <p class="lead" data-k="lead">Unghie, mani e piedi a Chiaia: semipermanente, gel e nail art, su appuntamento.</p>
+      <div class="hero-cta">
+        <a href="tel:+39081405451" class="btn acc">Chiama per prenotare</a>
+        <a class="btn" href="#trattamenti">Trattamenti e prezzi</a>
+      </div>
+      <p class="proof"><span class="st" aria-hidden="true">★</span><b data-k="rating">4,6</b> su Google · <span data-k="recensioni">20</span> recensioni</p>
       <p class="oggi" data-ore="[[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[[&quot;10:00&quot;,&quot;19:00&quot;]],[]]">Giovedì 10:00 – 19:00</p>
       <p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p>
     </div>
+    <div class="fig"><div class="hero-ph" data-foto="hero"><img class="foto" src="/bozze/beautybi-f28c/img/hero.webp" width="905" height="1200" alt="Un lavoro del centro" decoding="async" fetchpriority="high"><span>foto: un lavoro finito</span></div></div>
   </div>
 </header>
 
-<section class="mani">
-  <div class="wrap">
-    <h2><span data-k="name">BeautyBi</span> è un centro estetico a Chiaia, in Vico Belledonne a Chiaia. Si lavora su appuntamento, una cliente per volta, con il tempo che serve.</h2>
-    <p>Prima di applicare qualsiasi colore si prepara l'unghia naturale, con il tempo che serve. Per questo il semipermanente regge settimane, anche dopo il giorno del matrimonio.</p>
-    <a class="btn" href="#listino">I trattamenti</a>
-  </div>
-</section>
-
-<div class="wide" data-foto="salone"><img class="foto" src="/bozze/beautybi-f28c/img/salone.webp" width="1145" height="1200" alt="Il salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: il centro</span></div>
-
-<section class="list" id="listino">
-  <div class="wrap">
-    <div class="head">
-      <h2 class="serif">Listino</h2>
-      <p>Prezzi di partenza, IVA inclusa. Per i trattamenti viso e corpo il percorso si decide in consulenza, gratuita e senza impegno.</p>
-    </div>
-    <table>
-      <thead><tr><th>Servizio</th><th>Cosa comprende</th><th style="text-align:right">Tempo</th><th style="text-align:right">Da</th></tr></thead>
-      <tbody><tr><td>Manicure</td><td class="d">Cura dell'unghia e smalto tradizionale</td><td class="t">30 min</td><td class="p">15 €</td></tr><tr><td>Semipermanente mani</td><td class="d">Preparazione, applicazione, tenuta 3 settimane</td><td class="t">45 min</td><td class="p">25 €</td></tr><tr><td>Ricostruzione gel</td><td class="d">Allungamento e forma su misura</td><td class="t">90 min</td><td class="p">50 €</td></tr><tr><td>Nail art</td><td class="d">Decorazioni a mano libera, per unghia</td><td class="t">—</td><td class="p">da 2 €</td></tr><tr><td>Pedicure semipermanente</td><td class="d">Pedicure completo con colore</td><td class="t">60 min</td><td class="p">35 €</td></tr><tr><td>Rimozione</td><td class="d">Rimozione delicata di gel o semipermanente</td><td class="t">20 min</td><td class="p">10 €</td></tr><tr><td>Sposa</td><td class="d">Prova e mani perfette per il giorno</td><td class="t">su misura</td><td class="p">60 €</td></tr></tbody>
-    </table>
-    <div class="cta-row"><a href="tel:+39081405451" class="btn fill">Chiama per prenotare</a></div>
-  </div>
-</section>
-
-<section class="team">
-  <div class="wrap">
-    <div class="lab">Il team</div>
-    <div class="g">
-      <div class="m"><div class="ph" data-foto="team-1" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Titolare · specialità</p></div>
-      <div class="m"><div class="ph" data-foto="team-2" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-      <div class="m"><div class="ph" data-foto="team-3" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-      <div class="m"><div class="ph" data-foto="team-4" role="img" aria-label="Ritratto (segnaposto)"></div><h3>Nome</h3><p>Specialità</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="ethos">
+<!-- firma: smalti -->
+<section class="sec smalti" style="--sel:#A5677B" id="colori" data-shot>
   <div class="wrap g">
-    <div class="e"><h3>Uno</h3><b>Puntualità</b><p>Appuntamenti distanziati: ti sedi all'ora che hai prenotato.</p></div>
-    <div class="e"><h3>Due</h3><b>Unghia preparata</b><p>Niente colore su un'unghia non pronta: per questo dura.</p></div>
-    <div class="e"><h3>Tre</h3><b>Una cabina, una cliente</b><p>Nessuno ti mette fretta e nessuno ti sente da fuori.</p></div>
+    <div>
+      <div class="sec-h">
+        <p class="kick">Lo scaffale</p>
+        <h2 class="tit">Scegli il colore</h2>
+        <p class="intro">Ogni boccetta è un colore che trovi nei lavori fatti qui. Toccala e guarda le unghie finite, poi prenota con il colore già scritto.</p>
+      </div>
+      <div class="shelf" style="--n:6" role="group" aria-label="Colori dello smalto">
+        <button type="button" class="bottle" style="--c:#F6EEF0;--i:0" data-n="0" data-nome="Latte" data-testo="#A5677B" aria-pressed="true"><span class="cap" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span><span class="nm">Latte</span></button><button type="button" class="bottle" style="--c:#F0C9D1;--i:1" data-n="1" data-nome="Rosa" data-testo="#B0697F" aria-pressed="false"><span class="cap" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span><span class="nm">Rosa</span></button><button type="button" class="bottle" style="--c:#C3122F;--i:2" data-n="2" data-nome="Rosso" data-testo="#C3122F" aria-pressed="false"><span class="cap" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span><span class="nm">Rosso</span></button><button type="button" class="bottle" style="--c:#6B0F1F;--i:3" data-n="3" data-nome="Bordeaux" data-testo="#6B0F1F" aria-pressed="false"><span class="cap" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span><span class="nm">Bordeaux</span></button><button type="button" class="bottle" style="--c:#4A1A2A;--i:4" data-n="4" data-nome="Prugna" data-testo="#4A1A2A" aria-pressed="false"><span class="cap" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span><span class="nm">Prugna</span></button><button type="button" class="bottle" style="--c:#17151B;--i:5" data-n="5" data-nome="Nero" data-testo="#17151B" aria-pressed="false"><span class="cap" aria-hidden="true"></span><span class="glass" aria-hidden="true"></span><span class="nm">Nero</span></button>
+      </div>
+    </div>
+    <figure class="vista" aria-live="polite">
+      <div class="box">
+        <div class="slide on" data-n="0"><div class="ph" data-foto="unghie-1"><img class="foto" src="/bozze/beautybi-f28c/img/unghie-1.webp" width="920" height="1200" alt="Unghie con semipermanente latte, lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: unghie latte</span></div></div><div class="slide" data-n="1"><div class="ph" data-foto="unghie-2"><img class="foto" src="/bozze/beautybi-f28c/img/unghie-2.webp" width="720" height="749" alt="Unghie con semipermanente rosa, lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: unghie rosa</span></div></div><div class="slide" data-n="2"><div class="ph" data-foto="unghie-3"><img class="foto" src="/bozze/beautybi-f28c/img/unghie-3.webp" width="900" height="768" alt="Unghie con semipermanente rosso, lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: unghie rosso</span></div></div><div class="slide" data-n="3"><div class="ph" data-foto="unghie-4"><img class="foto" src="/bozze/beautybi-f28c/img/unghie-4.webp" width="905" height="1200" alt="Unghie con semipermanente bordeaux, lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: unghie bordeaux</span></div></div><div class="slide" data-n="4"><div class="ph" data-foto="unghie-5"><img class="foto" src="/bozze/beautybi-f28c/img/unghie-5.webp" width="1145" height="1200" alt="Unghie con semipermanente prugna, lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: unghie prugna</span></div></div><div class="slide" data-n="5"><div class="ph" data-foto="unghie-6"><img class="foto" src="/bozze/beautybi-f28c/img/unghie-6.webp" width="1200" height="1200" alt="Unghie con semipermanente nero, lavoro del salone" decoding="async" loading="lazy"><i class="ombra" style="background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))"></i><span>foto: unghie nero</span></div></div>
+      </div>
+      <figcaption>
+        <p class="cosa">Semipermanente <b class="col">Latte</b></p>
+        <a href="tel:+39081405451" class="btn acc">Chiama per prenotare</a>
+        <p class="fonte" data-k="fonte_foto">Foto dal profilo Instagram di BeautyBi. Nel sito vero si scelgono insieme.</p>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+<script>
+/* Scaffale degli smalti: toccando una boccetta cambiano foto, nome del colore, colore del titolo e messaggio WhatsApp.
+   Il testo è lo stesso di SERVIZIO in build.py. */
+(() => {
+  const sec = document.querySelector(".smalti"); if (!sec) return;
+  const bt = sec.querySelectorAll(".bottle"), sl = sec.querySelectorAll(".slide"), a = sec.querySelector(".vista .btn");
+  const SERVIZIO = s => `Ciao, vorrei prenotare: ${s}. Giorno __ ora __`;
+  bt.forEach(b => b.addEventListener("click", () => {
+    bt.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    sl.forEach(s => s.classList.toggle("on", s.dataset.n === b.dataset.n));
+    sec.classList.add("scelto"); sec.style.setProperty("--sel", b.dataset.testo);
+    sec.querySelector(".col").textContent = b.dataset.nome;
+    if (a.href.startsWith("https://wa.me/")) a.href = a.href.split("?")[0] + "?text=" + encodeURIComponent(SERVIZIO(`Semipermanente, colore ${b.dataset.nome}`));
+  }));
+})();
+</script>
+
+<!-- SEZ-TRATTAMENTI -->
+<section class="sec tratt" id="trattamenti" data-shot>
+  <div class="wrap">
+    <div class="sec-h">
+      <p class="kick">Trattamenti</p>
+      <h2>Cosa facciamo, quanto dura, quanto costa</h2>
+      <p class="intro">Prezzi indicativi, da confermare insieme. Ogni trattamento ha il suo pulsante per prenotare.</p>
+    </div>
+    <div class="bento"><article class="card big"><h3>Semipermanente mani</h3><p class="d">Preparazione dell&#x27;unghia e colore in gel</p><p class="meta"><span class="t">45 min</span><span class="p">da 25 €</span></p><a href="tel:+39081405451" class="btn mini">Chiama</a></article><article class="card"><h3>Manicure</h3><p class="d">Cura dell&#x27;unghia e smalto tradizionale</p><p class="meta"><span class="t">30 min</span><span class="p">da 15 €</span></p><a href="tel:+39081405451" class="btn mini">Chiama</a></article><article class="card"><h3>Ricostruzione in gel</h3><p class="d">Allungamento e forma su misura</p><p class="meta"><span class="t">1 h 30</span><span class="p">da 50 €</span></p><a href="tel:+39081405451" class="btn mini">Chiama</a></article><article class="card"><h3>Nail art</h3><p class="d">Decorazioni a mano libera, per unghia</p><p class="meta"><span class="t">a unghia</span><span class="p">da 2 €</span></p><a href="tel:+39081405451" class="btn mini">Chiama</a></article><article class="card"><h3>Pedicure con semipermanente</h3><p class="d">Pedicure completo e colore</p><p class="meta"><span class="t">1 h</span><span class="p">da 35 €</span></p><a href="tel:+39081405451" class="btn mini">Chiama</a></article><article class="card"><h3>Rimozione</h3><p class="d">Gel o semipermanente, senza rovinare l&#x27;unghia</p><p class="meta"><span class="t">20 min</span><span class="p">da 10 €</span></p><a href="tel:+39081405451" class="btn mini">Chiama</a></article><article class="card"><h3>Sposa</h3><p class="d">Prova e mani pronte per il giorno</p><p class="meta"><span class="t">su misura</span><span class="p">da 60 €</span></p><a href="tel:+39081405451" class="btn mini">Chiama</a></article></div>
+    <div class="note">
+      <a href="tel:+39081405451" class="btn acc">Chiama per prenotare</a>
+      <p class="wa-note">Con il vostro numero WhatsApp, il pulsante su ogni trattamento apre la chat con il messaggio già scritto: «Ciao, vorrei prenotare: Manicure. Giorno __ ora __».</p>
+    </div>
+  </div>
+</section>
+<!-- /SEZ-TRATTAMENTI -->
+
+<section class="sec perche">
+  <div class="wrap">
+    <div class="sec-h">
+      <p class="kick">Perché sceglierci</p>
+      <h2 data-k="perche_h">Come si lavora qui</h2>
+    </div>
+    <div class="why"><div><b>Su appuntamento</b><p>Una cliente alla volta, senza attese e senza fretta.</p></div><div><b>Prezzo chiaro</b><p>Sai quanto spendi prima di sederti.</p></div><div><b>Colore scelto insieme</b><p>Guardi i colori dal vivo e decidi con calma.</p></div></div>
   </div>
 </section>
 
-<section class="rev">
+<section class="sec rev">
   <div class="wrap">
-    <div class="lab"><span data-k="recensioni">20</span> recensioni su Google · media <span data-k="rating">4,6</span></div>
-    <blockquote>"Ambiente pulitissimo, ragazze gentili e precise. Finalmente un centro dove non ti spingono a comprare pacchetti."</blockquote>
-    <div class="g"><span>Giulia M.</span><span>Anna P.</span><span>Rosaria C.</span></div>
+    <p class="kick">Recensioni Google</p>
+    <div class="score"><b data-k="rating">4,6</b><span>su 5 · <span data-k="recensioni">20</span> recensioni</span></div>
+    <div class="notes"><blockquote>“Il semipermanente è durato fino all&#x27;appuntamento dopo.”<footer>Recensione di esempio</footer></blockquote><blockquote>“Precisa e gentile, il colore l&#x27;abbiamo scelto insieme.”<footer>Recensione di esempio</footer></blockquote><blockquote>“Unghie per un matrimonio: tutte uguali, come le volevo.”<footer>Recensione di esempio</footer></blockquote></div>
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=BeautyBi+di+Bianca+Di+Matteo%2C+Vico+Belledonne+a+Chiaia%2C+n6%2C+80121+Napoli+NA%2C+Italy&amp;query_place_id=ChIJeZS59f8IOxMRqzpUxbBjyi4" target="_blank" rel="noopener" class="btn">Leggi le recensioni su Google</a>
   </div>
 </section>
 
-<section class="info" id="info">
-  <div class="wrap">
+<section class="sec info" id="info">
+  <div class="wrap g">
     <div>
       <h3>Orari</h3>
       <dl><dt>Lun – Sab</dt><dd>10:00 – 19:00</dd><dt>Dom</dt><dd>chiuso</dd></dl>
     </div>
     <div>
       <h3>Dove</h3>
-      <p><span data-k="indirizzo">Vico Belledonne a Chiaia 6</span><br><span data-k="quartiere">Chiaia</span>, Napoli · Chiaia</p>
+      <p><span data-k="indirizzo">Vico Belledonne a Chiaia 6</span><br><span data-k="quartiere">Chiaia</span>, Napoli<span data-k="vicino"></span></p>
       <a href="https://www.google.com/maps/search/?api=1&amp;query=BeautyBi+di+Bianca+Di+Matteo%2C+Vico+Belledonne+a+Chiaia%2C+n6%2C+80121+Napoli+NA%2C+Italy&amp;query_place_id=ChIJeZS59f8IOxMRqzpUxbBjyi4" target="_blank" rel="noopener" class="big">Indicazioni →</a>
     </div>
     <div>
       <h3>Prenota</h3>
       <a href="tel:+39081405451" class="big" data-k="tel">081 405451</a>
+      <div class="cta-row">
+        <a href="tel:+39081405451" class="btn acc">Chiama per prenotare</a>
+        <p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p>
       </div>
-    <div class="cta-row">
-      <a href="tel:+39081405451" class="btn fill">Chiama per prenotare</a>
-      <p class="wa-note">Con il vostro numero WhatsApp qui si prenota anche in chat</p>
     </div>
   </div>
 </section>
@@ -345,10 +433,10 @@ td.t{text-align:right;color:var(--mid);font-size:.85rem;white-space:nowrap;width
 <div class="bar" role="navigation" aria-label="Azioni rapide">
   <a href="tel:+39081405451" class="pri"><svg class="ic ic-tel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5h3.6l1.8 4.6-2.3 1.4a11 11 0 0 0 6.4 6.4l1.4-2.3 4.6 1.8V19a2 2 0 0 1-2 2A16.5 16.5 0 0 1 3 5.5a2 2 0 0 1 2-2z"/></svg><span class="l">Chiama</span></a>
   <a href="https://www.google.com/maps/search/?api=1&amp;query=BeautyBi+di+Bianca+Di+Matteo%2C+Vico+Belledonne+a+Chiaia%2C+n6%2C+80121+Napoli+NA%2C+Italy&amp;query_place_id=ChIJeZS59f8IOxMRqzpUxbBjyi4" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="l">Indicazioni</span></a>
-  <a href="#listino"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg><span class="l">Listino</span></a>
+  <a href="#trattamenti"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg><span class="l">Prezzi</span></a>
 </div>
 <script>
-/* "APERTO ORA": l'unico JS di questa parte. Orari della settimana in data-ore (da lunedì a domenica), ora di Napoli.
+/* "APERTO ORA": orari della settimana in data-ore (da lunedì a domenica), ora di Napoli.
    Senza JS resta il testo scritto da build.py (gli orari del giorno). */
 (() => {
   const el = document.querySelector("[data-ore]"); if (!el || !el.dataset.ore) return;
