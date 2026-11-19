@@ -398,6 +398,7 @@ const tuttePagine = [
   { url: "/progetti/sisters-store", voce: null },
   { url: "/progetti/fornace-vietri", voce: null },
   { url: "/progetti/pizzeria", voce: null },
+  { url: "/progetti/palestra", voce: null },
   { url: "/404", voce: null },
   { url: "/styleguide", voce: null },
 ];

@@ -39,6 +39,7 @@ const pagine = [
   "/progetti/sisters-store",
   "/progetti/fornace-vietri",
   "/progetti/pizzeria",
+  "/progetti/palestra",
   "/styleguide",
 ];
 

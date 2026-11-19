@@ -1,13 +1,13 @@
 # Stato del progetto
 
-**Fase corrente:** ramo `progetti-nuovi`, punto 1 fatto (2026-11-18): il caso reale è Sisters Store, con nome, link, logo e il sito nuovo prima e dopo. Giro di testi e home (2026-11-19): una frase sola sotto "Progetti", Sisters Store diventa "Creazione e rebranding" con copertina senza testi, scena dell'hero senza il tabellino (disposizioni scelte da Luigi: D1 da desktop, M1 da telefono). Poi: punto 2, concept palestra e pizzeria dalle bozze. `main` è aperto in un worktree a parte (`D:\dev\portfolio-main`, sessione delle bozze): il merge di `main` in `progetti-nuovi` si fa alla fine. Prima: URL senza barra finale ovunque (2026-10-05), dopo `/contatti` a due percorsi e pagina `/privacy` fatti (2026-09-30), dopo la chiusura della prova sfondi, la nuova figura e i nuovi testi di "Cosa faccio per te" dello stesso giorno, dopo il blocco modifiche dello stesso giorno, il blocco testi e carosello e la passata prestazioni, blocco A (2026-09-29). Fase 4 annullata.
+**Fase corrente:** ramo `progetti-nuovi`, punto 1 fatto (2026-11-18): il caso reale è Sisters Store, con nome, link, logo e il sito nuovo prima e dopo. Giro di testi e home (2026-11-19): una frase sola sotto "Progetti", Sisters Store diventa "Creazione e rebranding" con copertina senza testi, scena dell'hero senza il tabellino (disposizioni scelte da Luigi: D1 da desktop, M1 da telefono). Pizzeria Vico Stretto col design delle bozze pizzeria e progetto nuovo Palestra Kilo Club dal modello palestra delle bozze (2026-11-19). In attesa: la scelta di Luigi tra le due direzioni visive per le immagini di Sisters Store (A "Cipria", B "Notte", prove in `screenshots/sisters/direzioni/`). `main` è aperto in un worktree a parte (`D:\dev\portfolio-main`, sessione delle bozze): il merge di `main` in `progetti-nuovi` si fa alla fine. Prima: URL senza barra finale ovunque (2026-10-05), dopo `/contatti` a due percorsi e pagina `/privacy` fatti (2026-09-30), dopo la chiusura della prova sfondi, la nuova figura e i nuovi testi di "Cosa faccio per te" dello stesso giorno, dopo il blocco modifiche dello stesso giorno, il blocco testi e carosello e la passata prestazioni, blocco A (2026-09-29). Fase 4 annullata.
 
 La storia delle fasi finite (cosa è stato fatto, come e perché, misure e decisioni di dettaglio)
 è in `docs/STORIA.md`. Qui restano solo lo stato attuale e i lavori da fare.
 
 ## Sito oggi
 - **Home:** hero con switch tra i due percorsi (scelta in `localStorage`, `html[data-target]`) e scena scrivania con tre oggetti e la tazza (computer → Progetti, taccuino → Come lavoro, telefono → Contatti; il tabellino del caso reale è stato tolto il 2026-11-19). Da desktop riquadro 5:4 col telefono a destra a metà altezza; da telefono Progetti in una tessera larga e le altre due affiancate sotto. Griglia progetti con ordine per percorso, "Cosa faccio per te" (solo percorso business, con la L del marchio che si costruisce riga dopo riga), carosello dei loghi su fondo ink (l'unica sezione della home su fondo scuro), invito al contatto.
-- **Progetti:** sotto il titolo della sezione una frase sola per i due percorsi, "Ecco una panoramica dei miei progetti.". Caso reale Sisters Store, titolo "Creazione e rebranding" con "Sisters Store · decisione" sopra (campo `tipo`) (`/progetti/sisters-store`, sei capitoli, due slider prima/dopo, link a sistersstore.it) e i concept Fornace Vietri e pizzeria Vico Stretto, etichettati "Branding concept", con foto generate con l'AI. Dettaglio in `/progetti/[slug]`.
+- **Progetti:** sotto il titolo della sezione una frase sola per i due percorsi, "Ecco una panoramica dei miei progetti.". Caso reale Sisters Store, titolo "Creazione e rebranding" con "Sisters Store · decisione" sopra (campo `tipo`) (`/progetti/sisters-store`, sei capitoli, due slider prima/dopo, link a sistersstore.it) e tre concept etichettati "Branding concept": Fornace Vietri (foto generate con l'AI), pizzeria Vico Stretto e Palestra Kilo Club (`/progetti/palestra`), tutti e due con le immagini rifatte da script sui modelli delle bozze (`scripts/prepara-pizzeria.mjs`, `scripts/prepara-palestra.mjs`, che aprono `D:\dev\bozze-siti-napoli\mockups\*.html` in sola lettura) e solo foto stock Unsplash con fonte in `D:\dev\bozze-siti-napoli\docs\FONTI-FOTO.md`. Griglia: la card grande sopra, le altre tre su una riga da 1024px; tra 768 e 1023 l'ultima prende la riga intera. Dettaglio in `/progetti/[slug]`.
 - **Loghi:** `/loghi` con filtri e `/loghi/[slug]`, quattro loghi con testi provvisori. Sisters Store ha il monogramma SS e, nel prima e dopo, il logo corsivo di prima (tipo "progetto": "rebranding" stamperebbe la frase di non affiliazione). Nessuna etichetta "Progetto", né a vista né nell'alt: il campo `tipo` resta nei dati per l'etichetta "Esercizio di stile".
 - **Nav:** Progetti, Come lavoro, Loghi e "Scrivimi" (unico accesso ai contatti, in pillola anche su telefono; sotto i 340px senza bordo). Il quarto di cerchio del marchio ruota al passaggio, col focus e al tocco.
 - **Altre pagine:** `/come-lavoro` (processo, stack, progetto n°5, "Il mio processo creativo"), `/contatti` (diversa per i due percorsi, vedi sotto), `/privacy`, 404, sitemap, robots, og-image, `vercel.json`.
@@ -66,9 +66,16 @@ La storia delle fasi finite (cosa è stato fatto, come e perché, misure e decis
 - **Nav a 320px.** Con quattro voci, il marchio e "Scrivimi" la riga è piena: 3,5px di spazio per lato alle voci e "Scrivimi" senza bordo. Da 360 in su respira. Se a 320 pesa, l'alternativa è un menu a scomparsa sotto i 400px.
 - **[DA VERIFICARE] Il nome "Vico Stretto"** (dal documento dei contenuti): prima di pubblicare
   controllare che non esista una pizzeria reale con questo nome. In caso, cambiarlo. Il nome
-  compare nel titolo e nei testi di `src/content/progetti/pizzeria.md`, ma anche dentro tutte
-  e sei le immagini di `src/assets/progetti/pizzeria-vico-stretto/` e nell'og: cambiarlo vuol
-  dire rifare le immagini.
+  compare nel titolo e nei testi di `src/content/progetti/pizzeria.md` e dentro le immagini:
+  dal 2026-11-19 si rifanno tutte con `node scripts/prepara-pizzeria.mjs` (poi
+  `node scripts/prepara-og.mjs og/pizzeria.png`).
+- **[DA VERIFICARE] Il nome "Kilo Club"** (inventato il 2026-11-19, una ricerca web non ha
+  trovato palestre con questo nome a Napoli): controllarlo prima di pubblicare. Si cambia in
+  `src/content/progetti/palestra.md` e in `scripts/prepara-palestra.mjs`, poi si rilancia lo
+  script e `node scripts/prepara-og.mjs og/palestra.png`.
+- **og della pizzeria e della palestra pesanti** (754 KB e 573 KB): `prepara-og.mjs` salva le
+  copertine fotografiche in PNG senza palette. Un JPEG da 1200x630 starebbe sotto i 200 KB,
+  ma vuol dire cambiare il formato dell'og per le pagine con copertina (proposta).
 - **Schema del flusso illeggibile a 390.** `pizzeria-flusso` è larga 2880x987: a 350px il testo
   dei riquadri misura pochi pixel. Il contenuto è comunque nella pagina (i tre passi nell'elenco
   sopra, i cinque di prima nel capitolo Il problema e nell'alt). Se serve leggibile anche da

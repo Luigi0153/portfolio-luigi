@@ -479,7 +479,34 @@ lavori da fare stanno in `docs/STATO.md`.
     c'è ora "Come lavoro", più lunga di "Contatti", e a 320px `test-forme` misurava 3,8px (minimo
     8, ora 12,2). `test-scena` diventa bloccante e controlla anche le tessere. Visto e non
     corretto: a 320px la colonna dell'hero è larga 301px su 280 per colpa dello switch (vedi
-    STATO, "Decisioni aperte").
+    STATO, "Decisioni aperte"; Luigi ha detto di lasciarlo stare).
+- **Pizzeria e palestra dalle bozze (2026-11-19).** Ramo `progetti-nuovi`.
+  - **Pizzeria** (`aa53710`). `scripts/prepara-pizzeria.mjs` apre
+    `D:\dev\bozze-siti-napoli\mockups\pizzeria.html` in sola lettura, lo riempie con i dati di
+    Vico Stretto presi dal copy (40 posti, dal 1961, centro storico, le quattro pizze, aperto da
+    martedì a domenica 19–23:30) e fotografa con Playwright, con l'ora fissata da `clock` per
+    "Aperto ora". Tolti i tre modi (tavolo, asporto, casa) e il nastro dei quartieri: la pagina ha
+    un solo obiettivo, prenotare. Barra in basso: Prenota, Chiama, Menu. Il pannello "Quando
+    venite?" e la chat su WhatsApp sono HTML scritti nello stile del modello. La pagina intera
+    (più di 4000px CSS) è divisa in due colonne all'inizio della sezione col forno. Il sigillo VS
+    diventa bordeaux con sharp (il nero del disegno usato come opacità). Foto: solo le due stock
+    Unsplash documentate nelle bozze. Copy invariato, tranne nota, alt e i punti di "La pagina" e
+    "Cosa ho tolto" che parlavano di mappa, foto della sala e bottone singolo.
+  - **Palestra.** Progetto nuovo `/progetti/palestra`, "Palestra Kilo Club" (nome inventato,
+    `ordine_dev` 4, `ordine_business` 3, Fornace passa a 4 nel percorso business).
+    `scripts/prepara-palestra.mjs` fa lo stesso col modello palestra: foto della sala nell'hero,
+    scelta del piano che porta a WhatsApp, risultati di esempio senza nomi, barra in basso con
+    Prova gratis, Corsi e Orari. Il bilanciere è un'animazione legata allo scorrimento: per le
+    tre foto (20, 80, 140 kg) l'animazione si spegne e lo stato si scrive a mano, perché lo
+    scatto di un elemento lo riporta in vista e cambia lo stato. La pagina intera è in tre
+    colonne, tagliata tra gli inizi delle sezioni in modo che le colonne siano il più possibile
+    alte uguali. Copy: il sito come strumento per tenersi il cliente, dal piano e
+    dall'obiettivo a WhatsApp alla prova dal vivo.
+  - **Griglia.** Con quattro progetti: da 1024px tre colonne (la grande sopra, le altre su una
+    riga), tra 768 e 1023 l'ultima card prende la riga intera con foto e testo affiancati.
+  - **Test.** `test-progetti` (quattro card, tre su una riga a 1280, concept palestra con sette
+    capitoli, figure e galleria da quattro), `test-switch` e `test-pagine` (sommari, description,
+    nove pagine nella sitemap), `test-forme` e `test-nav` con la pagina nuova.
 
 ## Correzioni dall'audit (2026-09-21)
 

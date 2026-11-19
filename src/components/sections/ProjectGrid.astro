@@ -270,6 +270,36 @@ const featured = progetti.toSorted((a, b) => a.data.ordine_dev - b.data.ordine_d
       font-size: var(--text-h2);
     }
   }
+
+  /* Quattro progetti: sotto la cella grande ne restano tre. Da 1024px stanno
+     su una riga sola; tra 768 e 1023 l'ultima, rimasta sola, prende la riga
+     intera con foto e testo affiancati, come la cella grande. */
+  @media (min-width: 1024px) {
+    .progetti__griglia {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .progetti__cella:not(.progetti__cella--grande):last-child:nth-child(even) {
+      grid-column: 1 / -1;
+    }
+
+    .progetti__cella:not(.progetti__cella--grande):last-child:nth-child(even) :global(.progetti__card) {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .progetti__cella:not(.progetti__cella--grande):last-child:nth-child(even) .progetti__cover {
+      flex: 0 0 46%;
+      width: 46%;
+      height: auto;
+      align-self: stretch;
+      aspect-ratio: auto;
+      border-bottom: 0;
+      border-right: var(--border-retro);
+    }
+  }
 </style>
 
 <script>

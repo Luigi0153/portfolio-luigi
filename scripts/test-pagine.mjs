@@ -416,6 +416,8 @@ for (const [vp, visibile] of [
       "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
     "/progetti/pizzeria":
       "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
+    "/progetti/palestra":
+      "Branding concept con landing page per una palestra di quartiere. Il sito aiuta a scegliere piano e obiettivo e porta su WhatsApp con la scelta già scritta.",
   };
   for (const [percorso, attesa] of Object.entries(DESCRIPTION)) {
     await page.goto(BASE + percorso, { waitUntil: "domcontentloaded" });
@@ -448,10 +450,10 @@ for (const [vp, visibile] of [
   // Le pagine dei singoli loghi crescono con la collection: si contano a parte.
   const dettagliLoghi = conta("/loghi/[a-z0-9-]+</loc>");
   atteso(
-    conta("<loc>") - dettagliLoghi === 8 &&
+    conta("<loc>") - dettagliLoghi === 9 &&
       dettagliLoghi >= 4 &&
       !testoSitemap.includes("styleguide"),
-    `seo: la sitemap elenca le 8 pagine pubbliche, ${dettagliLoghi} loghi e non la styleguide (${conta("<loc>")})`,
+    `seo: la sitemap elenca le 9 pagine pubbliche, ${dettagliLoghi} loghi e non la styleguide (${conta("<loc>")})`,
   );
 
   // Ogni pagina ha canonical e og:image propria

@@ -82,6 +82,10 @@ const PAGINE = [
     file: "og/pizzeria.png",
     copertina: "src/assets/progetti/pizzeria-vico-stretto/pizzeria-copertina.jpg",
   },
+  {
+    file: "og/palestra.png",
+    copertina: "src/assets/progetti/palestra-kilo-club/palestra-copertina.jpg",
+  },
 ];
 
 /**

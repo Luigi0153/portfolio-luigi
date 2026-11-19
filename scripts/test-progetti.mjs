@@ -1,11 +1,11 @@
 /*
   Verifica della sezione progetti e del case study, a 390 e 1280:
-  - lista: tre card, ordine che segue il percorso scelto, nessun "in arrivo",
-    copertine fotografiche per tutti e tre i progetti;
+  - lista: quattro card, ordine che segue il percorso scelto, nessun "in arrivo",
+    copertine fotografiche per tutti i progetti, a 1280 le tre piccole su una riga;
   - dettaglio: due colonne con colonna pinnata a 1280, una colonna a 390;
   - caso reale (Sisters Store): sei sezioni, link al sito vero, il sito nuovo
     in quattro parti con slider e gallerie al loro posto;
-  - concept (Fornace Vietri, pizzeria): riga concept, capitoli in ordine,
+  - concept (Fornace Vietri, pizzeria, palestra): riga concept, capitoli in ordine,
     immagini al loro posto, galleria affiancata a 1280 e scorrevole una alla
     volta a 390, og-image;
   - due slider prima/dopo (home da desktop a tutta colonna, scheda da telefono
@@ -45,7 +45,15 @@ for (const vp of [390, 1280]) {
     await page.waitForTimeout(1200);
 
     const celle = page.locator(".progetti__cella");
-    atteso((await celle.count()) === 3, `${vp}px ${target}: tre card in griglia`);
+    atteso((await celle.count()) === 4, `${vp}px ${target}: quattro card in griglia`);
+
+    // a 1280 le tre card piccole stanno su una riga, sotto la grande
+    if (vp === 1280) {
+      const righe = await page.$$eval(".progetti__cella:not(.progetti__cella--grande)", (c) =>
+        new Set(c.map((el) => Math.round(el.getBoundingClientRect().top))).size,
+      );
+      atteso(righe === 1, `${vp}px ${target}: le tre card piccole su una riga (${righe})`);
+    }
 
     // ordine come lo vede l'utente: posizione sullo schermo, non ordine nel DOM
     const ordine = await page.evaluate(() =>
@@ -77,6 +85,7 @@ for (const vp of [390, 1280]) {
     atteso(
       tipi["/progetti/fornace-vietri"].startsWith("Branding concept · ") &&
         tipi["/progetti/pizzeria"].startsWith("Branding concept · ") &&
+        tipi["/progetti/palestra"].startsWith("Branding concept · ") &&
         tipi["/progetti/sisters-store"] === "Sisters Store · decisione",
       `${vp}px ${target}: "Branding concept" sui due concept, "Sisters Store · decisione" sul caso reale (${tipi["/progetti/sisters-store"]})`,
     );
@@ -92,6 +101,7 @@ for (const vp of [390, 1280]) {
       ["sisters-store", "sisters-copertina"],
       ["fornace-vietri", "fornace-copertina"],
       ["pizzeria", "pizzeria-copertina"],
+      ["palestra", "palestra-copertina"],
     ]) {
       const cover = page.locator(`.progetti__cella a[href="/progetti/${slug}"] img`);
       await cover.scrollIntoViewIfNeeded();
@@ -284,6 +294,16 @@ const CONCEPT = [
     // capitolo -> tipo di lista e numero di voci
     elenchi: { "sez-flusso": "ol 3", "sez-tolto": "ul 4", "sez-pagina": "ul 4" },
     galleria: { capitolo: "sez-pagina", schermate: 3 },
+  },
+  {
+    slug: "palestra",
+    copertina: "palestra-copertina",
+    nota: "Brand e sito, progetto inventato. Le foto sono stock, da Unsplash.",
+    capitoli: ["La palestra", "L'idea", "Il percorso", "Nel sito", "La decisione", "Cosa ho imparato", "Nella palestra vera farei"],
+    figure: { "palestra-brand": "sez-palestra", "palestra-percorso": "sez-percorso", "palestra-pesi": "sez-sito" },
+    mobile: "palestra-percorso",
+    elenchi: { "sez-percorso": "ol 3", "sez-sito": "ul 4" },
+    galleria: { capitolo: "sez-sito", schermate: 4 },
   },
 ];
 
