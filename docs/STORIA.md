@@ -516,8 +516,8 @@ lavori da fare stanno in `docs/STATO.md`.
   - **Sorgenti.** Le catture di `cattura-sisters.mjs` stanno ora in
     `src/assets/progetti/sisters-store/catture/` (spostate con `git mv`), così
     `prepara-sisters.mjs` le mette nelle cornici senza ricomporre immagini già composte. Le foto
-    del negozio (foto dell'hero Autunno 2026 e quattro foto prodotto di "Da non perdere ora",
-    ridotte a 900px in webp) sono in `foto/`, nel repo: l'hero del negozio cambierà con la
+    del negozio (foto dell'hero Autunno 2026 e due foto prodotto di "Da non perdere ora", borsa
+    Saint Barth e zaino Sprayground, ridotte a 900px in webp) sono in `foto/`, nel repo: l'hero del negozio cambierà con la
     stagione e il fondo deve restare quello delle schermate. Colori dal brand kit di Sisters Store
     (nero, cipria, cipria chiaro, viola), non quelli del portfolio.
   - **B.** Fondo: la foto dell'hero sfocata e scurita. Copertina 2400x1600 con il logo
