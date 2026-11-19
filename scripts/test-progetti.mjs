@@ -276,7 +276,7 @@ const CONCEPT = [
   {
     slug: "pizzeria",
     copertina: "pizzeria-copertina",
-    nota: NOTA_CONCEPT,
+    nota: "Brand e sito, progetto inventato. Le foto sono stock, da Unsplash.",
     capitoli: ["La pizzeria", "Il problema", "Il flusso", "La decisione", "Cosa ho tolto", "La pagina", "Cosa ho imparato", "Nel locale vero farei"],
     figure: { "pizzeria-brand": "sez-pizzeria", "pizzeria-flusso": "sez-flusso" },
     // figura con una versione ricomposta sotto i 768px (<picture>)
