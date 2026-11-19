@@ -18,6 +18,8 @@ interface Props {
   /** Le due targhette sopra le immagini. */
   etichettaPrima?: string;
   etichettaDopo?: string;
+  /** Dove parte il taglio, in percentuale da sinistra (50 = a metà). */
+  posizione?: number;
   class?: string;
 }
 
@@ -29,6 +31,7 @@ const {
   etichetta,
   etichettaPrima = "Prima",
   etichettaDopo = "Dopo",
+  posizione = 50,
   class: className,
 } = Astro.props;
 
@@ -48,6 +51,7 @@ const dopoOtt = await getImage({ src: dopo, format: "webp", quality: 80 });
     etichetta={etichetta}
     etichettaPrima={etichettaPrima}
     etichettaDopo={etichettaDopo}
+    iniziale={posizione}
   />
 </div>
 
@@ -131,7 +135,9 @@ const dopoOtt = await getImage({ src: dopo, format: "webp", quality: 80 });
     white-space: nowrap;
   }
 
-  /* Il range copre tutto il quadro: la traccia è invisibile, si vede il pollice */
+  /* Il range copre tutto il quadro: la traccia è invisibile, si vede il pollice.
+     La traccia è alta quanto il pollice: il browser la centra in altezza dentro
+     il range, e con lei il pollice, che così sta a metà della linea. */
   .ba__range {
     position: absolute;
     inset: 0;
@@ -145,12 +151,12 @@ const dopoOtt = await getImage({ src: dopo, format: "webp", quality: 80 });
   }
 
   .ba__range::-webkit-slider-runnable-track {
-    height: 100%;
+    height: 34px;
     background: transparent;
   }
 
   .ba__range::-moz-range-track {
-    height: 100%;
+    height: 34px;
     background: transparent;
   }
 

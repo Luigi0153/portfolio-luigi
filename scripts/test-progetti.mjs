@@ -457,6 +457,13 @@ for (const concetto of CONCEPT) {
   await slider.scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);
 
+  // posizione di partenza: la home parte al 10% (si legge il titolo dell'hero), la scheda a metà
+  const partenze = await page.$$eval(".ba__range", (r) => r.map((el) => el.value));
+  atteso(
+    partenze.join(",") === "10,50",
+    `slider: home parte al 10%, scheda al 50% (${partenze.join(", ")})`,
+  );
+
   const prima = await slider.inputValue();
   await slider.focus();
   const haFocus = await page.evaluate(() =>
