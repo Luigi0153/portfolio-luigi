@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..800;1,6..96,500..700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 /* IDEA (da Tripletta, SOTD Awwwards 2025): due soli colori, carta + un inchiostro; wordmark enorme con mascotte disegnata a mano;
    tre modi di mangiare come tre grandi tasselli (AL TAVOLO / DA ASPORTO / A CASA); nastro scorrevole con i quartieri serviti;
@@ -23,10 +23,10 @@
   --ink:#6E1A1A;
   --ink-soft:#2F5233;
   --tint:#ECE1CD;
-  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --display:"Lora",Georgia,serif;   /* serif a contrasto medio: si legge anche piccolo sul telefono (Bodoni aveva linee troppo sottili) */
   --basil:#2F5233;
   --pomodoro:#B3261E;
-  --body:"Karla","Segoe UI",Helvetica,Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif;
   color-scheme: light;
 }
 *{box-sizing:border-box}
@@ -124,10 +124,10 @@ html{scroll-padding-top:72px}
 .btn:focus-visible{outline:3px solid var(--ink-soft);outline-offset:3px}
 @media(max-width:760px){.feat .wrap{grid-template-columns:1fr}}
 
-/* WALL OF LOVE */
+/* WALL OF LOVE: titolo a dimensione da h2, colore pieno, le recensioni sotto (niente sovrapposizione, a tutte le larghezze) */
 .wall{padding:clamp(2.5rem,6vw,5rem) 0;position:relative;overflow:hidden}
-.wall h2{font-size:clamp(4rem,16vw,13rem);color:var(--tint);line-height:.85;text-align:center;position:relative;z-index:0}
-.wall .notes{position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;margin-top:-3rem}
+.wall h2{font-size:clamp(2.2rem,5vw,4rem);color:var(--ink);line-height:.95;text-align:center;margin-bottom:1.6rem}
+.wall .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem}
 .note{background:#fff;color:#2a1414;padding:1.1rem 1.2rem;box-shadow:0 10px 30px rgba(110,26,26,.15);font-size:.95rem;border-left:6px solid var(--ink)}
 .note:nth-child(odd){rotate:-1.5deg}.note:nth-child(even){rotate:1.2deg}
 .note footer{margin-top:.6rem;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:.85rem;letter-spacing:.06em;color:var(--ink)}
@@ -165,7 +165,7 @@ html{scroll-padding-top:72px}
   .bar a:focus-visible{outline:3px solid currentColor;outline-offset:-6px}
 }
 
-/* PALETTE ITALIANA ELEGANTE: crema, bordeaux, basilico; Bodoni (Parma, 1798) per i titoli */
+/* PALETTE ITALIANA ELEGANTE: crema, bordeaux, basilico; Lora per i titoli, Source Sans 3 per i testi */
 h1,h2,h3{font-weight:600;letter-spacing:.005em}
 .hero h1{font-weight:500;letter-spacing:-.01em}
 .caps,.mode .lbl,.marquee,.manifesto p,.cols li b,.cols li .p,.btn,.note footer,.orari .big,.hero .claim{font-weight:600}
@@ -343,7 +343,7 @@ h1,h2,h3{font-weight:600;letter-spacing:.005em}
   <p class="riga">Pizze, fritti e calzoni a domicilio. Si ordina su WhatsApp e si paga alla porta.</p>
   <a href="https://wa.me/393342359931?text=Ciao%2C%20vorrei%20ordinare%20a%20domicilio%3A" target="_blank" rel="noopener" class="btn">Ordina a domicilio</a>
   <a class="btn o" href="#menu">Il menu</a>
-  <p class="oggi" data-ore="[[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[],[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[[&quot;18:00&quot;,&quot;00:00&quot;]]]">Mercoledì 10:00 – 15:00 · 18:00 – 00:00</p>
+  <p class="oggi" data-ore="[[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[],[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[[&quot;10:00&quot;,&quot;15:00&quot;],[&quot;18:00&quot;,&quot;00:00&quot;]],[[&quot;18:00&quot;,&quot;00:00&quot;]]]">Giovedì 10:00 – 15:00 · 18:00 – 00:00</p>
   </div>
 
 <nav class="modes" aria-label="Come vuoi mangiare">
@@ -363,7 +363,7 @@ h1,h2,h3{font-weight:600;letter-spacing:.005em}
     <svg class="sun" viewBox="0 0 200 200" fill="none" stroke="#F7F1E5" stroke-width="2.5" aria-hidden="true">
       <circle cx="100" cy="100" r="34"/>
       <g stroke-linecap="round"><path d="M100 20v26M100 154v26M20 100h26M154 100h26M43 43l18 18M139 139l18 18M43 157l18-18M139 61l18-18M66 27l10 24M124 149l10 24M27 134l24-10M149 66l24-10M27 66l24 10M149 134l24 10M66 173l10-24M124 51l10-24"/></g>
-      <text x="100" y="106" text-anchor="middle" font-family="Bodoni Moda,Didot,Georgia,serif" font-weight="600" font-size="18" fill="#F7F1E5" stroke="none">450°</text>
+      <text x="100" y="106" text-anchor="middle" font-family="Lora,Georgia,serif" font-weight="600" font-size="18" fill="#F7F1E5" stroke="none">450°</text>
     </svg>
   </div>
 </section>
@@ -420,7 +420,7 @@ h1,h2,h3{font-weight:600;letter-spacing:.005em}
 <section class="wall" id="recensioni">
   <div class="wrap">
     <h2>Muro dell'amore</h2>
-    <div class="notes"><div class="note">"Cornicione alto e leggero, il giorno dopo non hai sete. Frittatina da manuale."<footer>Gennaro R. · Google ★★★★★</footer></div><div class="note">"Ordinato per 8 persone un sabato sera, tutto arrivato caldo e in orario."<footer>Maria Teresa S. · Google ★★★★★</footer></div><div class="note">"Posto semplice, personale velocissimo, prezzi onesti."<footer>Luca D. · Google ★★★★☆</footer></div><div class="note">"Ci veniamo da anni con i bambini. Sempre la stessa qualità."<footer>Antonio P. · Google ★★★★★</footer></div></div>
+    <div class="notes"><div class="note">"Cornicione alto e leggero, il giorno dopo non hai sete. Frittatina da manuale."<footer>Recensione di esempio</footer></div><div class="note">"Ordinato per 8 persone un sabato sera, tutto arrivato caldo e in orario."<footer>Recensione di esempio</footer></div><div class="note">"Posto semplice, personale velocissimo, prezzi onesti."<footer>Recensione di esempio</footer></div><div class="note">"Ci veniamo da anni con i bambini. Sempre la stessa qualità."<footer>Recensione di esempio</footer></div></div>
     <p class="legend"><span data-k="recensioni">317</span> recensioni su Google, media <span data-k="rating">4,3</span>. Testi di esempio: nel sito definitivo si importano quelle vere.</p>
   </div>
 </section>
