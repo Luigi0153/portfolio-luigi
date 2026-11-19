@@ -296,7 +296,7 @@ for (const vp of [390, 1280]) {
 
 /* ---------- Pagine progetto per percorso ---------- */
 const SINTESI =
-  "Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%, circa 2,6 volte, mentre le visite sono calate.";
+  "Da giugno a settembre 2026, prima del sito nuovo, la conversione del sito è passata da 0,19% a 0,50%, circa 2,6 volte, mentre le visite sono calate.";
 const INVITO = {
   dev: {
     riga: "Cerchi uno sviluppatore per il tuo team o per un progetto? Scrivimi, ti rispondo io.",
@@ -311,7 +311,7 @@ const INVITO = {
 for (const vp of [390, 1280]) {
   for (const target of ["dev", "business"]) {
     const { page, errori } = await nuovaPagina(vp, target);
-    await page.goto(BASE + "/progetti/caso-reale", { waitUntil: "networkidle" });
+    await page.goto(BASE + "/progetti/sisters-store", { waitUntil: "networkidle" });
     const etichetta = `${vp}px ${target} caso reale`;
 
     const p = await page.evaluate(() => {
@@ -381,7 +381,7 @@ for (const [vp, visibile] of [
   [1024, false],
 ]) {
   const { page } = await nuovaPagina(vp, "business");
-  await page.goto(BASE + "/progetti/caso-reale", { waitUntil: "domcontentloaded" });
+  await page.goto(BASE + "/progetti/sisters-store", { waitUntil: "domcontentloaded" });
   const n = await page.getByRole("link", { name: "Vai al risultato" }).count();
   atteso(
     n === (visibile ? 1 : 0),
@@ -390,16 +390,34 @@ for (const [vp, visibile] of [
   await page.close();
 }
 
+// Gli indirizzi vecchi del caso reale portano ai nuovi. Nella preview è la pagina di
+// reindirizzamento di Astro (meta refresh, noindex); online risponde il 308 di vercel.json,
+// che si controlla solo dopo il deploy.
+{
+  const { page } = await nuovaPagina(1280);
+  for (const [vecchio, nuovo] of [
+    ["/progetti/caso-reale", "/progetti/sisters-store"],
+    ["/loghi/boutique", "/loghi/sisters-store"],
+  ]) {
+    await page.goto(BASE + vecchio);
+    await page.waitForURL("**" + nuovo, { timeout: 10000 }).catch(() => {});
+    atteso(new URL(page.url()).pathname === nuovo, `redirect: ${vecchio} porta a ${nuovo} (${page.url()})`);
+  }
+  await page.close();
+}
+
 // Le description delle pagine progetto sono i sommari del percorso dev
 {
   const { page } = await nuovaPagina(1280);
   const DESCRIPTION = {
-    "/progetti/caso-reale":
-      "Boutique di borse e accessori. Prima i dati, poi quattro interventi su Shopify, con il redesign in pausa.",
+    "/progetti/sisters-store":
+      "Sisters Store, borse, zaini e abbigliamento di marca. Prima i dati e quattro interventi su Shopify, poi il sito nuovo, online dall'11 novembre 2026.",
     "/progetti/fornace-vietri":
       "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche.",
     "/progetti/pizzeria":
       "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale.",
+    "/progetti/palestra":
+      "Branding concept con landing page per una palestra di quartiere. Il sito aiuta a scegliere piano e obiettivo e porta su WhatsApp con la scelta già scritta.",
   };
   for (const [percorso, attesa] of Object.entries(DESCRIPTION)) {
     await page.goto(BASE + percorso, { waitUntil: "domcontentloaded" });
@@ -432,10 +450,10 @@ for (const [vp, visibile] of [
   // Le pagine dei singoli loghi crescono con la collection: si contano a parte.
   const dettagliLoghi = conta("/loghi/[a-z0-9-]+</loc>");
   atteso(
-    conta("<loc>") - dettagliLoghi === 8 &&
+    conta("<loc>") - dettagliLoghi === 9 &&
       dettagliLoghi >= 4 &&
       !testoSitemap.includes("styleguide"),
-    `seo: la sitemap elenca le 8 pagine pubbliche, ${dettagliLoghi} loghi e non la styleguide (${conta("<loc>")})`,
+    `seo: la sitemap elenca le 9 pagine pubbliche, ${dettagliLoghi} loghi e non la styleguide (${conta("<loc>")})`,
   );
 
   // Ogni pagina ha canonical e og:image propria
@@ -444,7 +462,7 @@ for (const [vp, visibile] of [
     "/come-lavoro",
     "/contatti",
     "/privacy",
-    "/progetti/caso-reale",
+    "/progetti/sisters-store",
     "/loghi",
     "/loghi/fornace-vietri",
   ]) {

@@ -2,7 +2,9 @@
 /**
  * Griglia dei progetti.
  *
- * L'ordine cambia col percorso scelto nell'hero. Qui, a differenza del resto
+ * L'ordine può cambiare col percorso scelto nell'hero (ordine_dev e
+ * ordine_business; dal 2026-11-19 sono uguali nei quattro progetti, ma il
+ * meccanismo resta). Qui, a differenza del resto
  * dello switch, non basta il CSS: `order` sposta quello che si vede e non
  * quello che c'è, e le card sono link. Tabulazione e screen reader seguirebbero
  * l'ordine sorgente (WCAG 2.4.3 e 1.3.2), quindi le celle vengono riordinate
@@ -34,12 +36,7 @@ const featured = progetti.toSorted((a, b) => a.data.ordine_dev - b.data.ordine_d
 <section id={id} class:list={["section-pad", className]} aria-labelledby={`${id}-titolo`}>
   <div class="container-site">
     <SectionHeader id={`${id}-titolo`} title="Progetti">
-      <p class="progetti__intro" data-only="dev">
-        Il codice arriva per ultimo. Prima viene il problema vero.
-      </p>
-      <p class="progetti__intro" data-only="business">
-        Ogni scelta qui sotto punta a vendere di più.
-      </p>
+      <p class="progetti__intro">Ecco una panoramica dei miei progetti.</p>
     </SectionHeader>
 
     <ul class="progetti__griglia" role="list" data-griglia-progetti>
@@ -273,6 +270,36 @@ const featured = progetti.toSorted((a, b) => a.data.ordine_dev - b.data.ordine_d
 
     .progetti__cella--grande .progetti__titolo {
       font-size: var(--text-h2);
+    }
+  }
+
+  /* Quattro progetti: sotto la cella grande ne restano tre. Da 1024px stanno
+     su una riga sola; tra 768 e 1023 l'ultima, rimasta sola, prende la riga
+     intera con foto e testo affiancati, come la cella grande. */
+  @media (min-width: 1024px) {
+    .progetti__griglia {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .progetti__cella:not(.progetti__cella--grande):last-child:nth-child(even) {
+      grid-column: 1 / -1;
+    }
+
+    .progetti__cella:not(.progetti__cella--grande):last-child:nth-child(even) :global(.progetti__card) {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .progetti__cella:not(.progetti__cella--grande):last-child:nth-child(even) .progetti__cover {
+      flex: 0 0 46%;
+      width: 46%;
+      height: auto;
+      align-self: stretch;
+      aspect-ratio: auto;
+      border-bottom: 0;
+      border-right: var(--border-retro);
     }
   }
 </style>

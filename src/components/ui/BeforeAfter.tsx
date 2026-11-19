@@ -10,6 +10,8 @@ interface Props {
   etichetta: string;
   etichettaPrima: string;
   etichettaDopo: string;
+  /** Posizione di partenza del taglio, in percentuale da sinistra. */
+  iniziale: number;
 }
 
 /**
@@ -30,8 +32,9 @@ export default function BeforeAfter({
   etichetta,
   etichettaPrima,
   etichettaDopo,
+  iniziale,
 }: Props) {
-  const [pos, setPos] = useState(50);
+  const [pos, setPos] = useState(iniziale);
   const id = useId();
 
   return (

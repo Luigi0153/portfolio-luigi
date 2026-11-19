@@ -2,7 +2,9 @@
 titolo: "Pizzeria Vico Stretto"
 slug: pizzeria
 tipo: "Branding concept"
-nota: "Brand e negozio online, progetto inventato. Le foto sono generate con l'AI."
+# Immagini da scripts/prepara-pizzeria.mjs, sul modello pizzeria delle bozze.
+# Foto stock Unsplash con fonte in D:\dev\bozze-siti-napoli\docs\FONTI-FOTO.md.
+nota: "Brand e sito, progetto inventato. Le foto sono stock, da Unsplash."
 lente: flusso
 target: business
 tags:
@@ -11,11 +13,13 @@ tags:
   - Mobile
   - Instagram
 cover: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-copertina.jpg
-coverAlt: "Il marchio Vico Stretto, un sigillo tondo con la scritta dal 1961, e la pagina della pizzeria su telefono, su un fondo di marmo chiaro. In alto la foto in bianco e nero della sala, il titolo La pizza del quartiere, da tre generazioni e il bottone bordeaux Prenota un tavolo. Accanto il menu su una lavagna nera, con Margherita a 6 euro, Marinara a 5, Provola e pepe a 7 e Salame piccante a 7,50."
+coverAlt: "La foto di un forno a legna acceso e due telefoni con la pagina di Vico Stretto, su fondo crema e bordeaux. Nel primo il nome in grande, la riga sulla pizzeria, il bottone bordeaux Prenota un tavolo e la scritta verde Aperto ora, chiude alle 23:30. Nel secondo il menu con le categorie Pizze, Fritti e Da bere e i prezzi: Margherita 6 euro, Marinara 5, Provola e pepe 7, Salame piccante 7,50. In fondo a tutti e due la barra con Prenota, Chiama e Menu."
+# l'og è un JPEG: la copertina è una foto (scripts/prepara-og.mjs)
+og: jpg
 sommario: "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale."
 sommario_business: "Branding concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni."
 ordine_dev: 3
-ordine_business: 2
+ordine_business: 3
 capitoli:
   - id: pizzeria
     titolo: La pizzeria
@@ -24,7 +28,7 @@ capitoli:
       - "Lavora molto con Instagram. I reel delle pizze girano, e la gente scrive nei messaggi per chiedere se c'è posto."
     figura:
       src: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-brand.jpg
-      alt: "Identità della pizzeria, su un fondo di marmo chiaro. Il logo è un sigillo tondo con le iniziali VS e le scritte Pizzeria Vico Stretto, Napoli e dal 1961. Tre colori: Marmo, Nero e Bordeaux, che serve solo per il bottone. Il carattere Bodoni Moda, con Karla per i testi. Il menu è una lavagna nera, con i puntini fino al prezzo: Margherita a 6 euro, Marinara a 5, Provola e pepe a 7 e Salame piccante a 7,50. Le foto della sala, del forno a legna e delle mani che stendono l'impasto sono in bianco e nero, la foto di una margherita è a colori."
+      alt: "Identità della pizzeria, su fondo crema. Il sigillo bordeaux con le iniziali VS e le scritte Pizzeria Vico Stretto, Napoli e dal 1961, il nome Vico Stretto in grande e l'etichetta Dal 1961, Centro storico. Quattro colori: Crema, Bordeaux, Basilico e Farina. Il carattere Lora per i titoli, Source Sans 3 per i testi e i prezzi. A destra la foto del forno a legna e una tavola con le pizze vista dall'alto, il menu con Margherita a 6 euro, Marinara a 5, Provola e pepe a 7 e Salame piccante a 7,50, la riga verde Aperto ora, chiude alle 23:30, e la barra con Prenota, Chiama e Menu."
   - id: problema
     titolo: Il problema
     righe:
@@ -55,7 +59,7 @@ capitoli:
     titolo: Cosa ho tolto
     elenco:
       voci:
-        - "Il menu di navigazione. La pagina ha un solo obiettivo, far prenotare."
+        - "Il menu di navigazione. La pagina ha un solo obiettivo, far prenotare: su telefono restano tre azioni nella barra in basso."
         - "Il menu in PDF, che dal telefono si legge male. Al suo posto le pizze principali con i prezzi, leggibili senza zoom."
         - "Il modulo di un portale di prenotazione, con la sua commissione."
         - "La galleria di foto infinita. Bastano poche foto, il resto lo mostra Instagram."
@@ -65,17 +69,17 @@ capitoli:
       - "Una sola pagina, pensata per il telefono."
     elenco:
       voci:
-        - "In alto il nome, una foto della sala, una riga sulla pizzeria e il bottone “Prenota un tavolo”."
-        - "Il menu, con le pizze principali e i prezzi."
-        - "Orari, indirizzo con la mappa e il bottone per chiamare."
-        - "Il bottone “Prenota un tavolo” resta fisso in basso mentre si scorre."
+        - "In alto il nome, una riga sulla pizzeria, il bottone “Prenota un tavolo” e la scritta “Aperto ora” quando il locale è aperto."
+        - "Il menu, con le pizze principali e i prezzi. Le categorie restano in alto mentre si scorre e si cambiano con il pollice."
+        - "Le recensioni, gli orari, l'indirizzo con le indicazioni e il bottone per chiamare."
+        - "In basso una barra fissa con Prenota, Chiama e Menu, sempre a portata di pollice."
     galleria:
       - etichetta: La pagina
         src: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-landing.jpg
-        alt: "La pagina della pizzeria su telefono, dall'alto in basso. Il logo e il nome, la foto in bianco e nero della sala, il titolo La pizza del quartiere, da tre generazioni e il bottone bordeaux Prenota un tavolo. Il menu su una lavagna nera con quattro pizze, ognuna con la sua foto a colori e il prezzo, una foto in bianco e nero del forno, gli orari da martedì a domenica dalle 19 alle 23:30, l'indirizzo nel centro storico di Napoli con la mappa, i bottoni Mappe e Chiama, e il bottone Prenota un tavolo fisso in fondo."
+        alt: "La pagina della pizzeria su telefono, in due colonne. A sinistra il nome Vico Stretto sotto un forno disegnato, la riga sulla pizzeria, i bottoni Prenota un tavolo e Il menu e la scritta verde Aperto ora, chiude alle 23:30. Poi una fascia bordeaux sulla pizza e il menu con le categorie Pizze, Fritti e Da bere, ogni voce con il suo prezzo. A destra la foto del forno con il bottone Prenota un tavolo, il muro con quattro recensioni di esempio, gli orari da martedì a domenica dalle 19 alle 23:30, il centro storico di Napoli con le indicazioni, il numero da chiamare e la barra in basso con Prenota, Chiama e Menu."
       - etichetta: La prenotazione
         src: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-prenota.jpg
-        alt: "Il pannello Quando venite? Scelti sabato 26 tra i giorni, le 20:30 tra gli orari e 4 persone. Sotto il riepilogo, il bottone bordeaux Invia su WhatsApp e la nota che la pizzeria conferma con una risposta."
+        alt: "Il pannello Quando venite?, aperto sopra la pagina. Scelti sabato 26 tra i giorni, le 20:30 tra gli orari e 4 persone. Sotto il riepilogo, il bottone bordeaux Invia su WhatsApp e la nota che la pizzeria conferma con una risposta."
       - etichetta: Il messaggio
         src: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-messaggio.jpg
         alt: "La chat su WhatsApp con la pizzeria. Il messaggio già scritto con giorno sabato 26, orario 20:30 e 4 persone, e la risposta della pizzeria: Perfetto, vi aspettiamo sabato alle 20:30. A presto!"

@@ -2,6 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/progetti/caso-reale", "destination": "/progetti/sisters-store", "permanent": true },
+    { "source": "/loghi/boutique", "destination": "/loghi/sisters-store", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",

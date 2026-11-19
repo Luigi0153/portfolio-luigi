@@ -420,6 +420,132 @@ lavori da fare stanno in `docs/STATO.md`.
   - **3. Alt dei loghi** (`25ff88f`). `altLogo()` non scrive più `(Progetto)`:
     `Logo di X`. Gli altri tipi mantengono l'etichetta, come a vista.
   - **Test.** Dieci test permanenti sulla build di preview, tutti verdi.
+- **Sisters Store con il nome vero (2026-11-18).** Ramo `progetti-nuovi`, punto 1 del blocco
+  "progetti nuovi". Il caso reale non è più anonimo: è Sisters Store, il negozio di Luigi.
+  Quattro commit.
+  - **Schermate** (`72f94b4`). `scripts/cattura-sisters.mjs` fotografa con Playwright
+    sistersstore.it: "dopo" col tema pubblicato, "prima" col tema vecchio "Sito Ufficiale"
+    (#203060707671) in anteprima (`?preview_theme_id=`, si apre senza login), banner dei cookie
+    chiuso con "Declina", barra dell'anteprima nascosta. Il tema è quello vecchio, i prodotti sono
+    quelli di oggi, e la pagina lo dice. Home a 1440 (prima schermata) e a 393 (2x, tagliata a
+    1900px CSS), scheda della borsa Saint Barth Colette Wax dark leopard (prima schermata, per lo
+    slider), collezione Borse e pannello dei filtri. `scripts/prepara-sisters.mjs` fa i due loghi
+    in PNG (Chromium, perché maschere e gradienti degli SVG) e la copertina 2400x1600 con le due home
+    da telefono; `og/sisters-store.png` viene dalla copertina.
+  - **Contenuti** (`917e66f`). `/progetti/caso-reale` → `/progetti/sisters-store` e
+    `/loghi/boutique` → `/loghi/sisters-store`: redirect permanenti in `vercel.json` (308) e in
+    `redirects` di `astro.config.mjs`, che nella build statica scrive una pagina con meta refresh,
+    noindex e canonical sul nuovo indirizzo (vale per la preview). La documentazione di Astro non
+    dice se la sitemap li elenca: il `filter` della sitemap li esclude comunque. Campo nuovo `sito`
+    nello schema (link sotto la sintesi, scheda nuova). Numeri invariati, presentati come fase 1
+    con il periodo scritto, e commento `[DA CONFRONTARE A DICEMBRE]` su ognuno. "Il negozio oggi"
+    e "Il passo successivo" (proposte Fase 1 e Fase 2) sostituiti da "Il sito nuovo" in quattro
+    parti: home (blocco nuovo `before-after-home`, slider a tutta colonna con la classe
+    `ba__host--largo`, e galleria da telefono), scheda prodotto (slider), collezioni (galleria di
+    quattro), identità (solo testo). Cancellate le ricostruzioni con la scritta BOUTIQUE, le
+    immagini delle proposte, `caso-riepilogo`, `caso-fase2-identita` e `scripts/prepara-slider.mjs`.
+  - **Logo** (`07592f7`). Monogramma SS (`sisters-logo-verticale-senza-tagline.svg`) e, nel prima
+    e dopo, il logo corsivo con i due profili (`logosss.svg`). Tipo "progetto" e non "rebranding":
+    nel portfolio il rebranding è l'esercizio di stile su un marchio altrui e stampa "Non affiliato
+    ai marchi citati". Fondo `#FBF4F1`, il cipria chiaro del brand kit.
+  - **Test e documenti.** Il link al sito stava tra titolo e sintesi: `test-pagine` vuole la
+    sintesi subito sotto il titolo, quindi il link è passato dopo la sintesi. `test-progetti`
+    controlla sei capitoli, il link, le quattro parti del sito nuovo, i due slider (misure,
+    ordine, larghezza) e nessuna immagine vecchia; `test-pagine` i due redirect. Regola 8 del
+    `CLAUDE.md` aggiornata, `docs/content/caso-reale.md` riscritto senza anonimato.
+  - **Slider** (`2a2b2cc`, 2026-11-19). Il pallino stava in cima: la traccia del range era alta
+    100% e il pollice si allinea in alto nella traccia. Ora la traccia è alta quanto il pallino
+    (34px) e il browser la centra nel range. Parametro `posizione` in `BeforeAfter.astro`: la home
+    da desktop parte al 10% e non al 35% chiesto, perché "AUTUNNO 2026" comincia al 12% della
+    larghezza e al 35% si leggeva solo "NO 2026". Luigi ha confermato il 10%.
+- **Giro di testi e home (2026-11-19).** Ramo `progetti-nuovi`.
+  - **Progetti** (`1124b77`). Una frase sola sotto il titolo, per tutti e due i percorsi: "Ecco
+    una panoramica dei miei progetti."
+  - **Sisters Store.** Titolo "Creazione e rebranding" (card, h1, `<title>`, og:title). Il nome
+    del negozio sta nel campo `tipo`, che si stampa prima della lente: "Sisters Store · decisione",
+    come "Branding concept · sistema" sugli altri due. Copertina senza testi: monogramma SS
+    (`sisters-logo-monogramma.svg`, nei suoi colori) a sinistra e i due telefoni a destra, sul
+    crema. Telefoni spostati di 90px verso il centro: la card grande da desktop taglia i lati della
+    copertina e il telefono Dopo perdeva il bordo destro (succedeva anche con la copertina vecchia).
+    og rifatta dalla copertina. Il controllo "Non affiliato" assente sui loghi di tipo progetto
+    c'era già in `test-loghi`.
+  - **Scena dell'hero senza tabellino.** Quattro proposte mostrate iniettando CSS nella preview,
+    senza toccare il repo; Luigi ha scelto D1 da desktop e M1 da telefono. Desktop: riquadro 5:4,
+    il telefono passa da `left 66% top 5% width 26%` a `left 64% top 20% width 30%`, nel posto del
+    tabellino; raggiera centrata (`top 38.8%`: rapporto 0.998, alto 37,6% del riquadro). Telefono:
+    Progetti in una tessera larga 2:1 (`desk__tile--largo`, illustrazione al 30%), Come lavoro e
+    Contatti affiancate. Cancellate `src/assets/scene/tabellino.png` e `scene-src/tabellino.png`.
+    Il semicerchio arancio da telefono (`Hero.astro`) scende di 6px e va 6px più a sinistra: sotto
+    c'è ora "Come lavoro", più lunga di "Contatti", e a 320px `test-forme` misurava 3,8px (minimo
+    8, ora 12,2). `test-scena` diventa bloccante e controlla anche le tessere. Visto e non
+    corretto: a 320px la colonna dell'hero è larga 301px su 280 per colpa dello switch (vedi
+    STATO, "Decisioni aperte"; Luigi ha detto di lasciarlo stare).
+- **Pizzeria e palestra dalle bozze (2026-11-19).** Ramo `progetti-nuovi`.
+  - **Pizzeria** (`aa53710`). `scripts/prepara-pizzeria.mjs` apre
+    `D:\dev\bozze-siti-napoli\mockups\pizzeria.html` in sola lettura, lo riempie con i dati di
+    Vico Stretto presi dal copy (40 posti, dal 1961, centro storico, le quattro pizze, aperto da
+    martedì a domenica 19–23:30) e fotografa con Playwright, con l'ora fissata da `clock` per
+    "Aperto ora". Tolti i tre modi (tavolo, asporto, casa) e il nastro dei quartieri: la pagina ha
+    un solo obiettivo, prenotare. Barra in basso: Prenota, Chiama, Menu. Il pannello "Quando
+    venite?" e la chat su WhatsApp sono HTML scritti nello stile del modello. La pagina intera
+    (più di 4000px CSS) è divisa in due colonne all'inizio della sezione col forno. Il sigillo VS
+    diventa bordeaux con sharp (il nero del disegno usato come opacità). Foto: solo le due stock
+    Unsplash documentate nelle bozze. Copy invariato, tranne nota, alt e i punti di "La pagina" e
+    "Cosa ho tolto" che parlavano di mappa, foto della sala e bottone singolo.
+  - **Palestra.** Progetto nuovo `/progetti/palestra`, "Palestra Kilo Club" (nome inventato,
+    `ordine_dev` 4, `ordine_business` 3, Fornace passa a 4 nel percorso business).
+    `scripts/prepara-palestra.mjs` fa lo stesso col modello palestra: foto della sala nell'hero,
+    scelta del piano che porta a WhatsApp, risultati di esempio senza nomi, barra in basso con
+    Prova gratis, Corsi e Orari. Il bilanciere è un'animazione legata allo scorrimento: per le
+    tre foto (20, 80, 140 kg) l'animazione si spegne e lo stato si scrive a mano, perché lo
+    scatto di un elemento lo riporta in vista e cambia lo stato. La pagina intera è in tre
+    colonne, tagliata tra gli inizi delle sezioni in modo che le colonne siano il più possibile
+    alte uguali. Copy: il sito come strumento per tenersi il cliente, dal piano e
+    dall'obiettivo a WhatsApp alla prova dal vivo.
+  - **Griglia.** Con quattro progetti: da 1024px tre colonne (la grande sopra, le altre su una
+    riga), tra 768 e 1023 l'ultima card prende la riga intera con foto e testo affiancati.
+  - **Test.** `test-progetti` (quattro card, tre su una riga a 1280, concept palestra con sette
+    capitoli, figure e galleria da quattro), `test-switch` e `test-pagine` (sommari, description,
+    nove pagine nella sitemap), `test-forme` e `test-nav` con la pagina nuova.
+
+- **Sisters Store, immagini in due stili (2026-11-19).** Ramo `progetti-nuovi`. Luigi ha scelto
+  di mescolare le due prove (`screenshots/sisters/direzioni/`): B "Notte" per copertina, og,
+  slider della home da computer e galleria della home da telefono; A "Cipria" per scheda
+  prodotto, collezioni e filtri. Testi e numeri della pagina invariati; cambia solo l'alt della
+  copertina, che descriveva i due telefoni prima e dopo.
+  - **Sorgenti.** Le catture di `cattura-sisters.mjs` stanno ora in
+    `src/assets/progetti/sisters-store/catture/` (spostate con `git mv`), così
+    `prepara-sisters.mjs` le mette nelle cornici senza ricomporre immagini già composte. Le foto
+    del negozio (foto dell'hero Autunno 2026 e due foto prodotto di "Da non perdere ora", borsa
+    Saint Barth e zaino Sprayground, ridotte a 900px in webp) sono in `foto/`, nel repo: l'hero del negozio cambierà con la
+    stagione e il fondo deve restare quello delle schermate. Colori dal brand kit di Sisters Store
+    (nero, cipria, cipria chiaro, viola), non quelli del portfolio.
+  - **B.** Fondo: la foto dell'hero sfocata e scurita. Copertina 2400x1600 con il logo
+    orizzontale in negativo, la riga viola, computer e telefono, tutto tra x 280 e 2220 e tra
+    y 170 e 1430 (taglio dell'og). Slider della home 1840x1240, con il computer: parte al 19%,
+    cioè al 10% dello schermo, perché si legga "AUTUNNO 2026". Galleria della home: la pagina
+    lunga intera dentro un telefono, schermo a 1:1 con la cattura.
+  - **A.** Fondo cipria. Scheda prodotto 1034x2402: il telefono e sotto due carte cipria chiaro
+    con borsa e zaino (una prima versione con le carte a lato del telefono le nascondeva quasi
+    tutte). Collezioni e filtri: il telefono su cipria, schermo a 1:1.
+  - **og in JPEG.** `prepara-og.mjs` salva in JPEG le og che finiscono in `.jpg` (qualità più alta
+    sotto i 200 KB): Sisters Store 77 KB, pizzeria 86 KB, palestra 85 KB, prima 432, 772 e 586 KB
+    in PNG. Il formato sta anche nel campo `og` del progetto (`png` di default), che
+    `[slug].astro` usa per l'URL. Subito dopo, su richiesta di Luigi, anche Fornace: 72 KB
+    (prima 504 KB in PNG). Ora tutte le og delle copertine sono JPEG; `test-progetti` lo
+    controlla per i tre concept.
+
+- **Stesso ordine dei progetti nei due percorsi (2026-11-19).** Ramo `progetti-nuovi`. Sisters
+  Store, Palestra Kilo Club, Pizzeria Vico Stretto, Fornace Vietri, sia in dev sia in business
+  (`ordine_dev` e `ordine_business` uguali nei quattro md). Lo script di `ProjectGrid` che
+  riordina le celle al cambio di percorso resta, nel caso gli ordini tornino diversi.
+  `test-progetti` controlla l'ordine intero delle quattro card, `test-switch` i sommari nel
+  nuovo ordine.
+  - **Build senza CSS.** Lanciata da `d:\` minuscolo, la build usciva pulita ma senza nessun
+    file CSS; da `D:\` è giusta. Build e preview da PowerShell con `Set-Location 'D:\dev\portfolio-luigi'`.
+  - **Test.** `test-progetti`: misure degli slider nelle cornici, partenza 19, og JPEG sotto i
+    200 KB per pizzeria e palestra. Verdi `test-progetti` (206), `test-pagine` (142),
+    `test-switch`, `test-forme` (118).
 
 ## Correzioni dall'audit (2026-09-21)
 

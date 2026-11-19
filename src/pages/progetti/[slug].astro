@@ -32,7 +32,7 @@ const { data } = progetto;
   title={data.titolo}
   description={data.sommario}
   ogType="article"
-  ogImage={`/og/${data.slug}.png`}
+  ogImage={`/og/${data.slug}.${data.og}`}
 >
   <article class="caso">
     <div class="container-site caso__griglia">
@@ -55,6 +55,18 @@ const { data } = progetto;
               <p class="caso__sintesi" data-only="business">
                 {data.sintesi_business.testo}{" "}
                 <a href={`#sez-${data.sintesi_business.capitolo}`}>{data.sintesi_business.link}</a>
+              </p>
+            )
+          }
+
+          {/* Dopo la sintesi: nel percorso business sotto il titolo viene prima il risultato */}
+          {
+            data.sito && (
+              <p class="caso__sito">
+                <a href={data.sito.url} target="_blank" rel="noopener">
+                  {data.sito.testo}
+                  <span class="sr-only"> (si apre in una nuova scheda)</span>
+                </a>
               </p>
             )
           }
@@ -169,6 +181,12 @@ const { data } = progetto;
     margin-top: 0.75rem;
     max-width: 44ch;
     color: var(--color-ink-2);
+  }
+
+  /* Il sito vero del progetto: un link normale, l'arancio è quello dei link */
+  .caso__sito {
+    margin-top: 0.75rem;
+    font-size: var(--text-body-lg);
   }
 
   /* Il risultato in breve, per il percorso business: in ink e non ink-2,

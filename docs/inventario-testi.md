@@ -53,10 +53,10 @@ tutte insieme il sito suona scritto da una macchina brava.
 
 | Testo | Dove | Giudizio | Perché |
 |---|---|---|---|
-| `Progetti` `Come lavoro` `Contatti` `Caso reale` | `DeskScene.astro:24,32,40,48` | neutra | Etichette degli hotspot. |
-| `Computer: vai ai progetti`, `Taccuino: come lavoro`, `Telefono: contatti`, `Tabellino: il caso reale` | `DeskScene.astro:25,33,41,49` | neutra | Qui i due punti sono etichettatura per screen reader, non una battuta. Corretto così. |
-| `Tazza di caffè` | `DeskScene.astro:114` | neutra | — |
-| `// caffè bevuto, si riparte` | `DeskScene.astro:137` | **da AI** (rivista, tenuta) | Easter egg con `//` come cornice: è la battuta che scrive un modello quando gli si chiede "metti un easter egg". Niente nel tuo campione dice che scherzi così. Riscritta una prima volta nel commit `2236e9b` (21/9, non tracciata allora in questo file). Il 22/9 riproposta con 3 varianti (due senza `//`): Luigi ha scelto di tenerla com'è. Decisione, non correzione mancata — non riproporla senza una ragione nuova. |
+| `Progetti` `Come lavoro` `Contatti` | `DeskScene.astro:26,34,42` | neutra | Etichette degli hotspot. `Caso reale` (tabellino) tolta il 2026-11-19 insieme all'oggetto: al caso si arriva dalla riga dell'hero e dalla griglia dei progetti. |
+| `Computer: vai ai progetti`, `Taccuino: come lavoro`, `Telefono: contatti` | `DeskScene.astro:27,35,43` | neutra | Qui i due punti sono etichettatura per screen reader, non una battuta. Corretto così. `Tabellino: il caso reale, Sisters Store` tolta il 2026-11-19. |
+| `Tazza di caffè` | `DeskScene.astro:109` | neutra | — |
+| `// caffè bevuto, si riparte` | `DeskScene.astro:132` | **da AI** (rivista, tenuta) | Easter egg con `//` come cornice: è la battuta che scrive un modello quando gli si chiede "metti un easter egg". Niente nel tuo campione dice che scherzi così. Riscritta una prima volta nel commit `2236e9b` (21/9, non tracciata allora in questo file). Il 22/9 riproposta con 3 varianti (due senza `//`): Luigi ha scelto di tenerla com'è. Decisione, non correzione mancata — non riproporla senza una ragione nuova. |
 
 ## 4. Griglia progetti (home)
 
@@ -274,6 +274,7 @@ insieme alla griglia progetti (vedi tabella sotto).
 |---|---|---|
 | `Prima capire il vincolo, poi scrivere il codice.` | §4, intro dev | → `Il codice arriva per ultimo. Prima viene il problema vero.` |
 | `Una sola domanda: questa scelta fa vendere di più?` | §4, intro business | → `Ogni scelta qui sotto punta a vendere di più.` |
+| Le due intro qui sopra | §4, intro dev e business | Il 2026-11-19 → una frase sola per i due percorsi: `Ecco una panoramica dei miei progetti.` |
 | `Lente: decisione` / `sistema` / `flusso` | §4, `ProjectGrid.astro:69` e `[slug].astro:55` | Via l'etichetta "Lente:" e i due punti: resta solo il valore come tag maiuscolo (`DECISIONE` / `SISTEMA` / `FLUSSO`), stesso pattern in entrambi i file. |
 | `Parliamone` | InvitoContatto, titolo | → `Raccontami il progetto` |
 | `Due righe bastano. Rispondo entro un giorno lavorativo.` | InvitoContatto, riga | → `Scrivimi quello che hai adesso. Rispondo entro un giorno lavorativo.` (non è più una copia letterale della riga del form in §9) |

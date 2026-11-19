@@ -80,9 +80,10 @@ import DeskScene from "./DeskScene.astro";
 
       {/* Un numero vero sopra la piega: i dati del caso reale stavano a due
           click da qui. Testo statico e non StatTile: senza conteggio non c'è
-          animazione da far ripartire quando lo switch scopre questa riga. */}
+          animazione da far ripartire quando lo switch scopre questa riga.
+          [DA CONFRONTARE A DICEMBRE] il numero è della fase 1, giugno-settembre 2026. */}
       <p class="hero__prova" data-only="business" data-hero-reveal>
-        Su un <a href="/progetti/caso-reale">negozio reale</a>, da giugno a
+        Su <a href="/progetti/sisters-store">Sisters Store</a>, da giugno a
         settembre, <strong>2,6 volte più acquisti</strong> ogni 100 visite.
       </p>
     </div>
@@ -233,9 +234,13 @@ import DeskScene from "./DeskScene.astro";
     background: var(--color-ink);
   }
 
+  /* Da telefono sta sotto la tessera in basso a sinistra. Dal 2026-11-19 lì
+     c'è "Come lavoro", più lunga di "Contatti": 6px più in basso e 6px più a
+     sinistra, o girando col parallax arrivava a 3,8px dalla scritta a 320px
+     (test-forme vuole almeno 8). */
   .forma--semicerchio {
-    bottom: -30px;
-    left: -74px;
+    bottom: -36px;
+    left: -80px;
     width: 140px;
     height: 70px;
     border-radius: 140px 140px 0 0;

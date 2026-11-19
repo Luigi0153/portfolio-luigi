@@ -18,6 +18,14 @@ export default defineConfig({
   // forma con la barra la reindirizza Vercel (vedi `trailingSlash` in vercel.json).
   trailingSlash: 'never',
 
+  // Gli indirizzi vecchi del caso reale, prima che avesse il nome vero
+  // (2026-11-18). Su Vercel risponde il 308 di vercel.json; qui la build
+  // scrive una pagina di reindirizzamento, che vale per la preview.
+  redirects: {
+    '/progetti/caso-reale': '/progetti/sisters-store',
+    '/loghi/boutique': '/loghi/sisters-store',
+  },
+
   vite: {
     plugins: [tailwindcss()]
   },
@@ -26,7 +34,11 @@ export default defineConfig({
     react(),
     sitemap({
       // La styleguide è uno strumento di lavoro, non una pagina del sito.
-      filter: (page) => !page.includes('/styleguide'),
+      // Gli indirizzi vecchi reindirizzano: fuori dalla sitemap.
+      filter: (page) =>
+        !page.includes('/styleguide') &&
+        !page.endsWith('/progetti/caso-reale') &&
+        !page.endsWith('/loghi/boutique'),
     }),
   ]
 });
