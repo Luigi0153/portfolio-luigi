@@ -531,7 +531,9 @@ lavori da fare stanno in `docs/STATO.md`.
   - **og in JPEG.** `prepara-og.mjs` salva in JPEG le og che finiscono in `.jpg` (qualità più alta
     sotto i 200 KB): Sisters Store 77 KB, pizzeria 86 KB, palestra 85 KB, prima 432, 772 e 586 KB
     in PNG. Il formato sta anche nel campo `og` del progetto (`png` di default), che
-    `[slug].astro` usa per l'URL. Fornace resta in PNG (504 KB).
+    `[slug].astro` usa per l'URL. Subito dopo, su richiesta di Luigi, anche Fornace: 72 KB
+    (prima 504 KB in PNG). Ora tutte le og delle copertine sono JPEG; `test-progetti` lo
+    controlla per i tre concept.
   - **Build senza CSS.** Lanciata da `d:\` minuscolo, la build usciva pulita ma senza nessun
     file CSS; da `D:\` è giusta. Build e preview da PowerShell con `Set-Location 'D:\dev\portfolio-luigi'`.
   - **Test.** `test-progetti`: misure degli slider nelle cornici, partenza 19, og JPEG sotto i

@@ -468,11 +468,10 @@ for (const concetto of CONCEPT) {
 
     const og = await page.getAttribute('meta[property="og:image"]', "content");
     const ogRisposta = og ? await page.request.get(BASE + new URL(og).pathname) : null;
-    // le og delle copertine fotografiche sono JPEG sotto i 200 KB (campo og del progetto)
-    const ogFormato = ["pizzeria", "palestra"].includes(slug) ? "jpg" : "png";
+    // le og delle copertine dei tre concept sono JPEG sotto i 200 KB (campo og del progetto)
     const ogPeso = ogRisposta?.ok() ? (await ogRisposta.body()).length : 0;
     atteso(
-      og?.endsWith(`/og/${slug}.${ogFormato}`) && ogRisposta?.ok() && (ogFormato === "png" || ogPeso < 200 * 1024),
+      og?.endsWith(`/og/${slug}.jpg`) && ogRisposta?.ok() && ogPeso < 200 * 1024,
       `${vp}px ${slug}: og-image presente e servita (${og}, ${Math.round(ogPeso / 1024)} KB)`,
     );
 

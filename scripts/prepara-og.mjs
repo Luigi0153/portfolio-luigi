@@ -77,7 +77,7 @@ const PAGINE = [
   },
   {
     // Nessun template: la copertina ha già nome e sottotitolo del progetto
-    file: "og/fornace-vietri.png",
+    file: "og/fornace-vietri.jpg",
     copertina: "src/assets/progetti/fornace-vietri/fornace-copertina.jpg",
   },
   {
