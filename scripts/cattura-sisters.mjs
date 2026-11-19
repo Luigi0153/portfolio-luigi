@@ -6,7 +6,8 @@
   Il banner dei cookie si chiude con "Declina", la barra dell'anteprima si nasconde.
   Stessa scheda prodotto e stessa collezione per tutti e due i temi.
 
-  Uscita in src/assets/progetti/sisters-store/:
+  Uscita in src/assets/progetti/sisters-store/catture/ (poi scripts/prepara-sisters.mjs le mette
+  nelle cornici e scrive le immagini della pagina in src/assets/progetti/sisters-store/):
     sisters-<prima|dopo>-home-desktop.jpg   1440x900, prima schermata
     sisters-<prima|dopo>-home.jpg           telefono 393, 2x, la parte alta della pagina
     sisters-<prima|dopo>-scheda.jpg         telefono 393, 2x, prima schermata (slider)
@@ -22,7 +23,7 @@ import path from "node:path";
 
 const SITO = "https://sistersstore.it";
 const TEMA_VECCHIO = "203060707671";
-const DIR = "src/assets/progetti/sisters-store";
+const DIR = "src/assets/progetti/sisters-store/catture";
 const COLLEZIONE = "/collections/borse";
 // Altezza massima delle schermate lunghe da telefono, in pixel CSS
 const MAX_ALTEZZA = 1900;

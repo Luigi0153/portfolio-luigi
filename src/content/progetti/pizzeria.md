@@ -14,6 +14,8 @@ tags:
   - Instagram
 cover: ../../assets/progetti/pizzeria-vico-stretto/pizzeria-copertina.jpg
 coverAlt: "La foto di un forno a legna acceso e due telefoni con la pagina di Vico Stretto, su fondo crema e bordeaux. Nel primo il nome in grande, la riga sulla pizzeria, il bottone bordeaux Prenota un tavolo e la scritta verde Aperto ora, chiude alle 23:30. Nel secondo il menu con le categorie Pizze, Fritti e Da bere e i prezzi: Margherita 6 euro, Marinara 5, Provola e pepe 7, Salame piccante 7,50. In fondo a tutti e due la barra con Prenota, Chiama e Menu."
+# l'og è un JPEG: la copertina è una foto (scripts/prepara-og.mjs)
+og: jpg
 sommario: "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale."
 sommario_business: "Branding concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni."
 ordine_dev: 3

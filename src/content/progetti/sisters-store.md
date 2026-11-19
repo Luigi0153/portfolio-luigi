@@ -18,7 +18,9 @@ tags:
   - Catalogo
   - Mobile
 cover: ../../assets/progetti/sisters-store/sisters-copertina.jpg
-coverAlt: "Il monogramma SS di Sisters Store e due telefoni con la home del negozio. Prima, il logo corsivo e una foto con la scritta L'essenza delle tendenze e il bottone Vai al catalogo. Dopo, il monogramma SS e una foto di notte con il titolo Autunno 2026 e i bottoni Novità donna e Novità uomo."
+coverAlt: "Il logo di Sisters Store, il monogramma SS e il nome, su una foto di notte sfocata. Davanti un computer e un telefono con la home del negozio: una ragazza con gli occhiali da sole in una strada di notte, il titolo Autunno 2026 e i bottoni Novità donna e Novità uomo. Sul telefono, sotto, Da non perdere ora con una borsa e uno zaino."
+# l'og è un JPEG: la copertina è una foto (scripts/prepara-og.mjs)
+og: jpg
 # [DA CONFRONTARE A DICEMBRE] sommario_business e sintesi_business
 sommario: "Sisters Store, borse, zaini e abbigliamento di marca. Prima i dati e quattro interventi su Shopify, poi il sito nuovo, online dall'11 novembre 2026."
 sommario_business: "Sisters Store, borse e zaini. Da giugno a settembre 2026 la conversione del sito è passata da 0,19% a 0,50%. Poi il sito nuovo, online dall'11 novembre."

@@ -468,9 +468,12 @@ for (const concetto of CONCEPT) {
 
     const og = await page.getAttribute('meta[property="og:image"]', "content");
     const ogRisposta = og ? await page.request.get(BASE + new URL(og).pathname) : null;
+    // le og delle copertine fotografiche sono JPEG sotto i 200 KB (campo og del progetto)
+    const ogFormato = ["pizzeria", "palestra"].includes(slug) ? "jpg" : "png";
+    const ogPeso = ogRisposta?.ok() ? (await ogRisposta.body()).length : 0;
     atteso(
-      og?.endsWith(`/og/${slug}.png`) && ogRisposta?.ok(),
-      `${vp}px ${slug}: og-image presente e servita (${og})`,
+      og?.endsWith(`/og/${slug}.${ogFormato}`) && ogRisposta?.ok() && (ogFormato === "png" || ogPeso < 200 * 1024),
+      `${vp}px ${slug}: og-image presente e servita (${og}, ${Math.round(ogPeso / 1024)} KB)`,
     );
 
     atteso(errori.length === 0, `${vp}px ${slug}: nessun errore in console`);
@@ -490,11 +493,11 @@ for (const concetto of CONCEPT) {
   await slider.scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);
 
-  // posizione di partenza: la home parte al 10% (si legge il titolo dell'hero), la scheda a metà
+  // posizione di partenza: la home parte al 19%, cioè al 10% dello schermo del computer (si legge il titolo dell'hero), la scheda a metà
   const partenze = await page.$$eval(".ba__range", (r) => r.map((el) => el.value));
   atteso(
-    partenze.join(",") === "10,50",
-    `slider: home parte al 10%, scheda al 50% (${partenze.join(", ")})`,
+    partenze.join(",") === "19,50",
+    `slider: home parte al 19%, scheda al 50% (${partenze.join(", ")})`,
   );
 
   const prima = await slider.inputValue();
@@ -529,9 +532,9 @@ for (const concetto of CONCEPT) {
   );
   const [hp, hd, sp, sd] = misure;
   atteso(
-    misure.length === 4 && [hp, hd].every((m) => m.w === 1440 && m.h === 900) &&
-      [sp, sd].every((m) => m.w === 786 && m.h === 1704),
-    `slider: home 1440x900 e scheda 786x1704 (${misure.map((m) => `${m.w}x${m.h}`).join(", ")})`,
+    misure.length === 4 && [hp, hd].every((m) => m.w === 1840 && m.h === 1240) &&
+      [sp, sd].every((m) => m.w === 1034 && m.h === 2402),
+    `slider: home 1840x1240 e scheda 1034x2402, nelle cornici di prepara-sisters (${misure.map((m) => `${m.w}x${m.h}`).join(", ")})`,
   );
   atteso(
     hp?.src.includes("sisters-prima-home-desktop") && hd?.src.includes("sisters-dopo-home-desktop") &&

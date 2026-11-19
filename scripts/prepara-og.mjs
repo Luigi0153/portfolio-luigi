@@ -6,11 +6,13 @@
   Chromium via Playwright (già in devDependencies), con i woff2 di @fontsource
   incorporati in base64: stessi font del sito, nessuna dipendenza nuova.
   Il PNG finale passa comunque da sharp per la compressione in palette.
-  Eccezione: le pagine con `copertina` usano quell'immagine, tagliata a 1200x630.
+  Eccezione: le pagine con `copertina` usano quell'immagine, tagliata a 1200x630. Se il file
+  finisce in .jpg l'og è un JPEG sotto i 200 KB (copertine fotografiche: in PNG pesano 500-800 KB);
+  il formato va dichiarato anche nel campo `og` del progetto (src/content/progetti/*.md).
 
   Uso: node scripts/prepara-og.mjs   (rilanciare se cambiano titoli o palette)
        node scripts/prepara-og.mjs og.png og/contatti.png   (solo quelle)
-  Output: public/og.png e public/og/<slug>.png
+  Output: public/og.png e public/og/<slug>.png (o .jpg)
 */
 import { chromium } from "playwright";
 import sharp from "sharp";
@@ -69,8 +71,8 @@ const PAGINE = [
       "Cerchi uno sviluppatore per il tuo team o per creare e gestire il tuo sito? Contattami.",
   },
   {
-    // Nessun template: la copertina ha già titolo e sottotitolo del progetto
-    file: "og/sisters-store.png",
+    // Nessun template: la copertina, senza testi, col logo del negozio
+    file: "og/sisters-store.jpg",
     copertina: "src/assets/progetti/sisters-store/sisters-copertina.jpg",
   },
   {
@@ -79,11 +81,11 @@ const PAGINE = [
     copertina: "src/assets/progetti/fornace-vietri/fornace-copertina.jpg",
   },
   {
-    file: "og/pizzeria.png",
+    file: "og/pizzeria.jpg",
     copertina: "src/assets/progetti/pizzeria-vico-stretto/pizzeria-copertina.jpg",
   },
   {
-    file: "og/palestra.png",
+    file: "og/palestra.jpg",
     copertina: "src/assets/progetti/palestra-kilo-club/palestra-copertina.jpg",
   },
 ];
@@ -190,12 +192,19 @@ for (const pagina of daFare) {
   // Le pagine con una copertina fotografica la usano così com'è, tagliata al
   // centro a 1200x630. Niente palette: su una foto farebbe bande di colore.
   if (pagina.copertina) {
-    const png = await sharp(pagina.copertina)
-      .resize(W, H, { fit: "cover", position: "centre" })
-      .png({ compressionLevel: 9 })
-      .toBuffer();
-    await writeFile(destinazione, png);
-    console.log(`ok ${pagina.file} (${Math.round(png.length / 1024)} KB, dalla copertina)`);
+    const tagliata = sharp(pagina.copertina).resize(W, H, { fit: "cover", position: "centre" });
+    let buffer;
+    if (pagina.file.endsWith(".jpg")) {
+      // la qualità più alta che sta sotto i 200 KB
+      for (let q = 86; q >= 60; q -= 4) {
+        buffer = await tagliata.clone().jpeg({ quality: q, mozjpeg: true }).toBuffer();
+        if (buffer.length < 200 * 1024) break;
+      }
+    } else {
+      buffer = await tagliata.png({ compressionLevel: 9 }).toBuffer();
+    }
+    await writeFile(destinazione, buffer);
+    console.log(`ok ${pagina.file} (${Math.round(buffer.length / 1024)} KB, dalla copertina)`);
     continue;
   }
 

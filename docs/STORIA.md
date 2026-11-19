@@ -508,6 +508,36 @@ lavori da fare stanno in `docs/STATO.md`.
     capitoli, figure e galleria da quattro), `test-switch` e `test-pagine` (sommari, description,
     nove pagine nella sitemap), `test-forme` e `test-nav` con la pagina nuova.
 
+- **Sisters Store, immagini in due stili (2026-11-19).** Ramo `progetti-nuovi`. Luigi ha scelto
+  di mescolare le due prove (`screenshots/sisters/direzioni/`): B "Notte" per copertina, og,
+  slider della home da computer e galleria della home da telefono; A "Cipria" per scheda
+  prodotto, collezioni e filtri. Testi e numeri della pagina invariati; cambia solo l'alt della
+  copertina, che descriveva i due telefoni prima e dopo.
+  - **Sorgenti.** Le catture di `cattura-sisters.mjs` stanno ora in
+    `src/assets/progetti/sisters-store/catture/` (spostate con `git mv`), così
+    `prepara-sisters.mjs` le mette nelle cornici senza ricomporre immagini già composte. Le foto
+    del negozio (foto dell'hero Autunno 2026 e quattro foto prodotto di "Da non perdere ora",
+    ridotte a 900px in webp) sono in `foto/`, nel repo: l'hero del negozio cambierà con la
+    stagione e il fondo deve restare quello delle schermate. Colori dal brand kit di Sisters Store
+    (nero, cipria, cipria chiaro, viola), non quelli del portfolio.
+  - **B.** Fondo: la foto dell'hero sfocata e scurita. Copertina 2400x1600 con il logo
+    orizzontale in negativo, la riga viola, computer e telefono, tutto tra x 280 e 2220 e tra
+    y 170 e 1430 (taglio dell'og). Slider della home 1840x1240, con il computer: parte al 19%,
+    cioè al 10% dello schermo, perché si legga "AUTUNNO 2026". Galleria della home: la pagina
+    lunga intera dentro un telefono, schermo a 1:1 con la cattura.
+  - **A.** Fondo cipria. Scheda prodotto 1034x2402: il telefono e sotto due carte cipria chiaro
+    con borsa e zaino (una prima versione con le carte a lato del telefono le nascondeva quasi
+    tutte). Collezioni e filtri: il telefono su cipria, schermo a 1:1.
+  - **og in JPEG.** `prepara-og.mjs` salva in JPEG le og che finiscono in `.jpg` (qualità più alta
+    sotto i 200 KB): Sisters Store 77 KB, pizzeria 86 KB, palestra 85 KB, prima 432, 772 e 586 KB
+    in PNG. Il formato sta anche nel campo `og` del progetto (`png` di default), che
+    `[slug].astro` usa per l'URL. Fornace resta in PNG (504 KB).
+  - **Build senza CSS.** Lanciata da `d:\` minuscolo, la build usciva pulita ma senza nessun
+    file CSS; da `D:\` è giusta. Build e preview da PowerShell con `Set-Location 'D:\dev\portfolio-luigi'`.
+  - **Test.** `test-progetti`: misure degli slider nelle cornici, partenza 19, og JPEG sotto i
+    200 KB per pizzeria e palestra. Verdi `test-progetti` (206), `test-pagine` (142),
+    `test-switch`, `test-forme` (118).
+
 ## Correzioni dall'audit (2026-09-21)
 
 Fonte: `docs/AUDIT.md`. Di quella lista sono stati chiusi quattro punti, tutti verificati a 390

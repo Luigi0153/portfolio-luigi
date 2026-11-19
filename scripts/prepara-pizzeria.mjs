@@ -19,7 +19,7 @@
     pizzeria-landing.jpg     780 di larghezza, la pagina intera da telefono
     pizzeria-prenota.jpg     780x1688, il pannello "Quando venite?"
     pizzeria-messaggio.jpg   780x1688, la chat su WhatsApp
-  Uso: node scripts/prepara-pizzeria.mjs   (poi node scripts/prepara-og.mjs og/pizzeria.png)
+  Uso: node scripts/prepara-pizzeria.mjs   (poi node scripts/prepara-og.mjs og/pizzeria.jpg)
   Serve la rete: i caratteri arrivano da Google Fonts, come nel modello.
 */
 import { chromium } from "playwright";

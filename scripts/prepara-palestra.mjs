@@ -20,7 +20,7 @@
     palestra-scelta.jpg          le tre domande e il consiglio, da telefono
     palestra-corsi.jpg           i corsi per giorno, da telefono
     palestra-messaggio.jpg       780x1688, la chat su WhatsApp
-  Uso: node scripts/prepara-palestra.mjs   (poi node scripts/prepara-og.mjs og/palestra.png)
+  Uso: node scripts/prepara-palestra.mjs   (poi node scripts/prepara-og.mjs og/palestra.jpg)
   Serve la rete: il carattere arriva da Google Fonts, come nel modello.
 */
 import { chromium } from "playwright";

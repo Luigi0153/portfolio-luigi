@@ -56,6 +56,11 @@ const progetti = defineCollection({
       /** Testo alternativo della cover: le cover sono decorative ma non vuote. */
       coverAlt: z.string(),
       /**
+       * Il formato dell'og in public/og/<slug>: "jpg" per le copertine fotografiche, che in PNG
+       * pesano troppo. Deve combaciare con il file di scripts/prepara-og.mjs.
+       */
+      og: z.enum(["png", "jpg"]).default("png"),
+      /**
        * Una riga sulla card, nel percorso dev e senza JavaScript. Serve anche
        * come description della pagina.
        */

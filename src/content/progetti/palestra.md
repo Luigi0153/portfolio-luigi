@@ -14,6 +14,8 @@ tags:
   - Animazioni
 cover: ../../assets/progetti/palestra-kilo-club/palestra-copertina.jpg
 coverAlt: "Una sala pesi in penombra, un disco da 20 chili e due telefoni con il sito di Kilo Club, nero e rosso. Nel primo il titolo Prima la gente, poi i pesi, i bottoni Prova gratis 7 giorni e Trova il tuo abbonamento e la scritta verde Aperto ora, chiude alle 22:00. Nel secondo le tre domande per scegliere l'abbonamento e il consiglio in rosso, Trimestrale più functional. In fondo a tutti e due la barra con Prova gratis, Corsi e Orari."
+# l'og è un JPEG: la copertina è una foto (scripts/prepara-og.mjs)
+og: jpg
 sommario: "Branding concept con landing page per una palestra di quartiere. Il sito aiuta a scegliere piano e obiettivo e porta su WhatsApp con la scelta già scritta."
 sommario_business: "Branding concept per una palestra. Il cliente sceglie piano e obiettivo sul sito, scrive su WhatsApp con un tocco e viene a provare."
 ordine_dev: 4
