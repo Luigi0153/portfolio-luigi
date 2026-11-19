@@ -53,10 +53,10 @@ tutte insieme il sito suona scritto da una macchina brava.
 
 | Testo | Dove | Giudizio | Perché |
 |---|---|---|---|
-| `Progetti` `Come lavoro` `Contatti` `Caso reale` | `DeskScene.astro:24,32,40,48` | neutra | Etichette degli hotspot. |
-| `Computer: vai ai progetti`, `Taccuino: come lavoro`, `Telefono: contatti`, `Tabellino: il caso reale` | `DeskScene.astro:25,33,41,49` | neutra | Qui i due punti sono etichettatura per screen reader, non una battuta. Corretto così. |
-| `Tazza di caffè` | `DeskScene.astro:114` | neutra | — |
-| `// caffè bevuto, si riparte` | `DeskScene.astro:137` | **da AI** (rivista, tenuta) | Easter egg con `//` come cornice: è la battuta che scrive un modello quando gli si chiede "metti un easter egg". Niente nel tuo campione dice che scherzi così. Riscritta una prima volta nel commit `2236e9b` (21/9, non tracciata allora in questo file). Il 22/9 riproposta con 3 varianti (due senza `//`): Luigi ha scelto di tenerla com'è. Decisione, non correzione mancata — non riproporla senza una ragione nuova. |
+| `Progetti` `Come lavoro` `Contatti` | `DeskScene.astro:26,34,42` | neutra | Etichette degli hotspot. `Caso reale` (tabellino) tolta il 2026-11-19 insieme all'oggetto: al caso si arriva dalla riga dell'hero e dalla griglia dei progetti. |
+| `Computer: vai ai progetti`, `Taccuino: come lavoro`, `Telefono: contatti` | `DeskScene.astro:27,35,43` | neutra | Qui i due punti sono etichettatura per screen reader, non una battuta. Corretto così. `Tabellino: il caso reale, Sisters Store` tolta il 2026-11-19. |
+| `Tazza di caffè` | `DeskScene.astro:109` | neutra | — |
+| `// caffè bevuto, si riparte` | `DeskScene.astro:132` | **da AI** (rivista, tenuta) | Easter egg con `//` come cornice: è la battuta che scrive un modello quando gli si chiede "metti un easter egg". Niente nel tuo campione dice che scherzi così. Riscritta una prima volta nel commit `2236e9b` (21/9, non tracciata allora in questo file). Il 22/9 riproposta con 3 varianti (due senza `//`): Luigi ha scelto di tenerla com'è. Decisione, non correzione mancata — non riproporla senza una ragione nuova. |
 
 ## 4. Griglia progetti (home)
 

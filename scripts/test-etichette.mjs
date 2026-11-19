@@ -52,7 +52,18 @@ for (const vp of [768, 1024, 1280]) {
     console.log(`✓ ${vp}px: etichette nascoste a riposo`);
   }
 
-  const chiavi = ["computer", "taccuino", "telefono", "tabellino"];
+  // tre oggetti con etichetta: il tabellino è stato tolto il 2026-11-19
+  const chiavi = ["computer", "taccuino", "telefono"];
+  const presenti = await page.$$eval(".desk__scena .hotspot, .desk__fx .burst", (els) =>
+    els.map((e) => [...e.classList].find((c) => /^(hotspot|burst)--/.test(c))),
+  );
+  const attesi = ["burst--computer", "burst--taccuino", "burst--telefono", "hotspot--computer", "hotspot--taccuino", "hotspot--telefono", "hotspot--tazza"];
+  if (presenti.toSorted().join() !== attesi.toSorted().join()) {
+    fallimenti++;
+    console.error(`✗ ${vp}px: oggetti della scena ${presenti.join(", ")}`);
+  } else {
+    console.log(`✓ ${vp}px: scena con computer, taccuino, telefono e tazza, niente tabellino`);
+  }
 
   for (const chiave of chiavi) {
     const hotspot = page.locator(`.hotspot--${chiave}`);

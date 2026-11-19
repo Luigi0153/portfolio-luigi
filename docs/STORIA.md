@@ -469,6 +469,17 @@ lavori da fare stanno in `docs/STATO.md`.
     copertina e il telefono Dopo perdeva il bordo destro (succedeva anche con la copertina vecchia).
     og rifatta dalla copertina. Il controllo "Non affiliato" assente sui loghi di tipo progetto
     c'era già in `test-loghi`.
+  - **Scena dell'hero senza tabellino.** Quattro proposte mostrate iniettando CSS nella preview,
+    senza toccare il repo; Luigi ha scelto D1 da desktop e M1 da telefono. Desktop: riquadro 5:4,
+    il telefono passa da `left 66% top 5% width 26%` a `left 64% top 20% width 30%`, nel posto del
+    tabellino; raggiera centrata (`top 38.8%`: rapporto 0.998, alto 37,6% del riquadro). Telefono:
+    Progetti in una tessera larga 2:1 (`desk__tile--largo`, illustrazione al 30%), Come lavoro e
+    Contatti affiancate. Cancellate `src/assets/scene/tabellino.png` e `scene-src/tabellino.png`.
+    Il semicerchio arancio da telefono (`Hero.astro`) scende di 6px e va 6px più a sinistra: sotto
+    c'è ora "Come lavoro", più lunga di "Contatti", e a 320px `test-forme` misurava 3,8px (minimo
+    8, ora 12,2). `test-scena` diventa bloccante e controlla anche le tessere. Visto e non
+    corretto: a 320px la colonna dell'hero è larga 301px su 280 per colpa dello switch (vedi
+    STATO, "Decisioni aperte").
 
 ## Correzioni dall'audit (2026-09-21)
 

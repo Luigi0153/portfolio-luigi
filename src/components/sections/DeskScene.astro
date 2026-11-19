@@ -1,17 +1,20 @@
 ---
 /**
  * Scena scrivania interattiva (sostituisce il placeholder 3D fino alla Fase 4).
+ * Tre oggetti che portano a una pagina (computer → Progetti, taccuino → Come
+ * lavoro, telefono → Contatti) e la tazza dell'easter egg. Il tabellino del
+ * caso reale è stato tolto il 2026-11-19: al caso si arriva dalla riga
+ * dell'hero e dalla griglia dei progetti.
  * ≥768px: illustrazioni posizionate in assoluto (unità %) in un contenitore
- * con aspect-ratio fisso. <768px: griglia 2x2 di tessere (requisito, non
- * ripiego). Le immagini sono PNG con alpha generati da scripts/prepara-scena.mjs
- * e convertiti in webp da <Image>. Burst e scintille sono SVG inline dietro
+ * con aspect-ratio fisso. <768px: tessere, Progetti largo in alto e le altre
+ * due affiancate sotto (requisito, non ripiego). Le immagini sono PNG con
+ * alpha generati da scripts/prepara-scena.mjs e convertiti in webp da <Image>. Burst e scintille sono SVG inline dietro
  * l'oggetto, in arancio e cream-2 (nessun colore fuori dai token).
  */
 import { Image } from "astro:assets";
 import computer from "../../assets/scene/computer.png";
 import taccuino from "../../assets/scene/taccuino.png";
 import telefono from "../../assets/scene/telefono.png";
-import tabellino from "../../assets/scene/tabellino.png";
 import tazza from "../../assets/scene/tazza.png";
 
 /* Ordine dell'array = ordine DOM = ordine di tab richiesto. */
@@ -39,14 +42,6 @@ const oggetti = [
     etichetta: "Contatti",
     aria: "Telefono: contatti",
     profondita: 0.55,
-  },
-  {
-    chiave: "tabellino",
-    img: tabellino,
-    href: "/progetti/sisters-store",
-    etichetta: "Caso reale",
-    aria: "Tabellino: il caso reale, Sisters Store",
-    profondita: 0.7,
   },
 ];
 
@@ -137,11 +132,11 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
     <p class="desk__egg" role="status" hidden>// caffè bevuto, si riparte</p>
   </div>
 
-  <!-- Tessere (mobile): gli stessi 4 oggetti, niente scena in miniatura -->
+  <!-- Tessere (mobile): gli stessi tre oggetti, niente scena in miniatura -->
   <ul class="desk__tiles" role="list">
     {
       oggetti.map(({ chiave, img, href, etichetta, aria }) => (
-        <li>
+        <li class:list={{ "desk__tile--largo": chiave === "computer" }}>
           <a class="tile" href={href} aria-label={aria}>
             <Image
               class="tile__img"
@@ -200,10 +195,11 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
 
   /* Posizioni in % del contenitore, calcolate sui rapporti reali delle
      immagini rifilate. L'ordine DOM (= tab) resta computer, taccuino,
-     telefono, tabellino, tazza indipendentemente dalla posizione. */
+     telefono, tazza indipendentemente dalla posizione. Il telefono sta a
+     destra a metà altezza, più grande di prima, nel posto lasciato dal
+     tabellino. */
   .hotspot--computer { left: 7%; top: 1%; width: 46%; }
-  .hotspot--telefono { left: 66%; top: 5%; width: 26%; }
-  .hotspot--tabellino { left: 69%; top: 45%; width: 20%; }
+  .hotspot--telefono { left: 64%; top: 20%; width: 30%; }
   .hotspot--taccuino { left: 1%; top: 63%; width: 24%; }
   .hotspot--tazza { left: 47%; top: 66%; width: 19%; }
 
@@ -305,8 +301,9 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
   }
 
   .burst--computer { left: 7%; top: 34.9%; width: 46%; --burst: 1.6; }
-  .burst--telefono { left: 66%; top: 21.3%; width: 26%; --burst: 1.7; }
-  .burst--tabellino { left: 69%; top: 58.5%; width: 20%; --burst: 1.8; }
+  /* telefono: rapporto 0.998, largo 30% di un riquadro 5:4 → alto 37,6%
+     dell'altezza, centro a 20% + 18,8% */
+  .burst--telefono { left: 64%; top: 38.8%; width: 30%; --burst: 1.7; }
   .burst--taccuino { left: 1%; top: 76%; width: 24%; --burst: 1.9; }
 
   /* Quadrato centrato sul centro dell'illustrazione: uscita simmetrica su
@@ -406,7 +403,6 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
 
   .desk__scena:has(.hotspot--computer:focus-visible) .burst--computer,
   .desk__scena:has(.hotspot--telefono:focus-visible) .burst--telefono,
-  .desk__scena:has(.hotspot--tabellino:focus-visible) .burst--tabellino,
   .desk__scena:has(.hotspot--taccuino:focus-visible) .burst--taccuino {
     --acceso: 1;
     --alza: -6px;
@@ -416,7 +412,6 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
   @media (hover: hover) {
     .desk__scena:has(.hotspot--computer:hover) .burst--computer,
     .desk__scena:has(.hotspot--telefono:hover) .burst--telefono,
-    .desk__scena:has(.hotspot--tabellino:hover) .burst--tabellino,
     .desk__scena:has(.hotspot--taccuino:hover) .burst--taccuino {
       --acceso: 1;
       --alza: -6px;
@@ -450,7 +445,6 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
     margin: 0;
     list-style: none;
   }
-
   .tile {
     display: flex;
     flex-direction: column;
@@ -468,6 +462,20 @@ const larghezzaImg = (img: ImageMetadata) => Math.min(640, img.width);
 
   .tile:active {
     background: var(--color-cream);
+  }
+
+  /* Progetti, la destinazione principale, prende tutta la riga: tessera
+     bassa e larga, illustrazione più piccola in proporzione */
+  .desk__tile--largo {
+    grid-column: 1 / -1;
+  }
+
+  .desk__tile--largo .tile {
+    aspect-ratio: 2 / 1;
+  }
+
+  .desk__tile--largo .tile__img {
+    width: 30%;
   }
 
   .tile__img {

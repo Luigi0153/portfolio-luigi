@@ -1,4 +1,5 @@
-// Test una tantum Fase 2.5: tab order, reduced-motion, easter egg, errori console
+// Scena scrivania: tab order, reduced-motion, easter egg, errori console, tessere su telefono.
+// Nato come test una tantum della Fase 2.5; dal 2026-11-19 esce con codice 1 se qualcosa non va.
 import { chromium } from "playwright";
 
 const BASE = process.env.BASE_URL ?? "http://localhost:4321";
@@ -27,10 +28,14 @@ const esito = {};
       };
     });
     if (info.hotspot) fuochi.push({ aria: info.aria, outline: info.outline });
-    if (fuochi.length === 5) break;
+    if (fuochi.length === 4) break;
   }
   esito.tabOrder = fuochi.map((f) => f.aria);
   esito.focusVisibile = fuochi.every((f) => f.outline === "solid");
+  // dal 2026-11-19 tre oggetti e la tazza, senza tabellino
+  esito.tabOrdineGiusto =
+    esito.tabOrder.join(" | ") ===
+    "Computer: vai ai progetti | Taccuino: come lavoro | Telefono: contatti | Tazza di caffè";
 
   // easter egg: appare e sparisce dopo ~2s
   await page.locator(".hotspot--tazza").click();
@@ -76,5 +81,40 @@ const esito = {};
   await ctx.close();
 }
 
+// --- 3. Telefono (390): tre tessere, Progetti a tutta riga, le altre due affiancate ---
+{
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.goto(BASE + "/", { waitUntil: "networkidle" });
+  esito.tessere = await page.$$eval(".desk__tiles .tile", (tiles) => {
+    const lista = tiles[0].closest("ul").getBoundingClientRect();
+    return tiles.map((t) => {
+      const r = t.getBoundingClientRect();
+      return { etichetta: t.textContent.trim(), larga: Math.abs(r.width - lista.width) < 2, top: Math.round(r.top) };
+    });
+  });
+  const [p, c, t] = esito.tessere;
+  esito.tessereGiuste =
+    esito.tessere.map((x) => x.etichetta).join(" | ") === "Progetti | Come lavoro | Contatti" &&
+    p.larga && !c.larga && !t.larga && c.top === t.top && c.top > p.top;
+  await page.close();
+}
+
 console.log(JSON.stringify(esito, null, 2));
 await browser.close();
+
+// Verifiche bloccanti: prima il test stampava solo il rapporto
+const controlli = {
+  "ordine di tab": esito.tabOrdineGiusto,
+  "focus visibile": esito.focusVisibile,
+  "easter egg": esito.eggVisibile && esito.eggSparito,
+  "nessun errore in console": esito.erroriConsole.length === 0,
+  "reduced-motion": Object.values(esito.rm).every(Boolean),
+  "tessere su telefono": esito.tessereGiuste,
+};
+const falliti = Object.entries(controlli).filter(([, ok]) => !ok).map(([n]) => n);
+if (falliti.length) {
+  console.error(`✗ test-scena: ${falliti.join(", ")}`);
+  process.exitCode = 1;
+} else {
+  console.log(`✓ test-scena: ${Object.keys(controlli).join(", ")}`);
+}
