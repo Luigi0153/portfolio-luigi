@@ -274,6 +274,7 @@ insieme alla griglia progetti (vedi tabella sotto).
 |---|---|---|
 | `Prima capire il vincolo, poi scrivere il codice.` | §4, intro dev | → `Il codice arriva per ultimo. Prima viene il problema vero.` |
 | `Una sola domanda: questa scelta fa vendere di più?` | §4, intro business | → `Ogni scelta qui sotto punta a vendere di più.` |
+| Le due intro qui sopra | §4, intro dev e business | Il 2026-11-19 → una frase sola per i due percorsi: `Ecco una panoramica dei miei progetti.` |
 | `Lente: decisione` / `sistema` / `flusso` | §4, `ProjectGrid.astro:69` e `[slug].astro:55` | Via l'etichetta "Lente:" e i due punti: resta solo il valore come tag maiuscolo (`DECISIONE` / `SISTEMA` / `FLUSSO`), stesso pattern in entrambi i file. |
 | `Parliamone` | InvitoContatto, titolo | → `Raccontami il progetto` |
 | `Due righe bastano. Rispondo entro un giorno lavorativo.` | InvitoContatto, riga | → `Scrivimi quello che hai adesso. Rispondo entro un giorno lavorativo.` (non è più una copia letterale della riga del form in §9) |

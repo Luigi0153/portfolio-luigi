@@ -34,12 +34,7 @@ const featured = progetti.toSorted((a, b) => a.data.ordine_dev - b.data.ordine_d
 <section id={id} class:list={["section-pad", className]} aria-labelledby={`${id}-titolo`}>
   <div class="container-site">
     <SectionHeader id={`${id}-titolo`} title="Progetti">
-      <p class="progetti__intro" data-only="dev">
-        Il codice arriva per ultimo. Prima viene il problema vero.
-      </p>
-      <p class="progetti__intro" data-only="business">
-        Ogni scelta qui sotto punta a vendere di più.
-      </p>
+      <p class="progetti__intro">Ecco una panoramica dei miei progetti.</p>
     </SectionHeader>
 
     <ul class="progetti__griglia" role="list" data-griglia-progetti>
