@@ -70,8 +70,12 @@ for (const vp of [390, 1280]) {
       ordine[0] === "Creazione e rebranding",
       `${vp}px ${target}: il progetto reale è il primo`,
     );
-    const secondo = target === "dev" ? "Fornace Vietri" : "Pizzeria Vico Stretto";
-    atteso(ordine[1] === secondo, `${vp}px ${target}: al secondo posto "${secondo}"`);
+    // stesso ordine nei due percorsi (2026-11-19)
+    const attesi = ["Creazione e rebranding", "Palestra Kilo Club", "Pizzeria Vico Stretto", "Fornace Vietri"];
+    atteso(
+      ordine.join("|") === attesi.join("|"),
+      `${vp}px ${target}: ordine Sisters Store, palestra, pizzeria, Fornace (${ordine.join(", ")})`,
+    );
 
     // i due concept portano l'etichetta del tipo, il caso reale il nome del negozio
     const tipi = await page.$$eval(".progetti__cella", (celle) =>

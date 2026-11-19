@@ -19,7 +19,7 @@ og: jpg
 sommario: "Branding concept con landing page per una pizzeria. Prenotazione con un messaggio WhatsApp già scritto, senza portale né gestionale."
 sommario_business: "Branding concept per una pizzeria di quartiere. Dal reel su Instagram al tavolo prenotato in tre tocchi, senza commissioni."
 ordine_dev: 3
-ordine_business: 2
+ordine_business: 3
 capitoli:
   - id: pizzeria
     titolo: La pizzeria

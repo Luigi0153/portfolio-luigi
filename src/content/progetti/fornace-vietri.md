@@ -16,7 +16,7 @@ coverAlt: "Due schermate del negozio Fornace Vietri su telefono. Nella prima un 
 og: jpg
 sommario: "Branding concept con negozio Shopify per un laboratorio di ceramica. Pezzi unici con giacenza 1, tre stati del prodotto e collezioni automatiche."
 sommario_business: "Branding concept per un laboratorio di ceramica. Ogni pezzo è unico, e chi arriva tardi può chiederne uno simile."
-ordine_dev: 2
+ordine_dev: 4
 ordine_business: 4
 capitoli:
   - id: laboratorio

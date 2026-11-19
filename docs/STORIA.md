@@ -534,6 +534,13 @@ lavori da fare stanno in `docs/STATO.md`.
     `[slug].astro` usa per l'URL. Subito dopo, su richiesta di Luigi, anche Fornace: 72 KB
     (prima 504 KB in PNG). Ora tutte le og delle copertine sono JPEG; `test-progetti` lo
     controlla per i tre concept.
+
+- **Stesso ordine dei progetti nei due percorsi (2026-11-19).** Ramo `progetti-nuovi`. Sisters
+  Store, Palestra Kilo Club, Pizzeria Vico Stretto, Fornace Vietri, sia in dev sia in business
+  (`ordine_dev` e `ordine_business` uguali nei quattro md). Lo script di `ProjectGrid` che
+  riordina le celle al cambio di percorso resta, nel caso gli ordini tornino diversi.
+  `test-progetti` controlla l'ordine intero delle quattro card, `test-switch` i sommari nel
+  nuovo ordine.
   - **Build senza CSS.** Lanciata da `d:\` minuscolo, la build usciva pulita ma senza nessun
     file CSS; da `D:\` è giusta. Build e preview da PowerShell con `Set-Location 'D:\dev\portfolio-luigi'`.
   - **Test.** `test-progetti`: misure degli slider nelle cornici, partenza 19, og JPEG sotto i

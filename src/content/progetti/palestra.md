@@ -18,8 +18,8 @@ coverAlt: "Una sala pesi in penombra, un disco da 20 chili e due telefoni con il
 og: jpg
 sommario: "Branding concept con landing page per una palestra di quartiere. Il sito aiuta a scegliere piano e obiettivo e porta su WhatsApp con la scelta già scritta."
 sommario_business: "Branding concept per una palestra. Il cliente sceglie piano e obiettivo sul sito, scrive su WhatsApp con un tocco e viene a provare."
-ordine_dev: 4
-ordine_business: 3
+ordine_dev: 2
+ordine_business: 2
 capitoli:
   - id: palestra
     titolo: La palestra
